@@ -1,0 +1,21 @@
+{
+    "name": "jorenvanhocht/blogify",
+    "description": "Laravel 5 blog package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joren Van Hocht",
+            "email": "vanhochtjoren@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-0": {
+            "Monolog": "src"
+        },
+        "files": [
+
+        ]
+    }
+}
