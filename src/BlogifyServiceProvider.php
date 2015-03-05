@@ -29,7 +29,7 @@ class BlogifyServiceProvider extends ServiceProvider {
 
         // Publish the migration files for the package
         $this->publishes([
-            __DIR__ . '/Migrations/' => base_path('/database/migrations/')
+            __DIR__ . '/migrations/' => base_path('/database/migrations/')
         ], 'migrations' );
     }
 
