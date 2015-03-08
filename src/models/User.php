@@ -39,6 +39,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public $timestamps      = true;
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Relationships
+    ///////////////////////////////////////////////////////////////////////////
 
     /**
      * Relationship with the Role model

@@ -31,6 +31,21 @@ class BlogifyServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__ . '/migrations/' => base_path('/database/migrations/')
         ], 'migrations' );
+
+        // Publish the seed files for the package
+        $this->publishes([
+            __DIR__ . '/seeds/' => base_path('/database/seeds/')
+        ], 'seeds' );
+
+        // Publish the config files for the package
+        $this->publishes([
+            __DIR__.'/config' => config_path('blogify/'),
+        ], 'config');
+
+        // Make the config file accessible even when the files are not published
+        $path_to_config_file = __DIR__.'/config/blogify.php';
+        $config = $this->app['files']->getRequire($path_to_config_file);
+        $this->app['config']->set('blogify::custom', $config);
     }
 
 }
