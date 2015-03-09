@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		$this->call('jorenvanhocht\Blogify\Seeds\RolesAndUserSeeder');
+		$this->call('jorenvanhocht\Blogify\Seeds\RolesTableSeeder');
+		$this->call('jorenvanhocht\Blogify\Seeds\UsersTableSeeder');
 	}
 
 }
