@@ -49,5 +49,5 @@ class Blogify {
 
         $this->makeUniqueHash($table, $field, $min_length, $max_length);
     }
-    
+
 }
