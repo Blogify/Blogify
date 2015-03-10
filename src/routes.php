@@ -26,17 +26,23 @@ Route::group(['prefix' => 'auth'], function()
 // Admin routes
 ///////////////////////////////////////////////////////////////////////////
 
-Route::group(['prefix' => 'admin'], function()
+$admin = [
+    'prefix' => 'admin',
+    'namespace'=>'jorenvanhocht\Blogify\Controllers\Admin',
+];
+
+
+Route::group($admin, function()
 {
     // Login
     Route::get('login', [
         'as'    =>  'admin.login',
-        'uses'  =>  'jorenvanhocht\Blogify\Controllers\Admin\LoginController@index'
+        'uses'  =>  'LoginController@index'
     ]);
 
     Route::post('login/post', [
         'as'    =>  'admin.login.post',
-        'uses'  =>  'jorenvanhocht\Blogify\Controllers\Admin\LoginController@login'
+        'uses'  =>  'LoginController@login'
     ]);
 
     Route::group(['middleware' => 'auth'], function()
@@ -44,7 +50,7 @@ Route::group(['prefix' => 'admin'], function()
 
         // Dashboard
         Route::get('/', function() {
-            dd('index of the admin page');
+            return View('blogify.admin.layouts.main');
         });
 
         // Logout

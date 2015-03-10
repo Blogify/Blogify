@@ -1,0 +1,9 @@
+@import "../bower/twitter-bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "../bower/bourbon/app/assets/stylesheets/bourbon";
+@import "../bower/neat/app/assets/stylesheets/neat";
+
+@import "grid/gris.scss";
+
+body {
+  color:blue;
+}
