@@ -50,13 +50,13 @@ Route::group($admin, function()
 
         // Dashboard
         Route::get('/', function() {
-            return View('blogify.admin.layouts.main');
+            return View('blogify.admin.dashboard');
         });
 
         // Logout
         Route::get('logout', [
             'as'    =>  'admin.logout',
-            'uses'  =>  'jorenvanhocht\Blogify\Controllers\Admin\LoginController@logout'
+            'uses'  =>  'LoginController@logout'
         ]);
     });
 

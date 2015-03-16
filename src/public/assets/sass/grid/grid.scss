@@ -1,0 +1,102 @@
+.outer-container {
+  @include outer-container();
+  min-width: 100%;
+}
+
+.inner-container {
+  margin-top: $navbar-height + 27px;
+  margin-bottom: 25px;
+  margin-right: 2.90%;
+  background-color:#FFF;
+  height:100px;
+  @media screen and (max-width: 768px)
+  {
+    margin-left:2.90%;
+  }
+}
+
+.grid-row {
+  @include row();
+  width:100%
+}
+
+.grid-row-small {
+  @include row();
+  width:35%;
+  @media screen and (max-width: 900px) {
+    width:50%;
+  }
+  @media screen and (max-width: 600px) {
+    width:75%;
+  }
+  @media screen and (max-width: 400px) {
+    width:95%;
+  }
+}
+
+.col1 {
+  @include span-columns(1);
+}
+
+.col2 {
+  @include span-columns(2);
+}
+
+.col3 {
+  @include span-columns(3);
+}
+
+.col4 {
+  @include span-columns(4);
+}
+
+.col5 {
+  @include span-columns(5);
+}
+
+.col6 {
+  @include span-columns(6);
+}
+
+.col7 {
+  @include span-columns(7);
+}
+
+.col8 {
+  @include span-columns(8);
+}
+
+.col9 {
+  @include span-columns(9);
+}
+
+.col10 {
+  @include span-columns(10);
+  @media screen and (max-width: 768px)
+  {
+    @include span-columns(12);
+  }
+}
+
+.col11 {
+  @include span-columns(11);
+}
+
+.col12 {
+  @include span-columns(12);
+}
+
+.v-align {
+  min-height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.shift-left {
+  @include shift(2);
+  @media screen and (max-width: 768px)
+  {
+    @include shift(0);
+  }
+}

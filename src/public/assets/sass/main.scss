@@ -2,8 +2,8 @@
 @import "../bower/bourbon/app/assets/stylesheets/bourbon";
 @import "../bower/neat/app/assets/stylesheets/neat";
 
-@import "grid/gris.scss";
-
-body {
-  color:blue;
-}
+@import "grid/grid.scss";
+@import "boxes/box-login.scss";
+@import "forms/forms-main.scss";
+@import "header/navigation.scss";
+@import "sidebar/side-nav.scss";
