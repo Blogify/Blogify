@@ -37,26 +37,25 @@ Route::group($admin, function()
     // Login
     Route::get('login', [
         'as'    =>  'admin.login',
-        'uses'  =>  'LoginController@index'
+        'uses'  =>  'AuthController@index'
     ]);
 
     Route::post('login/post', [
         'as'    =>  'admin.login.post',
-        'uses'  =>  'LoginController@login'
+        'uses'  =>  'AuthController@login'
     ]);
 
-    Route::group(['middleware' => 'auth'], function()
+    Route::group(['middleware' => 'jorenvanhocht\Blogify\Middleware\BlogifyAdminAuthenticate'], function()
     {
-
         // Dashboard
         Route::get('/', function() {
-            return View('blogify.admin.dashboard');
+            return View('blogify::admin.home');
         });
 
         // Logout
         Route::get('logout', [
             'as'    =>  'admin.logout',
-            'uses'  =>  'LoginController@logout'
+            'uses'  =>  'AuthController@logout'
         ]);
     });
 

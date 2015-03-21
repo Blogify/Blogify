@@ -42,13 +42,15 @@ class BlogifyServiceProvider extends ServiceProvider {
             __DIR__.'/config' => config_path('blogify/'),
         ], 'config');
 
-        $this->publishes([
+        /*$this->publishes([
             __DIR__.'/views' => base_path('/resources/views/blogify/')
-        ], 'views');
+        ], 'views');*/
 
         $this->publishes([
             __DIR__.'/public/assets' => base_path('/public/assets/blogify/')
         ], 'assets');
+
+        $this->loadViewsFrom(__DIR__.'/views', 'blogify');
 
         // Make the config file accessible even when the files are not published
         $path_to_config_file = __DIR__.'/config/blogify.php';
