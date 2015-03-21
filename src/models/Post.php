@@ -28,65 +28,41 @@ class Post extends Model{
      */
     public $timestamps      = true;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Relationships
-    ///////////////////////////////////////////////////////////////////////////
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/5.0/eloquent#relationships
+    |
+    */
 
-    /**
-     * Relationship with the User model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function user()
     {
         return $this->belongsTo('jorenvanhocht\Blogify\Models\user');
     }
 
-    /**
-     * Relationship with the Comment model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function comment()
     {
         return $this->hasMany('jorenvanhocht\Blogify\Models\comment');
     }
 
-    /**
-     * Relationship with the Category model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function category()
     {
         return $this->belongsTo('jorenvanhocht\Blogify\Models\category');
     }
 
-    /**
-     * Relationship with the Media model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function media()
     {
         return $this->hasMany('jorenvanhocht\Blogify\Models\media');
     }
 
-    /**
-     * Relationship with the Alias model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function alias()
     {
         return $this->hasMany('jorenvanhocht\Blogify\Models\alias');
     }
 
-    /**
-     * Relationship with the Tag model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
     public function tag()
     {
         return $this->belongsToMany('jorenvanhocht\Blogify\Models\tag', 'posts_have_tags', 'post_id', 'tag_id');

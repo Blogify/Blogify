@@ -28,15 +28,16 @@ class Tag extends Model{
      */
     public $timestamps      = true;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Relationships
-    ///////////////////////////////////////////////////////////////////////////
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/5.0/eloquent#relationships
+    |
+    */
 
-    /**
-     * Relationship with the Post model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
     public function post()
     {
         return $this->belongsToMany('jorenvanhocht\Blogify\Models\post', 'posts_have_tags', 'post_id', 'tag_id');

@@ -25,23 +25,30 @@ class Role extends Model{
      */
     public $timestamps      = false;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Relationships
-    ///////////////////////////////////////////////////////////////////////////
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/5.0/eloquent#relationships
+    |
+    */
 
-    /**
-     * Relationship with the User model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function user()
     {
         return $this->hasMany('jorenvanhocht\Blogify\Models\user');
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Scopes
-    ///////////////////////////////////////////////////////////////////////////
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/5.0/eloquent#queryscopes
+    |
+    */
 
     public function scopeByAdminRoles( $query )
     {

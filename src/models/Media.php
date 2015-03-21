@@ -28,15 +28,16 @@ class Media extends Model{
      */
     public $timestamps      = true;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Relationships
-    ///////////////////////////////////////////////////////////////////////////
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/5.0/eloquent#relationships
+    |
+    */
 
-    /**
-     * Relationship with the Post model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function post()
     {
         return $this->belongsTo('jorenvanhocht\Blogify\Models\post');

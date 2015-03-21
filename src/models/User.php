@@ -39,45 +39,31 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public $timestamps      = true;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Relationships
-    ///////////////////////////////////////////////////////////////////////////
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/5.0/eloquent#relationships
+    |
+    */
 
-    /**
-     * Relationship with the Role model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function role()
     {
         return $this->belongsTo('jorenvanhocht\Blogify\Models\role');
     }
 
-    /**
-     * Relationship with the History model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function history()
     {
         return $this->hasMany('jorenvanhocht\Blogify\Models\history');
     }
 
-    /**
-     * Relationship with the Post model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function post()
     {
         return $this->hasMany('jorenvanhocht\Blogify\Models\post');
     }
 
-    /**
-     * Relationship with the Comment model
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function comment()
     {
         return $this->hasMany('jorenvanhocht\Blogify\Models\comment');
