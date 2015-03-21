@@ -1,4 +1,4 @@
-@extends ('blogify.admin.layouts.plane')
+@extends ('blogify::admin.layouts.plane')
 @section ('body')
 <div class="container">
         <div class="row">
@@ -27,7 +27,7 @@
                         {!! Form::close() !!}
                     
                 @endsection
-                @include('blogify.admin.widgets.panel', array('as'=>'login', 'header'=>true))
+                @include('blogify::admin.widgets.panel', array('as'=>'login', 'header'=>true))
             </div>
         </div>
     </div>

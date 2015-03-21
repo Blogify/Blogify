@@ -39,5 +39,14 @@ class Role extends Model{
         return $this->hasMany('jorenvanhocht\Blogify\Models\user');
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Scopes
+    ///////////////////////////////////////////////////////////////////////////
 
+    public function scopeByAdminRoles( $query )
+    {
+        $query->whereName('admin')
+            ->orWhere('name', '=', 'Author')
+            ->orWhere('name', '=', 'reviewer');
+    }
 }
