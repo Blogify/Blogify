@@ -4,7 +4,7 @@ namespace jorenvanhocht\Blogify\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use jorenvanhocht\Blogify\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Session;
 use Illuminate\Support\Facades\Redirect;
 
 class AuthController extends Controller{

@@ -34,16 +34,18 @@ $admin = [
 
 Route::group($admin, function()
 {
-    // Login
-    Route::get('login', [
-        'as'    =>  'admin.login',
-        'uses'  =>  'AuthController@index'
-    ]);
+    Route::group( ['middleware' => 'jorenvanhocht\Blogify\Middleware\Guest'], function(){
+        // Login
+        Route::get('login', [
+            'as'    =>  'admin.login',
+            'uses'  =>  'AuthController@index'
+        ]);
 
-    Route::post('login/post', [
-        'as'    =>  'admin.login.post',
-        'uses'  =>  'AuthController@login'
-    ]);
+        Route::post('login/post', [
+            'as'    =>  'admin.login.post',
+            'uses'  =>  'AuthController@login'
+        ]);
+    });
 
     Route::group(['middleware' => 'jorenvanhocht\Blogify\Middleware\BlogifyAdminAuthenticate'], function()
     {
@@ -57,6 +59,9 @@ Route::group($admin, function()
             'as'    =>  'admin.logout',
             'uses'  =>  'AuthController@logout'
         ]);
+
+        Route::resource('users', 'UserController');
+
     });
 
 });

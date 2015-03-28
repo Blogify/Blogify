@@ -233,7 +233,7 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li {{ (Request::is('/') ? 'class="active"' : '') }}>
+                        <li {{ (Request::is('/admin') ? 'class="active"' : '') }}>
                             <a href="{{ url ('') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li >
@@ -250,10 +250,9 @@
                         </li>
                         <li >
                             <a href="#"><i class="fa fa-comment fa-fw"></i>Comments</a>
-                            <!-- /.nav-second-level -->
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i>Categories<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-th-large fa-fw"></i>Categories<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
                                     <a href="{{ url ('panels') }}"><span class="fa fa-plus fa-fw"></span> New</a>
@@ -287,6 +286,9 @@
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
+                        </li>
+                        <li >
+                            <a href="#"><i class="fa fa-database fa-fw"></i>Backup database</a>
                         </li>
                     </ul>
                 </div>

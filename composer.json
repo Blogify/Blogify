@@ -15,7 +15,7 @@
             "Monolog": "src"
         },
         "files": [
-
+            "src/Helpers.php"
         ]
     }
 }
