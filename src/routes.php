@@ -27,8 +27,8 @@ Route::group(['prefix' => 'auth'], function()
 ///////////////////////////////////////////////////////////////////////////
 
 $admin = [
-    'prefix' => 'admin',
-    'namespace'=>'jorenvanhocht\Blogify\Controllers\Admin',
+    'prefix'    => 'admin',
+    'namespace' =>'jorenvanhocht\Blogify\Controllers\Admin',
 ];
 
 
@@ -60,8 +60,30 @@ Route::group($admin, function()
             'uses'  =>  'AuthController@logout'
         ]);
 
-        Route::resource('users', 'UserController');
+        /**
+         * User routes
+         *
+         */
+
+        Route::resource('users', 'UserController', ['except' => ''] );
 
     });
 
+});
+
+///////////////////////////////////////////////////////////////////////////
+// API routes
+///////////////////////////////////////////////////////////////////////////
+
+$api = [
+    'prefix' => 'api',
+    'namespace' => 'jorenvanhocht\Blogify\Controllers'
+];
+
+Route::group($api, function()
+{
+    Route::get('sort/{table}/{column}/{order}/{trashed?}', [
+        'as'    => 'api.sort',
+        'uses'  => 'ApiController@sort'
+    ]);
 });

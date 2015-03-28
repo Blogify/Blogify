@@ -278,7 +278,7 @@
                         <li >
                             <a href="#"><i class="fa fa-users fa-fw"></i>Users<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                <li {{ (Request::is('users') ? 'class="active"' : '') }}>
                                     <a href="{{ url ('panels') }}"><span class="fa fa-plus fa-fw"></span> New</a>
                                 </li>
                                 <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
