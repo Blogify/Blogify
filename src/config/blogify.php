@@ -7,7 +7,8 @@ return array (
      *
      */
     'char_sets' => [
-        'hash'   => 'ABCDEFGHIJKLMNOPQRSTUVWabcdefghijklmnopqrstuvw0123456789'
+        'hash'      => 'ABCDEFGHIJKLMNOPQRSTUVWabcdefghijklmnopqrstuvw0123456789',
+        'password'  => 'ABCDEFGHIJKLMNOPQRSTUVWabcdefghijklmnopqrstuvw0123456789@&é#$%?!èà',
     ],
 
     /**

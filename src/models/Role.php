@@ -56,4 +56,9 @@ class Role extends Model{
             ->orWhere('name', '=', 'Author')
             ->orWhere('name', '=', 'reviewer');
     }
+
+    public function scopeByHash( $query, $hash )
+    {
+        return $query->whereHash( $hash )->first();
+    }
 }

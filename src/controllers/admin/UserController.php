@@ -2,10 +2,13 @@
 namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use jorenvanhocht\Blogify\Facades\Blogify;
 use jorenvanhocht\Blogify\Models\Role;
+use jorenvanhocht\Blogify\Requests\UserRequest;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 use App\User;
+use Hash;
 
 class UserController extends Controller{
 
@@ -88,9 +91,28 @@ class UserController extends Controller{
     // CRUD methods
     ///////////////////////////////////////////////////////////////////////////
 
-    public function store()
+    /**
+     * Store a new user in the database
+     *
+     * @param UserRequest $request
+     * @return mixed
+     */
+    public function store( UserRequest $request )
     {
+        $password           = Blogify::generatePassword();
 
+        $user               = new User;
+        $user->hash         = Blogify::makeUniqueHash('users', 'hash');
+        $user->name         = $request->name;
+        $user->firstname    = $request->firstname;
+        $user->email        = $request->email;
+        $user->password     = Hash::make( $password );
+        $user->role_id      = Role::byHash( $request->role )->id;
+        $user->save();
+
+        // TODO FIRE EMAIL COMMAND TO SEND THE USER HIS PASSWORD
+
+        return Redirect::route('admin.users.index');
     }
 
 }

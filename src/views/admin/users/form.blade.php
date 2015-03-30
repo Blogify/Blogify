@@ -1,7 +1,7 @@
 @extends('blogify::admin.layouts.dashboard')
 @section('page_heading','Create new user')
 @section('section')
-
+{!! var_dump($errors->all()) !!}
 {!! Form::open( [ 'route' => 'admin.users.store' ] ) !!}
     <div class="row form-group">
         <div class="col-sm-2">

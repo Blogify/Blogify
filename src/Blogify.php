@@ -50,4 +50,26 @@ class Blogify {
         $this->makeUniqueHash($table, $field, $min_length, $max_length);
     }
 
+    /**
+     * Generate a random password
+     *
+     * @return string
+     */
+    public function generatePassword()
+    {
+        $password   = '';
+        $minus      = 0;
+        $rand       = rand(4, 10);
+
+        for( $i = 0; $i < $rand; $i++ )
+        {
+            $char = rand(0, strlen( $this->char_sets['password'] ));
+
+            if ( $char != 0 ? $minus = 1 : $minus = 0 );
+
+            $password .= $this->char_sets['password'][$char - $minus];
+        }
+        return $password;
+    }
+
 }
