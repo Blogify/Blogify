@@ -103,7 +103,20 @@ var app = {
             var order           = urlParts[urlPartsLength-1];
             var newUrl          = "";
 
-            order = (order == "asc") ? "desc" : "asc";
+            if (order == "asc")
+            {
+                order = "desc";
+                $(".fa.fa-sort-up.fa-fw").remove();
+                $(".fa.fa-sort-down.fa-fw").remove();
+                link.append(' <span class="fa fa-sort-down fa-fw"></span>')
+            }
+            else
+            {
+                order = "asc";
+                $(".fa.fa-sort-up.fa-fw").remove();
+                $(".fa.fa-sort-down.fa-fw").remove();
+                link.append(' <span class="fa fa-sort-up fa-fw"></span>')
+            }
 
             for ( var i = 2; i < urlPartsLength - 1; i++ )
             {
