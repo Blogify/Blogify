@@ -1,3 +1,6 @@
+<?php
+    $trashed = ($trashed) ? 1 : 0;
+?>
 @extends('blogify::admin.layouts.dashboard')
 @section('page_heading','Users')
 @section('section')
@@ -7,12 +10,12 @@
     <table class="table table-bordered sortable">
         <thead>
             <tr>
-                <th role="hash"><a href="{!! route('api.sort', ['users', 'hash', 'asc']) !!}" title="Order by hash" class="sort">Hash</a></th>
-                <th role="name"><a href="{!! route('api.sort', ['users', 'name', 'asc']) !!}" title="Order by name" class="sort">Name</a></th>
-                <th role="firstname"><a href="{!! route('api.sort', ['users', 'firstname', 'asc']) !!}" title="Order by first name" class="sort">First name</a></th>
-                <th role="username"><a href="{!! route('api.sort', ['users', 'username', 'asc']) !!}" title="Order by username" class="sort">Username</a></th>
-                <th role="email"><a href="{!! route('api.sort', ['users', 'email', 'asc']) !!}" title="Order by E-mail" class="sort">E-mail</a></th>
-                <th role="role_id"><a href="{!! route('api.sort', ['users', 'role_id', 'asc']) !!}" title="Order by Role" class="sort">Role</a></th>
+                <th role="hash"><a href="{!! route('admin.api.sort', ['users', 'hash', 'asc', $trashed]) !!}" title="Order by hash" class="sort">Hash</a></th>
+                <th role="name"><a href="{!! route('admin.api.sort', ['users', 'name', 'asc', $trashed]) !!}" title="Order by name" class="sort">Name</a></th>
+                <th role="firstname"><a href="{!! route('admin.api.sort', ['users', 'firstname', 'asc', $trashed]) !!}" title="Order by first name" class="sort">First name</a></th>
+                <th role="username"><a href="{!! route('admin.api.sort', ['users', 'username', 'asc', $trashed]) !!}" title="Order by username" class="sort">Username</a></th>
+                <th role="email"><a href="{!! route('admin.api.sort', ['users', 'email', 'asc', $trashed]) !!}" title="Order by E-mail" class="sort">E-mail</a></th>
+                <th role="role_id"><a href="{!! route('admin.api.sort', ['users', 'role_id', 'asc', $trashed]) !!}" title="Order by Role" class="sort">Role</a></th>
                 <th>Actions</th>
             </tr>
         </thead>

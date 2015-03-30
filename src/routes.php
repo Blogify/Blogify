@@ -66,24 +66,27 @@ Route::group($admin, function()
          */
 
         Route::resource('users', 'UserController', ['except' => ''] );
+        Route::get('users/get/trashed', [
+            'as'    => 'admin.users.trashed',
+            'uses'  => 'UserController@trashed'
+        ]);
+
+        ///////////////////////////////////////////////////////////////////////////
+        // API routes
+        ///////////////////////////////////////////////////////////////////////////
+
+        $api = [
+            'prefix' => 'api',
+        ];
+
+        Route::group($api, function()
+        {
+            Route::get('sort/{table}/{column}/{order}/{trashed?}', [
+                'as'    => 'admin.api.sort',
+                'uses'  => 'ApiController@sort'
+            ]);
+        });
 
     });
 
-});
-
-///////////////////////////////////////////////////////////////////////////
-// API routes
-///////////////////////////////////////////////////////////////////////////
-
-$api = [
-    'prefix' => 'api',
-    'namespace' => 'jorenvanhocht\Blogify\Controllers'
-];
-
-Route::group($api, function()
-{
-    Route::get('sort/{table}/{column}/{order}/{trashed?}', [
-        'as'    => 'api.sort',
-        'uses'  => 'ApiController@sort'
-    ]);
 });

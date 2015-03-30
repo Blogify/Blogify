@@ -27,7 +27,18 @@ class UserController extends Controller{
     public function index()
     {
         $data = [
-            'users' => User::all(),
+            'users'     => User::all(),
+            'trashed'   => false,
+        ];
+
+        return View('blogify::admin.users.index', $data);
+    }
+
+    public function trashed()
+    {
+        $data = [
+            'users'     => User::onlyTrashed()->get(),
+            'trashed'   => true,
         ];
 
         return View('blogify::admin.users.index', $data);

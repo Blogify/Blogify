@@ -1,5 +1,5 @@
 <?php
-namespace jorenvanhocht\Blogify\Controllers;
+namespace jorenvanhocht\Blogify\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use DB;

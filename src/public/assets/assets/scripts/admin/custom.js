@@ -100,7 +100,7 @@ var app = {
             var url             = link[0].href;
             var urlParts        = url.split('/');
             var urlPartsLength  = urlParts.length;
-            var order           = urlParts[urlPartsLength-1];
+            var order           = urlParts[urlPartsLength-2];
             var newUrl          = "";
 
             if (order == "asc")
@@ -118,14 +118,14 @@ var app = {
                 link.append(' <span class="fa fa-sort-up fa-fw"></span>')
             }
 
-            for ( var i = 2; i < urlPartsLength - 1; i++ )
+            for ( var i = 2; i < urlPartsLength - 2; i++ )
             {
                 newUrl += (i ==2) ? urlParts[i] : "/" + urlParts[i];
             }
 
             newUrl += '/' + order;
 
-            link[0].href = "http://" + newUrl;
+            link[0].href = "http://" + newUrl + '/' + urlParts[urlPartsLength - 1];
         }
     }
 
