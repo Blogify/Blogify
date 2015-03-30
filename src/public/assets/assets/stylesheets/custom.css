@@ -1,0 +1,12 @@
+/**
+* Forms
+*
+*/
+
+.form-group .form-control {
+    width:250px;
+}
+
+label {
+    line-height:2.5em;
+}

@@ -13,6 +13,7 @@
 	<meta content="" name="author"/>
 
 	<link rel="stylesheet" href="{{ asset("assets/blogify/assets/stylesheets/styles.css") }}" />
+	<link rel="stylesheet" href="{{ asset("assets/blogify/assets/stylesheets/custom.css") }}" />
 </head>
 <body>
 	@yield('body')

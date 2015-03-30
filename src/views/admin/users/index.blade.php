@@ -2,10 +2,10 @@
     $trashed = ($trashed) ? 1 : 0;
 ?>
 @extends('blogify::admin.layouts.dashboard')
-@section('page_heading','Users')
+@section('page_heading', 'Users')
 @section('section')
 
-@section ('cotable_panel_title','Active users')
+@section ('cotable_panel_title', ($trashed) ? 'Deleted users' : 'Active users')
 @section ('cotable_panel_body')
     <table class="table table-bordered sortable">
         <thead>
