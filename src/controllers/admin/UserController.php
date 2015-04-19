@@ -1,42 +1,39 @@
-<?php
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use jorenvanhocht\Blogify\Facades\Blogify;
 use jorenvanhocht\Blogify\Models\Role;
 use jorenvanhocht\Blogify\Requests\UserRequest;
-use Session;
-use Illuminate\Support\Facades\Redirect;
 use App\User;
 use Hash;
+use jorenvanhocht\Blogify\Services\BlogifyMailer;
 
-class UserController extends Controller{
+class UserController extends BlogifyController{
 
     /**
      * Holds an instance of the User model
      *
-     * @var
+     * @var User
      */
     private $user;
 
     /**
      * Holds an instance of the Role model
      *
-     * @var
+     * @var Role
      */
     private $role;
 
     /**
-     * Post data
+     * Holds an instance of the BlogifyMailer class
      *
-     * @var
+     * @var BlogifyMailer
      */
-    private $data;
+    private $mail;
 
-    public function __construct( User $user, Role $role )
+    public function __construct( User $user, Role $role, BlogifyMailer $mail )
     {
         $this->user = $user;
         $this->role = $role;
+        $this->mail = $mail;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -51,11 +48,11 @@ class UserController extends Controller{
     public function index()
     {
         $data = [
-            'users'     => User::all(),
+            'users'     => $this->user->paginate(10),
             'trashed'   => false,
         ];
 
-        return View('blogify::admin.users.index', $data);
+        return view('blogify::admin.users.index', $data);
     }
 
     /**
@@ -66,11 +63,11 @@ class UserController extends Controller{
     public function trashed()
     {
         $data = [
-            'users'     => User::onlyTrashed()->get(),
+            'users'     => $this->user->onlyTrashed()->paginate(10),
             'trashed'   => true,
         ];
 
-        return View('blogify::admin.users.index', $data);
+        return view('blogify::admin.users.index', $data);
     }
 
     /**
@@ -84,7 +81,23 @@ class UserController extends Controller{
             'roles' => $this->role->all(),
         ];
 
-        return View('blogify::admin.users.form', $data);
+        return view('blogify::admin.users.form', $data);
+    }
+
+    /**
+     * Show the view to edit a given user
+     *
+     * @param $hash
+     * @return \Illuminate\View\View
+     */
+    public function edit( $hash )
+    {
+        $data = [
+            'roles' => $this->role->all(),
+            'user'  => $this->user->byHash( $hash )
+        ];
+
+        return view('blogify::admin.users.form', $data);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -99,20 +112,84 @@ class UserController extends Controller{
      */
     public function store( UserRequest $request )
     {
-        $password           = Blogify::generatePassword();
+        $data       = $this->storeOrUpdateUser( $request );
+        $user       = $data['user'];
+        $mail_data  = [
+            'user'      => $data['user'],
+            'password'  => $data['password'],
+        ];
 
-        $user               = new User;
-        $user->hash         = Blogify::makeUniqueHash('users', 'hash');
-        $user->name         = $request->name;
-        $user->firstname    = $request->firstname;
-        $user->email        = $request->email;
-        $user->password     = Hash::make( $password );
-        $user->role_id      = Role::byHash( $request->role )->id;
-        $user->save();
+        $this->mail->mailPassword( $user->email, 'Blogify temperary password', $mail_data );
 
-        // TODO FIRE EMAIL COMMAND TO SEND THE USER HIS PASSWORD
+        $message    = trans('blogify::notify.success', ['model' => 'User', 'name' => generateFullName($user->firstname, $user->name), 'action' =>'created']);
+        session()->flash('notify', [ 'success', $message ] );
 
-        return Redirect::route('admin.users.index');
+        return redirect()->route('admin.users.index');
     }
 
+    /**
+     * Update a given user in the database
+     *
+     * @param UserRequest $request
+     * @param $hash
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update( UserRequest $request, $hash )
+    {
+        $data       = $this->storeOrUpdateUser( $request, $hash );
+        $user       = $data['user'];
+        $message    = trans('blogify::notify.success', ['model' => 'User', 'name' => generateFullName($user->firstname, $user->name), 'action' =>'updated']);
+
+        session()->flash('notify', [ 'success', $message ] );
+        return redirect()->route('admin.users.index');
+    }
+
+    /**
+     * Delete a given user
+     *
+     * @param $hash
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy( $hash )
+    {
+        $user       = $this->user->byHash( $hash );
+        $name       = $user->firstname . ' ' . $user->name;
+
+        $user->delete();
+
+        $message = trans('blogify::notify.success', ['model' => 'User', 'name' => $name, 'action' =>'deleted']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.users.index');
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Helper methods
+    ///////////////////////////////////////////////////////////////////////////
+
+    public function storeOrUpdateUser( $data, $hash = null )
+    {
+        $password           = null;
+
+        if ( ! isset($hash) )
+        {
+            $password           = blogify()->generatePassword();
+            $user               = new User;
+            $user->hash         = blogify()->makeUniqueHash('users', 'hash');
+            $user->password     = Hash::make( $password );
+            $user->username     = blogify()->generateUniqueUsername( $data->name, $data->firstname );
+            $user->name         = $data->name;
+            $user->firstname    = $data->firstname;
+            $user->email        = $data->email;
+        }
+        else
+        {
+            $user = $this->user->byHash( $hash );
+        }
+
+        $user->role_id      = $this->role->byHash( $data->role )->id;
+        $user->save();
+
+        return ['user' => $user, 'password' => $password];
+    }
 }

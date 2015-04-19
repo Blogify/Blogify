@@ -3,6 +3,8 @@ var app = {
     init: function()
     {
         app.sortable.init();
+        app.delete.init();
+        app.notify.init();
     },
 
     /**
@@ -127,6 +129,34 @@ var app = {
 
             link[0].href = "http://" + newUrl + '/' + urlParts[urlPartsLength - 1];
         }
+    },
+
+    delete: {
+
+        init: function()
+        {
+            $('.delete').on('click', function(e)
+            {
+                e.preventDefault();
+
+                if ( ! confirm('Are you sure you want to delete ' + this.title + ' ?') ) return false;
+
+                $('form.' + this.id).submit();
+            });
+        }
+
+    },
+
+    notify: {
+
+        init:function()
+        {
+            setTimeout(function()
+            {
+                $('#notify').fadeOut();
+            }, 3000);
+        }
+
     }
 
 };

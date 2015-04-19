@@ -9,7 +9,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "guzzlehttp/guzzle": "~4.0",
+        "illuminate/html": "5.0.*@dev"
+    },
     "autoload": {
         "psr-0": {
             "Monolog": "src"

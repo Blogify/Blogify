@@ -1,33 +1,31 @@
 <?php
 namespace jorenvanhocht\Blogify\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use DB;
 use Request;
-use Response;
 
-class ApiController extends Controller{
+class ApiController extends BlogifyController {
 
+    /**
+     * Order the data of a given table on the given column
+     * and the given order
+     *
+     * @param $table
+     * @param $column
+     * @param $order
+     * @param bool $trashed
+     * @return string
+     */
     public function sort( $table, $column, $order, $trashed = false )
     {
-        if ( $trashed )
-        {
-            $data = DB::table($table)
-                ->whereNotNull('deleted_at')
-                ->orderBy($column, $order)->get();
-        }
-        else
-        {
-            $data = DB::table($table)
-                ->whereNull('deleted_at')
-                ->orderBy($column, $order)->get();
-        }
+        $data = DB::table( $table );
 
+        // Check for trashed data
+        $data = $trashed ? $data->whereNotNull('deleted_at') : $data->whereNull('deleted_at');
 
-        if ( Request::ajax() )
-        {
-            return Response::json( ['data' => $data]);
-        }
+        $data = $data->orderBy($column, $order)->get();
+
+        if ( Request::ajax() ) return response()->json( ['data' => $data]);
 
         return json_encode($data);
     }

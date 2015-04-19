@@ -1,13 +1,9 @@
 <?php 
 namespace jorenvanhocht\Blogify\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use jorenvanhocht\Blogify\Requests\LoginRequest;
-use Illuminate\Support\Facades\Auth;
-use Session;
-use Illuminate\Support\Facades\Redirect;
 
-class AuthController extends Controller{
+class AuthController extends BlogifyController{
 
     ///////////////////////////////////////////////////////////////////////////
     // View methods
@@ -35,13 +31,13 @@ class AuthController extends Controller{
      */
     public function login( LoginRequest $request )
     {
-        if ( Auth::attempt( ['email' => $request->email, 'password'  =>  $request->password  ] ) )
+        if ( $this->auth->attempt( ['email' => $request->email, 'password'  =>  $request->password  ] ) )
         {
-          return Redirect::to('/admin');
+          return redirect('/admin');
         }
 
-        Session::flash('message', 'Wrong credentials');
-        return Redirect::route('admin.login');
+        session()->flash('message', 'Wrong credentials');
+        return route('admin.login');
     }
 
     /**
@@ -51,7 +47,7 @@ class AuthController extends Controller{
      */
     public function logout()
     {
-        Auth::logout();
-        return Redirect::route('admin.login');
+        $this->auth->logout();
+        return route('admin.login');
     }
 }

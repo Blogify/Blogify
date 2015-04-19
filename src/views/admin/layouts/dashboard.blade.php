@@ -234,7 +234,7 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li {{ (Request::is('/admin') ? 'class="active"' : '') }}>
-                            <a href="{{ url ('') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="{{ url ('admin') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li >
                             <a href="#"><i class="fa fa-pencil fa-fw"></i>Posts<span class="fa arrow"></span></a>
@@ -279,10 +279,10 @@
                             <a href="#"><i class="fa fa-users fa-fw"></i>Users<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('users') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"><span class="fa fa-plus fa-fw"></span> New</a>
+                                    <a href="{{ route ('admin.users.create') }}"><span class="fa fa-plus fa-fw"></span> New</a>
                                 </li>
                                 <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"><span class="fa fa-th-list fa-fw"></span> Overview</a>
+                                    <a href="{{ route ('admin.users.index' ) }}"><span class="fa fa-th-list fa-fw"></span> Overview</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

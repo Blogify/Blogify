@@ -1,43 +1,53 @@
+<?php
+$editable = (isset($user)) ? "disabled" : null ;
+?>
 @extends('blogify::admin.layouts.dashboard')
-@section('page_heading','Create new user')
+@section('page_heading', isset($user) ? 'Edit user' : 'Create new user')
 @section('section')
-{!! var_dump($errors->all()) !!}
-{!! Form::open( [ 'route' => 'admin.users.store' ] ) !!}
-    <div class="row form-group">
+
+@include('blogify::admin.snippets.validation-errors')
+
+@if ( isset($user) )
+    {!! Form::open( [ 'route' => ['admin.users.update', $user->hash] ] ) !!}
+    {!! Form::hidden('_method', 'put') !!}
+@else
+    {!! Form::open( [ 'route' => 'admin.users.store' ] ) !!}
+@endif
+    <div class="row form-group {{ $errors->has('name') ? 'has-error' : '' }}">
         <div class="col-sm-2">
             {!! Form::label('name', 'Name:') !!}
         </div>
         <div class="col-sm-10">
-            {!! Form::text('name', '', ['class' => 'form-control']) !!}
+            {!! Form::text('name', isset($user) ? $user->name : '', ['class' => 'form-control form-small', $editable ]) !!}
         </div>
     </div>
 
-    <div class="row form-group">
+    <div class="row form-group {{ $errors->has('firstname') ? 'has-error' : '' }}">
         <div class="col-sm-2">
             {!! Form::label('firstname', 'First name:') !!}
         </div>
         <div class="col-sm-10">
-            {!! Form::text('firstname', '', ['class' => 'form-control']) !!}
+            {!! Form::text('firstname', isset($user) ? $user->firstname : '', ['class' => 'form-control form-small', $editable]) !!}
         </div>
     </div>
 
-    <div class="row form-group">
+    <div class="row form-group {{ $errors->has('email') ? 'has-error' : '' }}">
         <div class="col-sm-2">
             {!! Form::label('email', 'E-mail:') !!}
         </div>
         <div class="col-sm-10">
-            {!! Form::text('email', '', ['class' => 'form-control']) !!}
+            {!! Form::text('email', isset($user) ? $user->email : '' , ['class' => 'form-control form-small', $editable]) !!}
         </div>
     </div>
 
-    <div class="row form-group">
+    <div class="row form-group {{ $errors->has('role') ? 'has-error' : '' }}">
         <div class="col-sm-2">
             {!! Form::label('role', 'Role:') !!}
         </div>
         <div class="col-sm-10">
-            <select name="role" class="form-control">
+            <select name="role" class="form-control form-small">
                 @foreach ($roles as $role)
-                    <option value="{!! $role->hash !!}">{!! $role->name !!}</option>
+                    <option value="{!! $role->hash !!}" {{ ( isset($user) && $role->id == $user->role_id ) ? 'selected' : '' }}>{!! $role->name !!}</option>
                 @endforeach
             </select>
         </div>
@@ -45,7 +55,7 @@
 
     <div class="row">
         <div class="col-sm-2">
-            {!! Form::submit('Create user', ['class'=>'btn btn-success']) !!}
+            {!! Form::submit('Save user', ['class'=>'btn btn-success']) !!}
         </div>
     </div>
 

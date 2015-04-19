@@ -72,4 +72,26 @@ class Blogify {
         return $password;
     }
 
+    /**
+     * Generate a unique username with the users
+     * lastname and firstname
+     *
+     * @param $lastname
+     * @param $firstname
+     * @param int $itteration
+     * @return string
+     */
+    public function generateUniqueUsername( $lastname, $firstname, $itteration = 0 )
+    {
+        $username = strtolower( str_replace( ' ', '', $lastname ) . substr( $firstname, 0, 1 ) );
+
+        if ( $itteration != 0 ) $username = $username . $itteration;
+
+        $usernames = count( DB::table('users')->where('username', '=', $username )->get() );
+
+        if ( $usernames > 0 ) return $this->generateUniqueUsername( $lastname, $firstname, $itteration + 1 );
+
+        return $username;
+    }
+
 }

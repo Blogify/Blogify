@@ -4,7 +4,12 @@
 @extends('blogify::admin.layouts.dashboard')
 @section('page_heading', 'Users')
 @section('section')
-
+    @if ( session()->get('notify') )
+        @include('blogify::admin.snippets.notify')
+    @endif
+    @if ( session()->has('success') )
+        @include('blogify::admin.widgets.alert', array('class'=>'success', 'dismissable'=>true, 'message'=> session()->get('success'), 'icon'=> 'check'))
+    @endif
 @section ('cotable_panel_title', ($trashed) ? 'Deleted users' : 'Active users')
 @section ('cotable_panel_body')
     <table class="table table-bordered sortable">
@@ -29,14 +34,20 @@
                     <td>{!! $user->email !!}</td>
                     <td>{!! $user->role_id !!}</td>
                     <td>
-                        <a href="#"><span class="fa fa-edit fa-fw"></span></a>
-                        <a href="#"><span class="fa fa-trash-o fa-fw"></span></a>
+                        <a href="{{$user->hash}}/edit"><span class="fa fa-edit fa-fw"></span></a>
+                        {!! Form::open( [ 'route' => ['admin.users.destroy', $user->hash], 'class' => $user->hash . ' form-delete' ] ) !!}
+                            {!! Form::hidden('_method', 'delete') !!}
+                            <a href="#" title="{{$user->firstname . ' ' . $user->name}}" class="delete" id="{{$user->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
+                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 @endsection
+
 @include('blogify::admin.widgets.panel', array('header'=>true, 'as'=>'cotable'))
+
+{!! $users->render() !!}
 
 @stop

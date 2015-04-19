@@ -3,10 +3,22 @@
 *
 */
 
-.form-group .form-control {
+.form-group .form-control.form-small{
     width:250px;
 }
 
 label {
     line-height:2.5em;
+}
+
+.fixed-to-top {
+    position:fixed;
+    top:0;
+    z-index:1000;
+    width:100%;
+    left:0;
+}
+
+.form-delete {
+    display:inline;
 }

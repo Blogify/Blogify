@@ -1,8 +1,36 @@
 <?php namespace jorenvanhocht\Blogify\Requests;
 
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Input;
 
 class UserRequest extends Request {
+
+	/**
+	 * Holds the request specific validation rules
+	 *
+	 * @var array
+	 */
+	protected $specifics = [];
+
+	/**
+	 * Holds the global validation rules
+	 *
+	 * @var array
+	 */
+	protected $rules;
+
+	/**
+	 * Construct the request
+	 *
+	 */
+	public function __construct()
+	{
+		if ( ! Input::has('_method') ) $this->generateSpecificsArray();
+
+		$this->rules = [
+			'role'		=> 'required|exists:roles,hash',
+		];
+	}
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -21,12 +49,18 @@ class UserRequest extends Request {
 	 */
 	public function rules()
 	{
-		return [
-			'name'		=> 'required|min:3|max:30',
-			'firstname'	=> 'required|min:2|max:30',
-			'email'		=> 'required|email|unique:users,email',
-			'role'		=> 'required|exists:roles,hash',
-		];
+		return array_merge($this->rules, $this->specifics);
+	}
+
+	/**
+	 * Fill in the request specific validation rules
+	 *
+	 */
+	public function generateSpecificsArray()
+	{
+		$this->specifics['name'] = 'required|min:3|max:30';
+		$this->specifics['firstname'] = 'required|min:3|max:30';
+		$this->specifics['email'] = 'required|email|unique:users,email';
 	}
 
 }

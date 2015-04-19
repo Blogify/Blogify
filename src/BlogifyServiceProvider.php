@@ -53,9 +53,9 @@ class BlogifyServiceProvider extends ServiceProvider {
         $this->loadViewsFrom(__DIR__.'/views', 'blogify');
 
         // Make the config file accessible even when the files are not published
-        $path_to_config_file = __DIR__.'/config/blogify.php';
-        $config = $this->app['files']->getRequire($path_to_config_file);
-        $this->app['config']->set('blogify::custom', $config);
+        $this->mergeConfigFrom(__DIR__.'/config/blogify.php', 'blogify');
+
+        $this->loadTranslationsFrom(__DIR__.'/lang/', 'blogify');
     }
 
 }
