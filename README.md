@@ -47,3 +47,7 @@ Now run the following commands in your terminal to create the database tables an
 php artisan migrate
 php artisan db:seed
 ```
+
+credits:
+wysiwyg: ckeditor.com
+datetimepicker: http://www.jqueryrain.com/?ixXmZ27b

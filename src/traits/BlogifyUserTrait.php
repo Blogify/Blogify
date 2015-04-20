@@ -50,5 +50,10 @@ Trait BlogifyUserTrait {
     {
         return $query->whereHash($hash)->first();
     }
+
+    public function scopeNewUsersSince( $query, $date )
+    {
+        return $query->where('created_at', '>=', $date)->get()->count();
+    }
 }
 

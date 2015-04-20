@@ -10,7 +10,7 @@
 	</div>
 	<div id="collapse{{$id}}" class="panel-collapse collapse {{{ isset($collapseIn) ? 'in' : ''}}}">
 		<div class="panel-body">
-			{{ $body }}
+			{!! $body !!}
 		</div>
 	</div>
 </div>

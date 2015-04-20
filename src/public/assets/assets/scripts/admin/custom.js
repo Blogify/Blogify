@@ -5,6 +5,8 @@ var app = {
         app.sortable.init();
         app.delete.init();
         app.notify.init();
+        app.ckedit.init();
+        app.datetimepicker.init();
     },
 
     /**
@@ -147,6 +149,10 @@ var app = {
 
     },
 
+    /**
+     * Let flash messages fade out
+     *
+     */
     notify: {
 
         init:function()
@@ -157,6 +163,75 @@ var app = {
             }, 3000);
         }
 
+    },
+
+    /**
+     * WYSIWYG
+     *
+     */
+    ckedit: {
+
+        /**
+         * Check if we need to initialize
+         * the wysiwyg
+         *
+         */
+        init:function()
+        {
+            if ( $('#post').length )
+            {
+                app.ckedit.configure();
+            }
+        },
+
+        /**
+         * Initialize and configure the
+         * wysiwyg
+         *
+         */
+        configure: function()
+        {
+            CKEDITOR.replace( 'post',{
+                filebrowserUploadUrl: '/uploader/upload.php'
+            } );
+        }
+    },
+
+    /**
+     * Date time picker
+     *
+     */
+    datetimepicker: {
+
+        /**
+         * Check if we need to initialize
+         * the date time picker
+         *
+         */
+        init:function()
+        {
+            if ( $('#dtBox').length )
+            {
+                app.datetimepicker.configure();
+            }
+        },
+
+        /**
+         * Initialise and configure the
+         * date time picker
+         *
+         */
+        configure: function()
+        {
+            $("#dtBox").DateTimePicker({
+                'titleContentDateTime': 'Set the publish date and time',
+                addEventHandlers: function()
+                {
+                    var dtPickerObj = this;
+                    dtPickerObj.setDateTimeStringInInputField();
+                }
+            });
+        }
     }
 
 };

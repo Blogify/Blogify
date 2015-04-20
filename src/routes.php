@@ -50,9 +50,10 @@ Route::group($admin, function()
     Route::group(['middleware' => 'jorenvanhocht\Blogify\Middleware\BlogifyAdminAuthenticate'], function()
     {
         // Dashboard
-        Route::get('/', function() {
-            return View('blogify::admin.home');
-        });
+        Route::get('/', [
+            'as'    => 'admin.dashboard',
+            'uses'  => 'DashboardController@index'
+        ]);
 
         // Logout
         Route::get('logout', [
@@ -70,6 +71,10 @@ Route::group($admin, function()
             'as'    => 'admin.users.trashed',
             'uses'  => 'UserController@trashed'
         ]);
+
+        Route::get('posts/create', function(){
+            return view('blogify::admin.posts.form');
+        });
 
         ///////////////////////////////////////////////////////////////////////////
         // API routes
