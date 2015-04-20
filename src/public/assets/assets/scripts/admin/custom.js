@@ -192,6 +192,7 @@ var app = {
         configure: function()
         {
             CKEDITOR.config.height = 400;
+            CKEDITOR.config.extraPlugins = 'wordcount';
             CKEDITOR.replace( 'post',{
                 filebrowserUploadUrl: '/uploader/upload.php'
             } );

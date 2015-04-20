@@ -43,7 +43,6 @@ class DashboardController extends BlogifyController {
      */
     public function index()
     {
-        dd($this->data);
         return view("blogify::admin.home", $this->data);
     }
 
@@ -57,7 +56,7 @@ class DashboardController extends BlogifyController {
      */
     public function buildDataObject()
     {
-        $this->data['new_users_since_last_visit'] = $this->user->newUsersSince( $this->auth_user->updated_at );
+        $this->data['new_users_since_last_visit'] = $this->user->newUsersSince( $this->auth_user->updated_at )->count();
 
         objectify($this->data);
     }

@@ -53,7 +53,7 @@ Trait BlogifyUserTrait {
 
     public function scopeNewUsersSince( $query, $date )
     {
-        return $query->where('created_at', '>=', $date)->get()->count();
+        return $query->where('created_at', '>=', $date)->get();
     }
 }
 
