@@ -191,6 +191,7 @@ var app = {
          */
         configure: function()
         {
+            CKEDITOR.config.height = 400;
             CKEDITOR.replace( 'post',{
                 filebrowserUploadUrl: '/uploader/upload.php'
             } );

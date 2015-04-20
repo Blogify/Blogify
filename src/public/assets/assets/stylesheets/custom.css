@@ -22,3 +22,14 @@ label {
 .form-delete {
     display:inline;
 }
+
+.input-group[class*="col-"] {
+    padding-left:16px;
+    padding-right:16px;
+}
+
+.input-group[class*="col-"] .form-control
+{
+    padding-left:12px;
+    padding-right:12px;
+}
