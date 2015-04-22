@@ -72,9 +72,7 @@ Route::group($admin, function()
             'uses'  => 'UserController@trashed'
         ]);
 
-        Route::get('posts/create', function(){
-            return view('blogify::admin.posts.form');
-        });
+        Route::resource('posts', 'PostsController');
 
         ///////////////////////////////////////////////////////////////////////////
         // API routes

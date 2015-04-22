@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
             <br /><br /><br />
-               @section ('login_panel_title','Please Sign In')
+               @section ('login_panel_title', trans("blogify::auth.login.title") )
                @section ('login_panel_body')
                     @if(Session::has('message'))
                         @include('blogify::admin.widgets.alert', array('class'=>'danger', 'message'=> Session::get('message'), 'icon'=> 'remove'))
@@ -12,20 +12,20 @@
                     {!! Form::open( ['route' => 'admin.login.post', 'role' => 'form' ] ) !!}
                         <fieldset>
                             <div class="form-group {!! $errors->get('email') ? 'has-error' : '' !!} ">
-                                {!! Form::label('email', 'E-mail adress') !!}<br>
-                                {!! Form::email('email', null, [ 'placeholder' => 'example@example.be', 'class' => 'form-control' ] ) !!}
+                                {!! Form::label('email', trans("blogify::auth.login.email.label") ) !!}<br>
+                                {!! Form::email('email', null, [ 'placeholder' => 'example@example.com', 'class' => 'form-control' ] ) !!}
                             </div>
                             <div class="form-group {!! $errors->get('password') ? 'has-error' : '' !!} ">
-                                {!! Form::label('password', 'Password') !!}<br>
-                                {!! Form::password('password', array( 'placeholder' => 'Password', 'class' => 'form-control' ) ) !!}
+                                {!! Form::label('password', trans("blogify::auth.login.password.label") ) !!}<br>
+                                {!! Form::password('password', array( 'placeholder' => trans("blogify::auth.login.password.placeholder"), 'class' => 'form-control' ) ) !!}
                             </div>
                             <div class="checkbox">
                                 <label>
                                     {!! Form::checkbox('rememberme') !!}
-                                    Remember me
+                                    {{ trans("blogify::auth.login.remember_me.label") }}
                                 </label>
                             </div>
-                            {!! Form::submit('Login', [ 'class' => 'btn btn-lg btn-block btn-primary' ] ) !!}
+                            {!! Form::submit( trans("blogify::auth.login.submit_button.value") , [ 'class' => 'btn btn-lg btn-block btn-primary' ] ) !!}
                         </fieldset>
                     {!! Form::close() !!}
                     

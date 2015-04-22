@@ -1,16 +1,16 @@
 @extends('blogify::admin.layouts.dashboard')
-@section('page_heading','Add new post')
+@section('page_heading',trans("blogify::posts.page.title.create"))
 @section('section')
     <div class="row">
         <div class="col-lg-8 col-md-12">
             <div class="row">
                 <div class="col-lg-12 col-md-12 form-group">
-                    {!! Form::text('title', '', [ 'class' => 'form-control', 'placeholder' => 'Enter title here' ] ) !!}
+                    {!! Form::text('title', '', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.title.placeholder") ] ) !!}
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 form-group">
-                    {!! Form::text('slug', '', [ 'class' => 'form-control', 'placeholder' => 'Enter slug here' ] ) !!}
+                    {!! Form::text('slug', '', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.slug.placeholder") ] ) !!}
                 </div>
             </div>
             <div class="row">
@@ -28,7 +28,7 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
                                href="#collapsePublish">
-                                Publish
+                                {{ trans("blogify::posts.publish.title") }}
                             </a>
                         </h4>
                     </div>
@@ -36,7 +36,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    {!! Form::label('status', 'Status:') !!}
+                                    {!! Form::label('status', trans("blogify::posts.publish.status.label") ) !!}
                                 </div>
                                 <div class="col-sm-8">
                                     <select name="role" class="form-control form-small">
@@ -46,17 +46,17 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    {!! Form::label('visebility', 'Visebility:') !!}
+                                    {!! Form::label('visibility', trans("blogify::posts.publish.visibility.label") ) !!}
                                 </div>
                                 <div class="col-sm-8">
-                                    <select name="role" class="form-control form-small">
+                                    <select name="visibility" class="form-control form-small">
                                         <option value="">Public</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    {!! Form::label('date', 'Publish date:') !!}
+                                    {!! Form::label('date', trans("blogify::posts.publish.publish_date.label") ) !!}
                                 </div>
                                 <div class="col-sm-8">
                                     {!! Form::text('datetime','', [ 'data-field' => 'datetime', 'class' => 'form-control', 'readonly' ] ) !!}
@@ -65,7 +65,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    {!! Form::submit('Save post', [ 'class' => 'btn btn-success' ] ) !!}
+                                    {!! Form::submit( trans("blogify::posts.publish.save_button.value"), [ 'class' => 'btn btn-success' ] ) !!}
                                 </div>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
                                href="#collapseRevieuwer">
-                                Reviewer
+                                {{ trans("blogify::posts.reviewer.title") }}
                             </a>
                         </h4>
                     </div>
@@ -107,7 +107,7 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
                                href="#collapseCategory">
-                                Category
+                                {{ trans("blogify::posts.category.title") }}
                             </a>
                         </h4>
                     </div>
@@ -115,7 +115,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12 form-group input-group">
-                                    {!! Form::text('newCategory','', [ 'class' => 'form-control', 'placeholder' => 'Create new category' ] ) !!}
+                                    {!! Form::text('newCategory','', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.category.placeholder") ] ) !!}
                                     <span class="input-group-btn">
                                     <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
                                     </span>
@@ -170,7 +170,7 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
                                href="#collapseTags">
-                                Tags
+                                {{ trans("blogify::posts.tags.title") }}
                             </a>
                         </h4>
                     </div>
@@ -178,7 +178,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12 form-group input-group">
-                                    {!! Form::text('tags','', [ 'class' => 'form-control', 'placeholder' => 'Add tags...' ] ) !!}
+                                    {!! Form::text('tags','', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.tags.placeholder") ] ) !!}
                                     <span class="input-group-btn">
                                     <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
                                     </span>
@@ -186,7 +186,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <span id="helpBlock" class="help-block">Separate tags with commas</span>
+                                    <span id="helpBlock" class="help-block">{{ trans("blogify::posts.tags.help_block") }}</span>
                                 </div>
                             </div>
                         </div>

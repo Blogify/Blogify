@@ -2,7 +2,7 @@
     $trashed = ($trashed) ? 1 : 0;
 ?>
 @extends('blogify::admin.layouts.dashboard')
-@section('page_heading', 'Users')
+@section('page_heading', trans("blogify::users.overview.page_title") )
 @section('section')
     @if ( session()->get('notify') )
         @include('blogify::admin.snippets.notify')
@@ -10,18 +10,18 @@
     @if ( session()->has('success') )
         @include('blogify::admin.widgets.alert', array('class'=>'success', 'dismissable'=>true, 'message'=> session()->get('success'), 'icon'=> 'check'))
     @endif
-@section ('cotable_panel_title', ($trashed) ? 'Deleted users' : 'Active users')
+@section ('cotable_panel_title', ($trashed) ? trans("blogify::users.overview.table_head.title_trashed") : trans("blogify::users.overview.table_head.title_active"))
 @section ('cotable_panel_body')
     <table class="table table-bordered sortable">
         <thead>
             <tr>
-                <th role="hash"><a href="{!! route('admin.api.sort', ['users', 'hash', 'asc', $trashed]) !!}" title="Order by hash" class="sort">Hash</a></th>
-                <th role="name"><a href="{!! route('admin.api.sort', ['users', 'name', 'asc', $trashed]) !!}" title="Order by name" class="sort">Name</a></th>
-                <th role="firstname"><a href="{!! route('admin.api.sort', ['users', 'firstname', 'asc', $trashed]) !!}" title="Order by first name" class="sort">First name</a></th>
-                <th role="username"><a href="{!! route('admin.api.sort', ['users', 'username', 'asc', $trashed]) !!}" title="Order by username" class="sort">Username</a></th>
-                <th role="email"><a href="{!! route('admin.api.sort', ['users', 'email', 'asc', $trashed]) !!}" title="Order by E-mail" class="sort">E-mail</a></th>
-                <th role="role_id"><a href="{!! route('admin.api.sort', ['users', 'role_id', 'asc', $trashed]) !!}" title="Order by Role" class="sort">Role</a></th>
-                <th>Actions</th>
+                <th role="hash"><a href="{!! route('admin.api.sort', ['users', 'hash', 'asc', $trashed]) !!}" title="Order by hash" class="sort"> {{ trans("blogify::users.overview.table_head.hash") }} </a></th>
+                <th role="name"><a href="{!! route('admin.api.sort', ['users', 'name', 'asc', $trashed]) !!}" title="Order by name" class="sort"> {{ trans("blogify::users.overview.table_head.name") }} </a></th>
+                <th role="firstname"><a href="{!! route('admin.api.sort', ['users', 'firstname', 'asc', $trashed]) !!}" title="Order by first name" class="sort"> {{ trans("blogify::users.overview.table_head.firstname") }} </a></th>
+                <th role="username"><a href="{!! route('admin.api.sort', ['users', 'username', 'asc', $trashed]) !!}" title="Order by username" class="sort"> {{ trans("blogify::users.overview.table_head.username") }} </a></th>
+                <th role="email"><a href="{!! route('admin.api.sort', ['users', 'email', 'asc', $trashed]) !!}" title="Order by E-mail" class="sort"> {{ trans("blogify::users.overview.table_head.email") }} </a></th>
+                <th role="role_id"><a href="{!! route('admin.api.sort', ['users', 'role_id', 'asc', $trashed]) !!}" title="Order by Role" class="sort"> {{ trans("blogify::users.overview.table_head.role") }} </a></th>
+                <th> {{ trans("blogify::users.overview.table_head.actions") }} </th>
             </tr>
         </thead>
         <tbody>

@@ -216,12 +216,12 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href=""><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href=""><i class="fa fa-user fa-fw"></i> {{ trans("blogify::navigation.profile") }} </a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> {{ trans("blogify::navigation.settings") }} </a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="{!! route('admin.logout') !!}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="{!! route('admin.logout') !!}"><i class="fa fa-sign-out fa-fw"></i> {{ trans("blogify::navigation.logout") }} </a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -234,61 +234,61 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li {{ (Request::is('/admin') ? 'class="active"' : '') }}>
-                            <a href="{{ url ('admin') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="{{ url ('admin') }}"><i class="fa fa-dashboard fa-fw"></i> {{ trans("blogify::navigation.dashboard.title") }} </a>
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-pencil fa-fw"></i>Posts<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-pencil fa-fw"></i>{{ trans("blogify::navigation.posts.title") }}<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"><span class="fa fa-plus fa-fw"></span> New</a>
+                                    <a href="{{ route ('admin.posts.create') }}"><span class="fa fa-plus fa-fw"></span> {{ trans("blogify::navigation.posts.new") }}</a>
                                 </li>
                                 <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"><span class="fa fa-th-list fa-fw"></span> Overview</a>
+                                    <a href="{{ route ('admin.posts.index' ) }}"><span class="fa fa-th-list fa-fw"></span> {{ trans("blogify::navigation.posts.overview") }}</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-comment fa-fw"></i>Comments</a>
+                            <a href="#"><i class="fa fa-comment fa-fw"></i>{{ trans("blogify::navigation.comments.title") }}</a>
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-th-large fa-fw"></i>Categories<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-th-large fa-fw"></i>{{ trans("blogify::navigation.categories.title") }}<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"><span class="fa fa-plus fa-fw"></span> New</a>
+                                    <a href="{{ url ('panels') }}"><span class="fa fa-plus fa-fw"></span> {{ trans("blogify::navigation.categories.new") }}</a>
                                 </li>
                                 <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"><span class="fa fa-th-list fa-fw"></span> Overview</a>
+                                    <a href="{{ url ('buttons' ) }}"><span class="fa fa-th-list fa-fw"></span> {{ trans("blogify::navigation.categories.overview") }}</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-tags fa-fw"></i>Tags<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-tags fa-fw"></i>{{ trans("blogify::navigation.tags.title") }}<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"><span class="fa fa-plus fa-fw"></span> New</a>
+                                    <a href="{{ url ('panels') }}"><span class="fa fa-plus fa-fw"></span> {{ trans("blogify::navigation.tags.new") }}</a>
                                 </li>
                                 <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"><span class="fa fa-th-list fa-fw"></span> Overview</a>
+                                    <a href="{{ url ('buttons' ) }}"><span class="fa fa-th-list fa-fw"></span> {{ trans("blogify::navigation.tags.overview") }}</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-users fa-fw"></i>Users<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-users fa-fw"></i>{{ trans("blogify::navigation.users.title") }}<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('users') ? 'class="active"' : '') }}>
-                                    <a href="{{ route ('admin.users.create') }}"><span class="fa fa-plus fa-fw"></span> New</a>
+                                    <a href="{{ route ('admin.users.create') }}"><span class="fa fa-plus fa-fw"></span> {{ trans("blogify::navigation.users.new") }}</a>
                                 </li>
                                 <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ route ('admin.users.index' ) }}"><span class="fa fa-th-list fa-fw"></span> Overview</a>
+                                    <a href="{{ route ('admin.users.index' ) }}"><span class="fa fa-th-list fa-fw"></span> {{ trans("blogify::navigation.users.overview") }}</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-database fa-fw"></i>Backup database</a>
+                            <a href="#"><i class="fa fa-database fa-fw"></i>{{ trans("blogify::navigation.database.title") }}</a>
                         </li>
                     </ul>
                 </div>
