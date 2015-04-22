@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder {
 
 		$this->call('jorenvanhocht\Blogify\Seeds\RolesTableSeeder');
 		$this->call('jorenvanhocht\Blogify\Seeds\UsersTableSeeder');
+		$this->call('jorenvanhocht\Blogify\Seeds\StatusesTableSeeder');
+		$this->call('jorenvanhocht\Blogify\Seeds\VisibilityTableSeeder');
 	}
 
 }

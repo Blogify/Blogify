@@ -37,7 +37,7 @@ class History extends Model{
 
     public function user()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\user');
+        return $this->belongsTo('App\user');
     }
 
 

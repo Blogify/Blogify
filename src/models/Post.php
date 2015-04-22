@@ -40,7 +40,7 @@ class Post extends Model{
 
     public function user()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\user');
+        return $this->belongsTo('App\user');
     }
 
     public function comment()
@@ -66,6 +66,16 @@ class Post extends Model{
     public function tag()
     {
         return $this->belongsToMany('jorenvanhocht\Blogify\Models\tag', 'posts_have_tags', 'post_id', 'tag_id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo('jorenvanhoch\Blogify\Models\Status');
+    }
+
+    public function visibility()
+    {
+        return $this->belongsTo('jorenvanhoch\Blogify\Models\Visibility');
     }
 
 }

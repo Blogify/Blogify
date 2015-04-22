@@ -2,14 +2,14 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model{
+class Visibility extends Model{
 
     /**
      * The database table used by the model
      *
      * @var string
      */
-    protected $table        = 'roles';
+    protected $table        = 'visibility';
 
     /**
      * The attributes that are mass assignable
@@ -35,30 +35,8 @@ class Role extends Model{
     |
     */
 
-    public function user()
+    public function post()
     {
-        return $this->hasMany('App\user');
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Scopes
-    |--------------------------------------------------------------------------
-    |
-    | For more information pleas check out the official Laravel docs at
-    | http://laravel.com/docs/5.0/eloquent#queryscopes
-    |
-    */
-
-    public function scopeByAdminRoles( $query )
-    {
-        $query->whereName('admin')
-            ->orWhere('name', '=', 'Author')
-            ->orWhere('name', '=', 'reviewer');
-    }
-
-    public function scopeByHash( $query, $hash )
-    {
-        return $query->whereHash( $hash )->first();
+        return $this->hasMany('jorenvanhocht\Blogify\Models\Post');
     }
 }
