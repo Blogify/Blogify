@@ -22,6 +22,13 @@ return array (
         'username'      => 'admin',
         'email'         => "vanhochtjoren@gmail.com",
         'password'      => 'admin',
-    ]
+    ],
+
+    /**
+     * Defines how many items per
+     * page you want to show
+     *
+     */
+    'items_per_page' => 10,
 
 );

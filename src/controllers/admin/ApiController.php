@@ -1,9 +1,23 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\admin;
 
 use DB;
-use Request;
 
 class ApiController extends BlogifyController {
+
+    /**
+     * Holds an instance of
+     * the Blogify config file
+     *
+     * @var object
+     */
+    protected $config;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->config = objectify( config()->get('blogify') );
+    }
 
     /**
      * Order the data of a given table on the given column
@@ -22,11 +36,9 @@ class ApiController extends BlogifyController {
         // Check for trashed data
         $data = $trashed ? $data->whereNotNull('deleted_at') : $data->whereNull('deleted_at');
 
-        $data = $data->orderBy($column, $order)->get();
+        $data = $data->orderBy($column, $order)->paginate( $this->config->items_per_page );
 
-        if ( Request::ajax() ) return response()->json( ['data' => $data]);
-
-        return json_encode($data);
+        return $data;
     }
 
 }
