@@ -1,5 +1,4 @@
-<?php 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use jorenvanhocht\Blogify\Requests\LoginRequest;
 
@@ -37,7 +36,7 @@ class AuthController extends BlogifyController{
         }
 
         session()->flash('message', 'Wrong credentials');
-        return route('admin.login');
+        return redirect()->route('admin.login');
     }
 
     /**
@@ -48,6 +47,6 @@ class AuthController extends BlogifyController{
     public function logout()
     {
         $this->auth->logout();
-        return route('admin.login');
+        return redirect()->route('admin.login');
     }
 }

@@ -1,5 +1,4 @@
-<?php
-namespace jorenvanhocht\Blogify\Controllers\admin;
+<?php namespace jorenvanhocht\Blogify\Controllers\admin;
 
 use DB;
 use Request;
