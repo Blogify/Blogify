@@ -15,6 +15,13 @@ return [
             'role'             => 'Role',
             'actions'          => 'Actions'
         ],
+
+        'no_results'    => 'No users found',
+
+        'links'         => [
+            'trashed'           => 'Show deleted users',
+            'active'            => 'Show active users',
+        ],
     ],
 
     'form'  => [

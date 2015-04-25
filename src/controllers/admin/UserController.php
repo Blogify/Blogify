@@ -29,11 +29,19 @@ class UserController extends BlogifyController{
      */
     private $mail;
 
+    /**
+     * Holds the config settings
+     *
+     * @var object
+     */
+    private $config;
+
     public function __construct( User $user, Role $role, BlogifyMailer $mail )
     {
-        $this->user = $user;
-        $this->role = $role;
-        $this->mail = $mail;
+        $this->user     = $user;
+        $this->role     = $role;
+        $this->mail     = $mail;
+        $this->config   = objectify( config()->get('blogify') );
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -48,7 +56,7 @@ class UserController extends BlogifyController{
     public function index()
     {
         $data = [
-            'users'     => $this->user->paginate(10),
+            'users'     => $this->user->paginate( $this->config->items_per_page ),
             'trashed'   => false,
         ];
 
@@ -63,7 +71,7 @@ class UserController extends BlogifyController{
     public function trashed()
     {
         $data = [
-            'users'     => $this->user->onlyTrashed()->paginate(10),
+            'users'     => $this->user->onlyTrashed()->paginate( $this->config->items_per_page ),
             'trashed'   => true,
         ];
 

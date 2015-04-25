@@ -11,6 +11,11 @@
     @if ( session()->has('success') )
         @include('blogify::admin.widgets.alert', array('class'=>'success', 'dismissable'=>true, 'message'=> session()->get('success'), 'icon'=> 'check'))
     @endif
+
+    <p>
+        <a href="{{ ($trashed) ? route('admin.users.index') : route('admin.users.trashed') }}" title=""> {{ ($trashed) ? trans('blogify::users.overview.links.active') : trans('blogify::users.overview.links.trashed') }} </a>
+    </p>
+
 @section ('cotable_panel_title', ($trashed) ? trans("blogify::users.overview.table_head.title_trashed") : trans("blogify::users.overview.table_head.title_active"))
 @section ('cotable_panel_body')
     <table class="table table-bordered sortable">
@@ -26,6 +31,13 @@
             </tr>
         </thead>
         <tbody>
+            @if ( count($users) <= 0 )
+                <tr>
+                    <td colspan="7">
+                        <em>@lang('blogify::users.overview.no_results')</em>
+                    </td>
+                </tr>
+            @endif
             @foreach ( $users as $user )
                 <tr>
                     <td>{!! $user->hash !!}</td>
