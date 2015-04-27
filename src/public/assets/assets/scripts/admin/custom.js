@@ -7,6 +7,44 @@ var app = {
         app.notify.init();
         app.ckedit.init();
         app.datetimepicker.init();
+        app.slug.init();
+    },
+
+    /**
+     * Delay javascript events to
+     * decrease the number of function calls
+     *
+     * I take no credit for this code
+     * Source: http://davidwalsh.name/javascript-debounce-function
+     *
+     * @param fn
+     * @param delay
+     * @returns {Function}
+     */
+    debounce: function(fn, delay)
+    {
+        var timer = null;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                fn.apply(context, args);
+            }, delay);
+        };
+    },
+
+    /**
+     * Extract the base url
+     * from the current url
+     *
+     */
+    generateBaseUrl: function()
+    {
+        var pathArray = location.href.split( '/' );
+        var protocol = pathArray[0];
+        var host = pathArray[2];
+        var url = protocol + '//' + host;
+        return url;
     },
 
     /**
@@ -194,7 +232,7 @@ var app = {
             CKEDITOR.config.height = 400;
             CKEDITOR.config.extraPlugins = 'wordcount';
             CKEDITOR.replace( 'post',{
-                filebrowserUploadUrl: '/uploader/upload.php'
+                filebrowserUploadUrl: 'http://eindwerk.app:8000/admin/posts/image/upload/'
             } );
         }
     },
@@ -233,6 +271,83 @@ var app = {
                     dtPickerObj.setDateTimeStringInInputField();
                 }
             });
+        }
+    },
+
+    /**
+     * Auto fill in the slug field of a post
+     * and check if it is a unique one
+     *
+     */
+    slug: {
+        slug: '',
+        apiBaseUrl: '',
+
+        /**
+         * Check if the listener has to be called
+         *
+         */
+        init: function()
+        {
+            if ( $('#title').length && $('#slug').length ) app.slug.listener();
+        },
+
+        /**
+         * Listen to a keyup on the title
+         * and slug field
+         *
+         */
+        listener: function()
+        {
+            $('#title').keyup(app.debounce(function(e){
+                app.slug.generateSlug();
+            }, 1000));
+
+            $('#slug').keyup(app.debounce(function(e){
+                app.slug.slug = $('#slug')[0].value;
+                app.slug.slug = app.slug.slug.replace(/ /g,"-").toLowerCase();
+                app.slug.checkIfSlugIsUnique();
+            }, 1000));
+        },
+
+        /**
+         * Generate a valid slug
+         *
+         */
+        generateSlug: function()
+        {
+            app.slug.slug = $('#title')[0].value;
+            app.slug.slug = app.slug.slug.replace(/ /g,"-").toLowerCase();
+            app.slug.checkIfSlugIsUnique();
+        },
+
+        /**
+         * Check if the generated/given slug is unique
+         *
+         */
+        checkIfSlugIsUnique: function()
+        {
+            app.slug.apiBaseUrl = app.generateBaseUrl() + '/admin/api/slug/checkIfSlugIsUnique/' + app.slug.slug;
+            if ( app.slug.slug.length > 0 )
+            {
+                $.ajax({
+                    'method': 'get',
+                    'url': app.slug.apiBaseUrl,
+                    'type': 'json'
+                }).done( function( data ) {
+                    app.slug.fillSlugField(data);
+                } );
+            }
+        },
+
+        /**
+         * Fill in the slug field
+         *
+         * @param slug
+         */
+        fillSlugField: function( slug )
+        {
+            $('#slug')[0].value = slug;
         }
     }
 

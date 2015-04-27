@@ -1,52 +1,55 @@
 <?php
 
 return [
-    'page'  => [
+    'form'  => [
+        'page'  => [
+            'title' => [
+                'create' => 'Add new post',
+                'update' => 'Edit post',
+            ]
+        ],
+
         'title' => [
-            'create' => 'Add new post',
-            'update' => 'Edit post',
-        ]
-    ],
-
-    'title' => [
-        'placeholder' => 'Enter title here',
-    ],
-
-    'slug' => [
-        'placeholder' => 'Enter slug here',
-    ],
-
-    'publish' => [
-        'title'         => 'Publish',
-        'status'        => [
-            'label'         => 'Status:',
+            'placeholder' => 'Enter title here',
         ],
 
-        'visibility'    => [
-            'label'         => 'Visibility:',
+        'slug' => [
+            'placeholder' => 'Enter slug here',
         ],
 
-        'publish_date'  => [
-            'label'         => 'Publish date:'
+        'publish' => [
+            'title'         => 'Publish',
+            'status'        => [
+                'label'         => 'Status:',
+            ],
+
+            'visibility'    => [
+                'label'         => 'Visibility:',
+            ],
+
+            'publish_date'  => [
+                'label'         => 'Publish date:'
+            ],
+
+            'save_button'   => [
+                'value'         => 'Save post',
+            ],
         ],
 
-        'save_button'   => [
-            'value'         => 'Save post',
+        'reviewer'  => [
+            'title'     => 'Reviewer',
         ],
-    ],
 
-    'reviewer'  => [
-        'title'     => 'Reviewer',
-    ],
+        'category'  => [
+            'title'         => 'Category',
+            'placeholder'   => 'Create new category',
+            'no_results'    => 'No categories found',
+        ],
 
-    'category'  => [
-        'title'         => 'Category',
-        'placeholder'   => 'Create new category'
-    ],
-
-    'tags'      => [
-        'title'         => 'tags',
-        'placeholder'   => 'Add tags...',
-        'help_block'    => 'Separate tags with commas',
-    ],
+        'tags'      => [
+            'title'         => 'tags',
+            'placeholder'   => 'Add tags...',
+            'help_block'    => 'Separate tags with commas',
+        ],
+    ]
 ];

@@ -31,4 +31,13 @@ return array (
      */
     'items_per_page' => 10,
 
+    'upload_paths'  => [
+        'posts' => [
+            'images'    => 'uploads/posts/'
+        ]
+    ],
+
+    'image_sizes'   => [
+        'posts' => [500,null],
+    ],
 );

@@ -73,6 +73,10 @@ Route::group($admin, function()
         ]);
 
         Route::resource('posts', 'PostsController');
+        Route::post('posts/image/upload', [
+            'as'    => 'admin.posts.uploadImage',
+            'uses'  => 'PostsController@uploadImage',
+        ]);
 
         ///////////////////////////////////////////////////////////////////////////
         // API routes
@@ -87,6 +91,11 @@ Route::group($admin, function()
             Route::get('sort/{table}/{column}/{order}/{trashed?}', [
                 'as'    => 'admin.api.sort',
                 'uses'  => 'ApiController@sort'
+            ]);
+
+            Route::get('slug/checkIfSlugIsUnique/{slug}', [
+                'as'    => 'admin.api.slug.checkIfUnique',
+                'uses'  => 'ApiController@checkIfSlugIsUnique',
             ]);
         });
 

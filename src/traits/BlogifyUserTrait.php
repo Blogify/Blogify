@@ -55,5 +55,25 @@ Trait BlogifyUserTrait {
     {
         return $query->where('created_at', '>=', $date)->get();
     }
+
+    public function scopeByRole( $query, $role_id )
+    {
+        return $query->whereRoleId( $role_id );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/master/eloquent#accessors-and-mutators
+    |
+    */
+
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['firstname'] . ' ' . $this->attributes['name'];
+    }
 }
 

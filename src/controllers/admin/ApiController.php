@@ -1,6 +1,7 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\admin;
 
 use DB;
+use jorenvanhocht\Blogify\Models\Post;
 
 class ApiController extends BlogifyController {
 
@@ -12,11 +13,14 @@ class ApiController extends BlogifyController {
      */
     protected $config;
 
-    public function __construct()
+    protected $post;
+
+    public function __construct( Post $post )
     {
         parent::__construct();
 
-        $this->config = objectify( config()->get('blogify') );
+        $this->config   = objectify( config()->get('blogify') );
+        $this->post     = $post;
     }
 
     /**
@@ -39,6 +43,25 @@ class ApiController extends BlogifyController {
         $data = $data->orderBy($column, $order)->paginate( $this->config->items_per_page );
 
         return $data;
+    }
+
+    /**
+     * Check if a given slug already exists
+     * and when it exists generate a new one
+     *
+     * @param $slug
+     * @return string
+     */
+    public function checkIfSlugIsUnique( $slug )
+    {
+        $posts = $this->post->whereSlug( $slug )->get();
+
+        if ( count($posts) <= 0 ) return $slug;
+
+        $next = count($posts) + 1;
+        $slug = $slug . '-' . $next;
+
+        return $this->checkIfSlugIsUnique( $slug );
     }
 
 }

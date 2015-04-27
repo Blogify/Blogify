@@ -1,16 +1,16 @@
 @extends('blogify::admin.layouts.dashboard')
-@section('page_heading',trans("blogify::posts.page.title.create"))
+@section('page_heading',trans("blogify::posts.form.page.title.create"))
 @section('section')
     <div class="row">
         <div class="col-lg-8 col-md-12">
             <div class="row">
                 <div class="col-lg-12 col-md-12 form-group">
-                    {!! Form::text('title', '', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.title.placeholder") ] ) !!}
+                    {!! Form::text('title', '', [ 'class' => 'form-control', 'id' => 'title', 'placeholder' => trans("blogify::posts.form.title.placeholder") ] ) !!}
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 form-group">
-                    {!! Form::text('slug', '', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.slug.placeholder") ] ) !!}
+                    {!! Form::text('slug', '', [ 'class' => 'form-control', 'id' => 'slug', 'placeholder' => trans("blogify::posts.form.slug.placeholder") ] ) !!}
                 </div>
             </div>
             <div class="row">
@@ -28,7 +28,7 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
                                href="#collapsePublish">
-                                {{ trans("blogify::posts.publish.title") }}
+                                {{ trans("blogify::posts.form.publish.title") }}
                             </a>
                         </h4>
                     </div>
@@ -36,27 +36,31 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    {!! Form::label('status', trans("blogify::posts.publish.status.label") ) !!}
+                                    {!! Form::label('status', trans("blogify::posts.form.publish.status.label") ) !!}
                                 </div>
                                 <div class="col-sm-8">
                                     <select name="role" class="form-control form-small">
-                                            <option value="">Draft</option>
+                                        @foreach ( $statuses as $status )
+                                            <option value="{{$status->hash}}">{{$status->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    {!! Form::label('visibility', trans("blogify::posts.publish.visibility.label") ) !!}
+                                    {!! Form::label('visibility', trans("blogify::posts.form.publish.visibility.label") ) !!}
                                 </div>
                                 <div class="col-sm-8">
                                     <select name="visibility" class="form-control form-small">
-                                        <option value="">Public</option>
+                                        @foreach ( $visibility as $item )
+                                            <option value="{{$item->hash}}">{{$item->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    {!! Form::label('date', trans("blogify::posts.publish.publish_date.label") ) !!}
+                                    {!! Form::label('date', trans("blogify::posts.form.publish.publish_date.label") ) !!}
                                 </div>
                                 <div class="col-sm-8">
                                     {!! Form::text('datetime','', [ 'data-field' => 'datetime', 'class' => 'form-control', 'readonly' ] ) !!}
@@ -65,7 +69,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    {!! Form::submit( trans("blogify::posts.publish.save_button.value"), [ 'class' => 'btn btn-success' ] ) !!}
+                                    {!! Form::submit( trans("blogify::posts.form.publish.save_button.value"), [ 'class' => 'btn btn-success' ] ) !!}
                                 </div>
                             </div>
                         </div>
@@ -81,7 +85,7 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
                                href="#collapseRevieuwer">
-                                {{ trans("blogify::posts.reviewer.title") }}
+                                {{ trans("blogify::posts.form.reviewer.title") }}
                             </a>
                         </h4>
                     </div>
@@ -90,7 +94,9 @@
                             <div class="row">
                                 <div class="col-sm-12 form-group">
                                     <select class="form-control">
-                                        <option>reviewer nams come in this dropdown box</option>
+                                        @foreach ( $reviewers as $reviewer )
+                                            <option value="{{$reviewer->hash}}">{{$reviewer->fullName}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -107,7 +113,7 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
                                href="#collapseCategory">
-                                {{ trans("blogify::posts.category.title") }}
+                                {{ trans("blogify::posts.form.category.title") }}
                             </a>
                         </h4>
                     </div>
@@ -115,7 +121,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12 form-group input-group">
-                                    {!! Form::text('newCategory','', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.category.placeholder") ] ) !!}
+                                    {!! Form::text('newCategory','', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.form.category.placeholder") ] ) !!}
                                     <span class="input-group-btn">
                                     <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
                                     </span>
@@ -123,38 +129,20 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <label for="test">
-                                                {!!Form::radio('test', 'value', ['id' => 'test'])!!}
-                                                Category 1
-                                            </label>
+                                    @if ( count($categories) <= 0 )
+                                        <span id="helpBlock" class="help-block">{{ trans("blogify::posts.form.category.no_results") }}</span>
+                                    @endif
+
+                                    @foreach ( $categories as $category )
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <label for="{{$category->name}}">
+                                                    {!!Form::radio($category->name, $category->hash, ['id' => '$category->name'])!!}
+                                                    {{$category->name}}
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <label for="test">
-                                                {!!Form::radio('test', 'value', ['id' => 'test'])!!}
-                                                Category 2
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <label for="test">
-                                                {!!Form::radio('test', 'value', ['id' => 'test'])!!}
-                                                Category 3
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <label for="test">
-                                                {!!Form::radio('test', 'value', ['id' => 'test'])!!}
-                                                Category 4
-                                            </label>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -170,7 +158,7 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
                                href="#collapseTags">
-                                {{ trans("blogify::posts.tags.title") }}
+                                {{ trans("blogify::posts.form.tags.title") }}
                             </a>
                         </h4>
                     </div>
@@ -178,7 +166,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12 form-group input-group">
-                                    {!! Form::text('tags','', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.tags.placeholder") ] ) !!}
+                                    {!! Form::text('tags','', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.form.tags.placeholder") ] ) !!}
                                     <span class="input-group-btn">
                                     <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
                                     </span>
@@ -186,7 +174,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <span id="helpBlock" class="help-block">{{ trans("blogify::posts.tags.help_block") }}</span>
+                                    <span id="helpBlock" class="help-block">{{ trans("blogify::posts.form.tags.help_block") }}</span>
                                 </div>
                             </div>
                         </div>
