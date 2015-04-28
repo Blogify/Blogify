@@ -1,6 +1,9 @@
 @extends('blogify::admin.layouts.dashboard')
 @section('page_heading',trans("blogify::posts.form.page.title.create"))
 @section('section')
+    {{var_dump($errors->all())}}
+    {!! Form::open( ['route' => 'admin.posts.store'] ) !!}
+    {!! Form::hidden('hash','') !!}
     <div class="row">
         <div class="col-lg-8 col-md-12">
             <div class="row">
@@ -15,7 +18,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12">
-                    <textarea id="post"></textarea>
+                    <textarea name="post" id="post"></textarea>
                 </div>
             </div>
         </div>
@@ -39,7 +42,7 @@
                                     {!! Form::label('status', trans("blogify::posts.form.publish.status.label") ) !!}
                                 </div>
                                 <div class="col-sm-8">
-                                    <select name="role" class="form-control form-small">
+                                    <select name="status" class="form-control form-small">
                                         @foreach ( $statuses as $status )
                                             <option value="{{$status->hash}}">{{$status->name}}</option>
                                         @endforeach
@@ -63,7 +66,7 @@
                                     {!! Form::label('date', trans("blogify::posts.form.publish.publish_date.label") ) !!}
                                 </div>
                                 <div class="col-sm-8">
-                                    {!! Form::text('datetime','', [ 'data-field' => 'datetime', 'class' => 'form-control', 'readonly' ] ) !!}
+                                    {!! Form::text('publishdate','', [ 'data-field' => 'datetime', 'class' => 'form-control', 'readonly' ] ) !!}
                                     <div id="dtBox"></div>
                                 </div>
                             </div>
@@ -93,7 +96,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12 form-group">
-                                    <select class="form-control">
+                                    <select name="reviewer" class="form-control">
                                         @foreach ( $reviewers as $reviewer )
                                             <option value="{{$reviewer->hash}}">{{$reviewer->fullName}}</option>
                                         @endforeach
@@ -120,15 +123,18 @@
                     <div id="collapseCategory" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-sm-12 form-group input-group">
-                                    {!! Form::text('newCategory','', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.form.category.placeholder") ] ) !!}
+                                <div class="col-sm-12 form-group input-group" id="cat-form">
+                                    {!! Form::text('newCategory','', [ 'class' => 'form-control', 'id' => 'newCategory', 'placeholder' => trans("blogify::posts.form.category.placeholder") ] ) !!}
                                     <span class="input-group-btn">
-                                    <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                                    <button type="button" id="create-category" class="btn btn-success"><i class="fa fa-plus"></i></button>
                                     </span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-12 text-danger" id="cat-errors"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12" id="categories">
                                     @if ( count($categories) <= 0 )
                                         <span id="helpBlock" class="help-block">{{ trans("blogify::posts.form.category.no_results") }}</span>
                                     @endif
@@ -137,7 +143,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <label for="{{$category->name}}">
-                                                    {!!Form::radio($category->name, $category->hash, ['id' => '$category->name'])!!}
+                                                    {!!Form::radio('category', $category->hash, ['id' => '$category->name'])!!}
                                                     {{$category->name}}
                                                 </label>
                                             </div>
@@ -166,15 +172,20 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12 form-group input-group">
-                                    {!! Form::text('tags','', [ 'class' => 'form-control', 'placeholder' => trans("blogify::posts.form.tags.placeholder") ] ) !!}
+                                    {!! Form::text('newTags','', [ 'class' => 'form-control', 'id' => 'newTags', 'placeholder' => trans("blogify::posts.form.tags.placeholder") ] ) !!}
                                     <span class="input-group-btn">
-                                    <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                                    <button type="button" class="btn btn-success" id="tag-btn"><i class="fa fa-plus"></i></button>
                                     </span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
+                                    {!! Form::hidden('tags', '', [ 'id' => 'addedTags' ]) !!}
                                     <span id="helpBlock" class="help-block">{{ trans("blogify::posts.form.tags.help_block") }}</span>
+                                    <div id="tag-errors" class="text-danger"></div>
+                                    <div id="tags">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -185,6 +196,7 @@
 
 
         </div>
+        {!! Form::close() !!}
     </div>
 
 @stop

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Validator;
 
 class Tag extends Model{
 
@@ -28,6 +29,23 @@ class Tag extends Model{
      */
     public $timestamps      = true;
 
+    public function validate( $tags )
+    {
+        $rules      = [];
+        $messages   = [
+            'required'  => trans('blogify::posts.validation.required'),
+            'min'       => trans('blogify::posts.validation.min'),
+            'max'       => trans('blogify::posts.validation.max'),
+        ];
+
+        foreach ( $tags as $key => $tag )
+        {
+            $rules[$key] = 'required|min:2|max:45';
+        }
+
+        return Validator::make($tags, $rules, $messages);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Relationships
@@ -43,5 +61,19 @@ class Tag extends Model{
         return $this->belongsToMany('jorenvanhocht\Blogify\Models\post', 'posts_have_tags', 'post_id', 'tag_id');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/5.0/eloquent#query-scopes
+    |
+    */
+
+    public function scopeByHash( $query, $hash )
+    {
+        return $query->whereHash($hash)->first();
+    }
 
 }

@@ -77,6 +77,14 @@ Route::group($admin, function()
             'as'    => 'admin.posts.uploadImage',
             'uses'  => 'PostsController@uploadImage',
         ]);
+        Route::get('posts/get/trashed', [
+            'as'    => 'admin.posts.trashed',
+            'uses'  => 'PostsController@trashed'
+        ]);
+
+        Route::resource('categories', 'CategoriesController');
+
+        Route::resource('tags', 'TagsController');
 
         ///////////////////////////////////////////////////////////////////////////
         // API routes

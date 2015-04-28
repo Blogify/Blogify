@@ -8,8 +8,18 @@ use jorenvanhocht\Blogify\Models\Tag;
 use jorenvanhocht\Blogify\Models\Visibility;
 use jorenvanhocht\Blogify\Requests\ImageUploadRequest;
 use Intervention\Image\Facades\Image;
+use jorenvanhocht\Blogify\Requests\PostRequest;
+use jorenvanhocht\Blogify\Models\Post;
+use jorenvanhocht\Blogify\Services\BlogifyMailer;
 
 class PostsController extends BlogifyController {
+
+    /**
+     * Holds an instance of the Post model
+     *
+     * @var Post
+     */
+    protected $post;
 
     /**
      * Holds an instance of the Status model
@@ -60,7 +70,29 @@ class PostsController extends BlogifyController {
      */
     protected $config;
 
-    public function __construct( Status $status, Visibility $visibility, User $user, Category $category, Tag $tag, Role $role )
+    /**
+     * Holds the post data
+     *
+     * @var object
+     */
+    protected $data;
+
+    /**
+     * Holds all the tags that are
+     * assigned to a post
+     *
+     * @var array
+     */
+    protected $tags = [];
+
+    /**
+     * Holds an instance of the BlogifyMailer class
+     *
+     * @var BlogifyMailer
+     */
+    protected $mail;
+
+    public function __construct( Post $post, Status $status, Visibility $visibility, User $user, Category $category, Tag $tag, Role $role, BlogifyMailer $mail )
     {
         parent::__construct();
 
@@ -69,6 +101,8 @@ class PostsController extends BlogifyController {
         $this->tag          = $tag;
         $this->role         = $role;
         $this->user         = $user;
+        $this->post         = $post;
+        $this->mail         = $mail;
         $this->status       = $status;
         $this->category     = $category;
         $this->visibility   = $visibility;
@@ -85,7 +119,26 @@ class PostsController extends BlogifyController {
      */
     public function index()
     {
-        return view('blogify::admin.posts.index');
+        $data = [
+            'posts' => $this->post->paginate( $this->config->items_per_page ),
+            'trashed' => false,
+        ];
+        return view('blogify::admin.posts.index', $data);
+    }
+
+    /**
+     * Show the view with all deleted users
+     *
+     * @return \Illuminate\View\View
+     */
+    public function trashed()
+    {
+        $data = [
+            'posts'     => $this->post->onlyTrashed()->paginate( $this->config->items_per_page ),
+            'trashed'   => true,
+        ];
+
+        return view('blogify::admin.posts.index', $data);
     }
 
     /**
@@ -115,6 +168,40 @@ class PostsController extends BlogifyController {
     // CRUD methods
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Store a new post and call all
+     * side functions
+     *
+     * @param PostRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store( PostRequest $request )
+    {
+        $this->data = objectify( $request->except(['_token', 'newCategory', 'newTags']) );
+
+        $this->buildTagsArray();
+
+        $post = $this->storeOrUpdatePost();
+
+        $this->mailReviewer( $post );
+
+        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' =>'created']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.posts.index');
+    }
+
+    /**
+     * Function to upload images using
+     * the SKEditor
+     *
+     * note: no CSRF protection on the route that is
+     * calling this function because we are using the
+     * CKEditor within an iframe :(
+     *
+     * @param ImageUploadRequest $request
+     * @return string
+     */
     public function uploadImage(ImageUploadRequest $request)
     {
         $image_name = $this->resizeAnsSaveImage( $request->file('upload') );
@@ -135,11 +222,11 @@ class PostsController extends BlogifyController {
      *
      * @return array
      */
-    public function getViewData()
+    private function getViewData()
     {
-        $reviewer_role_id = $this->role->whereName('Reviewer')->first()->id;
+        $reviewer_role_id   = $this->role->whereName('Reviewer')->first()->id;
 
-        $data = [
+        $data               = [
             'reviewers'     => $this->user->byRole( $reviewer_role_id )->get(),
             'statuses'      => $this->status->all(),
             'categories'    => $this->category->all(),
@@ -155,7 +242,7 @@ class PostsController extends BlogifyController {
      * @param $image
      * @return string
      */
-    public function resizeAnsSaveImage( $image )
+    private function resizeAnsSaveImage( $image )
     {
         $image_name = $this->createImageName();
         $fullpath   = $this->createFullImagePath( $image_name, $image->getClientOriginalExtension() );
@@ -177,7 +264,7 @@ class PostsController extends BlogifyController {
      * @param $extension
      * @return string
      */
-    public function createFullImagePath( $image_name, $extension )
+    private function createFullImagePath( $image_name, $extension )
     {
         return public_path( $this->config->upload_paths->posts->images . $image_name . '.' . $extension );
     }
@@ -187,9 +274,78 @@ class PostsController extends BlogifyController {
      *
      * @return string
      */
-    public function createImageName()
+    private function createImageName()
     {
         return time() . '-' . str_replace(' ', '-', $this->auth_user->fullName);
+    }
+
+    /**
+     * Separate the given tags and
+     * store them separately in the
+     * global array
+     *
+     */
+    private function buildTagsArray()
+    {
+        $tags = explode(',', $this->data->tags);
+
+        foreach ( $tags as $hash )
+        {
+            array_push($this->tags, $this->tag->byHash($hash)->id);
+        }
+    }
+
+    /**
+     * Store a new post or update an
+     * given post in the DB
+     *
+     * @return Post
+     */
+    private function storeOrUpdatePost()
+    {
+        if ( !empty( $this->data->hash ) )
+        {
+            $post       = $this->post->byHash( $this->data->hash );
+        }
+        else
+        {
+            $post       = new Post;
+            $post->hash = blogify()->makeUniqueHash('posts', 'hash');
+
+        }
+
+        $post->slug             = $this->data->slug;
+        $post->title            = $this->data->title;
+        $post->content          = $this->data->post;
+        $post->status_id        = $this->status->byHash( $this->data->status )->id;
+        //$post->publish_data     = $this->data->publish_date;
+        $post->user_id          = $this->user->byHash( $this->auth_user->hash )->id;
+        $post->reviewer_id      = $this->user->byHash( $this->data->reviewer )->id;
+        $post->visibility_id    = $this->visibility->byHash( $this->data->visibility )->id;
+        $post->category_id      = $this->category->byHash($this->data->category)->id;
+
+        $post->save();
+        $post->tag()->sync($this->tags);
+
+        return $post;
+    }
+
+    /**
+     * Send the assigned reviewer a
+     * mail to notify him that he
+     * is assigned
+     *
+     * @param $post
+     */
+    private function mailReviewer( $post )
+    {
+        $reviewer   = $this->user->find($post->reviewer_id);
+        $data       = [
+            'reviewer'  => $reviewer,
+            'post'      => $post,
+        ];
+
+        $this->mail->mailReviewer( $reviewer->email, 'An article needs your expertise' , $data );
     }
 
 }

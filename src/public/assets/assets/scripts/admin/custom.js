@@ -8,6 +8,8 @@ var app = {
         app.ckedit.init();
         app.datetimepicker.init();
         app.slug.init();
+        app.categories.init();
+        app.tags.init();
     },
 
     /**
@@ -349,6 +351,237 @@ var app = {
         {
             $('#slug')[0].value = slug;
         }
+    },
+
+    /**
+     * Categories management for
+     * within the form for creating
+     * a post
+     *
+     */
+    categories: {
+
+        /**
+         * Check if we have to call the listener
+         *
+         */
+        init:function()
+        {
+            if ( $('#create-category').length ) app.categories.listener();
+        },
+
+        /**
+         * Listen to a click on the add button
+         *
+         */
+        listener: function()
+        {
+            $("#create-category").on('click', function(e)
+            {
+                e.preventDefault();
+                app.categories.handle();
+            });
+        },
+
+        /**
+         * Handle a given category
+         *
+         */
+        handle: function()
+        {
+            $('#cat-form').removeClass('has-error');
+            $('#cat-errors').empty();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $("input[name='_token']")[0].value
+                },
+                method:     'post',
+                url:        app.generateBaseUrl() + '/admin/categories',
+                data:       { 'name': $('#newCategory')[0].value },
+                dataType:   'json',
+                success: function(data)
+                {
+                    $('#categories').append('<div class="row"><div class="col-sm-12"><label for="testje"><input checked="checked" name="category" type="radio" value="'+ data['hash'] +'"> '+ data['name'] +'</label></div></div>')
+                    $('#newCategory')[0].value = '';
+                },
+                error: function(data)
+                {
+                    var errors = $('#cat-errors');
+                    $('#cat-form').addClass('has-error');
+                    errors.empty();
+                    errors.append(data['responseJSON']['name'][0]);
+                }
+            });
+        }
+
+    },
+
+    tags: {
+
+        /**
+         * Holds the added tags
+         *
+         */
+        tags: [],
+
+        /**
+         * Check if we need to fill the tags array
+         * and we have to start listening to the events
+         *
+         */
+        init: function()
+        {
+            if ( $('#tag-btn').length )
+            {
+                app.tags.fillTagsArray();
+                app.tags.listener();
+                app.tags.tagDeleteListener();
+            }
+        },
+
+        /**
+         *
+         * Start listening to a click on the
+         * add button
+         *
+         */
+        listener: function()
+        {
+            $('#tag-btn').on('click', function() {
+                app.tags.handle();
+            });
+        },
+
+        /**
+         * Handle a click on the add button
+         *
+         */
+        handle: function()
+        {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $("input[name='_token']")[0].value
+                },
+                method:     'post',
+                url:        app.generateBaseUrl() + '/admin/tags',
+                data:       { 'tags': $('#newTags')[0].value },
+                dataType:   'json',
+                success: function(data)
+                {
+                    if ( ! data['passed'] ) return app.tags.errors(data);
+
+                    return app.tags.appendData(data);
+                }
+            });
+        },
+
+        /**
+         * Handle validation errors
+         *
+         * @param data
+         */
+        errors: function(data)
+        {
+            var tagErrors = $("#tag-errors");
+            tagErrors.empty();
+            for (var i = 0; i < data['messages'].length; i++)
+            {
+                tagErrors.append('<p>' + data['messages'][i][0] + '</p>')
+            }
+        },
+
+        /**
+         * Append added tags to the view
+         *
+         * @param data
+         */
+        appendData: function(data)
+        {
+            for ( var i = 0; i < data['tags'].length; i++ )
+            {
+                if ( $('.' + data['tags'][i].hash).length <= 0 )
+                {
+                    $('#tags').append('<span class="tag '+ data['tags'][i].hash +'"><a href="#" class="'+ data['tags'][i].hash +'" title="Remove tag"><span class="fa fa-times-circle"></span></a> ' + data['tags'][i].name + ' ');
+                    app.tags.appendTagToForm(data['tags'][i].hash);
+                }
+            }
+            $('#newTags')[0].value = '';
+            app.tags.fillTagsArray();
+            app.tags.tagDeleteListener();
+        },
+
+        /**
+         * Fill the global tags array
+         * with the tags of the current post
+         *
+         */
+        fillTagsArray: function()
+        {
+            var tags = $('#tags');
+            for ( var i = 0; i < tags[0].children.length; i++ )
+            {
+                app.tags.tags.push(tags[0].children[i].children[0]['attributes'][1].nodeValue);
+            }
+        },
+
+        /**
+         * Start listening on a click
+         * on the delete icon of a single tag
+         *
+         */
+        tagDeleteListener: function()
+        {
+            for ( var i = 0; i < app.tags.tags.length; i ++ )
+            {
+                $('.' + app.tags.tags[i]).on('click', function(e, i){
+                    app.tags.deleteTag(e);
+                } );
+            }
+        },
+
+        /**
+         * Delete a tag from the view
+         *
+         * @param e
+         */
+        deleteTag: function(e)
+        {
+            e.preventDefault();
+            var hash = e.currentTarget.className;
+            $('.' + hash).remove();
+
+            app.tags.deleteTagsFromForm(hash);
+        },
+
+        /**
+         * Append the hash of an added
+         * tag to the input field so we
+         * have the data availbale after
+         * submitting the form
+         *
+         * @param hash
+         */
+        appendTagToForm: function( hash )
+        {
+            var field = $('#addedTags')[0];
+            field.value += (field.value == '') ? hash : ',' + hash;
+        },
+
+        /**
+         * Delete a tag from the input field
+         * when we delete a tag
+         *
+         * @param hash
+         */
+        deleteTagsFromForm: function ( hash ) {
+            var field = $('#addedTags')[0];
+            var value = field.value;
+            field.value = value.replace(hash, '');
+            field.value = field.value.replace(/,,/g, ',');
+            if (field.value.indexOf(',') === 0)  field.value = field.value.replace(/,/g, '');
+        }
+
     }
 
 };
