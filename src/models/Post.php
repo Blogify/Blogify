@@ -93,4 +93,23 @@ class Post extends Model{
         return $query->whereHash($hash)->first();
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors & Mutators
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/5.0/eloquent#accessors-and-mutators
+    |
+    */
+
+    public function setPublishDateAttribute($value)
+    {
+        $this->attributes['publish_date'] = date("Y-m-d H:i:s", strtotime($value));
+    }
+
+    public function getPublishDateAttribute($value)
+    {
+        return date("d-m-Y H:i", strtotime($value));
+    }
 }

@@ -11,6 +11,7 @@ return [
             'hash'             => 'Hash',
             'title'            => 'title',
             'slug'             => 'slug',
+            'publish_date'     => 'Publish date',
             'actions'          => 'Actions'
         ],
 

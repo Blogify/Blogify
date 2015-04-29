@@ -1,6 +1,8 @@
 <?php namespace jorenvanhocht\Blogify\Traits;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Auth;
+use jorenvanhocht\Blogify\Models\Role;
 
 Trait BlogifyUserTrait {
 
@@ -59,6 +61,18 @@ Trait BlogifyUserTrait {
     public function scopeByRole( $query, $role_id )
     {
         return $query->whereRoleId( $role_id );
+    }
+
+    public function scopeReviewers($query)
+    {
+        $reviewer_role_id   = Role::whereName('Reviewer')->first()->id;
+        $admin_role_id      = Role::whereName('Admin')->first()->id;
+
+        return $query->where( function( $q ) use ($reviewer_role_id, $admin_role_id)
+        {
+            $q->whereRoleId( $reviewer_role_id )
+                ->orWhere( 'role_id', '=', $admin_role_id );
+        })->where( 'id', '<>', Auth::user()->id )->get();
     }
 
     /*

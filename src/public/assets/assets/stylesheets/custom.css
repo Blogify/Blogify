@@ -38,3 +38,7 @@ label {
     max-height:200px;
     overflow: scroll;
 }
+
+#short_description {
+    height:100px;
+}

@@ -24,10 +24,11 @@ class PostRequest extends Request {
         return [
             'title'             => 'required|min:2|max:100',
             'slug'              => 'required|unique:posts,slug|min:2|max:120',
-            //'short_description' => 'required|min:2|max:400',
+            'short_description' => 'required|min:2|max:400',
+            'reviewer'          => 'exists:users,hash',
             'post'              => 'required',
-            'category'          => 'required',
-            'publishdate'       => 'required', // to do add date format
+            'category'          => 'required|exists:categories,hash',
+            'publishdate'       => 'required|date_format: d-m-Y H:i',
         ];
     }
 

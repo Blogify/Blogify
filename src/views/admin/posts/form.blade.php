@@ -1,24 +1,40 @@
 @extends('blogify::admin.layouts.dashboard')
 @section('page_heading',trans("blogify::posts.form.page.title.create"))
 @section('section')
-    {{var_dump($errors->all())}}
     {!! Form::open( ['route' => 'admin.posts.store'] ) !!}
     {!! Form::hidden('hash','') !!}
     <div class="row">
         <div class="col-lg-8 col-md-12">
             <div class="row">
-                <div class="col-lg-12 col-md-12 form-group">
+                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                     {!! Form::text('title', '', [ 'class' => 'form-control', 'id' => 'title', 'placeholder' => trans("blogify::posts.form.title.placeholder") ] ) !!}
+                    @if ( $errors->has('title') )
+                        <span class="help-block text-danger">{{$errors->first('title')}}</span>
+                    @endif
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 col-md-12 form-group">
+                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('slug') ? 'has-error' : '' }}">
                     {!! Form::text('slug', '', [ 'class' => 'form-control', 'id' => 'slug', 'placeholder' => trans("blogify::posts.form.slug.placeholder") ] ) !!}
+                    @if ( $errors->has('slug') )
+                        <span class="help-block text-danger">{{$errors->first('slug')}}</span>
+                    @endif
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <textarea name="post" id="post"></textarea>
+                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('short_description') ? 'has-error' : '' }}">
+                    {!! Form::textarea('short_description', '', ['id' => 'short_description', 'class' => 'form-control', 'placeholder' => 'Enter a short description here'] ) !!}
+                    @if ( $errors->has('short_description') )
+                        <span class="help-block text-danger">{{$errors->first('short_description')}}</span>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('post') ? 'has-error' : '' }}">
+                    <textarea name="post" id="post" class="form-control"></textarea>
+                    @if ( $errors->has('post') )
+                        <span class="text-danger help-block">{{$errors->first('post')}}</span>
+                    @endif
                 </div>
             </div>
         </div>
@@ -41,7 +57,7 @@
                                 <div class="col-sm-4">
                                     {!! Form::label('status', trans("blogify::posts.form.publish.status.label") ) !!}
                                 </div>
-                                <div class="col-sm-8">
+                                <div class="col-sm-8 {{ $errors->has('status') ? 'has-error' : '' }}">
                                     <select name="status" class="form-control form-small">
                                         @foreach ( $statuses as $status )
                                             <option value="{{$status->hash}}">{{$status->name}}</option>
@@ -53,7 +69,7 @@
                                 <div class="col-sm-4">
                                     {!! Form::label('visibility', trans("blogify::posts.form.publish.visibility.label") ) !!}
                                 </div>
-                                <div class="col-sm-8">
+                                <div class="col-sm-8 {{ $errors->has('visibility') ? 'has-error' : '' }}">
                                     <select name="visibility" class="form-control form-small">
                                         @foreach ( $visibility as $item )
                                             <option value="{{$item->hash}}">{{$item->name}}</option>
@@ -65,8 +81,8 @@
                                 <div class="col-sm-4">
                                     {!! Form::label('date', trans("blogify::posts.form.publish.publish_date.label") ) !!}
                                 </div>
-                                <div class="col-sm-8">
-                                    {!! Form::text('publishdate','', [ 'data-field' => 'datetime', 'class' => 'form-control', 'readonly' ] ) !!}
+                                <div class="col-sm-8 form-group {{ $errors->has('publishdate') ? 'has-error' : '' }}">
+                                    {!! Form::text('publishdate', $publish_date , [ 'data-field' => 'datetime', 'class' => 'form-control', 'readonly' ] ) !!}
                                     <div id="dtBox"></div>
                                 </div>
                             </div>
@@ -97,6 +113,7 @@
                             <div class="row">
                                 <div class="col-sm-12 form-group">
                                     <select name="reviewer" class="form-control">
+                                        <option selected value="{{Auth::user()->hash}}">{{Auth::user()->fullName}}</option>
                                         @foreach ( $reviewers as $reviewer )
                                             <option value="{{$reviewer->hash}}">{{$reviewer->fullName}}</option>
                                         @endforeach

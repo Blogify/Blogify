@@ -1,6 +1,7 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\admin;
 
 use App\User;
+use Carbon\Carbon;
 use jorenvanhocht\Blogify\Models\Category;
 use jorenvanhocht\Blogify\Models\Role;
 use jorenvanhocht\Blogify\Models\Status;
@@ -179,11 +180,11 @@ class PostsController extends BlogifyController {
     {
         $this->data = objectify( $request->except(['_token', 'newCategory', 'newTags']) );
 
-        $this->buildTagsArray();
+        if ( ! empty($this->data->tags) ) $this->buildTagsArray();
 
         $post = $this->storeOrUpdatePost();
 
-        $this->mailReviewer( $post );
+        if ( $this->status->byHash( $this->data->status )->name == 'Pending review' ) $this->mailReviewer( $post );
 
         $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' =>'created']);
         session()->flash('notify', [ 'success', $message ] );
@@ -224,13 +225,12 @@ class PostsController extends BlogifyController {
      */
     private function getViewData()
     {
-        $reviewer_role_id   = $this->role->whereName('Reviewer')->first()->id;
-
         $data               = [
-            'reviewers'     => $this->user->byRole( $reviewer_role_id )->get(),
+            'reviewers'     => $this->user->reviewers(),
             'statuses'      => $this->status->all(),
             'categories'    => $this->category->all(),
             'visibility'    => $this->visibility->all(),
+            'publish_date'  => Carbon::now()->format('d-m-Y H:i'),
         ];
 
         return $data;
@@ -314,15 +314,16 @@ class PostsController extends BlogifyController {
 
         }
 
-        $post->slug             = $this->data->slug;
-        $post->title            = $this->data->title;
-        $post->content          = $this->data->post;
-        $post->status_id        = $this->status->byHash( $this->data->status )->id;
-        //$post->publish_data     = $this->data->publish_date;
-        $post->user_id          = $this->user->byHash( $this->auth_user->hash )->id;
-        $post->reviewer_id      = $this->user->byHash( $this->data->reviewer )->id;
-        $post->visibility_id    = $this->visibility->byHash( $this->data->visibility )->id;
-        $post->category_id      = $this->category->byHash($this->data->category)->id;
+        $post->slug                 = $this->data->slug;
+        $post->title                = $this->data->title;
+        $post->short_description    = $this->data->short_description;
+        $post->content              = $this->data->post;
+        $post->status_id            = $this->status->byHash( $this->data->status )->id;
+        $post->publish_date         = $this->data->publishdate;
+        $post->user_id              = $this->user->byHash( $this->auth_user->hash )->id;
+        $post->reviewer_id          = $this->user->byHash( $this->data->reviewer )->id;
+        $post->visibility_id        = $this->visibility->byHash( $this->data->visibility )->id;
+        $post->category_id          = $this->category->byHash($this->data->category)->id;
 
         $post->save();
         $post->tag()->sync($this->tags);

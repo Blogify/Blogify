@@ -22,8 +22,9 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
         <thead>
         <tr>
             <th role="hash"><a href="{!! route('admin.api.sort', ['posts', 'hash', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by hash" class="sort"> {{ trans("blogify::posts.overview.table_head.hash") }} </a></th>
-            <th role="title"><a href="{!! route('admin.api.sort', ['posts', 'title', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by name" class="sort"> {{ trans("blogify::posts.overview.table_head.title") }} </a></th>
-            <th role="slug"><a href="{!! route('admin.api.sort', ['posts', 'slug', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by first name" class="sort"> {{ trans("blogify::posts.overview.table_head.slug") }} </a></th>
+            <th role="title"><a href="{!! route('admin.api.sort', ['posts', 'title', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by title" class="sort"> {{ trans("blogify::posts.overview.table_head.title") }} </a></th>
+            <th role="slug"><a href="{!! route('admin.api.sort', ['posts', 'slug', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by slug" class="sort"> {{ trans("blogify::posts.overview.table_head.slug") }} </a></th>
+            <th role="publish_date"><a href="{!! route('admin.api.sort', ['posts', 'publish_date', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by publish date" class="sort"> {{ trans("blogify::posts.overview.table_head.publish_date") }} </a></th>
             <th> {{ trans("blogify::posts.overview.table_head.actions") }} </th>
         </tr>
         </thead>
@@ -36,10 +37,23 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
             </tr>
         @endif
         @foreach ( $posts as $post )
-            <tr>
+            @if ( $post->status_id == 1 )
+                <tr class="danger">
+            @endif
+            @if ( $post->status_id == 2 )
+                <tr class="warning">
+            @endif
+            @if ( $post->status_id == 3 )
+                <tr class="info">
+            @endif
+            @if ( strtotime($post->publish_date) <= strtotime(date('d-m-Y H:i')) )
+                <tr>
+            @endif
+
                 <td>{!! $post->hash !!}</td>
                 <td>{!! $post->title !!}</td>
                 <td>{!! $post->slug !!}</td>
+                <td>{!! $post->publish_date !!}</td>
                 <td>
                     <a href="{{ route('admin.posts.edit', [$post->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
                     {!! Form::open( [ 'route' => ['admin.posts.destroy', $post->hash], 'class' => $post->hash . ' form-delete' ] ) !!}

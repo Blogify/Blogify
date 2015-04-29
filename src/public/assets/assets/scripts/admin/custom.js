@@ -270,7 +270,6 @@ var app = {
                 addEventHandlers: function()
                 {
                     var dtPickerObj = this;
-                    dtPickerObj.setDateTimeStringInInputField();
                 }
             });
         }
@@ -402,7 +401,7 @@ var app = {
                 dataType:   'json',
                 success: function(data)
                 {
-                    $('#categories').append('<div class="row"><div class="col-sm-12"><label for="testje"><input checked="checked" name="category" type="radio" value="'+ data['hash'] +'"> '+ data['name'] +'</label></div></div>')
+                    $('#categories').prepend('<div class="row"><div class="col-sm-12"><label for="testje"><input checked="checked" name="category" type="radio" value="'+ data['hash'] +'"> '+ data['name'] +'</label></div></div>')
                     $('#newCategory')[0].value = '';
                 },
                 error: function(data)
