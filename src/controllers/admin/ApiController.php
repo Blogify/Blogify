@@ -2,6 +2,9 @@
 
 use DB;
 use jorenvanhocht\Blogify\Models\Post;
+use Input;
+use Illuminate\Contracts\Cache\Repository;
+use Carbon\Carbon;
 
 class ApiController extends BaseController {
 
@@ -62,6 +65,26 @@ class ApiController extends BaseController {
         $slug = $slug . '-' . $next;
 
         return $this->checkIfSlugIsUnique( $slug );
+    }
+
+    /**
+     * Save the current post in the cache
+     *
+     * @param Repository $cache
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function autoSave( Repository $cache )
+    {
+        try
+        {
+            $cache->put( 'autoSavedPost', Input::all(), Carbon::now()->addHours(2) );
+        }
+        catch(\Exception $exception)
+        {
+            return response()->json([ false, date('d-m-Y H:i:s')] );
+        }
+
+        return response()->json( [true, date('d-m-Y H:i:s')] );
     }
 
 }

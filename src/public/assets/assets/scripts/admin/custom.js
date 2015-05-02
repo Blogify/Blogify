@@ -10,6 +10,7 @@ var app = {
         app.slug.init();
         app.categories.init();
         app.tags.init();
+        app.autoSave.init();
     },
 
     /**
@@ -581,6 +582,94 @@ var app = {
             if (field.value.indexOf(',') === 0)  field.value = field.value.replace(/,/g, '');
         }
 
+    },
+
+    /**
+     * Automatically save a post
+     * with an interval of X minutes
+     *
+     */
+    autoSave: {
+
+        /**
+         * Holds the auto save interval
+         * in minutes
+         *
+         */
+        interval: 5,
+
+        /**
+         * Holds the data that needs
+         * to be auto saved
+         *
+         */
+        data: {},
+
+        /**
+         * Define if we have to set an
+         * interval and call the handler
+         * or not
+         *
+         */
+        init: function()
+        {
+            if ( $('#post').length )
+            {
+                setInterval(function() {
+                    app.autoSave.fillDataObject();
+                    app.autoSave.handler();
+                }, 1000 * 60 * app.autoSave.interval );
+            }
+        },
+
+        /**
+         * Get the values of the input fields
+         * and place them in the data object
+         *
+         */
+        fillDataObject: function()
+        {
+            app.autoSave.data = {
+                title: $('#title')[0].value,
+                slug: $('#slug')[0].value,
+                short_description: $('#short_description')[0].value,
+                content: CKEDITOR.instances.post.getData(),
+                status: $('#status')[0].value,
+                visibility: $('#visibility')[0].value,
+                publishdate: $('#publishdate')[0].value,
+                reviewer: $('#reviewer')[0].value,
+                category: $('#category')[0].value,
+                tags: $('#addedTags')[0].value
+            }
+        },
+
+        /**
+         * Make the auto save request
+         *
+         */
+        handler: function()
+        {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $("input[name='_token']")[0].value
+                },
+                method:     'post',
+                url:        app.generateBaseUrl() + '/admin/api/autosave/',
+                data:       app.autoSave.data,
+                dataType:   'json',
+                success: function( response )
+                {
+                    if ( response[0] )
+                    {
+                        $('.auto-save-log').append('<p><span> Automatically saved to cache on '+ response[1] +'</span></p>');
+                    }
+                    else
+                    {
+                        $('.auto-save-log').append('<p><span class="text-danger"> Auto save faild on '+ response[1] +'</span></p>');
+                    }
+                }
+            });
+        }
     }
 
 };

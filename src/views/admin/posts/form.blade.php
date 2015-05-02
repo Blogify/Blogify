@@ -59,6 +59,11 @@
                     @endif
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 auto-save-log">
+
+                </div>
+            </div>
         </div>
         <div class="col-lg-4 col-md-12">
 
@@ -80,7 +85,7 @@
                                     {!! Form::label('status', trans("blogify::posts.form.publish.status.label") ) !!}
                                 </div>
                                 <div class="col-sm-8 {{ $errors->has('status') ? 'has-error' : '' }}">
-                                    <select name="status" class="form-control form-small">
+                                    <select name="status" id="status" class="form-control form-small">
                                         @foreach ( $statuses as $status )
                                             @if ( isset($post) )
                                                 <option {{ ($status->id === $post->status_id || $status->hash == Input::old('status') ) ? 'selected' : '' }} value="{{$status->hash}}">{{$status->name}}</option>
@@ -96,7 +101,7 @@
                                     {!! Form::label('visibility', trans("blogify::posts.form.publish.visibility.label") ) !!}
                                 </div>
                                 <div class="col-sm-8 {{ $errors->has('visibility') ? 'has-error' : '' }}">
-                                    <select name="visibility" class="form-control form-small">
+                                    <select name="visibility" id="visibility" class="form-control form-small">
                                         @foreach ( $visibility as $item )
                                             @if ( isset($post) )
                                                 <option {{ ( $item->id === $post->visibility_id || $item->hash == Input::old('visibility') ) ? 'selected' : '' }} value="{{$item->hash}}">{{$item->name}}</option>
@@ -112,7 +117,7 @@
                                     {!! Form::label('date', trans("blogify::posts.form.publish.publish_date.label") ) !!}
                                 </div>
                                 <div class="col-sm-8 form-group {{ $errors->has('publishdate') ? 'has-error' : '' }}">
-                                    {!! Form::text('publishdate', isset($post) ? $post->publish_date : $publish_date , [ 'data-field' => 'datetime', 'class' => 'form-control', 'readonly' ] ) !!}
+                                    {!! Form::text('publishdate', isset($post) ? $post->publish_date : $publish_date , [ 'data-field' => 'datetime', 'class' => 'form-control', 'readonly', 'id' => 'publishdate' ] ) !!}
                                     <div id="dtBox"></div>
                                 </div>
                             </div>
@@ -142,7 +147,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12 form-group">
-                                    <select name="reviewer" class="form-control">
+                                    <select name="reviewer" id="reviewer" class="form-control">
                                         <option {{ (!isset($post) ? 'selected' : '') }} value="{{Auth::user()->hash}}">{{Auth::user()->fullName}}</option>
                                         @foreach ( $reviewers as $reviewer )
                                             @if ( isset($post) )
@@ -198,7 +203,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <label for="{{$category->name}}">
-                                                    {!!Form::radio('category', $category->hash, (isset($post) && $post->category_id === $category->id) ? true : false )!!}
+                                                    {!!Form::radio('category', $category->hash, (isset($post) && $post->category_id === $category->id) ? true : false, ['id' => 'category'] )!!}
                                                     {{$category->name}}
                                                 </label>
                                             </div>

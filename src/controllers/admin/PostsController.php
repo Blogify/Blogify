@@ -12,6 +12,7 @@ use Intervention\Image\Facades\Image;
 use jorenvanhocht\Blogify\Requests\PostRequest;
 use jorenvanhocht\Blogify\Models\Post;
 use jorenvanhocht\Blogify\Services\BlogifyMailer;
+use Illuminate\Contracts\Cache\Repository;
 
 class PostsController extends BaseController {
 
@@ -93,7 +94,14 @@ class PostsController extends BaseController {
      */
     protected $mail;
 
-    public function __construct( Post $post, Status $status, Visibility $visibility, User $user, Category $category, Tag $tag, Role $role, BlogifyMailer $mail )
+    /**
+     * Holds an instance of the Cache contract
+     *
+     * @var Repository
+     */
+    protected $cache;
+
+    public function __construct( Post $post, Status $status, Visibility $visibility, User $user, Category $category, Tag $tag, Role $role, BlogifyMailer $mail, Repository $cache )
     {
         parent::__construct();
 
@@ -108,6 +116,7 @@ class PostsController extends BaseController {
         $this->user         = $user;
         $this->post         = $post;
         $this->mail         = $mail;
+        $this->cache        = $cache;
         $this->status       = $status;
         $this->category     = $category;
         $this->visibility   = $visibility;
@@ -153,7 +162,8 @@ class PostsController extends BaseController {
      */
     public function create()
     {
-        $data = $this->getViewData();
+        $post = ( $this->cache->has('autoSavedPost') ) ? $this->buildPostObject() : null;
+        $data = $this->getViewData( $post );
 
         return view('blogify::admin.posts.form', $data);
     }
@@ -194,6 +204,7 @@ class PostsController extends BaseController {
 
         $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' => ( $request->hash == '' ) ? 'created' : 'updated']);
         session()->flash('notify', [ 'success', $message ] );
+        $this->cache->forget('autoSavedPost');
 
         return redirect()->route('admin.posts.index');
     }
@@ -357,4 +368,51 @@ class PostsController extends BaseController {
         $this->mail->mailReviewer( $reviewer->email, 'An article needs your expertise' , $data );
     }
 
+    /**
+     * Build a post object when there
+     * is a cached post so we can put
+     * the data back in the form
+     *
+     * @return mixed
+     */
+    private function buildPostObject()
+    {
+        $cached_post    = $this->cache->get('autoSavedPost');
+
+        $post                       = [];
+        $post['hash']               = '';
+        $post['title']              = $cached_post['title'];
+        $post['slug']               = $cached_post['slug'];
+        $post['short_description']  = $cached_post['short_description'];
+        $post['content']            = $cached_post['content'];
+        $post['publish_date']       = $cached_post['publishdate'];
+        $post['status_id']          = $this->status->byHash( $cached_post['status'] )->id;
+        $post['visibility_id']      = $this->visibility->byHash( $cached_post['visibility'] )->id;
+        $post['reviewer_id']        = $this->user->ByHash( $cached_post['reviewer'] )->id;
+        $post['category_id']        = $this->category->byHash( $cached_post['category'] )->id;
+        $post['tag']                = $this->buildTagsArrayForPostObject( $cached_post['tags'] );
+
+        return objectify($post);
+
+    }
+
+    /**
+     * Build an array with all the
+     * tags for a cached post
+     *
+     * @param $tags
+     * @return array
+     */
+    private function buildTagsArrayForPostObject( $tags )
+    {
+        $t      = [];
+        $tags   = explode(',', $tags);
+
+        foreach ( $tags as $tag )
+        {
+            array_push($t, $this->tag->byHash($tag));
+        }
+
+        return $t;
+    }
 }

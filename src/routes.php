@@ -111,6 +111,11 @@ Route::group($admin, function()
                 'as'    => 'admin.api.slug.checkIfUnique',
                 'uses'  => 'ApiController@checkIfSlugIsUnique',
             ]);
+
+            Route::post('autosave', [
+                'as'    => 'admin.api.autosave',
+                'uses'  => 'ApiController@autoSave',
+            ]);
         });
 
     });
