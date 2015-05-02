@@ -1,8 +1,6 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class History extends Model{
+class History extends BaseModel{
 
     /**
      * The database table used by the model

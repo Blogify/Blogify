@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Controller;
 
-class BlogifyController extends Controller
+class BaseController extends Controller
 {
     /**
      * Holds an instance of the Auth object

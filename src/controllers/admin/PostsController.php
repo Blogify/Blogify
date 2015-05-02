@@ -13,7 +13,7 @@ use jorenvanhocht\Blogify\Requests\PostRequest;
 use jorenvanhocht\Blogify\Models\Post;
 use jorenvanhocht\Blogify\Services\BlogifyMailer;
 
-class PostsController extends BlogifyController {
+class PostsController extends BaseController {
 
     /**
      * Holds an instance of the Post model

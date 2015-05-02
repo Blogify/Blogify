@@ -6,7 +6,7 @@ use App\User;
 use Illuminate\Contracts\Hashing\Hasher as Hash;
 use jorenvanhocht\Blogify\Services\BlogifyMailer;
 
-class UserController extends BlogifyController{
+class UserController extends BaseController{
 
     /**
      * Holds an instance of the User model

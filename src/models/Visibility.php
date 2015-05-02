@@ -1,8 +1,6 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Visibility extends Model{
+class Visibility extends BaseModel{
 
     /**
      * The database table used by the model
@@ -40,18 +38,4 @@ class Visibility extends Model{
         return $this->hasMany('jorenvanhocht\Blogify\Models\Post');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Scopes
-    |--------------------------------------------------------------------------
-    |
-    | For more information pleas check out the official Laravel docs at
-    | http://laravel.com/docs/5.0/eloquent#query-scopes
-    |
-    */
-
-    public function scopeByHash( $query, $hash )
-    {
-        return $query->whereHash($hash)->first();
-    }
 }

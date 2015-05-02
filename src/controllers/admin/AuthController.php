@@ -2,7 +2,7 @@
 
 use jorenvanhocht\Blogify\Requests\LoginRequest;
 
-class AuthController extends BlogifyController{
+class AuthController extends BaseController{
 
     ///////////////////////////////////////////////////////////////////////////
     // View methods

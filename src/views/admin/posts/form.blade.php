@@ -50,7 +50,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 form-group {{ $errors->has('post') ? 'has-error' : '' }}">
-                    <textarea name="post" id="post" class="form-control">{{ isset($post) ? $post->content : '' }}</textarea>
+                    <textarea name="post" id="post" class="form-control">
+                        {{ isset($post) ? $post->content : '' }}
+                        {{ Input::old('post') }}
+                    </textarea>
                     @if ( $errors->has('post') )
                         <span class="text-danger help-block">{{$errors->first('post')}}</span>
                     @endif
@@ -80,9 +83,9 @@
                                     <select name="status" class="form-control form-small">
                                         @foreach ( $statuses as $status )
                                             @if ( isset($post) )
-                                                <option {{ ($status->id === $post->status_id) ? 'selected' : '' }} value="{{$status->hash}}">{{$status->name}}</option>
+                                                <option {{ ($status->id === $post->status_id || $status->hash == Input::old('status') ) ? 'selected' : '' }} value="{{$status->hash}}">{{$status->name}}</option>
                                             @else
-                                                <option value="{{$status->hash}}">{{$status->name}}</option>
+                                                <option {{  $status->hash == Input::old('status') ? 'selected' : '' }} value="{{$status->hash}}">{{$status->name}}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -96,9 +99,9 @@
                                     <select name="visibility" class="form-control form-small">
                                         @foreach ( $visibility as $item )
                                             @if ( isset($post) )
-                                                <option {{ ($item->id === $post->visibility_id) ? 'selected' : '' }} value="{{$item->hash}}">{{$item->name}}</option>
+                                                <option {{ ( $item->id === $post->visibility_id || $item->hash == Input::old('visibility') ) ? 'selected' : '' }} value="{{$item->hash}}">{{$item->name}}</option>
                                             @else
-                                                <option value="{{$item->hash}}">{{$item->name}}</option>
+                                                <option {{  ( $item->hash == Input::old('visibility') ) ? 'selected' : '' }} value="{{$item->hash}}">{{$item->name}}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -143,9 +146,9 @@
                                         <option {{ (!isset($post) ? 'selected' : '') }} value="{{Auth::user()->hash}}">{{Auth::user()->fullName}}</option>
                                         @foreach ( $reviewers as $reviewer )
                                             @if ( isset($post) )
-                                                <option {{ ($reviewer->id === $post->reviewer_id) ? 'selected' : '' }} value="{{$reviewer->hash}}">{{$reviewer->fullName}}</option>
+                                                <option {{ ($reviewer->id === $post->reviewer_id || $reviewer->hash == Input::old('reviewer') ) ? 'selected' : '' }} value="{{$reviewer->hash}}">{{$reviewer->fullName}}</option>
                                             @else
-                                                <option value="{{$reviewer->hash}}">{{$reviewer->fullName}}</option>
+                                                <option {{ ( $reviewer->hash == Input::old('reviewer') ) ? 'selected' : '' }} value="{{$reviewer->hash}}">{{$reviewer->fullName}}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -185,6 +188,10 @@
                                 <div class="col-sm-12" id="categories">
                                     @if ( count($categories) <= 0 )
                                         <span id="helpBlock" class="help-block">{{ trans("blogify::posts.form.category.no_results") }}</span>
+                                    @endif
+
+                                    @if( $errors->has('category') )
+                                        <p class="text-danger">{{$errors->first('category')}}</p>
                                     @endif
 
                                     @foreach ( $categories as $category )
@@ -237,6 +244,7 @@
                                                 <span class="tag {{$tag->hash}}"><a href="#" class="{{$tag->hash}}" title="Remove tag"><span class="fa fa-times-circle"></span></a> {{ $tag->name }} </span>
                                             @endforeach
                                         @endif
+
                                     </div>
                                 </div>
                             </div>

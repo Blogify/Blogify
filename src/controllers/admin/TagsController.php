@@ -3,7 +3,7 @@
 use Input;
 use jorenvanhocht\Blogify\Models\Tag;
 
-class TagsController extends BlogifyController {
+class TagsController extends BaseController {
 
     protected $tag;
     protected $tags = [];

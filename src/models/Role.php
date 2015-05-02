@@ -1,8 +1,6 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Role extends Model{
+class Role extends BaseModel{
 
     /**
      * The database table used by the model
@@ -55,10 +53,5 @@ class Role extends Model{
         $query->whereName('admin')
             ->orWhere('name', '=', 'Author')
             ->orWhere('name', '=', 'reviewer');
-    }
-
-    public function scopeByHash( $query, $hash )
-    {
-        return $query->whereHash( $hash )->first();
     }
 }

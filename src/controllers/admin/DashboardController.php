@@ -2,7 +2,7 @@
 
 use App\User;
 
-class DashboardController extends BlogifyController {
+class DashboardController extends BaseController {
 
     /**
      * Holds an instance of the user model
@@ -56,9 +56,9 @@ class DashboardController extends BlogifyController {
      */
     public function buildDataObject()
     {
-        $this->data['new_users_since_last_visit'] = $this->user->newUsersSince( $this->auth_user->updated_at )->count();
+       /* $this->data['new_users_since_last_visit'] = $this->user->newUsersSince( $this->auth_user->updated_at )->count();
 
-        objectify($this->data);
+        objectify($this->data);*/
     }
 
 }

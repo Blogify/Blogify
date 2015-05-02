@@ -1,9 +1,8 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Comment extends Model{
+class Comment extends BaseModel{
 
     use SoftDeletes;
 

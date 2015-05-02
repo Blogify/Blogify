@@ -1,9 +1,8 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Media extends Model{
+class Media extends BaseModel{
 
     use SoftDeletes;
 

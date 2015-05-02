@@ -1,9 +1,8 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Post extends Model{
+class Post extends BaseModel{
 
     use SoftDeletes;
 
@@ -76,21 +75,6 @@ class Post extends Model{
     public function visibility()
     {
         return $this->belongsTo('jorenvanhoch\Blogify\Models\Visibility');
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Scopes
-    |--------------------------------------------------------------------------
-    |
-    | For more information pleas check out the official Laravel docs at
-    | http://laravel.com/docs/5.0/eloquent#query-scopes
-    |
-    */
-
-    public function scopeByHash( $query, $hash )
-    {
-        return $query->whereHash($hash)->first();
     }
 
     /*

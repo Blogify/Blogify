@@ -4,7 +4,7 @@ use jorenvanhocht\Blogify\Models\Category;
 use jorenvanhocht\Blogify\Requests\CategoryRequest;
 use Request;
 
-class CategoriesController extends BlogifyController {
+class CategoriesController extends BaseController {
 
     /**
      * Holds an instance of the Category model

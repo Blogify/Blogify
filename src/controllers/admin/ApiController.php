@@ -3,7 +3,7 @@
 use DB;
 use jorenvanhocht\Blogify\Models\Post;
 
-class ApiController extends BlogifyController {
+class ApiController extends BaseController {
 
     /**
      * Holds an instance of
