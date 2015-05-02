@@ -97,6 +97,10 @@ class PostsController extends BlogifyController {
     {
         parent::__construct();
 
+        $this->middleware('posts.new.role.check', [
+            'only' => ['create']
+        ]);
+
         $this->config       = objectify( config()->get('blogify') );
 
         $this->tag          = $tag;
@@ -162,7 +166,9 @@ class PostsController extends BlogifyController {
      */
     public function edit( $hash )
     {
-        return view('blogify::admin.posts.edit');
+        $data   = $this->getViewData( $this->post->byHash($hash) );
+
+        return view('blogify::admin.posts.form', $data);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -186,7 +192,7 @@ class PostsController extends BlogifyController {
 
         if ( $this->status->byHash( $this->data->status )->name == 'Pending review' ) $this->mailReviewer( $post );
 
-        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' =>'created']);
+        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' => ( $request->hash == '' ) ? 'created' : 'updated']);
         session()->flash('notify', [ 'success', $message ] );
 
         return redirect()->route('admin.posts.index');
@@ -221,9 +227,10 @@ class PostsController extends BlogifyController {
      * Get the default data for the
      * create and edit view
      *
+     * @param $post
      * @return array
      */
-    private function getViewData()
+    private function getViewData( $post = null )
     {
         $data               = [
             'reviewers'     => $this->user->reviewers(),
@@ -231,6 +238,7 @@ class PostsController extends BlogifyController {
             'categories'    => $this->category->all(),
             'visibility'    => $this->visibility->all(),
             'publish_date'  => Carbon::now()->format('d-m-Y H:i'),
+            'post'          => $post,
         ];
 
         return $data;

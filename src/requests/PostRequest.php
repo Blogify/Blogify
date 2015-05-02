@@ -1,6 +1,8 @@
 <?php namespace jorenvanhocht\Blogify\Requests;
 
 use App\Http\Requests\Request;
+use Input;
+use jorenvanhocht\Blogify\Models\Post;
 
 class PostRequest extends Request {
 
@@ -21,9 +23,12 @@ class PostRequest extends Request {
      */
     public function rules()
     {
+        $hash   = Input::get('hash');
+        $id     = ( ! empty( $hash ) ) ? Post::byHash( $hash )->id : 0;
+
         return [
             'title'             => 'required|min:2|max:100',
-            'slug'              => 'required|unique:posts,slug|min:2|max:120',
+            'slug'              => "required|unique:posts,slug,$id|min:2|max:120",
             'short_description' => 'required|min:2|max:400',
             'reviewer'          => 'exists:users,hash',
             'post'              => 'required',

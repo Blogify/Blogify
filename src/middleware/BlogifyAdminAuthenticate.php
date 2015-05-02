@@ -2,7 +2,6 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Auth;
 use jorenvanhocht\Blogify\Models\Role;
 
 class BlogifyAdminAuthenticate {
@@ -68,7 +67,7 @@ class BlogifyAdminAuthenticate {
 		}
 
 		// Check if the user has permission to visit the admin panel
-		if ( ! in_array ( Auth::user()->role_id, $this->allowed_roles ) )
+		if ( ! in_array ( $this->auth->user()->role_id, $this->allowed_roles ) )
 		{
 			return redirect()->route('admin.login');
 		}

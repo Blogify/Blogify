@@ -72,7 +72,13 @@ Route::group($admin, function()
             'uses'  => 'UserController@trashed'
         ]);
 
-        Route::resource('posts', 'PostsController');
+        Route::resource('posts', 'PostsController', [
+            'except' => 'store', 'update'
+        ]);
+        Route::post('posts', [
+           'as'     => 'admin.posts.store',
+            'uses'  => 'PostsController@store'
+        ]);
         Route::post('posts/image/upload', [
             'as'    => 'admin.posts.uploadImage',
             'uses'  => 'PostsController@uploadImage',

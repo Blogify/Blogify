@@ -3,7 +3,7 @@
 use jorenvanhocht\Blogify\Models\Role;
 use jorenvanhocht\Blogify\Requests\UserRequest;
 use App\User;
-use Hash;
+use Illuminate\Contracts\Hashing\Hasher as Hash;
 use jorenvanhocht\Blogify\Services\BlogifyMailer;
 
 class UserController extends BlogifyController{
@@ -36,12 +36,20 @@ class UserController extends BlogifyController{
      */
     private $config;
 
-    public function __construct( User $user, Role $role, BlogifyMailer $mail )
+    /**
+     * Holds an instance of the Hasher contract
+     *
+     * @var Hash
+     */
+    private $hash;
+
+    public function __construct( User $user, Role $role, BlogifyMailer $mail, Hash $hash )
     {
         $this->user     = $user;
         $this->role     = $role;
         $this->mail     = $mail;
         $this->config   = objectify( config()->get('blogify') );
+        $this->hash     = $hash;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -184,7 +192,7 @@ class UserController extends BlogifyController{
             $password           = blogify()->generatePassword();
             $user               = new User;
             $user->hash         = blogify()->makeUniqueHash('users', 'hash');
-            $user->password     = Hash::make( $password );
+            $user->password     = $this->hash->make( $password );
             $user->username     = blogify()->generateUniqueUsername( $data->name, $data->firstname );
             $user->name         = $data->name;
             $user->firstname    = $data->firstname;

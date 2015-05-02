@@ -2,8 +2,6 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Auth;
-use jorenvanhocht\Blogify\Models\Role;
 
 class Guest {
 
