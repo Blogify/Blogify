@@ -1,5 +1,5 @@
 <?php
-    if ( ! empty($post) )
+    if ( ! empty($post) && count($post->tag) > 0 )
     {
         $hashes = '';
         $i      = 0;
@@ -244,7 +244,7 @@
                                     <span id="helpBlock" class="help-block">{{ trans("blogify::posts.form.tags.help_block") }}</span>
                                     <div id="tag-errors" class="text-danger"></div>
                                     <div id="tags">
-                                        @if( isset($post) )
+                                        @if( isset($post) && count($post->tag) > 0 )
                                             @foreach ( $post->tag as $tag )
                                                 <span class="tag {{$tag->hash}}"><a href="#" class="{{$tag->hash}}" title="Remove tag"><span class="fa fa-times-circle"></span></a> {{ $tag->name }} </span>
                                             @endforeach

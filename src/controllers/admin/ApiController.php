@@ -16,8 +16,18 @@ class ApiController extends BaseController {
      */
     protected $config;
 
+    /**
+     * Holds an instance of the Post model
+     *
+     * @var Post
+     */
     protected $post;
 
+    /**
+     * Holds the base slug
+     *
+     * @var string
+     */
     protected $base_slug;
 
     public function __construct( Post $post )
@@ -81,9 +91,10 @@ class ApiController extends BaseController {
     {
         try
         {
-            $cache->put( 'autoSavedPost', Input::all(), Carbon::now()->addHours(2) );
+            $hash = $this->auth_user->hash;
+            $cache->put( "autoSavedPost-$hash", Input::all(), Carbon::now()->addHours(2) );
         }
-        catch(\Exception $exception)
+        catch( \Exception $exception )
         {
             return response()->json([ false, date('d-m-Y H:i:s')] );
         }

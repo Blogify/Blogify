@@ -109,6 +109,10 @@ class PostsController extends BaseController {
             'only' => ['create']
         ]);
 
+        $this->middleware('posts.edit.denyIfBeingEdited', [
+            'only' => ['edit']
+        ]);
+
         $this->config       = objectify( config()->get('blogify') );
 
         $this->tag          = $tag;
@@ -162,7 +166,8 @@ class PostsController extends BaseController {
      */
     public function create()
     {
-        $post = ( $this->cache->has('autoSavedPost') ) ? $this->buildPostObject() : null;
+        $hash = $this->auth_user->hash;
+        $post = ( $this->cache->has("autoSavedPost-$hash") ) ? $this->buildPostObject() : null;
         $data = $this->getViewData( $post );
 
         return view('blogify::admin.posts.form', $data);
@@ -176,7 +181,13 @@ class PostsController extends BaseController {
      */
     public function edit( $hash )
     {
-        $data   = $this->getViewData( $this->post->byHash($hash) );
+        $p      = $this->post->byHash($hash);
+        $hash   = $this->auth_user->hash;
+        $post   = ( $this->cache->has("autoSavedPost-$hash") ) ? $this->buildPostObject() : $p;
+        $data   = $this->getViewData( $post );
+
+        $p->being_edited_by = $this->auth_user->id;
+        $p->save();
 
         return view('blogify::admin.posts.form', $data);
     }
@@ -343,6 +354,7 @@ class PostsController extends BaseController {
         $post->reviewer_id          = $this->user->byHash( $this->data->reviewer )->id;
         $post->visibility_id        = $this->visibility->byHash( $this->data->visibility )->id;
         $post->category_id          = $this->category->byHash($this->data->category)->id;
+        $post->being_edited_by      = NULL;
 
         $post->save();
         $post->tag()->sync($this->tags);
@@ -377,7 +389,8 @@ class PostsController extends BaseController {
      */
     private function buildPostObject()
     {
-        $cached_post    = $this->cache->get('autoSavedPost');
+        $hash = $this->auth_user->hash;
+        $cached_post    = $this->cache->get("autoSavedPost-$hash");
 
         $post                       = [];
         $post['hash']               = '';
@@ -405,6 +418,8 @@ class PostsController extends BaseController {
      */
     private function buildTagsArrayForPostObject( $tags )
     {
+        if ( $tags == "" ) return [];
+
         $t      = [];
         $tags   = explode(',', $tags);
 

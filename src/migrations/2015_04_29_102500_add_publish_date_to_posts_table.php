@@ -15,7 +15,7 @@ class AddPublishDateToPostsTable extends Migration {
 
     public function down()
     {
-        Schema::table('questions', function(Blueprint $table)
+        Schema::table('posts', function(Blueprint $table)
         {
             $table->dropColumn('publish_date');
         });

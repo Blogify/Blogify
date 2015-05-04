@@ -596,7 +596,7 @@ var app = {
          * in minutes
          *
          */
-        interval: 5,
+        interval: 1,
 
         /**
          * Holds the data that needs

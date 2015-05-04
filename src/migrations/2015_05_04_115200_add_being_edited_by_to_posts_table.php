@@ -4,12 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddReviewerIdToPostsTable extends Migration {
+class AddBeingEditedByToPostsTable extends Migration {
 
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->integer('reviewer_id')->after('user_id');
+            $table->integer('being_edited_by')->after('publish_date')->default(null);
         });
     }
 
@@ -17,7 +17,7 @@ class AddReviewerIdToPostsTable extends Migration {
     {
         Schema::table('posts', function(Blueprint $table)
         {
-            $table->dropColumn('reviewer_id');
+            $table->dropColumn('being_edited_by');
         });
     }
 }
