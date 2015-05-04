@@ -36,6 +36,7 @@ class BlogifyAdminAuthenticate {
 	{
 		$this->auth = $auth;
 		$this->roles = Role::byAdminRoles()->get();
+		$this->fillAllowedRolesArray();
 	}
 
 	/**
@@ -59,13 +60,6 @@ class BlogifyAdminAuthenticate {
 			}
 		}
 
-		// Loop through the allowed roles and push their
-		// id into the allowed_roles array
-		foreach ( $this->roles as $role )
-		{
-			array_push( $this->allowed_roles, $role->id );
-		}
-
 		// Check if the user has permission to visit the admin panel
 		if ( ! in_array ( $this->auth->user()->role_id, $this->allowed_roles ) )
 		{
@@ -73,6 +67,19 @@ class BlogifyAdminAuthenticate {
 		}
 
 		return $next($request);
+	}
+
+	/**
+	 * Loop through the allowed roles and push their
+	 * id into the allowed_roles array
+	 *
+	 */
+	public function fillAllowedRolesArray()
+	{
+		foreach ( $this->roles as $role )
+		{
+			array_push( $this->allowed_roles, $role->id );
+		}
 	}
 
 }
