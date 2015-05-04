@@ -18,6 +18,8 @@ class ApiController extends BaseController {
 
     protected $post;
 
+    protected $base_slug;
+
     public function __construct( Post $post )
     {
         parent::__construct();
@@ -57,14 +59,16 @@ class ApiController extends BaseController {
      */
     public function checkIfSlugIsUnique( $slug )
     {
-        $posts = $this->post->whereSlug( $slug )->get();
+        $i                  = 0;
+        $this->base_slug    = $slug;
 
-        if ( count($posts) <= 0 ) return $slug;
+        while( $this->post->whereSlug( $slug )->get()->count() > 0 )
+        {
+            $i++;
+            $slug = $this->base_slug . '-' . $i;
+        }
 
-        $next = count($posts) + 1;
-        $slug = $slug . '-' . $next;
-
-        return $this->checkIfSlugIsUnique( $slug );
+        return $slug;
     }
 
     /**
