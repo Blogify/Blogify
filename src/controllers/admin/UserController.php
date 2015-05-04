@@ -72,21 +72,6 @@ class UserController extends BaseController{
     }
 
     /**
-     * Show the view with all deleted users
-     *
-     * @return \Illuminate\View\View
-     */
-    public function trashed()
-    {
-        $data = [
-            'users'     => $this->user->onlyTrashed()->paginate( $this->config->items_per_page ),
-            'trashed'   => true,
-        ];
-
-        return view('blogify::admin.users.index', $data);
-    }
-
-    /**
      * Show the view to create a new user
      *
      * @return \Illuminate\View\View

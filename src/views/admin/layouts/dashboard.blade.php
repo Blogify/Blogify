@@ -266,11 +266,11 @@
                         <li >
                             <a href="#"><i class="fa fa-tags fa-fw"></i>{{ trans("blogify::navigation.tags.title") }}<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"><span class="fa fa-plus fa-fw"></span> {{ trans("blogify::navigation.tags.new") }}</a>
+                                <li {{ (Request::is('*tags') ? 'class="active"' : '') }}>
+                                    <a href="{{ route ('admin.tags.create') }}"><span class="fa fa-plus fa-fw"></span> {{ trans("blogify::navigation.tags.new") }}</a>
                                 </li>
-                                <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"><span class="fa fa-th-list fa-fw"></span> {{ trans("blogify::navigation.tags.overview") }}</a>
+                                <li {{ (Request::is('*tags') ? 'class="active"' : '') }}>
+                                    <a href="{{ route ('admin.tags.index' ) }}"><span class="fa fa-th-list fa-fw"></span> {{ trans("blogify::navigation.tags.overview") }}</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

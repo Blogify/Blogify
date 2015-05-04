@@ -72,6 +72,11 @@ Route::group($admin, function()
             'uses'  => 'UserController@index',
         ]);
 
+
+        /**
+         *
+         * Post routes
+         */
         Route::resource('posts', 'PostsController', [
             'except' => 'store', 'update'
         ]);
@@ -90,7 +95,17 @@ Route::group($admin, function()
 
         Route::resource('categories', 'CategoriesController');
 
-        Route::resource('tags', 'TagsController');
+        Route::resource('tags', 'TagsController', [
+            'except'    => 'store', 'update'
+        ]);
+        Route::post('tags', [
+            'as'    => 'admin.tags.store',
+            'uses'  => 'TagsController@storeOrUpdate'
+        ]);
+        Route::get('tags/overview/{trashed?}', [
+            'as'    => 'admin.tags.overview',
+            'uses'  => 'TagsController@index',
+        ]);
 
         ///////////////////////////////////////////////////////////////////////////
         // API routes
