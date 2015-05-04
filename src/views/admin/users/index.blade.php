@@ -13,7 +13,7 @@
     @endif
 
     <p>
-        <a href="{{ ($trashed) ? route('admin.users.index') : route('admin.users.trashed') }}" title=""> {{ ($trashed) ? trans('blogify::users.overview.links.active') : trans('blogify::users.overview.links.trashed') }} </a>
+        <a href="{{ ($trashed) ? route('admin.users.index') : route('admin.users.overview', ['trashed']) }}" title=""> {{ ($trashed) ? trans('blogify::users.overview.links.active') : trans('blogify::users.overview.links.trashed') }} </a>
     </p>
 
 @section ('cotable_panel_title', ($trashed) ? trans("blogify::users.overview.table_head.title_trashed") : trans("blogify::users.overview.table_head.title_active"))

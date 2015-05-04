@@ -67,9 +67,9 @@ Route::group($admin, function()
          */
 
         Route::resource('users', 'UserController', ['except' => ''] );
-        Route::get('users/get/trashed', [
-            'as'    => 'admin.users.trashed',
-            'uses'  => 'UserController@trashed'
+        Route::get('users/overview/{trashed?}', [
+            'as'    => 'admin.users.overview',
+            'uses'  => 'UserController@index',
         ]);
 
         Route::resource('posts', 'PostsController', [
@@ -83,9 +83,9 @@ Route::group($admin, function()
             'as'    => 'admin.posts.uploadImage',
             'uses'  => 'PostsController@uploadImage',
         ]);
-        Route::get('posts/get/trashed', [
-            'as'    => 'admin.posts.trashed',
-            'uses'  => 'PostsController@trashed'
+        Route::get('posts/overview/{trashed?}', [
+            'as'    => 'admin.posts.overview',
+            'uses'  => 'PostsController@index',
         ]);
 
         Route::resource('categories', 'CategoriesController');

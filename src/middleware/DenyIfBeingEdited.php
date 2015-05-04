@@ -57,7 +57,7 @@ class DenyIfBeingEdited {
         if ( $post->being_edited_by != null && $post->being_edited_by != $this->auth->user()->id )
         {
             $user = $this->user->find($post->being_edited_by)->fullName;
-            session()->flash('notify', [ 'danger', "Post is all ready being edited by $user" ] );
+            session()->flash('notify', [ 'danger', trans('posts.notify.being_edited', [$user]) ] );
             return redirect()->route('admin.posts.index');
         }
 

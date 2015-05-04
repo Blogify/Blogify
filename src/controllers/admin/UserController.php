@@ -61,11 +61,11 @@ class UserController extends BaseController{
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index( $trashed = false )
     {
         $data = [
-            'users'     => $this->user->paginate( $this->config->items_per_page ),
-            'trashed'   => false,
+            'users'     => ( ! $trashed ) ? $this->user->paginate( $this->config->items_per_page ) : $this->user->onlyTrashed()->paginate( $this->config->items_per_page ),
+            'trashed'   => $trashed,
         ];
 
         return view('blogify::admin.users.index', $data);

@@ -42,10 +42,6 @@ class BlogifyServiceProvider extends ServiceProvider {
             __DIR__.'/config' => config_path('blogify/'),
         ], 'config');
 
-        /*$this->publishes([
-            __DIR__.'/views' => base_path('/resources/views/blogify/')
-        ], 'views');*/
-
         $this->publishes([
             __DIR__.'/public/assets' => base_path('/public/assets/blogify/'),
             __DIR__.'/public/ckeditor' => base_path('public/ckeditor/'),

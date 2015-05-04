@@ -135,27 +135,12 @@ class PostsController extends BaseController {
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index( $trashed = false )
     {
         $data = [
-            'posts' => $this->post->paginate( $this->config->items_per_page ),
-            'trashed' => false,
+            'posts' => ( ! $trashed ) ? $this->post->paginate( $this->config->items_per_page ) : $this->post->onlyTrashed()->paginate( $this->config->items_per_page ),
+            'trashed' => $trashed,
         ];
-        return view('blogify::admin.posts.index', $data);
-    }
-
-    /**
-     * Show the view with all deleted users
-     *
-     * @return \Illuminate\View\View
-     */
-    public function trashed()
-    {
-        $data = [
-            'posts'     => $this->post->onlyTrashed()->paginate( $this->config->items_per_page ),
-            'trashed'   => true,
-        ];
-
         return view('blogify::admin.posts.index', $data);
     }
 
@@ -181,6 +166,7 @@ class PostsController extends BaseController {
      */
     public function edit( $hash )
     {
+
         $p      = $this->post->byHash($hash);
         $hash   = $this->auth_user->hash;
         $post   = ( $this->cache->has("autoSavedPost-$hash") ) ? $this->buildPostObject() : $p;
@@ -221,6 +207,25 @@ class PostsController extends BaseController {
     }
 
     /**
+     * Delete a given post
+     *
+     * @param $hash
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy( $hash )
+    {
+        $post       = $this->post->byHash( $hash );
+        $name       = $post->title;
+
+        $post->delete();
+
+        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $name, 'action' =>'deleted']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.posts.index');
+    }
+
+    /**
      * Function to upload images using
      * the SKEditor
      *
@@ -235,7 +240,7 @@ class PostsController extends BaseController {
     {
         $image_name = $this->resizeAnsSaveImage( $request->file('upload') );
         $path       = config()->get('app.url').'/uploads/posts/' . $image_name;
-        $func       = $_GET['CKEditorFuncNum'];
+        $func       = $request->get('CKEditorFuncNum');
         $result     = "<script>window.parent.CKEDITOR.tools.callFunction($func, '$path', 'Image has been uploaded')</script>";
 
         return $result;

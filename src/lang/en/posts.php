@@ -80,4 +80,8 @@ return [
         'min'       => 'One tag needs to have at least 2 characters',
         'max'       => 'One tag can maximum have 45 characters',
     ],
+
+    'notify'        => [
+        'being_edited'  => 'Post is all ready being edited by :name',
+    ]
 ];
