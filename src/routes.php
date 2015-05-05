@@ -111,6 +111,15 @@ Route::group($admin, function()
             'uses'  => 'TagsController@index',
         ]);
 
+        Route::get('comments/{revised?}', [
+            'as'    => 'admin.comments.index',
+            'uses'  => 'CommentsController@index'
+        ]);
+        Route::get('comments/changestatus/{hash}/{revised}', [
+            'as'    => 'admin.comments.changeStatus',
+            'uses'  => 'CommentsController@changeStatus'
+        ]);
+
         ///////////////////////////////////////////////////////////////////////////
         // API routes
         ///////////////////////////////////////////////////////////////////////////

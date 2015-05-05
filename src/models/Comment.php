@@ -47,5 +47,19 @@ class Comment extends BaseModel{
         return $this->belongsTo('jorenvanhocht\Blogify\Models\post');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/5.0/eloquent#query-scopes
+    |
+    */
+
+    public function scopeByRevised( $query, $revised )
+    {
+        return $query->whereRevised($revised);
+    }
 
 }

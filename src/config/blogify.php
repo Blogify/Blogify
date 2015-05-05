@@ -31,13 +31,30 @@ return array (
      */
     'items_per_page' => 10,
 
+    /**
+     * Paths where uploaded images
+     * wil be placed
+     *
+     */
     'upload_paths'  => [
         'posts' => [
             'images'    => 'uploads/posts/'
         ]
     ],
 
+    /**
+     * The size where an uploaded
+     * image will be resized to
+     *
+     */
     'image_sizes'   => [
         'posts' => [500,null],
     ],
+
+    /**
+     * Define if new comments
+     * first needs approval
+     *
+     */
+    'approve_comments_first' => true,
 );
