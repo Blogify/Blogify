@@ -254,11 +254,11 @@
                         <li >
                             <a href="#"><i class="fa fa-th-large fa-fw"></i>{{ trans("blogify::navigation.categories.title") }}<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"><span class="fa fa-plus fa-fw"></span> {{ trans("blogify::navigation.categories.new") }}</a>
+                                <li {{ (Request::is('*categories') ? 'class="active"' : '') }}>
+                                    <a href="{{ route ('admin.categories.create') }}"><span class="fa fa-plus fa-fw"></span> {{ trans("blogify::navigation.categories.new") }}</a>
                                 </li>
-                                <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"><span class="fa fa-th-list fa-fw"></span> {{ trans("blogify::navigation.categories.overview") }}</a>
+                                <li {{ (Request::is('*categories') ? 'class="active"' : '') }}>
+                                    <a href="{{ route ('admin.categories.index' ) }}"><span class="fa fa-th-list fa-fw"></span> {{ trans("blogify::navigation.categories.overview") }}</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

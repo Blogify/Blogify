@@ -94,9 +94,13 @@ Route::group($admin, function()
         ]);
 
         Route::resource('categories', 'CategoriesController');
+        Route::get('categories/overview/{trashed?}', [
+            'as'    => 'admin.categories.overview',
+            'uses'  => 'CategoriesController@index',
+        ]);
 
         Route::resource('tags', 'TagsController', [
-            'except'    => 'store', 'update'
+            'except'    => 'store'
         ]);
         Route::post('tags', [
             'as'    => 'admin.tags.store',

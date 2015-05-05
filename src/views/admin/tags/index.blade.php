@@ -16,7 +16,7 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
         <a href="{{ ($trashed) ? route('admin.tags.index') : route('admin.tags.overview', ['trashed']) }}" title=""> {{ ($trashed) ? trans('blogify::tags.overview.links.active') : trans('blogify::tags.overview.links.trashed') }} </a>
     </p>
 
-@section ('cotable_panel_title', ($trashed) ? trans("blogify::users.overview.table_head.title_trashed") : trans("blogify::users.overview.table_head.title_active"))
+@section ('cotable_panel_title', ($trashed) ? trans("blogify::tags.overview.table_head.title_trashed") : trans("blogify::tags.overview.table_head.title_active"))
 @section ('cotable_panel_body')
     <table class="table table-bordered sortable">
         <thead>

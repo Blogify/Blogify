@@ -4,7 +4,12 @@
 
     @include('blogify::admin.snippets.validation-errors')
 
-    {!! Form::open( [ 'route' => 'admin.tags.store' ] ) !!}
+    @if ( ! isset($tag) )
+        {!! Form::open( [ 'route' => 'admin.tags.store' ] ) !!}
+    @else
+        {!! Form::open( [ 'route' => ['admin.tags.update', $tag->hash] ] ) !!}
+        {!! Form::hidden('_method', 'PUT') !!}
+    @endif
 
     <div class="row form-group {{ $errors->has('tags') ? 'has-error' : '' }}">
         <div class="col-sm-1">
@@ -12,7 +17,9 @@
         </div>
         <div class="col-sm-11">
             {!! Form::text('tags', isset($tag) ? $tag->name : '', ['class' => 'form-control form-small' ]) !!}
-            <span id="helpBlock" class="help-block">{{ trans("blogify::tags.form.help_block") }}</span>
+            @if ( ! isset($tag) )
+                <span id="helpBlock" class="help-block">{{ trans("blogify::tags.form.help_block") }}</span>
+            @endif
         </div>
     </div>
 

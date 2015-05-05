@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Config;
 use Input;
 use jorenvanhocht\Blogify\Models\Tag;
+use jorenvanhocht\Blogify\Requests\TagUpdateRequest;
 use Request;
 
 class TagsController extends BaseController {
@@ -128,7 +129,44 @@ class TagsController extends BaseController {
         $data = [ 'passed' => true, 'tags'  => $this->stored_tags ];
         if (  Request::ajax() ) return $data;
 
-        $message    = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $this->getTagNames(), 'action' =>'created']);
+        $message = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $this->getTagNames(), 'action' =>'created']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.tags.index');
+    }
+
+    /**
+     * Update an given tag
+     *
+     * @param $hash
+     * @param TagUpdateRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update( $hash, TagUpdateRequest $request )
+    {
+        $tag        = $this->tag->byHash( $hash );
+        $tag->name  = $request->tags;
+        $tag->save();
+
+        $message    = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $tag->name, 'action' =>'updated']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.tags.index');
+    }
+
+    /**
+     * Delete a given hash
+     *
+     * @param $hash
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy( $hash )
+    {
+        $tag        = $this->tag->byHash( $hash );
+        $tag_name   = $tag->name;
+        $tag->delete();
+
+        $message    = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $tag_name, 'action' =>'deleted']);
         session()->flash('notify', [ 'success', $message ] );
 
         return redirect()->route('admin.tags.index');

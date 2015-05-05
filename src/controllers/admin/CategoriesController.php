@@ -13,28 +13,125 @@ class CategoriesController extends BaseController {
      */
     protected $category;
 
+    /**
+     * Holds the configuration settings
+     *
+     * @var object
+     */
+    protected $config;
+
     public function __construct( Category $category )
     {
         parent::__construct();
 
         $this->category = $category;
+        $this->config   = objectify( config()->get('blogify') );
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // View methods
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Show the view with all active/trashed
+     * categories
+     *
+     * @param null $trashed
+     * @return \Illuminate\View\View
+     */
+    public function index( $trashed = null )
+    {
+        $data = [
+            'categories' => ( ! $trashed ) ? $this->category->paginate( $this->config->items_per_page ) : $this->category->onlyTrashed()->paginate( $this->config->items_per_page ),
+            'trashed' => $trashed
+        ];
+
+        return view('blogify::admin.categories.index', $data);
+    }
+
+    /**
+     * Show the view to create a new category
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('blogify::admin.categories.form');
+    }
+
+    /**
+     * Show the view to edit a given
+     * category
+     *
+     * @param $hash
+     * @return \Illuminate\View\View
+     */
+    public function edit( $hash )
+    {
+        $data = [
+            'category' => $this->category->byHash( $hash )
+        ];
+
+        return view('blogify::admin.categories.form', $data);
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // CRUD methods
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Store a new category
+     *
+     * @param CategoryRequest $request
+     * @return Category|string
+     */
     public function store( CategoryRequest $request )
     {
         $category = $this->storeOrUpdateCategory( $request );
 
         if ( Request::ajax() ) return $category;
 
-        return '';
+        $message    = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category->name, 'action' =>'created']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.categories.index');
+    }
+
+    /**
+     * Update a given category
+     *
+     * @param $hash
+     * @param CategoryRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update ( $hash, CategoryRequest $request )
+    {
+        $category = $this->category->byHash( $hash );
+        $category->name = $request->name;
+        $category->save();
+
+        $message    = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category->name, 'action' =>'updated']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.categories.index');
+    }
+
+    /**
+     * Delete a given category
+     *
+     * @param $hash
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy( $hash )
+    {
+        $category        = $this->category->byHash( $hash );
+        $category_name   = $category->name;
+        $category->delete();
+
+        $message    = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $category_name, 'action' =>'deleted']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.categories.index');
     }
 
     ///////////////////////////////////////////////////////////////////////////
