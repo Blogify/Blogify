@@ -105,17 +105,7 @@ class PostsController extends BaseController {
     {
         parent::__construct();
 
-        $this->middleware('hasAdminOrAuthorRole', [
-            'only' => ['create']
-        ]);
-
-        $this->middleware('posts.edit.denyIfBeingEdited', [
-            'only' => ['edit']
-        ]);
-
-        $this->middleware('posts.edit.canEditPost', [
-            'only' => ['edit']
-        ]);
+        $this->appendMiddleware();
 
         $this->config       = objectify( config()->get('blogify') );
 
@@ -254,6 +244,25 @@ class PostsController extends BaseController {
     ///////////////////////////////////////////////////////////////////////////
     // Helper methods
     ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Add middleware to some functions
+     *
+     */
+    private function appendMiddleware()
+    {
+        $this->middleware('hasAdminOrAuthorRole', [
+            'only' => ['create']
+        ]);
+
+        $this->middleware('posts.edit.canEditPost', [
+            'only' => ['edit']
+        ]);
+
+        $this->middleware('posts.edit.denyIfBeingEdited', [
+            'only' => ['edit']
+        ]);
+    }
 
     /**
      * Get the default data for the
