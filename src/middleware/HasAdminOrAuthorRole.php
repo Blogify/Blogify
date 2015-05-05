@@ -4,7 +4,7 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Blogify\Models\Role;
 
-class CreateNewPostRoleCheck {
+class HasAdminOrAuthorRole {
 
     /**
      * The Guard implementation.
@@ -65,7 +65,7 @@ class CreateNewPostRoleCheck {
      */
     private function fillAlowedRolesArray()
     {
-        $roles = $this->role->where('name', '<>', 'Reviewer')->get();
+        $roles = $this->role->where('name', '<>', 'Reviewer')->where('name', '<>', 'Member')->get();
 
         foreach ( $roles as $role )
         {

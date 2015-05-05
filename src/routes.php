@@ -65,12 +65,19 @@ Route::group($admin, function()
          * User routes
          *
          */
+        Route::group(['middleware' => 'hasAdminRole'], function() {
+            Route::resource('users', 'UserController', ['except' => '']);
+            Route::get('users/overview/{trashed?}', [
+                'as' => 'admin.users.overview',
+                'uses' => 'UserController@index',
+            ]);
 
-        Route::resource('users', 'UserController', ['except' => ''] );
-        Route::get('users/overview/{trashed?}', [
-            'as'    => 'admin.users.overview',
-            'uses'  => 'UserController@index',
-        ]);
+            Route::resource('categories', 'CategoriesController');
+            Route::get('categories/overview/{trashed?}', [
+                'as' => 'admin.categories.overview',
+                'uses' => 'CategoriesController@index',
+            ]);
+        });
 
 
         /**
@@ -93,32 +100,28 @@ Route::group($admin, function()
             'uses'  => 'PostsController@index',
         ]);
 
-        Route::resource('categories', 'CategoriesController');
-        Route::get('categories/overview/{trashed?}', [
-            'as'    => 'admin.categories.overview',
-            'uses'  => 'CategoriesController@index',
-        ]);
+        Route::group(['middleware' => 'hasAdminOrAuthorRole'], function(){
+            Route::resource('tags', 'TagsController', [
+                'except'    => 'store'
+            ]);
+            Route::post('tags', [
+                'as'    => 'admin.tags.store',
+                'uses'  => 'TagsController@storeOrUpdate'
+            ]);
+            Route::get('tags/overview/{trashed?}', [
+                'as'    => 'admin.tags.overview',
+                'uses'  => 'TagsController@index',
+            ]);
 
-        Route::resource('tags', 'TagsController', [
-            'except'    => 'store'
-        ]);
-        Route::post('tags', [
-            'as'    => 'admin.tags.store',
-            'uses'  => 'TagsController@storeOrUpdate'
-        ]);
-        Route::get('tags/overview/{trashed?}', [
-            'as'    => 'admin.tags.overview',
-            'uses'  => 'TagsController@index',
-        ]);
-
-        Route::get('comments/{revised?}', [
-            'as'    => 'admin.comments.index',
-            'uses'  => 'CommentsController@index'
-        ]);
-        Route::get('comments/changestatus/{hash}/{revised}', [
-            'as'    => 'admin.comments.changeStatus',
-            'uses'  => 'CommentsController@changeStatus'
-        ]);
+            Route::get('comments/{revised?}', [
+                'as'    => 'admin.comments.index',
+                'uses'  => 'CommentsController@index'
+            ]);
+            Route::get('comments/changestatus/{hash}/{revised}', [
+                'as'    => 'admin.comments.changeStatus',
+                'uses'  => 'CommentsController@changeStatus'
+            ]);
+        });
 
         ///////////////////////////////////////////////////////////////////////////
         // API routes

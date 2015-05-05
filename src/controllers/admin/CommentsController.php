@@ -43,7 +43,7 @@ class CommentsController extends BaseController{
     public function index( $revised = "pending" )
     {
         $revised = $this->checkRevised( $revised );
-        if ( ! $revised ) abort(404);
+        if ( $revised === false ) abort(404);
 
         $data = [
             'comments' => $this->comment->byRevised( $revised )->paginate( $this->config->items_per_page ),
@@ -68,7 +68,7 @@ class CommentsController extends BaseController{
     public function changeStatus( $hash, $new_revised )
     {
         $revised = $this->checkRevised( $new_revised );
-        if ( ! $revised ) abort(404);
+        if ( $revised === false ) abort(404);
 
         $comment            = $this->comment->byHash( $hash );
         $comment->revised   = $revised;

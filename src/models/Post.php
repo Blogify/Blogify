@@ -1,5 +1,6 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends BaseModel{
@@ -95,5 +96,30 @@ class Post extends BaseModel{
     public function getPublishDateAttribute($value)
     {
         return date("d-m-Y H:i", strtotime($value));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    |
+    | For more information pleas check out the official Laravel docs at
+    | http://laravel.com/docs/5.0/eloquent#query-scopes
+    |
+    */
+
+    public function scopeForAdmin( $query )
+    {
+        return $query;
+    }
+
+    public function scopeForReviewer( $query )
+    {
+        return $query->whereReviewerId( Auth::user()->id );
+    }
+
+    public function scopeForAuthor( $query )
+    {
+        return $query->whereUserId( Auth::user()->id );
     }
 }

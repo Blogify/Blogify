@@ -105,11 +105,15 @@ class PostsController extends BaseController {
     {
         parent::__construct();
 
-        $this->middleware('posts.new.role.check', [
+        $this->middleware('hasAdminOrAuthorRole', [
             'only' => ['create']
         ]);
 
         $this->middleware('posts.edit.denyIfBeingEdited', [
+            'only' => ['edit']
+        ]);
+
+        $this->middleware('posts.edit.canEditPost', [
             'only' => ['edit']
         ]);
 
@@ -137,8 +141,9 @@ class PostsController extends BaseController {
      */
     public function index( $trashed = false )
     {
-        $data = [
-            'posts' => ( ! $trashed ) ? $this->post->paginate( $this->config->items_per_page ) : $this->post->onlyTrashed()->paginate( $this->config->items_per_page ),
+        $scope  = 'for'.$this->auth_user->role->name;
+        $data   = [
+            'posts' => ( ! $trashed ) ? $this->post->$scope()->paginate( $this->config->items_per_page ) : $this->post->$scope()->onlyTrashed()->paginate( $this->config->items_per_page ),
             'trashed' => $trashed,
         ];
         return view('blogify::admin.posts.index', $data);
