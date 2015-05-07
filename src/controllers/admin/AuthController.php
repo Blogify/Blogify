@@ -4,6 +4,15 @@ use jorenvanhocht\Blogify\Requests\LoginRequest;
 
 class AuthController extends BaseController{
 
+    /**
+     * Construct the class
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // View methods
     ///////////////////////////////////////////////////////////////////////////

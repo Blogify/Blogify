@@ -18,6 +18,8 @@ class CommentsController extends BaseController{
      */
     public function __construct( Comment $comment )
     {
+        parent::__construct();
+
         $this->comment  = $comment;
     }
 

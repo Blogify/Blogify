@@ -38,6 +38,8 @@ class UserController extends BaseController{
 
     public function __construct( User $user, Role $role, BlogifyMailer $mail, Hash $hash )
     {
+        parent::__construct();
+
         $this->user     = $user;
         $this->role     = $role;
         $this->mail     = $mail;
