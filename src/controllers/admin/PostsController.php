@@ -66,13 +66,6 @@ class PostsController extends BaseController {
     protected $role;
 
     /**
-     * Holds the configuration settings
-     *
-     * @var object
-     */
-    protected $config;
-
-    /**
      * Holds the post data
      *
      * @var object
@@ -106,8 +99,6 @@ class PostsController extends BaseController {
         parent::__construct();
 
         $this->appendMiddleware();
-
-        $this->config       = objectify( config()->get('blogify') );
 
         $this->tag          = $tag;
         $this->role         = $role;

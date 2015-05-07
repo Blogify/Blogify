@@ -13,19 +13,11 @@ class CategoriesController extends BaseController {
      */
     protected $category;
 
-    /**
-     * Holds the configuration settings
-     *
-     * @var object
-     */
-    protected $config;
-
     public function __construct( Category $category )
     {
         parent::__construct();
 
         $this->category = $category;
-        $this->config   = objectify( config()->get('blogify') );
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -89,7 +81,7 @@ class CategoriesController extends BaseController {
     {
         $category = $this->storeOrUpdateCategory( $request );
 
-        if ( Request::ajax() ) return $category;
+        if ( $request->ajax() ) return $category;
 
         $message    = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category->name, 'action' =>'created']);
         session()->flash('notify', [ 'success', $message ] );

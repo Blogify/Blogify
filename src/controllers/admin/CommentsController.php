@@ -12,13 +12,6 @@ class CommentsController extends BaseController{
     protected $comment;
 
     /**
-     * Holds the configurations settings
-     *
-     * @var object
-     */
-    protected $config;
-
-    /**
      * Construct the class
      *
      * @param Comment $comment
@@ -26,7 +19,6 @@ class CommentsController extends BaseController{
     public function __construct( Comment $comment )
     {
         $this->comment  = $comment;
-        $this->config   = objectify( config()->get('blogify') );
     }
 
     ///////////////////////////////////////////////////////////////////////////

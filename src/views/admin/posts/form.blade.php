@@ -75,6 +75,7 @@
                             <a data-toggle="collapse"
                                href="#collapsePublish">
                                 {{ trans("blogify::posts.form.publish.title") }}
+                                <span class="fa fa-caret-up"></span>
                             </a>
                         </h4>
                     </div>

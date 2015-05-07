@@ -21,7 +21,6 @@
     <table class="table table-bordered sortable">
         <thead>
             <tr>
-                <th role="hash"><a href="{!! route('admin.api.sort', ['users', 'hash', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by hash" class="sort"> {{ trans("blogify::users.overview.table_head.hash") }} </a></th>
                 <th role="name"><a href="{!! route('admin.api.sort', ['users', 'name', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by name" class="sort"> {{ trans("blogify::users.overview.table_head.name") }} </a></th>
                 <th role="firstname"><a href="{!! route('admin.api.sort', ['users', 'firstname', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by first name" class="sort"> {{ trans("blogify::users.overview.table_head.firstname") }} </a></th>
                 <th role="username"><a href="{!! route('admin.api.sort', ['users', 'username', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by username" class="sort"> {{ trans("blogify::users.overview.table_head.username") }} </a></th>
@@ -40,7 +39,6 @@
             @endif
             @foreach ( $users as $user )
                 <tr>
-                    <td>{!! $user->hash !!}</td>
                     <td>{!! $user->name !!}</td>
                     <td>{!! $user->firstname !!}</td>
                     <td>{!! $user->username !!}</td>

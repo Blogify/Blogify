@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use jorenvanhocht\Blogify\Facades\Blogify;
 use jorenvanhocht\Blogify\Models\Role;
-use jorenvanhocht\Blogify\Models\User;
+use App\User;
 use \Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder {

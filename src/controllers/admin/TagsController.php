@@ -16,13 +16,6 @@ class TagsController extends BaseController {
     protected $tag;
 
     /**
-     * Holds the config settings
-     *
-     * @var Config
-     */
-    protected $config;
-
-    /**
      * Holds the submitted tags
      *
      * @var array
@@ -46,7 +39,6 @@ class TagsController extends BaseController {
         parent::__construct();
 
         $this->tag      = $tag;
-        $this->config   = objectify(config()->get('blogify'));
     }
 
     ///////////////////////////////////////////////////////////////////////////

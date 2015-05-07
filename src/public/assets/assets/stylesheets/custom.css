@@ -42,3 +42,12 @@ label {
 #short_description {
     height:100px;
 }
+
+th a {
+    display:block;
+}
+
+#accordion .panel .panel-heading .panel-title a
+{
+    display:block;
+}

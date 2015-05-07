@@ -9,14 +9,6 @@ use Carbon\Carbon;
 class ApiController extends BaseController {
 
     /**
-     * Holds an instance of
-     * the Blogify config file
-     *
-     * @var object
-     */
-    protected $config;
-
-    /**
      * Holds an instance of the Post model
      *
      * @var Post
@@ -30,11 +22,13 @@ class ApiController extends BaseController {
      */
     protected $base_slug;
 
-    public function __construct( Post $post )
+    /**
+     * @param Post $post
+     */
+    public function __construct(Post $post)
     {
         parent::__construct();
 
-        $this->config   = objectify( config()->get('blogify') );
         $this->post     = $post;
     }
 

@@ -18,9 +18,17 @@ class BaseController extends Controller
      */
     protected $auth_user;
 
+    /**
+     * Holds the configuration settings
+     *
+     * @var
+     */
+    protected $config;
+
     public function __construct()
     {
         $this->auth         = auth();
         $this->auth_user    = $this->auth->check() ? $this->auth->user() : false;
+        $this->config       = objectify( config('blogify') );
     }
 }

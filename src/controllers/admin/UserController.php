@@ -30,13 +30,6 @@ class UserController extends BaseController{
     private $mail;
 
     /**
-     * Holds the config settings
-     *
-     * @var object
-     */
-    private $config;
-
-    /**
      * Holds an instance of the Hasher contract
      *
      * @var Hash
@@ -48,7 +41,6 @@ class UserController extends BaseController{
         $this->user     = $user;
         $this->role     = $role;
         $this->mail     = $mail;
-        $this->config   = objectify( config()->get('blogify') );
         $this->hash     = $hash;
     }
 

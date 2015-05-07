@@ -21,7 +21,6 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
     <table class="table table-bordered sortable">
         <thead>
         <tr>
-            <th role="hash"><a href="{!! route('admin.api.sort', ['categories', 'hash', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by hash" class="sort"> {{ trans("blogify::categories.overview.table_head.hash") }} </a></th>
             <th role="name"><a href="{!! route('admin.api.sort', ['categories', 'name', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by name" class="sort"> {{ trans("blogify::categories.overview.table_head.name") }} </a></th>
             <th role="created_at"><a href="{!! route('admin.api.sort', ['categories', 'created_at', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by created at" class="sort"> {{ trans("blogify::categories.overview.table_head.created_at") }} </a></th>
             <th> {{ trans("blogify::categories.overview.table_head.actions") }} </th>
@@ -37,7 +36,6 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
         @endif
         @foreach ( $categories as $category )
             <tr>
-                <td>{!! $category->hash !!}</td>
                 <td>{!! $category->name !!}</td>
                 <td>{!! $category->created_at !!}</td>
                 <td>

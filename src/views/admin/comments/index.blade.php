@@ -36,7 +36,6 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
     <table class="table table-bordered sortable">
         <thead>
         <tr>
-            <th>@lang("blogify::comments.overview.table_head.hash")</th>
             <th>@lang("blogify::comments.overview.table_head.author")</th>
             <th>@lang("blogify::comments.overview.table_head.comment")</th>
             <th>@lang("blogify::comments.overview.table_head.post")</th>
@@ -54,7 +53,6 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
         @endif
         @foreach ( $comments as $comment )
             <tr>
-                <td>{!! $comment->hash !!}</td>
                 <td>{!! $comment->user->fullName !!}</td>
                 <td>{!! nl2br($comment->content) !!}</td>
                 <td><a href="{{route('admin.posts.show')}}" title="{{ $comment->post->title }}">{!! $comment->post->title !!}</a></td>
