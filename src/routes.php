@@ -34,7 +34,7 @@ $admin = [
 
 Route::group($admin, function()
 {
-    Route::group( ['middleware' => 'jorenvanhocht\Blogify\Middleware\Guest'], function(){
+    Route::group( ['middleware' => 'BlogifyGuest'], function(){
         // Login
         Route::get('login', [
             'as'    =>  'admin.login',
@@ -47,7 +47,7 @@ Route::group($admin, function()
         ]);
     });
 
-    Route::group(['middleware' => 'jorenvanhocht\Blogify\Middleware\BlogifyAdminAuthenticate'], function()
+    Route::group(['middleware' => 'BlogifyAdminAuthenticate'], function()
     {
         // Dashboard
         Route::get('/', [
@@ -65,7 +65,7 @@ Route::group($admin, function()
          * User routes
          *
          */
-        Route::group(['middleware' => 'hasAdminRole'], function() {
+        Route::group(['middleware' => 'HasAdminRole'], function() {
             Route::resource('users', 'UserController', ['except' => '']);
             Route::get('users/overview/{trashed?}', [
                 'as' => 'admin.users.overview',
@@ -100,7 +100,7 @@ Route::group($admin, function()
             'uses'  => 'PostsController@index',
         ]);
 
-        Route::group(['middleware' => 'hasAdminOrAuthorRole'], function(){
+        Route::group(['middleware' => 'HasAdminOrAuthorRole'], function(){
             Route::resource('tags', 'TagsController', [
                 'except'    => 'store'
             ]);
@@ -122,6 +122,8 @@ Route::group($admin, function()
                 'uses'  => 'CommentsController@changeStatus'
             ]);
         });
+
+        Route::resource('profile', 'ProfileController');
 
         ///////////////////////////////////////////////////////////////////////////
         // API routes

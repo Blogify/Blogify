@@ -34,7 +34,7 @@ class CategoriesController extends BaseController {
     public function index( $trashed = null )
     {
         $data = [
-            'categories' => ( ! $trashed ) ? $this->category->paginate( $this->config->items_per_page ) : $this->category->onlyTrashed()->paginate( $this->config->items_per_page ),
+            'categories' => ( ! $trashed ) ? $this->category->orderBy('created_at', 'DESC')->paginate( $this->config->items_per_page ) : $this->category->onlyTrashed()->orderBy('created_at', 'DESC')->paginate( $this->config->items_per_page ),
             'trashed' => $trashed
         ];
 

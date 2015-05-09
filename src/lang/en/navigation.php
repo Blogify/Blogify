@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'profile'   => ' User profile',
+    'profile'   => ' Edit profile',
     'settings'  => ' Settings',
     'logout'    => ' logout',
 

@@ -22,7 +22,7 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
         <thead>
         <tr>
             <th role="name"><a href="{!! route('admin.api.sort', ['tags', 'name', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by name" class="sort"> {{ trans("blogify::tags.overview.table_head.name") }} </a></th>
-            <th role="created_at"><a href="{!! route('admin.api.sort', ['tags', 'created_at', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by created at" class="sort"> {{ trans("blogify::tags.overview.table_head.created_at") }} </a></th>
+            <th role="created_at"><a href="{!! route('admin.api.sort', ['tags', 'created_at', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by created at" class="sort"> {{ trans("blogify::tags.overview.table_head.created_at") }} <span class="fa fa-sort-down fa-fw"></span> </a></th>
             <th> {{ trans("blogify::tags.overview.table_head.actions") }} </th>
         </tr>
         </thead>

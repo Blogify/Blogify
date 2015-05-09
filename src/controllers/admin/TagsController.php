@@ -54,7 +54,7 @@ class TagsController extends BaseController {
     public function index( $trashed = null )
     {
         $data = [
-            'tags' => ( ! $trashed ) ? $this->tag->paginate( $this->config->items_per_page ) : $this->tag->onlyTrashed()->paginate( $this->config->items_per_page ),
+            'tags' => ( ! $trashed ) ? $this->tag->orderBy('created_at', 'DESC')->paginate( $this->config->items_per_page ) : $this->tag->onlyTrashed()->orderBy('created_at', 'DESC')->paginate( $this->config->items_per_page ),
             'trashed' => $trashed
         ];
 

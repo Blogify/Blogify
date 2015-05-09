@@ -661,11 +661,13 @@ var app = {
                 {
                     if ( response[0] )
                     {
-                        $('.auto-save-log').append('<p><span> Automatically saved to cache on '+ response[1] +'</span></p>');
+                        $('.auto-save-log').empty();
+                        $('.auto-save-log').append('<p><span> Last saved on '+ response[1] +'</span></p>');
                     }
                     else
                     {
-                        $('.auto-save-log').append('<p><span class="text-danger"> Auto save faild on '+ response[1] +'</span></p>');
+                        $('.auto-save-log').empty();
+                        $('.auto-save-log').append('<p><span class="text-danger"> Faild to save on '+ response[1] +'</span></p>');
                     }
                 }
             });

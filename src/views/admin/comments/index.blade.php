@@ -11,25 +11,11 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
         @include('blogify::admin.widgets.alert', array('class'=>'success', 'dismissable'=>true, 'message'=> session()->get('success'), 'icon'=> 'check'))
     @endif
 
-    <p>
-        @if ( Request::segment(3) == 'pending' || Request::segment(3) == null )
-            {{ trans('blogify::comments.overview.links.pending') }} |
-            <a href="{{ route('admin.comments.index', ['approved']) }}" title="">{{ trans('blogify::comments.overview.links.approved') }}</a> |
-            <a href="{{ route('admin.comments.index', ['disapproved']) }}" title="">{{ trans('blogify::comments.overview.links.disapproved') }}</a>
-        @endif
-
-        @if ( Request::segment(3) == 'approved' )
-                <a href="{{ route('admin.comments.index', ['pending']) }}" title="">{{ trans('blogify::comments.overview.links.pending') }}</a> |
-                {{ trans('blogify::comments.overview.links.approved') }} |
-                <a href="{{ route('admin.comments.index', ['disapproved']) }}" title="">{{ trans('blogify::comments.overview.links.disapproved') }}</a>
-        @endif
-
-        @if ( Request::segment(3) == 'disapproved' )
-                <a href="{{ route('admin.comments.index', ['pending']) }}" title="">{{ trans('blogify::comments.overview.links.pending') }}</a> |
-                <a href="{{ route('admin.comments.index', ['approved']) }}" title="">{{ trans('blogify::comments.overview.links.approved') }}</a> |
-                {{ trans('blogify::comments.overview.links.disapproved') }}
-        @endif
-    </p>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="{{ (Request::segment(3) == 'pending' || Request::segment(3) == null) ? 'active' : '' }}" ><a href="{{ route('admin.comments.index', ['pending']) }}">{{ trans('blogify::comments.overview.links.pending') }}</a></li>
+        <li role="presentation" class="{{ ( Request::segment(3) == 'approved' ) ? 'active' : '' }} "><a href="{{ route('admin.comments.index', ['approved']) }}">{{ trans('blogify::comments.overview.links.approved') }}</a></li>
+        <li role="presentation" class="{{ ( Request::segment(3) == 'disapproved' ) ? 'active' : '' }} "><a href="{{ route('admin.comments.index', ['disapproved']) }}">{{ trans('blogify::comments.overview.links.disapproved') }}</a></li>
+    </ul>
 
 @section ('cotable_panel_title', trans("blogify::comments.overview.page_title") )
 @section ('cotable_panel_body')

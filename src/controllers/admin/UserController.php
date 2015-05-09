@@ -58,7 +58,7 @@ class UserController extends BaseController{
     public function index( $trashed = false )
     {
         $data = [
-            'users'     => ( ! $trashed ) ? $this->user->paginate( $this->config->items_per_page ) : $this->user->onlyTrashed()->paginate( $this->config->items_per_page ),
+            'users'     => ( ! $trashed ) ? $this->user->orderBy('name', 'ASC')->paginate( $this->config->items_per_page ) : $this->user->onlyTrashed()->orderBy('name', 'ASC')->paginate( $this->config->items_per_page ),
             'trashed'   => $trashed,
         ];
 

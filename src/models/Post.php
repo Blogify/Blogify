@@ -122,4 +122,9 @@ class Post extends BaseModel{
     {
         return $query->whereUserId( Auth::user()->id );
     }
+
+    public function scopeBySlug( $query, $slug )
+    {
+        return $query->whereSlug($slug)->first();
+    }
 }

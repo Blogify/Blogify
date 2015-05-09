@@ -29,7 +29,7 @@ return array (
      * page you want to show
      *
      */
-    'items_per_page' => 10,
+    'items_per_page' => 20,
 
     /**
      * Paths where uploaded images
@@ -39,6 +39,9 @@ return array (
     'upload_paths'  => [
         'posts' => [
             'images'    => 'uploads/posts/'
+        ],
+        'profiles' => [
+            'profilepictures' => 'uploads/profilepictures/'
         ]
     ],
 
@@ -49,6 +52,7 @@ return array (
      */
     'image_sizes'   => [
         'posts' => [500,null],
+        'profilepictures' => [200, null],
     ],
 
     /**

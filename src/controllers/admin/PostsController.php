@@ -124,7 +124,7 @@ class PostsController extends BaseController {
     {
         $scope  = 'for'.$this->auth_user->role->name;
         $data   = [
-            'posts' => ( ! $trashed ) ? $this->post->$scope()->paginate( $this->config->items_per_page ) : $this->post->$scope()->onlyTrashed()->paginate( $this->config->items_per_page ),
+            'posts' => ( ! $trashed ) ? $this->post->$scope()->orderBy('publish_date', 'DESC')->paginate( $this->config->items_per_page ) : $this->post->$scope()->onlyTrashed()->orderBy('publish_date', 'DESC')->paginate( $this->config->items_per_page ),
             'trashed' => $trashed,
         ];
         return view('blogify::admin.posts.index', $data);
@@ -138,10 +138,28 @@ class PostsController extends BaseController {
     public function create()
     {
         $hash = $this->auth_user->hash;
+        $this->cache->forget("autoSavedPost-$hash");
         $post = ( $this->cache->has("autoSavedPost-$hash") ) ? $this->buildPostObject() : null;
         $data = $this->getViewData( $post );
 
         return view('blogify::admin.posts.form', $data);
+    }
+
+    /**
+     * Show the view to display a given post
+     *
+     * @param $slug
+     * @return \Illuminate\View\View
+     */
+    public function show ( $slug )
+    {
+        $data = [
+            'post' => $this->post->bySlug( $slug ),
+        ];
+
+        if ( $data['post']->count() <= 0 ) abort(404);
+
+        return view('blogify::admin.posts.show', $data);
     }
 
     /**
@@ -242,15 +260,15 @@ class PostsController extends BaseController {
      */
     private function appendMiddleware()
     {
-        $this->middleware('hasAdminOrAuthorRole', [
+        $this->middleware('HasAdminOrAuthorRole', [
             'only' => ['create']
         ]);
 
-        $this->middleware('posts.edit.canEditPost', [
+        $this->middleware('CanEditPost', [
             'only' => ['edit']
         ]);
 
-        $this->middleware('posts.edit.denyIfBeingEdited', [
+        $this->middleware('DenyIfBeingEdited', [
             'only' => ['edit']
         ]);
     }

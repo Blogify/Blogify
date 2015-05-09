@@ -58,7 +58,7 @@ class CanEditPost {
         $post = $this->post->byHash( Request::segment(3) );
         $user_id = $this->auth->user()->id;
 
-        if ( $user_id !=  $post->user_id || $user_id != $post->reviewer_id || $this->auth->user()->role->name != 'Admin') return false;
+        if ( $user_id !=  $post->user_id && $user_id != $post->reviewer_id && $this->auth->user()->role->name && 'Admin') return false;
 
         return true;
     }
