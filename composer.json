@@ -16,8 +16,8 @@
         "predis/predis": "~1.0"
     },
     "autoload": {
-        "psr-0": {
-            "Monolog": "src"
+        "psr-4": {
+            "jorenvanhocht\\Blogify\\": "src/"
         },
         "files": [
             "src/Helpers.php"
