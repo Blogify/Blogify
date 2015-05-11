@@ -125,6 +125,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     {!! Form::submit( trans("blogify::posts.form.publish.save_button.value"), [ 'class' => 'btn btn-success' ] ) !!}
+                                    <a href="{{route('admin.posts.cancel', [isset($post) ? $post->hash : ''])}}" class="btn btn-danger" role="button">Cancel</a>
                                 </div>
                             </div>
                         </div>

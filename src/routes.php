@@ -99,6 +99,10 @@ Route::group($admin, function()
             'as'    => 'admin.posts.overview',
             'uses'  => 'PostsController@index',
         ]);
+        Route::get('posts/action/cancel/{hash?}', [
+            'as'    => 'admin.posts.cancel',
+            'uses'  => 'PostsController@cancel',
+        ]);
 
         Route::group(['middleware' => 'HasAdminOrAuthorRole'], function(){
             Route::resource('tags', 'TagsController', [

@@ -250,6 +250,27 @@ class PostsController extends BaseController {
         return $result;
     }
 
+    /**
+     * Cancel changes in a post
+     * and set being_edited_by
+     * back to null
+     *
+     * @param null $hash
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function cancel($hash = null)
+    {
+        if ( ! isset($hash) ) return redirect()->route('admin.posts.index');
+
+        $post = $this->post->byHash($hash);
+        $post->being_edited_by = null;
+        $post->save();
+
+        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->name, 'action' =>'canceled']);
+        session()->flash('notify', [ 'success', $message ] );
+        return redirect()->route('admin.posts.index');
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Helper methods
     ///////////////////////////////////////////////////////////////////////////
