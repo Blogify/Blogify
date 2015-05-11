@@ -39,7 +39,7 @@ class AuthController extends BaseController{
      */
     public function login( LoginRequest $request )
     {
-        if ( $this->auth->attempt( ['email' => $request->email, 'password'  =>  $request->password  ] ) )
+        if ( $this->auth->attempt( ['email' => $request->email, 'password'  =>  $request->password  ], isset( $request->rememberme ) ? true : false ) )
         {
           return redirect('/admin');
         }
