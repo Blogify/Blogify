@@ -1,4 +1,4 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\admin;
+<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use jorenvanhocht\Blogify\Models\Category;
 use jorenvanhocht\Blogify\Requests\CategoryRequest;

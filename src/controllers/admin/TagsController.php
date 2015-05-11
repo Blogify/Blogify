@@ -1,4 +1,4 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\admin;
+<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use Illuminate\Support\Facades\Config;
 use Input;
