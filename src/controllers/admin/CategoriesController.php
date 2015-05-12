@@ -81,6 +81,8 @@ class CategoriesController extends BaseController {
     {
         $category = $this->storeOrUpdateCategory( $request );
 
+        tracert()->log('categories', $category->id, $this->auth_user->id);
+
         if ( $request->ajax() ) return $category;
 
         $message    = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category->name, 'action' =>'created']);
@@ -102,6 +104,8 @@ class CategoriesController extends BaseController {
         $category->name = $request->name;
         $category->save();
 
+        tracert()->log('categories', $category->id, $this->auth_user->id, 'update');
+
         $message    = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category->name, 'action' =>'updated']);
         session()->flash('notify', [ 'success', $message ] );
 
@@ -119,6 +123,8 @@ class CategoriesController extends BaseController {
         $category        = $this->category->byHash( $hash );
         $category_name   = $category->name;
         $category->delete();
+
+        tracert()->log('categories', $category->id, $this->auth_user->id, 'delete');
 
         $message    = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $category_name, 'action' =>'deleted']);
         session()->flash('notify', [ 'success', $message ] );

@@ -2,6 +2,7 @@
 
 use App\Http\Requests\Request;
 use Input;
+use jorenvanhocht\Blogify\Models\Category;
 
 class CategoryRequest extends Request {
 
@@ -22,8 +23,9 @@ class CategoryRequest extends Request {
      */
     public function rules()
     {
+        $id = Category::byHash($this->segment(3))->id;
         return [
-            'name'		=> 'required|unique:categories,name|min:3|max:45',
+            'name'		=> "required|unique:categories,name,$id|min:3|max:45",
         ];
     }
 

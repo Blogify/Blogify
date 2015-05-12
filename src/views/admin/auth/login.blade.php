@@ -7,7 +7,7 @@
                @section ('login_panel_title', trans("blogify::auth.login.title") )
                @section ('login_panel_body')
                     @if(Session::has('message'))
-                        @include('blogify::admin.widgets.alert', array('class'=>'danger', 'message'=> Session::get('message'), 'icon'=> 'remove'))
+                        @include('blogify::admin.widgets.alert', ['class'=>'danger', 'message'=> Session::get('message'), 'icon'=> 'remove'])
                     @endif
                     {!! Form::open( ['route' => 'admin.login.post', 'role' => 'form' ] ) !!}
                         <fieldset>
@@ -31,7 +31,7 @@
                     
                 @endsection
 
-                @include('blogify::admin.widgets.panel', array('as'=>'login', 'header'=>true, 'class' => ( (Session::has('message') || ($errors->count() > 0) ) ? 'danger' : 'default' ) ))
+                @include('blogify::admin.widgets.panel', ['as'=>'login', 'header'=>true, 'class' => ( (Session::has('message') || ($errors->count() > 0) ) ? 'danger' : 'default' ) ])
             </div>
         </div>
     </div>

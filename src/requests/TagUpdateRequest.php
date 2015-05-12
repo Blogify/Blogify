@@ -1,7 +1,6 @@
 <?php namespace jorenvanhocht\Blogify\Requests;
 
 use App\Http\Requests\Request;
-use Input;
 
 class TagUpdateRequest extends Request {
 

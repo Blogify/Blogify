@@ -1,17 +1,25 @@
 <?php namespace jorenvanhocht\Blogify;
 
-use jorenvanhocht\Blogify\Models\User;
-use jorenvanhocht\Blogify\Models\Role;
-use Illuminate\Support\Facades\Config;
-use DB;
+use Illuminate\Database\DatabaseManager;
 
 class Blogify {
 
+    /**
+     * Holds the available char sets
+     *
+     * @var mixed
+     */
     protected $char_sets;
 
-    public function __construct()
+    /**
+     * @var DatabaseManager
+     */
+    protected $db;
+
+    public function __construct(DatabaseManager $db)
     {
         $this->char_sets = config('blogify.blogify.char_sets');
+        $this->db = $db;
     }
 
     /**
@@ -42,7 +50,7 @@ class Blogify {
         }
 
         // Check if the hash doest not exist in the given table and column
-        if ( ! DB::table($table)->where($field, '=', $hash)->get() )
+        if ( ! $this->db->table($table)->where($field, '=', $hash)->get() )
         {
             return $hash;
         }
@@ -87,7 +95,7 @@ class Blogify {
 
         if ( $itteration != 0 ) $username = $username . $itteration;
 
-        $usernames = count( DB::table('users')->where('username', '=', $username )->get() );
+        $usernames = count( $this->db->table('users')->where('username', '=', $username )->get() );
 
         if ( $usernames > 0 ) return $this->generateUniqueUsername( $lastname, $firstname, $itteration + 1 );
 

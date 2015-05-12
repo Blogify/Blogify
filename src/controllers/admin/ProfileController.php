@@ -55,6 +55,7 @@ class ProfileController extends BaseController {
      *
      * @param $hash
      * @param ProfileUpdateRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update($hash, ProfileUpdateRequest $request)
     {
@@ -69,6 +70,8 @@ class ProfileController extends BaseController {
         if ( $request->hasFile('profilepicture') ) $this->handleImage($request->file('profilepicture'), $user);
 
         $user->save();
+
+        tracert()->log('users', $user->id, $this->auth_user->id, 'update');
 
         $message = trans('blogify::notify.success', ['model' => 'User', 'name' => $user->fullName, 'action' =>'updated']);
         session()->flash('notify', [ 'success', $message ] );

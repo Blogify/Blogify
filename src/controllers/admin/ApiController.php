@@ -1,6 +1,7 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
-use DB;
+use Illuminate\Database\DatabaseManager;
+use jorenvanhocht\Blogify\Exceptions\BlogifyException;
 use jorenvanhocht\Blogify\Models\Post;
 use Input;
 use Illuminate\Contracts\Cache\Repository;
@@ -40,11 +41,12 @@ class ApiController extends BaseController {
      * @param $column
      * @param $order
      * @param bool $trashed
-     * @return string
+     * @param DatabaseManager $db
+     * @return mixed
      */
-    public function sort( $table, $column, $order, $trashed = false )
+    public function sort( $table, $column, $order, $trashed = false, DatabaseManager $db )
     {
-        $data = DB::table( $table );
+        $data = $db->table( $table );
 
         // Check for trashed data
         $data = $trashed ? $data->whereNotNull('deleted_at') : $data->whereNull('deleted_at');
@@ -88,7 +90,7 @@ class ApiController extends BaseController {
             $hash = $this->auth_user->hash;
             $cache->put( "autoSavedPost-$hash", Input::all(), Carbon::now()->addHours(2) );
         }
-        catch( \Exception $exception )
+        catch( BlogifyException $exception )
         {
             return response()->json([ false, date('d-m-Y H:i:s')] );
         }

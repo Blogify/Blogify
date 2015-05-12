@@ -1,3 +1,7 @@
+
+
+>**Important**: This package is still in developement. We expect to release a stable release in June 2015.
+
 # Blogify
 
 This package integrates a blog in your Laravel 5 project. For a quick install follow the steps below.
@@ -5,7 +9,11 @@ This package integrates a blog in your Laravel 5 project. For a quick install fo
 ## Installation
 
 ### Composer
-This section will follow at a later time when the package is actulay submitted to packagist.
+Require the package with composer by running the following command in your terminal.
+
+```php
+composer require jorenvanhocht/blogify 0.1-beta
+```
 
 ### Serivce Provider & Facade
 Add the following code to your providers array in config/app.php
@@ -14,7 +22,7 @@ Add the following code to your providers array in config/app.php
 'jorenvanhocht\Blogify\BlogifyServiceProvider',
 ```
 
-Add the following code to your aliases array in config/app.php to be able to use the facade.
+Add the following code to your aliases array in config/app.php to be able to use the facade. <em>(Not required, you can also use the helper method)</em>
 
 ```php
 'Blogify'	=> 'jorenvanhocht\Blogify\Facades\Blogify',

@@ -14,7 +14,8 @@ class BlogifyServiceProvider extends ServiceProvider {
     {
         $this->app->bind('jorenvanhocht.blogify', function()
         {
-            return new Blogify;
+            $db = $this->app['db'];
+            return new Blogify($db);
         });
 
         $this->app['router']->middleware('BlogifyAdminAuthenticate', 'jorenvanhocht\Blogify\Middleware\BlogifyAdminAuthenticate');
@@ -49,7 +50,7 @@ class BlogifyServiceProvider extends ServiceProvider {
 
         // Publish the config files for the package
         $this->publishes([
-            __DIR__.'/config' => config_path('blogify/'),
+            __DIR__.'/../config' => config_path('blogify/'),
         ], 'config');
 
         $this->publishes([
@@ -61,7 +62,7 @@ class BlogifyServiceProvider extends ServiceProvider {
         $this->loadViewsFrom(__DIR__.'/views', 'blogify');
 
         // Make the config file accessible even when the files are not published
-        $this->mergeConfigFrom(__DIR__.'/config/blogify.php', 'blogify');
+        $this->mergeConfigFrom(__DIR__.'/../config/blogify.php', 'blogify');
 
         $this->loadTranslationsFrom(__DIR__.'/lang/', 'blogify');
     }

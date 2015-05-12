@@ -9,7 +9,7 @@
         @include('blogify::admin.snippets.notify')
     @endif
     @if ( session()->has('success') )
-        @include('blogify::admin.widgets.alert', array('class'=>'success', 'dismissable'=>true, 'message'=> session()->get('success'), 'icon'=> 'check'))
+        @include('blogify::admin.widgets.alert', ['class'=>'success', 'dismissable'=>true, 'message'=> session()->get('success'), 'icon'=> 'check'])
     @endif
 
     <p>
@@ -57,7 +57,7 @@
     </table>
 @endsection
 
-@include('blogify::admin.widgets.panel', array('header'=>true, 'as'=>'cotable'))
+@include('blogify::admin.widgets.panel', ['header'=>true, 'as'=>'cotable'])
 
 {!! $users->render() !!}
 

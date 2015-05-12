@@ -203,7 +203,11 @@ class PostsController extends BaseController {
 
         if ( $this->status->byHash( $this->data->status )->name == 'Pending review' ) $this->mailReviewer( $post );
 
-        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' => ( $request->hash == '' ) ? 'created' : 'updated']);
+        $action = ( $request->hash == '' ) ? 'created' : 'updated';
+
+        tracert()->log('posts', $post->id, $this->auth_user->id, $action);
+
+        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' => $action]);
         session()->flash('notify', [ 'success', $message ] );
         $this->cache->forget('autoSavedPost');
 
@@ -222,6 +226,8 @@ class PostsController extends BaseController {
         $name       = $post->title;
 
         $post->delete();
+
+        tracert()->log('posts', $post->id, $this->auth_user->id, 'delete');
 
         $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $name, 'action' =>'deleted']);
         session()->flash('notify', [ 'success', $message ] );
@@ -265,6 +271,8 @@ class PostsController extends BaseController {
         $post = $this->post->byHash($hash);
         $post->being_edited_by = null;
         $post->save();
+
+        tracert()->log('posts', $post->id, $this->auth_user->id, 'canceled');
 
         $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->name, 'action' =>'canceled']);
         session()->flash('notify', [ 'success', $message ] );

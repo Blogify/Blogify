@@ -7,5 +7,5 @@
             @endforeach
         </ul>
     @endsection
-    @include('blogify::admin.widgets.panel', array('class'=>'danger', 'header'=>true, 'as'=>'panel6'))
+    @include('blogify::admin.widgets.panel', ['class'=>'danger', 'header'=>true, 'as'=>'panel6'])
 @endif

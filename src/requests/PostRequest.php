@@ -1,7 +1,6 @@
 <?php namespace jorenvanhocht\Blogify\Requests;
 
 use App\Http\Requests\Request;
-use Input;
 use jorenvanhocht\Blogify\Models\Post;
 
 class PostRequest extends Request {
@@ -23,7 +22,7 @@ class PostRequest extends Request {
      */
     public function rules()
     {
-        $hash   = Input::get('hash');
+        $hash   = $this->input('hash');
         $id     = ( ! empty( $hash ) ) ? Post::byHash( $hash )->id : 0;
 
         return [

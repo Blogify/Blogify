@@ -1,4 +1,4 @@
-<?php namespace jorenvanhocht\Blogify\Config;
+<?php
 
 return array (
 
