@@ -24,6 +24,8 @@ class ApiController extends BaseController {
     protected $base_slug;
 
     /**
+     * Construct the class
+     *
      * @param Post $post
      */
     public function __construct(Post $post)
