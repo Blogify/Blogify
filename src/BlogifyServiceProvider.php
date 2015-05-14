@@ -40,12 +40,12 @@ class BlogifyServiceProvider extends ServiceProvider {
 
         // Publish the migration files for the package
         $this->publishes([
-            __DIR__ . '/migrations/' => base_path('/database/migrations/')
+            __DIR__ . '/Migrations/' => base_path('/database/migrations/')
         ], 'migrations' );
 
         // Publish the seed files for the package
         $this->publishes([
-            __DIR__ . '/seeds/' => base_path('/database/seeds/')
+            __DIR__ . '/Seeds/' => base_path('/database/seeds/')
         ], 'seeds' );
 
         // Publish the config files for the package
@@ -59,12 +59,12 @@ class BlogifyServiceProvider extends ServiceProvider {
             __DIR__.'/public/datetimepicker' => base_path('public/datetimepicker/')
         ], 'assets');
 
-        $this->loadViewsFrom(__DIR__.'/views', 'blogify');
+        $this->loadViewsFrom(__DIR__.'/Views', 'blogify');
 
         // Make the config file accessible even when the files are not published
         $this->mergeConfigFrom(__DIR__.'/../config/blogify.php', 'blogify');
 
-        $this->loadTranslationsFrom(__DIR__.'/lang/', 'blogify');
+        $this->loadTranslationsFrom(__DIR__.'/Lang/', 'blogify');
     }
 
 }
