@@ -1,9 +1,9 @@
-<?php
+<?php namespace jorenvanhocht\Blogify\Seeds;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class DatabaseSeeder extends Seeder {
+class BlogifySeeder extends Seeder {
 
 	/**
 	 * Run the database seeds.

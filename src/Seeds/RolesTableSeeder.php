@@ -21,12 +21,12 @@ class RolesTableSeeder extends Seeder {
 
         Role::create([
             "hash"          => Blogify::makeUniqueHash('roles', 'hash'),
-            "name"          => "Editor",
+            "name"          => "Reviewer",
         ]);
 
         Role::create([
             "hash"          => Blogify::makeUniqueHash('roles', 'hash'),
-            "name"          => "Reviewer",
+            "name"          => "Member",
         ]);
     }
 

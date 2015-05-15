@@ -290,15 +290,19 @@ class PostsController extends BaseController {
     private function appendMiddleware()
     {
         $this->middleware('HasAdminOrAuthorRole', [
-            'only' => ['create']
+            'only' => ['create'],
         ]);
 
         $this->middleware('CanEditPost', [
-            'only' => ['edit']
+            'only' => ['edit'],
         ]);
 
         $this->middleware('DenyIfBeingEdited', [
-            'only' => ['edit']
+            'only' => ['edit'],
+        ]);
+
+        $this->middleware('CanViewPost', [
+            'only' => ['edit', 'show'],
         ]);
     }
 

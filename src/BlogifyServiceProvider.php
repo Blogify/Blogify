@@ -51,16 +51,6 @@ class BlogifyServiceProvider extends ServiceProvider {
         // Load the routes for the package
         include __DIR__ . '/routes.php';
 
-        // Publish the migration files for the package
-        $this->publishes([
-            __DIR__ . '/Migrations/' => base_path('/database/migrations/')
-        ], 'migrations' );
-
-        // Publish the seed files for the package
-        $this->publishes([
-            __DIR__ . '/Seeds/' => base_path('/database/seeds/')
-        ], 'seeds' );
-
         // Publish the config files for the package
         $this->publishes([
             __DIR__.'/../config' => config_path('blogify/'),
@@ -78,6 +68,8 @@ class BlogifyServiceProvider extends ServiceProvider {
         $this->mergeConfigFrom(__DIR__.'/../config/blogify.php', 'blogify');
 
         $this->loadTranslationsFrom(__DIR__.'/Lang/', 'blogify');
+
+        $this->registerCommands();
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -98,6 +90,7 @@ class BlogifyServiceProvider extends ServiceProvider {
         $this->app['router']->middleware('HasAdminRole', 'jorenvanhocht\Blogify\Middleware\HasAdminRole');
         $this->app['router']->middleware('RedirectIfAuthenticated', 'jorenvanhocht\Blogify\Middleware\RedirectIfAuthenticated');
         $this->app['router']->middleware('IsOwner', 'jorenvanhocht\Blogify\Middleware\IsOwner');
+        $this->app['router']->middleware('CanViewPost', 'jorenvanhocht\Blogify\Middleware\CanViewPost');
     }
 
     /**
@@ -122,6 +115,14 @@ class BlogifyServiceProvider extends ServiceProvider {
         {
             $loader->alias($key, $alias);
         }
+    }
+
+    private function registerCommands()
+    {
+        $this->commands([
+            'jorenvanhocht\Blogify\Commands\BlogifyMigrateCommand',
+            'jorenvanhocht\Blogify\Commands\BlogifySeedCommand',
+        ]);
     }
 
 }
