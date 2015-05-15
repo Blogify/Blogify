@@ -23,7 +23,8 @@ class CategoryRequest extends Request {
      */
     public function rules()
     {
-        $id = Category::byHash($this->segment(3))->id;
+        $segment = $this->segment(3);
+        $id = isset( $segment ) ? Category::byHash($this->segment(3))->id : 0;
         return [
             'name'		=> "required|unique:categories,name,$id|min:3|max:45",
         ];
