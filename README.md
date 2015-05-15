@@ -211,6 +211,22 @@ All models are extending the BaseModel wich has a function to scope an item by i
     <thead>
     <tbody>
         <tr>
+            <td>Register providers and aliases of required packages from within the service provider</td>
+            <td>done</td>
+        </tr>
+        <tr>
+            <td>Categories in drop down box instead of radio buttons</td>
+            <td>Done</td>
+        </tr>
+        <tr>
+            <td>Private posts</td>
+            <td>pending</td>
+        </tr>
+        <tr>
+            <td>Protected posts</td>
+            <td>pending</td>
+        </tr>
+        <tr>
             <td>Migrate command</td>
             <td>pending</td>
         </tr>
@@ -232,14 +248,6 @@ All models are extending the BaseModel wich has a function to scope an item by i
         </tr>
         <tr>
             <td>Live demo</td>
-            <td>pending</td>
-        </tr>
-        <tr>
-            <td>Seed command</td>
-            <td>pending</td>
-        </tr>
-        <tr>
-            <td>Categories in drop down box instead of radio buttons</td>
             <td>pending</td>
         </tr>
         <tr>

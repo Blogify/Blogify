@@ -195,22 +195,22 @@
                                 <div class="col-sm-12" id="categories">
                                     @if ( count($categories) <= 0 )
                                         <span id="helpBlock" class="help-block">{{ trans("blogify::posts.form.category.no_results") }}</span>
+                                    @else
+                                        <select name="category" id="category" class="form-control form-small">
+                                            @foreach ( $categories as $category )
+                                                @if ( isset($post) )
+                                                    <option {{ ($category->id === $post->category_id || $category->hash == Input::old('category') ) ? 'selected' : '' }} value="{{$category->hash}}">{{$category->name}}</option>
+                                                @else
+                                                    <option {{  $category->hash == Input::old('category') ? 'selected' : '' }} value="{{$category->hash}}">{{$category->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
                                     @endif
 
                                     @if( $errors->has('category') )
                                         <p class="text-danger">{{$errors->first('category')}}</p>
                                     @endif
 
-                                    @foreach ( $categories as $category )
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <label for="{{$category->name}}">
-                                                    {!!Form::radio('category', $category->hash, (isset($post) && $post->category_id === $category->id) ? true : false, ['id' => 'category'] )!!}
-                                                    {{$category->name}}
-                                                </label>
-                                            </div>
-                                        </div>
-                                    @endforeach
                                 </div>
                             </div>
                         </div>
