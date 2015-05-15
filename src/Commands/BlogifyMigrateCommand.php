@@ -19,9 +19,9 @@ class BlogifyMigrateCommand extends Command {
     protected $description = 'Run the migrations for the Blogify package';
 
     /**
-     * @var string
+     * @var array
      */
-    protected $path;
+    protected $paths;
 
     /**
      * Construct the class
@@ -30,7 +30,10 @@ class BlogifyMigrateCommand extends Command {
     {
         parent::__construct();
 
-        $this->path = 'vendor/jorenvanhocht/blogify/src/Migrations';
+        $this->paths = [
+            'vendor/jorenvanhocht/blogify/src/Migrations',
+            'vendor/jorenvanhocht/tracert/src/Migrations',
+        ];
     }
 
     /**
@@ -40,7 +43,10 @@ class BlogifyMigrateCommand extends Command {
      */
     public function fire()
     {
-        $this->call('migrate', ['--path' => $this->path]);
+        foreach ($this->paths as $path)
+        {
+            $this->call('migrate', ['--path' => $path]);
+        }
     }
 
 }
