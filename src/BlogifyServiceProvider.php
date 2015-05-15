@@ -1,9 +1,28 @@
 <?php namespace jorenvanhocht\Blogify;
 
-
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 
 class BlogifyServiceProvider extends ServiceProvider {
+
+    /**
+     * @var array
+     */
+    protected $providers = [
+        'Illuminate\Html\HtmlServiceProvider',
+        'Intervention\Image\ImageServiceProvider',
+        'jorenvanhocht\Tracert\TracertServiceProvider'
+    ];
+
+    /**
+     * @var array
+     */
+    protected $aliases = [
+        'Tracert'	=> 'jorenvanhocht\Blogify\Facades\Tracert',
+        'Form'      => 'Illuminate\Html\FormFacade',
+        'HTML'      => 'Illuminate\Html\HtmlFacade',
+        'Image'     => 'Intervention\Image\Facades\Image',
+    ];
 
     /**
      * Register the service provider
@@ -18,15 +37,9 @@ class BlogifyServiceProvider extends ServiceProvider {
             return new Blogify($db);
         });
 
-        $this->app['router']->middleware('BlogifyAdminAuthenticate', 'jorenvanhocht\Blogify\Middleware\BlogifyAdminAuthenticate');
-        $this->app['router']->middleware('BlogifyVerifyCsrfToken', 'jorenvanhocht\Blogify\Middleware\BlogifyVerifyCsrfToken');
-        $this->app['router']->middleware('CanEditPost', 'jorenvanhocht\Blogify\Middleware\CanEditPost');
-        $this->app['router']->middleware('DenyIfBeingEdited', 'jorenvanhocht\Blogify\Middleware\DenyIfBeingEdited');
-        $this->app['router']->middleware('BlogifyGuest', 'jorenvanhocht\Blogify\Middleware\Guest');
-        $this->app['router']->middleware('HasAdminOrAuthorRole', 'jorenvanhocht\Blogify\Middleware\HasAdminOrAuthorRole');
-        $this->app['router']->middleware('HasAdminRole', 'jorenvanhocht\Blogify\Middleware\HasAdminRole');
-        $this->app['router']->middleware('RedirectIfAuthenticated', 'jorenvanhocht\Blogify\Middleware\RedirectIfAuthenticated');
-        $this->app['router']->middleware('IsOwner', 'jorenvanhocht\Blogify\Middleware\IsOwner');
+       $this->registerMiddleware();
+       $this->registerServiceProviders();
+       $this->registerAliases();
     }
 
     /**
@@ -65,6 +78,50 @@ class BlogifyServiceProvider extends ServiceProvider {
         $this->mergeConfigFrom(__DIR__.'/../config/blogify.php', 'blogify');
 
         $this->loadTranslationsFrom(__DIR__.'/Lang/', 'blogify');
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Helper methods
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @return void
+     */
+    private function registerMiddleware()
+    {
+        $this->app['router']->middleware('BlogifyAdminAuthenticate', 'jorenvanhocht\Blogify\Middleware\BlogifyAdminAuthenticate');
+        $this->app['router']->middleware('BlogifyVerifyCsrfToken', 'jorenvanhocht\Blogify\Middleware\BlogifyVerifyCsrfToken');
+        $this->app['router']->middleware('CanEditPost', 'jorenvanhocht\Blogify\Middleware\CanEditPost');
+        $this->app['router']->middleware('DenyIfBeingEdited', 'jorenvanhocht\Blogify\Middleware\DenyIfBeingEdited');
+        $this->app['router']->middleware('BlogifyGuest', 'jorenvanhocht\Blogify\Middleware\Guest');
+        $this->app['router']->middleware('HasAdminOrAuthorRole', 'jorenvanhocht\Blogify\Middleware\HasAdminOrAuthorRole');
+        $this->app['router']->middleware('HasAdminRole', 'jorenvanhocht\Blogify\Middleware\HasAdminRole');
+        $this->app['router']->middleware('RedirectIfAuthenticated', 'jorenvanhocht\Blogify\Middleware\RedirectIfAuthenticated');
+        $this->app['router']->middleware('IsOwner', 'jorenvanhocht\Blogify\Middleware\IsOwner');
+    }
+
+    /**
+     * @return void
+     */
+    private function registerServiceProviders()
+    {
+        foreach ($this->providers as $provider)
+        {
+            app()->register($provider);
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function registerAliases()
+    {
+        $loader = AliasLoader::getInstance();
+
+        foreach ( $this->aliases as $key => $alias )
+        {
+            $loader->alias($key, $alias);
+        }
     }
 
 }
