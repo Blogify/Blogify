@@ -231,6 +231,14 @@ All models are extending the BaseModel wich has a function to scope an item by i
             <td>Done</td>
         </tr>
         <tr>
+            <td>Example public files (controllers/views/...</td>
+            <td>Busy</td>
+        </tr>
+        <tr>
+            <td>Public part generator</td>
+            <td>Pending</td>
+        </tr>
+        <tr>
             <td>Protected posts</td>
             <td>pending</td>
         </tr>
@@ -271,19 +279,11 @@ All models are extending the BaseModel wich has a function to scope an item by i
             <td>pending</td>
         </tr>
         <tr>
-            <td>Example public files (controllers/views/...</td>
-            <td>pending</td>
-        </tr>
-        <tr>
             <td>Command do generate the public files</td>
             <td>pending</td>
         </tr>
         <tr>
             <td>Promo website</td>
-            <td>pending</td>
-        </tr>
-        <tr>
-            <td>Implementation of protected/private posts</td>
             <td>pending</td>
         </tr>
     </tbody>
