@@ -127,4 +127,10 @@ class Post extends BaseModel{
     {
         return $query->whereSlug($slug)->first();
     }
+
+    public function scopeForPublic($query)
+    {
+        return $query->where('publish_date', '<=', date('Y-m-d H:i:s'))
+                    ->where('visibility_id', '=', '1');
+    }
 }

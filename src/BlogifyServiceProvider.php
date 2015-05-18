@@ -63,6 +63,7 @@ class BlogifyServiceProvider extends ServiceProvider {
         ], 'assets');
 
         $this->loadViewsFrom(__DIR__.'/Views', 'blogify');
+        $this->loadViewsFrom(__DIR__.'/../Example/Views', 'blogifyPublic');
 
         // Make the config file accessible even when the files are not published
         $this->mergeConfigFrom(__DIR__.'/../config/blogify.php', 'blogify');
@@ -122,6 +123,8 @@ class BlogifyServiceProvider extends ServiceProvider {
         $this->commands([
             'jorenvanhocht\Blogify\Commands\BlogifyMigrateCommand',
             'jorenvanhocht\Blogify\Commands\BlogifySeedCommand',
+            'jorenvanhocht\Blogify\Commands\BlogifyGeneratePublicPartCommand',
+            'jorenvanhocht\Blogify\Commands\BlogifyCreateRequiredDirectories',
         ]);
     }
 

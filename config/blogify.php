@@ -38,11 +38,11 @@ return array (
      */
     'upload_paths'  => [
         'posts' => [
-            'images'    => 'uploads/posts/'
+            'images'    => 'uploads/posts/',
         ],
         'profiles' => [
-            'profilepictures' => 'uploads/profilepictures/'
-        ]
+            'profilepictures' => 'uploads/profilepictures/',
+        ],
     ],
 
     /**
@@ -52,7 +52,7 @@ return array (
      */
     'image_sizes'   => [
         'posts' => [500,null],
-        'profilepictures' => [200, null],
+        'profilepictures' => [100, 100],
     ],
 
     /**

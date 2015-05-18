@@ -18,10 +18,19 @@
     },
     "autoload": {
         "psr-4": {
-            "jorenvanhocht\\Blogify\\": "src/"
+            "jorenvanhocht\\Blogify\\": "src/",
+            "jorenvanhocht\\Blogify\\Example\\": "Example/"
         },
         "files": [
             "src/Helpers.php"
+        ]
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan blogify:create-dirs"
+        ],
+        "post-update-cmd": [
+            "php artisan blogify:create-dirs"
         ]
     }
 }
