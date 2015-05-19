@@ -415,7 +415,7 @@ class PostsController extends BaseController {
         $post->reviewer_id          = $this->user->byHash( $this->data->reviewer )->id;
         $post->visibility_id        = $this->visibility->byHash( $this->data->visibility )->id;
         $post->category_id          = $this->category->byHash($this->data->category)->id;
-        $post->being_edited_by      = NULL;
+        $post->being_edited_by      = null;
 
         $post->save();
         $post->tag()->sync($this->tags);
