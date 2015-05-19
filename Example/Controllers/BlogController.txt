@@ -61,7 +61,7 @@ class BlogController extends Controller
         $data = $this->getOverviewData();
         $data['posts'] = $this->post->forPublic()->orderBy('publish_date', 'DESC')->paginate($this->config->items_per_page);
 
-        return view('blogifyPublic::index', $data);
+        return view('blogify.index', $data);
     }
 
     /**
@@ -73,7 +73,7 @@ class BlogController extends Controller
         $data = $this->getOverviewData();
         $data['post'] = $this->post->bySlug($slug);
 
-        return view('blogifyPublic::show', $data);
+        return view('blogify.show', $data);
     }
 
     /**
@@ -91,7 +91,7 @@ class BlogController extends Controller
                                 ->orderBy('publish_date', 'DESC')
                                 ->paginate($this->config->items_per_page);
 
-        return view('blogifyPublic::index', $data);
+        return view('blogify.index', $data);
     }
 
     /**
@@ -105,7 +105,7 @@ class BlogController extends Controller
 
         $data['posts'] = $this->post->whereCategoryId($category_id)->forPublic()->orderBy('publish_date', 'DESC')->paginate($this->config->items_per_page);
 
-        return view('blogifyPublic::index', $data);
+        return view('blogify.index', $data);
     }
 
     ///////////////////////////////////////////////////////////////////////////

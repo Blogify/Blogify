@@ -6,19 +6,7 @@
 // public routes
 ///////////////////////////////////////////////////////////////////////////
 
-Route::resource('blog', 'jorenvanhocht\Blogify\Example\Controllers\BlogController');
-Route::get('blog/archive/{year}/{month}', [
-    'as'    => 'blog.archive',
-    'uses'  => 'jorenvanhocht\Blogify\Example\Controllers\BlogController@archive'
-]);
-Route::get('blog/category/{category}', [
-    'as'    => 'blog.category',
-    'uses'  => 'jorenvanhocht\Blogify\Example\Controllers\BlogController@category',
-]);
-Route::post('comments', [
-    'as' => 'comments.store',
-    'uses' => 'jorenvanhocht\Blogify\Example\Controllers\CommentsController@store'
-]);
+
 
 ///////////////////////////////////////////////////////////////////////////
 // Logged in user routes

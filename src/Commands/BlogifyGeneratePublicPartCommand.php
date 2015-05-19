@@ -19,20 +19,39 @@ class BlogifyGeneratePublicPartCommand extends Command {
      */
     protected $description = 'Generate the public part of your blog';
 
-
+    /**
+     * @var array
+     */
     protected $templates;
 
-    protected $files;
+    /**
+     * @var array
+     */
+    protected $views;
 
     /**
-     * Construct the class
+     * @var array
      */
+    protected $layouts;
+
     public function __construct( )
     {
         parent::__construct();
 
         $this->fillTemplatesArray();
-        $this->fillFilesArray();
+
+        $this->views = [
+            'index' => __DIR__."/../../Example/Views/index.blade.php",
+            'show' =>__DIR__."/../../Example/Views/show.blade.php",
+        ];
+
+        $this->layouts = [
+            'master' => __DIR__."/../../Example/Views/templates/master.blade.php",
+        ];
+
+        $this->js = [
+            'custom' => __DIR__."/../../Example/Public/js/custom.js",
+        ];
     }
 
     /**
@@ -44,14 +63,18 @@ class BlogifyGeneratePublicPartCommand extends Command {
     {
         $namespace = $this->option('namespace');
 
-        $this->publishControllers($namespace);
-        $this->publishRequests($namespace);
+        $this->publishTemplates($namespace);
+        $this->info('Controllers and requests created');
 
-        if ( ! $this->getOptions('only-backend') )
+        if ( ! $this->option('only-backend') )
         {
             $this->publishViews();
+            $this->info('Views are created');
             $this->publishAssets();
+            $this->info('Assets are created');
         }
+
+        $this->info('Public part has successfully been created');
     }
 
     /**
@@ -83,87 +106,108 @@ class BlogifyGeneratePublicPartCommand extends Command {
         ];
     }
 
-    private function fillFilesArray()
+    /**
+     * @param $namespace
+     * @return void
+     */
+    private function publishTemplates($namespace)
     {
-        $this->files = [
-            'public' => [
-                'js' => [
-                    __DIR__.'/../../Example/Public/js/custom.js',
-                ],
-            ],
-            'resources' => [
-                'views' => [
-                    'templates' => [
-                        __DIR__.'/../../Example/Views/templates/master.blade.php',
-                    ],
-                    __DIR__.'/../../Example/Views/index.blade.php',
-                    __DIR__.'/../../Example/Views/show.blade.php',
-                ],
-            ],
-        ];
-    }
-
-    private function publishControllers($namespace)
-    {
-        foreach ($this->templates['controllers'] as $key => $file)
+        foreach ($this->templates as $key => $files)
         {
-            $contents = $this->get_file_contents($file);
-            $contents = str_replace('{{namespace}}', $namespace.'\Http\Controllers', $contents);
-            $filename = __DIR__.'/../../../../../app/Http/Controllers/'.$key.'.php';
-
-            if (file_exists($filename))
+            foreach($files as $k => $file)
             {
-                if ($this->confirm("File $key allready exists, do you want to override it? Y/N"))
+                $contents = $this->get_file_contents($file);
+                $contents = str_replace('{{namespace}}', $namespace.'\Http\Controllers', $contents);
+
+                $key = ucfirst($key);
+                $filename = __DIR__."/../../../../../app/Http/$key/".$k.'.php';
+
+                if (file_exists($filename))
+                {
+                    if ($this->confirm("File $k allready exists, do you want to override it? Y/N"))
+                    {
+                        file_put_contents($filename, $contents);
+                    }
+                }
+                else
                 {
                     file_put_contents($filename, $contents);
                 }
             }
-            else
-            {
-                file_put_contents($filename, $contents);
-            }
-
         }
     }
 
-    private function publishRequests($namespace)
-    {
-        foreach($this->templates['requests'] as $key => $file)
-        {
-            $contents = $this->get_file_contents($file);
-            $contents = str_replace('{{namespace}}', $namespace.'\Http\Controllers', $contents);
-            $filename = __DIR__.'/../../../../../app/Http/Requests/'.$key.'.php';
-
-            if (file_exists($filename))
-            {
-                if ($this->confirm("File $key allready exists, do you want to override it? Y/N"))
-                {
-                    file_put_contents($filename, $contents);
-                }
-            }
-            else
-            {
-                file_put_contents($filename, $contents);
-            }
-        }
-    }
-
+    /**
+     * @return void
+     */
     private function publishViews()
     {
-        foreach($this->files as $key => $var)
-        {
-            foreach ( $key as $k => $file)
-            {
+        $path = __DIR__."/../../../../../resources/views/blogify/templates/";
+        if (!file_exists($path)) mkdir($path, 775, true);
 
+        foreach ($this->views as $key => $file)
+        {
+            $filename = __DIR__."/../../../../../resources/views/blogify/$key.blade.php";
+            if (file_exists($filename))
+            {
+                if ($this->confirm("File $key allready exists, do you want to override it? Y/N"))
+                {
+                    copy($file, $filename);
+                }
+            }
+            else
+            {
+                copy($file, $filename);
+            }
+        }
+
+        foreach ($this->layouts as $key => $file)
+        {
+            $filename = __DIR__."/../../../../../resources/views/blogify/templates/$key.blade.php";
+            if (file_exists($filename))
+            {
+                if ($this->confirm("File $key allready exists, do you want to override it? Y/N"))
+                {
+                    copy($file, $filename);
+                }
+            }
+            else
+            {
+                copy($file, $filename);
+            }
+
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function publishAssets()
+    {
+        $path = __DIR__."/../../../../../public/assets/";
+        if (!file_exists($path)) mkdir($path, 775, true);
+
+        foreach ($this->js as $key => $file)
+        {
+            $filename = "$path$key.js";
+            if (file_exists($filename))
+            {
+                if ($this->confirm("File $key allready exists, do you want to override it? Y/N"))
+                {
+                    copy($file, $filename);
+                }
+            }
+            else
+            {
+                copy($file, $filename);
             }
         }
     }
 
-    private function publishAssets()
-    {
-
-    }
-
+    /**
+     * @param $file
+     * @return string
+     */
     private function get_file_contents($file)
     {
         return file_get_contents($file);

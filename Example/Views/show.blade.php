@@ -1,4 +1,4 @@
-@extends('blogifyPublic::templates.master')
+@extends('blogify.templates.master')
 @section('content')
 
     <?php $data = session()->get('notify') ?>

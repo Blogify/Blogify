@@ -1,4 +1,4 @@
-@extends('blogifyPublic::templates.master')
+@extends('blogify.templates.master')
 @section('content')
     @if(count($posts) <= 0)
         <div class="row">
