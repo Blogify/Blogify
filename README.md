@@ -232,11 +232,15 @@ All models are extending the BaseModel wich has a function to scope an item by i
         </tr>
         <tr>
             <td>Example public files (controllers/views/...</td>
-            <td>Busy</td>
+            <td>Done</td>
         </tr>
         <tr>
             <td>Public part generator</td>
-            <td>Pending</td>
+            <td>Done</td>
+        </tr>
+        <tr>
+            <td>Command do generate the public files</td>
+            <td>Done</td>
         </tr>
         <tr>
             <td>Protected posts</td>
@@ -256,7 +260,7 @@ All models are extending the BaseModel wich has a function to scope an item by i
         </tr>
         <tr>
             <td>Live demo</td>
-            <td>pending</td>
+            <td>Done</td>
         </tr>
         <tr>
             <td>Tags auto complete</td>
@@ -271,15 +275,7 @@ All models are extending the BaseModel wich has a function to scope an item by i
             <td>pending</td>
         </tr>
         <tr>
-            <td>Live notification with pusher</td>
-            <td>pending</td>
-        </tr>
-        <tr>
             <td>Send extra e-mails when nececaary</td>
-            <td>pending</td>
-        </tr>
-        <tr>
-            <td>Command do generate the public files</td>
             <td>pending</td>
         </tr>
         <tr>
