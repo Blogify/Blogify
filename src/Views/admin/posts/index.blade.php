@@ -53,11 +53,16 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
                 <td>{!! $post->slug !!}</td>
                 <td>{!! $post->publish_date !!}</td>
                 <td>
-                    <a href="{{ route('admin.posts.edit', [$post->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
-                    {!! Form::open( [ 'route' => ['admin.posts.destroy', $post->hash], 'class' => $post->hash . ' form-delete' ] ) !!}
-                    {!! Form::hidden('_method', 'delete') !!}
-                    <a href="#" title="{{$post->title}}" class="delete" id="{{$post->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
-                    {!! Form::close() !!}
+                    @if(!$trashed)
+                        <a href="{{ route('admin.posts.edit', [$post->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
+                        {!! Form::open( [ 'route' => ['admin.posts.destroy', $post->hash], 'class' => $post->hash . ' form-delete' ] ) !!}
+
+                        {!! Form::hidden('_method', 'delete') !!}
+                        <a href="#" title="{{$post->name}}" class="delete" id="{{$post->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
+                        {!! Form::close() !!}
+                    @else
+                        <a href="{{route('admin.posts.restore', [$post->hash])}}" title="">Restore</a>
+                    @endif
                 </td>
             </tr>
         @endforeach

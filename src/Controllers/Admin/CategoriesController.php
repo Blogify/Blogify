@@ -126,7 +126,23 @@ class CategoriesController extends BaseController {
 
         tracert()->log('categories', $category->id, $this->auth_user->id, 'delete');
 
-        $message    = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $category_name, 'action' =>'deleted']);
+        $message    = trans('blogify::notify.success', ['model' => 'Categorie', 'name' => $category_name, 'action' =>'deleted']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.categories.index');
+    }
+
+    /**
+     * @param $hash
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore($hash)
+    {
+        $category = $this->category->withTrashed()->byHash($hash);
+        $category_name = $category->name;
+        $category->restore();
+
+        $message    = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category_name, 'action' =>'restored']);
         session()->flash('notify', [ 'success', $message ] );
 
         return redirect()->route('admin.categories.index');

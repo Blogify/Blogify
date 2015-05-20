@@ -168,6 +168,22 @@ class TagsController extends BaseController {
         return redirect()->route('admin.tags.index');
     }
 
+    /**
+     * @param $hash
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore($hash)
+    {
+        $tag = $this->tag->withTrashed()->byHash($hash);
+        $tag_name = $tag->name;
+        $tag->restore();
+
+        $message    = trans('blogify::notify.success', ['model' => 'Post', 'name' => $tag_name, 'action' =>'restored']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.tags.index');
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Helper methods
     ///////////////////////////////////////////////////////////////////////////

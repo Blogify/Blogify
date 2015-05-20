@@ -194,7 +194,9 @@
                             <div class="row">
                                 <div class="col-sm-12" id="categories">
                                     @if ( count($categories) <= 0 )
-                                        <span id="helpBlock" class="help-block">{{ trans("blogify::posts.form.category.no_results") }}</span>
+                                        <select name="category" id="category" class="form-control form-small" disabled>
+                                            <option id="no-cats-found">{{ trans("blogify::posts.form.category.no_results") }}</option>
+                                        </select>
                                     @else
                                         <select name="category" id="category" class="form-control form-small">
                                             @foreach ( $categories as $category )

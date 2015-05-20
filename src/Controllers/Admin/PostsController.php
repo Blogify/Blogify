@@ -138,7 +138,6 @@ class PostsController extends BaseController {
     public function create()
     {
         $hash = $this->auth_user->hash;
-        $this->cache->forget("autoSavedPost-$hash");
         $post = ( $this->cache->has("autoSavedPost-$hash") ) ? $this->buildPostObject() : null;
         $data = $this->getViewData( $post );
 
@@ -276,6 +275,22 @@ class PostsController extends BaseController {
 
         $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->name, 'action' =>'canceled']);
         session()->flash('notify', [ 'success', $message ] );
+        return redirect()->route('admin.posts.index');
+    }
+
+    /**
+     * @param $hash
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore($hash)
+    {
+        $post = $this->post->withTrashed()->byHash($hash);
+        $post_title = $post->title;
+        $post->restore();
+
+        $message    = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post_title, 'action' =>'restored']);
+        session()->flash('notify', [ 'success', $message ] );
+
         return redirect()->route('admin.posts.index');
     }
 

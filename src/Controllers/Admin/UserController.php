@@ -164,6 +164,22 @@ class UserController extends BaseController{
         return redirect()->route('admin.users.index');
     }
 
+    /**
+     * @param $hash
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore($hash)
+    {
+        $user = $this->user->withTrashed()->byHash($hash);
+        $fullname = $user->fullName;
+        $user->restore();
+
+        $message    = trans('blogify::notify.success', ['model' => 'Post', 'name' => $fullname, 'action' =>'restored']);
+        session()->flash('notify', [ 'success', $message ] );
+
+        return redirect()->route('admin.users.index');
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Helper methods
     ///////////////////////////////////////////////////////////////////////////

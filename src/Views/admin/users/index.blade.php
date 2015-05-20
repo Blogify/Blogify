@@ -45,11 +45,16 @@
                     <td>{!! $user->email !!}</td>
                     <td>{!! $user->role_id !!}</td>
                     <td>
-                        <a href="{{ route('admin.users.edit', [$user->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
-                        {!! Form::open( [ 'route' => ['admin.users.destroy', $user->hash], 'class' => $user->hash . ' form-delete' ] ) !!}
+                        @if(!$trashed)
+                            <a href="{{ route('admin.users.edit', [$user->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
+                            {!! Form::open( [ 'route' => ['admin.users.destroy', $user->hash], 'class' => $user->hash . ' form-delete' ] ) !!}
+
                             {!! Form::hidden('_method', 'delete') !!}
-                            <a href="#" title="{{$user->firstname . ' ' . $user->name}}" class="delete" id="{{$user->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
-                        {!! Form::close() !!}
+                            <a href="#" title="{{$user->name}}" class="delete" id="{{$user->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
+                            {!! Form::close() !!}
+                        @else
+                            <a href="{{route('admin.users.restore', [$user->hash])}}" title="">Restore</a>
+                        @endif
                     </td>
                 </tr>
             @endforeach

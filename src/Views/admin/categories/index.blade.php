@@ -39,11 +39,16 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
                 <td>{!! $category->name !!}</td>
                 <td>{!! $category->created_at !!}</td>
                 <td>
-                    <a href="{{ route('admin.categories.edit', [$category->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
-                    {!! Form::open( [ 'route' => ['admin.categories.destroy', $category->hash], 'class' => $category->hash . ' form-delete' ] ) !!}
-                    {!! Form::hidden('_method', 'delete') !!}
-                    <a href="#" title="{{$category->name}}" class="delete" id="{{$category->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
-                    {!! Form::close() !!}
+                    @if(!$trashed)
+                        <a href="{{ route('admin.categories.edit', [$category->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
+                        {!! Form::open( [ 'route' => ['admin.categories.destroy', $category->hash], 'class' => $category->hash . ' form-delete' ] ) !!}
+
+                        {!! Form::hidden('_method', 'delete') !!}
+                            <a href="#" title="{{$category->name}}" class="delete" id="{{$category->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
+                        {!! Form::close() !!}
+                    @else
+                        <a href="{{route('admin.categories.restore', [$category->hash])}}" title="">Restore</a>
+                    @endif
                 </td>
             </tr>
         @endforeach

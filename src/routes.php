@@ -84,11 +84,19 @@ Route::group($admin, function()
                 'as' => 'admin.users.overview',
                 'uses' => 'UserController@index',
             ]);
+            Route::get('users/{hash}/restore', [
+                'as' => 'admin.users.restore',
+                'uses' => 'UserController@restore'
+            ]);
 
             Route::resource('categories', 'CategoriesController');
             Route::get('categories/overview/{trashed?}', [
                 'as' => 'admin.categories.overview',
                 'uses' => 'CategoriesController@index',
+            ]);
+            Route::get('categories/{hash}/restore', [
+               'as' => 'admin.categories.restore',
+                'uses' => 'CategoriesController@restore'
             ]);
         });
 
@@ -116,6 +124,10 @@ Route::group($admin, function()
             'as'    => 'admin.posts.cancel',
             'uses'  => 'PostsController@cancel',
         ]);
+        Route::get('posts/{hash}/restore', [
+            'as' => 'admin.posts.restore',
+            'uses' => 'PostsController@restore'
+        ]);
 
         Route::group(['middleware' => 'HasAdminOrAuthorRole'], function(){
             Route::resource('tags', 'TagsController', [
@@ -128,6 +140,10 @@ Route::group($admin, function()
             Route::get('tags/overview/{trashed?}', [
                 'as'    => 'admin.tags.overview',
                 'uses'  => 'TagsController@index',
+            ]);
+            Route::get('tags/{hash}/restore', [
+                'as' => 'admin.tags.restore',
+                'uses' => 'TagsController@restore'
             ]);
 
             Route::get('comments/{revised?}', [

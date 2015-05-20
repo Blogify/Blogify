@@ -403,6 +403,8 @@ var app = {
                 success: function(data)
                 {
                     $('#category').append('<option selected value="'+data['hash'] +'">'+data['name']+'</option>');
+                    $('#category').prop('disabled', false);
+                    $('#no-cats-found').remove();
                     $('#newCategory')[0].value = '';
                 },
                 error: function(data)
