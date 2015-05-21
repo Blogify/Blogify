@@ -11,6 +11,7 @@ var app = {
         app.categories.init();
         app.tags.init();
         app.autoSave.init();
+        app.protectedPosts.init();
     },
 
     /**
@@ -674,6 +675,33 @@ var app = {
                 }
             });
         }
+    },
+
+    protectedPosts: {
+
+        init: function()
+        {
+            if ( $('#post').length )
+            {
+                app.protectedPosts.listener();
+                if ( $('#visibility')[0].selectedOptions[0].text == 'Protected' ) $('#password-protected-post').css('display', 'block');
+            }
+        },
+
+        listener: function()
+        {
+            $('#visibility').on('change', function(e){
+                if(e.currentTarget.selectedOptions[0].text == 'Protected')
+                {
+                    $('#password-protected-post').css('display', 'block');
+                }
+                else
+                {
+                    $('#password-protected-post').css('display', 'none');
+                }
+            });
+        }
+
     }
 
 };

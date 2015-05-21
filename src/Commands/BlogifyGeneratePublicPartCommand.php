@@ -34,24 +34,20 @@ class BlogifyGeneratePublicPartCommand extends Command {
      */
     protected $layouts;
 
+    /**
+     * @var string
+     */
+    protected $routes;
+
     public function __construct( )
     {
         parent::__construct();
 
         $this->fillTemplatesArray();
-
-        $this->views = [
-            'index' => __DIR__."/../../Example/Views/index.blade.php",
-            'show' =>__DIR__."/../../Example/Views/show.blade.php",
-        ];
-
-        $this->layouts = [
-            'master' => __DIR__."/../../Example/Views/templates/master.blade.php",
-        ];
-
-        $this->js = [
-            'custom' => __DIR__."/../../Example/Public/js/custom.js",
-        ];
+        $this->fillViewsArray();
+        $this->fillLayoutsArray();
+        $this->fillJsArray();
+        $this->defineRoutes();
     }
 
     /**
@@ -69,12 +65,14 @@ class BlogifyGeneratePublicPartCommand extends Command {
         if ( ! $this->option('only-backend') )
         {
             $this->publishViews();
-            $this->info('Views are created');
+            $this->info('Views created');
             $this->publishAssets();
-            $this->info('Assets are created');
+            $this->info('Assets created');
         }
 
         $this->info('Public part has successfully been created');
+        $this->info('Please add the following routes to your routes file');
+        $this->info($this->routes);
     }
 
     /**
@@ -91,22 +89,6 @@ class BlogifyGeneratePublicPartCommand extends Command {
     }
 
     /**
-     * @return void
-     */
-    private function fillTemplatesArray()
-    {
-        $this->templates = [
-            'controllers' => [
-                'BlogController' => __DIR__.'/../../Example/Controllers/BlogController.txt',
-                'CommentsController' => __DIR__.'/../../Example/Controllers/CommentsController.txt',
-            ],
-            'requests' => [
-                'CommentRequest' => __DIR__.'/../../Example/Requests/CommentRequest.txt',
-            ]
-        ];
-    }
-
-    /**
      * @param $namespace
      * @return void
      */
@@ -117,7 +99,8 @@ class BlogifyGeneratePublicPartCommand extends Command {
             foreach($files as $k => $file)
             {
                 $contents = $this->get_file_contents($file);
-                $contents = str_replace('{{namespace}}', $namespace.'\Http\Controllers', $contents);
+                $contents = str_replace('{{namespace}}', $namespace."\\Http\\$key", $contents);
+                $contents = str_replace('{{appnamespace}}', $namespace, $contents);
 
                 $key = ucfirst($key);
                 $filename = __DIR__."/../../../../../app/Http/$key/".$k.'.php';
@@ -204,6 +187,59 @@ class BlogifyGeneratePublicPartCommand extends Command {
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Helper methods
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @return void
+     */
+    private function fillTemplatesArray()
+    {
+        $this->templates = [
+            'Controllers' => [
+                'BlogController' => __DIR__.'/../../Example/Controllers/BlogController.txt',
+                'CommentsController' => __DIR__.'/../../Example/Controllers/CommentsController.txt',
+            ],
+            'Requests' => [
+                'CommentRequest' => __DIR__.'/../../Example/Requests/CommentRequest.txt',
+                'ProtectedPostRequest' => __DIR__.'/../../Example/Requests/ProtectedPostRequest.txt'
+            ]
+        ];
+    }
+
+    /**
+     * @return void
+     */
+    private function fillViewsArray()
+    {
+        $this->views = [
+            'index' => __DIR__."/../../Example/Views/index.blade.php",
+            'show' => __DIR__."/../../Example/Views/show.blade.php",
+            'password' => __DIR__."/../../Example/Views/password.blade.php",
+        ];
+    }
+
+    /**
+     * @return void
+     */
+    private function fillLayoutsArray()
+    {
+        $this->layouts = [
+            'master' => __DIR__."/../../Example/Views/templates/master.blade.php",
+        ];
+    }
+
+    /**
+     * @return void
+     */
+    private function fillJsArray()
+    {
+        $this->js = [
+            'custom' => __DIR__."/../../Example/Public/js/custom.js",
+        ];
+    }
+
     /**
      * @param $file
      * @return string
@@ -211,5 +247,35 @@ class BlogifyGeneratePublicPartCommand extends Command {
     private function get_file_contents($file)
     {
         return file_get_contents($file);
+    }
+
+    /**
+     * @return void
+     */
+    private function defineRoutes()
+    {
+        $this->routes = "
+            Route::resource('blog', 'BlogController', ['only' => ['index', 'schow']]);
+            Route::get('blog/archive/{year}/{month}', [
+                'as'    => 'blog.archive',
+                'uses'  => 'BlogController@archive'
+            ]);
+            Route::get('blog/category/{category}', [
+                'as'    => 'blog.category',
+                'uses'  => 'BlogController@category',
+            ]);
+            Route::get('blog/protected/verify/{hash}', [
+                'as' => 'blog.askPassword',
+                'uses' => 'BlogController@askPassword'
+            ]);
+            Route::post('blog/protected/confirm', [
+                'as' => 'blog.confirmPassword',
+                'uses' => 'BlogController@confirmPassword'
+            ]);
+            Route::post('comments', [
+                'as' => 'comments.store',
+                'uses' => 'CommentsController@store'
+            ]);
+        ";
     }
 }

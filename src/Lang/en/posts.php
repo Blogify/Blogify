@@ -49,6 +49,10 @@ return [
                 'label'         => 'Visibility:',
             ],
 
+            'password'    => [
+                'label'         => 'Password:',
+            ],
+
             'publish_date'  => [
                 'label'         => 'Publish date:'
             ],

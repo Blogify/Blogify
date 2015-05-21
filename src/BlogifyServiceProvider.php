@@ -92,6 +92,7 @@ class BlogifyServiceProvider extends ServiceProvider {
         $this->app['router']->middleware('RedirectIfAuthenticated', 'jorenvanhocht\Blogify\Middleware\RedirectIfAuthenticated');
         $this->app['router']->middleware('IsOwner', 'jorenvanhocht\Blogify\Middleware\IsOwner');
         $this->app['router']->middleware('CanViewPost', 'jorenvanhocht\Blogify\Middleware\CanViewPost');
+        $this->app['router']->middleware('ProtectedPost', 'jorenvanhocht\Blogify\Middleware\ProtectedPost');
     }
 
     /**

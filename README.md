@@ -243,8 +243,12 @@ All models are extending the BaseModel wich has a function to scope an item by i
             <td>Done</td>
         </tr>
         <tr>
+            <td>Live demo</td>
+            <td>Done</td>
+        </tr>
+        <tr>
             <td>Protected posts</td>
-            <td>pending</td>
+            <td>Done</td>
         </tr>
         <tr>
             <td>Correct the docs</td>
@@ -256,12 +260,9 @@ All models are extending the BaseModel wich has a function to scope an item by i
         </tr>
         <tr>
             <td>Database backup</td>
-            <td>pending</td>
+            <td>Deleted, it's no core</td>
         </tr>
-        <tr>
-            <td>Live demo</td>
-            <td>Done</td>
-        </tr>
+        
         <tr>
             <td>Tags auto complete</td>
             <td>pending</td>

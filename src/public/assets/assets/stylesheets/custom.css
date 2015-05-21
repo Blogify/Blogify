@@ -81,3 +81,7 @@ th a {
 .author .name {
     margin:10px;
 }
+
+#password-protected-post {
+    display:none;
+}

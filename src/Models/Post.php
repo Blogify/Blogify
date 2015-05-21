@@ -75,7 +75,7 @@ class Post extends BaseModel{
 
     public function visibility()
     {
-        return $this->belongsTo('jorenvanhoch\Blogify\Models\Visibility');
+        return $this->belongsTo('jorenvanhocht\Blogify\Models\Visibility');
     }
 
     /*

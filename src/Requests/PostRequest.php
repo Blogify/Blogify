@@ -2,8 +2,19 @@
 
 use App\Http\Requests\Request;
 use jorenvanhocht\Blogify\Models\Post;
+use jorenvanhocht\Blogify\Models\Visibility;
 
 class PostRequest extends Request {
+
+    protected $post;
+
+    protected $visibility;
+
+    public function __construct(Post $post, Visibility $visibility)
+    {
+        $this->post = $post;
+        $this->visibility = $visibility;
+    }
 
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +34,8 @@ class PostRequest extends Request {
     public function rules()
     {
         $hash   = $this->input('hash');
-        $id     = ( ! empty( $hash ) ) ? Post::byHash( $hash )->id : 0;
+        $id     = ( ! empty( $hash ) ) ? $this->post->byHash( $hash )->id : 0;
+        $protected_visibility = $this->visibility->whereName('Protected')->first()->hash;
 
         return [
             'title'             => 'required|min:2|max:100',
@@ -33,6 +45,7 @@ class PostRequest extends Request {
             'post'              => 'required',
             'category'          => 'required|exists:categories,hash',
             'publishdate'       => 'required|date_format: d-m-Y H:i',
+            'password'          => "required_if:visibility,$protected_visibility",
         ];
     }
 

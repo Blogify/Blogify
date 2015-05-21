@@ -113,6 +113,14 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="row" id="password-protected-post">
+                                <div class="col-sm-4">
+                                    {!! Form::label('password', trans("blogify::posts.form.publish.password.label") ) !!}
+                                </div>
+                                <div class="col-sm-8 {{ $errors->has('password') ? 'has-error' : '' }}">
+                                    {!! Form::password('password', ['class' => 'form-control']) !!}
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-sm-4">
                                     {!! Form::label('date', trans("blogify::posts.form.publish.publish_date.label") ) !!}

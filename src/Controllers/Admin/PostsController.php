@@ -2,6 +2,7 @@
 
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\Hashing\Hasher;
 use jorenvanhocht\Blogify\Models\Category;
 use jorenvanhocht\Blogify\Models\Role;
 use jorenvanhocht\Blogify\Models\Status;
@@ -94,7 +95,12 @@ class PostsController extends BaseController {
      */
     protected $cache;
 
-    public function __construct( Post $post, Status $status, Visibility $visibility, User $user, Category $category, Tag $tag, Role $role, BlogifyMailer $mail, Repository $cache )
+    /**
+     * @var Hasher
+     */
+    protected $hash;
+
+    public function __construct( Post $post, Status $status, Visibility $visibility, User $user, Category $category, Tag $tag, Role $role, BlogifyMailer $mail, Repository $cache, Hasher $hash )
     {
         parent::__construct();
 
@@ -105,6 +111,7 @@ class PostsController extends BaseController {
         $this->user         = $user;
         $this->post         = $post;
         $this->mail         = $mail;
+        $this->hash         = $hash;
         $this->cache        = $cache;
         $this->status       = $status;
         $this->category     = $category;
@@ -431,6 +438,8 @@ class PostsController extends BaseController {
         $post->visibility_id        = $this->visibility->byHash( $this->data->visibility )->id;
         $post->category_id          = $this->category->byHash($this->data->category)->id;
         $post->being_edited_by      = null;
+
+        if (isset($this->data->password)) $post->password = $this->hash->make($this->data->password);
 
         $post->save();
         $post->tag()->sync($this->tags);

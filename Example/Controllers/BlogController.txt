@@ -1,6 +1,7 @@
 <?php namespace {{namespace}};
 
-use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Hashing\Hasher;
+use {{appnamespace}}\Http\Requests\ProtectedPostRequest;
 use jorenvanhocht\Blogify\Models\Category;
 use jorenvanhocht\Blogify\Models\Post;
 use jorenvanhocht\Blogify\Models\Tag;
@@ -35,18 +36,26 @@ class BlogController extends Controller
     protected $config;
 
     /**
+     * @var Hasher
+     */
+    protected $hash;
+
+    /**
      * @param Post $post
      * @param Category $category
      * @param Tag $tag
      * @param DatabaseManager $db
      */
-    public function __construct(Post $post, Category $category, Tag $tag, DatabaseManager $db)
+    public function __construct(Post $post, Category $category, Tag $tag, DatabaseManager $db, Hasher $hash)
     {
         $this->post = $post;
         $this->category = $category;
         $this->tag = $tag;
         $this->db = $db;
         $this->config = objectify(config('blogify'));
+        $this->hash = $hash;
+
+        $this->middleware('jorenvanhocht\Blogify\Middleware\ProtectedPost', ['only' => 'show']);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -71,8 +80,8 @@ class BlogController extends Controller
     public function show($slug)
     {
         $data = $this->getOverviewData();
-        $data['post'] = $this->post->bySlug($slug);
 
+        $data['post'] = $this->post->bySlug($slug);
         return view('blogify.show', $data);
     }
 
@@ -106,6 +115,36 @@ class BlogController extends Controller
         $data['posts'] = $this->post->whereCategoryId($category_id)->forPublic()->orderBy('publish_date', 'DESC')->paginate($this->config->items_per_page);
 
         return view('blogify.index', $data);
+    }
+
+    /**
+     * @param $hash
+     * @return \Illuminate\View\View
+     */
+    public function askPassword($hash)
+    {
+        $data = $this->getOverviewData();
+        $data['hash'] = $hash;
+        return view('blogify.password', $data);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // CRUD methods
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param ProtectedPostRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function confirmPassword(ProtectedPostRequest $request)
+    {
+        $post = $this->post->byHash($request->hash);
+
+        if (!$this->hash->check($request->password, $post->password)) return back()->with('wrong_password', 'The given password is not correct');
+
+        session()->put('protected_post', $post->hash);
+
+        return redirect()->route('blog.show', [$post->slug]);
     }
 
     ///////////////////////////////////////////////////////////////////////////
