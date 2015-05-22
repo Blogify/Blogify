@@ -1,4 +1,4 @@
-<?php namespace jorenvanhocht\Blogify\Seeds;
+<?php namespace jorenvanhocht\Blogify\database\Seeds;
 
 use Illuminate\Database\Seeder;
 use jorenvanhocht\Blogify\Facades\Blogify;

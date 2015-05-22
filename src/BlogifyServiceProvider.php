@@ -57,23 +57,23 @@ class BlogifyServiceProvider extends ServiceProvider {
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/public/assets' => base_path('/public/assets/blogify/'),
-            __DIR__.'/public/ckeditor' => base_path('public/ckeditor/'),
-            __DIR__.'/public/datetimepicker' => base_path('public/datetimepicker/')
+            __DIR__.'/../public/assets' => base_path('/public/assets/blogify/'),
+            __DIR__.'/../public/ckeditor' => base_path('public/ckeditor/'),
+            __DIR__.'/../public/datetimepicker' => base_path('public/datetimepicker/')
         ], 'assets');
 
         $this->publishes([
-            __DIR__.'/Views/admin/auth/passwordreset/' => base_path('/resources/views/auth/'),
-            __DIR__.'/Views/mails/resetpassword.blade.php' => base_path('/resources/views/emails/password.blade.php')
+            __DIR__.'/../Views/admin/auth/passwordreset/' => base_path('/resources/views/auth/'),
+            __DIR__.'/../Views/mails/resetpassword.blade.php' => base_path('/resources/views/emails/password.blade.php')
         ], 'pass-reset');
 
-        $this->loadViewsFrom(__DIR__.'/Views', 'blogify');
+        $this->loadViewsFrom(__DIR__.'/../views', 'blogify');
         $this->loadViewsFrom(__DIR__.'/../Example/Views', 'blogifyPublic');
 
         // Make the config file accessible even when the files are not published
         $this->mergeConfigFrom(__DIR__.'/../config/blogify.php', 'blogify');
 
-        $this->loadTranslationsFrom(__DIR__.'/Lang/', 'blogify');
+        $this->loadTranslationsFrom(__DIR__.'/../lang/', 'blogify');
 
         $this->registerCommands();
     }

@@ -19,7 +19,8 @@
     "autoload": {
         "psr-4": {
             "jorenvanhocht\\Blogify\\": "src/",
-            "jorenvanhocht\\Blogify\\Example\\": "Example/"
+            "jorenvanhocht\\Blogify\\Example\\": "Example/",
+            "jorenvanhocht\\Blogify\\database\\": "database/"
         },
         "files": [
             "src/Helpers.php"

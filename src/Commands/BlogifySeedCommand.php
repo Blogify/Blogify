@@ -30,7 +30,7 @@ class BlogifySeedCommand extends Command {
     {
         parent::__construct();
 
-        $this->class = 'jorenvanhocht\Blogify\Seeds\BlogifySeeder';
+        $this->class = 'jorenvanhocht\Blogify\database\Seeds\BlogifySeeder';
     }
 
     /**
