@@ -2,7 +2,8 @@
 
 use Illuminate\Console\Command;
 
-class BlogifySeedCommand extends Command {
+class BlogifySeedCommand extends Command
+{
 
     /**
      * The console command name.

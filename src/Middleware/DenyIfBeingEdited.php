@@ -6,7 +6,8 @@ use Illuminate\Contracts\Auth\Guard;
 use Request;
 use jorenvanhocht\Blogify\Models\Post;
 
-class DenyIfBeingEdited {
+class DenyIfBeingEdited
+{
 
     /**
      * Holds the Guard Contract
@@ -52,9 +53,9 @@ class DenyIfBeingEdited {
     public function handle($request, Closure $next)
     {
         $hash = Request::segment(3);
-        $post = $this->post->byHash ( $hash );
+        $post = $this->post->byHash($hash);
 
-        if ( $post->being_edited_by != null && $post->being_edited_by != $this->auth->user()->id )
+        if ($post->being_edited_by != null && $post->being_edited_by != $this->auth->user()->id)
         {
             $user = $this->user->find($post->being_edited_by)->fullName;
 

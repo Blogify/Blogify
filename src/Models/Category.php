@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends BaseModel{
+class Category extends BaseModel
+{
 
     use SoftDeletes;
 
@@ -11,21 +12,21 @@ class Category extends BaseModel{
      *
      * @var string
      */
-    protected $table        = 'categories';
+    protected $table = 'categories';
 
     /**
      * The attributes that are mass assignable
      *
      * @var array
      */
-    protected $fillable     = [];
+    protected $fillable = [];
 
     /**
      * Set or unset the timestamps for the model
      *
      * @var bool
      */
-    public $timestamps      = true;
+    public $timestamps = true;
 
     /*
     |--------------------------------------------------------------------------

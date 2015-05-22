@@ -15,7 +15,8 @@ use jorenvanhocht\Blogify\Models\Post;
 use jorenvanhocht\Blogify\Services\BlogifyMailer;
 use Illuminate\Contracts\Cache\Repository;
 
-class PostsController extends BaseController {
+class PostsController extends BaseController
+{
 
     /**
      * Holds an instance of the Post model
@@ -100,7 +101,19 @@ class PostsController extends BaseController {
      */
     protected $hash;
 
-    public function __construct( Post $post, Status $status, Visibility $visibility, User $user, Category $category, Tag $tag, Role $role, BlogifyMailer $mail, Repository $cache, Hasher $hash )
+    /**
+     * @param Tag $tag
+     * @param Role $role
+     * @param User $user
+     * @param Post $post
+     * @param BlogifyMailer $mail
+     * @param Hasher $hash
+     * @param Status $status
+     * @param Repository $cache
+     * @param Category $category
+     * @param Visibility $visibility
+     */
+    public function __construct(Tag $tag, Role $role, User $user, Post $post, BlogifyMailer $mail, Hasher $hash, Status $status, Repository $cache, Category $category, Visibility $visibility)
     {
         parent::__construct();
 
@@ -127,13 +140,14 @@ class PostsController extends BaseController {
      *
      * @return \Illuminate\View\View
      */
-    public function index( $trashed = false )
+    public function index($trashed = false)
     {
         $scope  = 'for'.$this->auth_user->role->name;
         $data   = [
-            'posts' => ( ! $trashed ) ? $this->post->$scope()->orderBy('publish_date', 'DESC')->paginate( $this->config->items_per_page ) : $this->post->$scope()->onlyTrashed()->orderBy('publish_date', 'DESC')->paginate( $this->config->items_per_page ),
+            'posts' => (! $trashed) ? $this->post->$scope()->orderBy('publish_date', 'DESC')->paginate($this->config->items_per_page) : $this->post->$scope()->onlyTrashed()->orderBy('publish_date', 'DESC')->paginate($this->config->items_per_page),
             'trashed' => $trashed,
         ];
+
         return view('blogify::admin.posts.index', $data);
     }
 
@@ -145,7 +159,7 @@ class PostsController extends BaseController {
     public function create()
     {
         $hash = $this->auth_user->hash;
-        $post = ( $this->cache->has("autoSavedPost-$hash") ) ? $this->buildPostObject() : null;
+        $post = ($this->cache->has("autoSavedPost-$hash")) ? $this->buildPostObject() : null;
         $data = $this->getViewData( $post );
 
         return view('blogify::admin.posts.form', $data);
@@ -163,7 +177,7 @@ class PostsController extends BaseController {
             'post' => $this->post->bySlug( $slug ),
         ];
 
-        if ( $data['post']->count() <= 0 ) abort(404);
+        if ($data['post']->count() <= 0) abort(404);
 
         return view('blogify::admin.posts.show', $data);
     }
@@ -174,12 +188,11 @@ class PostsController extends BaseController {
      * @param $hash
      * @return \Illuminate\View\View
      */
-    public function edit( $hash )
+    public function edit($hash)
     {
-
         $p      = $this->post->byHash($hash);
         $hash   = $this->auth_user->hash;
-        $post   = ( $this->cache->has("autoSavedPost-$hash") ) ? $this->buildPostObject() : $p;
+        $post   = ($this->cache->has("autoSavedPost-$hash")) ? $this->buildPostObject() : $p;
         $data   = $this->getViewData( $post );
 
         $p->being_edited_by = $this->auth_user->id;
@@ -199,22 +212,22 @@ class PostsController extends BaseController {
      * @param PostRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store( PostRequest $request )
+    public function store(PostRequest $request)
     {
-        $this->data = objectify( $request->except(['_token', 'newCategory', 'newTags']) );
+        $this->data = objectify($request->except(['_token', 'newCategory', 'newTags']));
 
-        if ( ! empty($this->data->tags) ) $this->buildTagsArray();
+        if (! empty($this->data->tags)) $this->buildTagsArray();
 
         $post = $this->storeOrUpdatePost();
 
-        if ( $this->status->byHash( $this->data->status )->name == 'Pending review' ) $this->mailReviewer( $post );
+        if ($this->status->byHash($this->data->status)->name == 'Pending review') $this->mailReviewer( $post );
 
-        $action = ( $request->hash == '' ) ? 'created' : 'updated';
+        $action = ($request->hash == '') ? 'created' : 'updated';
 
         tracert()->log('posts', $post->id, $this->auth_user->id, $action);
 
         $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' => $action]);
-        session()->flash('notify', [ 'success', $message ] );
+        session()->flash('notify', ['success', $message]);
         $this->cache->forget('autoSavedPost');
 
         return redirect()->route('admin.posts.index');
@@ -226,17 +239,17 @@ class PostsController extends BaseController {
      * @param $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy( $hash )
+    public function destroy($hash)
     {
-        $post       = $this->post->byHash( $hash );
-        $name       = $post->title;
+        $post = $this->post->byHash($hash);
+        $name = $post->title;
 
         $post->delete();
 
         tracert()->log('posts', $post->id, $this->auth_user->id, 'delete');
 
         $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $name, 'action' =>'deleted']);
-        session()->flash('notify', [ 'success', $message ] );
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.posts.index');
     }
@@ -272,7 +285,7 @@ class PostsController extends BaseController {
      */
     public function cancel($hash = null)
     {
-        if ( ! isset($hash) ) return redirect()->route('admin.posts.index');
+        if (! isset($hash)) return redirect()->route('admin.posts.index');
 
         $post = $this->post->byHash($hash);
         $post->being_edited_by = null;
@@ -281,7 +294,8 @@ class PostsController extends BaseController {
         tracert()->log('posts', $post->id, $this->auth_user->id, 'canceled');
 
         $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->name, 'action' =>'canceled']);
-        session()->flash('notify', [ 'success', $message ] );
+        session()->flash('notify', ['success', $message]);
+
         return redirect()->route('admin.posts.index');
     }
 
@@ -295,8 +309,8 @@ class PostsController extends BaseController {
         $post_title = $post->title;
         $post->restore();
 
-        $message    = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post_title, 'action' =>'restored']);
-        session()->flash('notify', [ 'success', $message ] );
+        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post_title, 'action' =>'restored']);
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.posts.index');
     }
@@ -308,6 +322,7 @@ class PostsController extends BaseController {
     /**
      * Add middleware to some functions
      *
+     * @return void
      */
     private function appendMiddleware()
     {
@@ -335,9 +350,9 @@ class PostsController extends BaseController {
      * @param $post
      * @return array
      */
-    private function getViewData( $post = null )
+    private function getViewData($post = null)
     {
-        $data               = [
+        $data = [
             'reviewers'     => $this->user->reviewers(),
             'statuses'      => $this->status->all(),
             'categories'    => $this->category->all(),
@@ -355,17 +370,17 @@ class PostsController extends BaseController {
      * @param $image
      * @return string
      */
-    private function resizeAnsSaveImage( $image )
+    private function resizeAnsSaveImage($image)
     {
         $image_name = $this->createImageName();
-        $fullpath   = $this->createFullImagePath( $image_name, $image->getClientOriginalExtension() );
+        $fullpath = $this->createFullImagePath($image_name, $image->getClientOriginalExtension());
 
-        Image::make( $image->getRealPath() )
-            ->resize( $this->config->image_sizes->posts[0], null , function ($constraint) {
+        Image::make($image->getRealPath())
+            ->resize($this->config->image_sizes->posts[0], null , function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })
-            ->save( $fullpath );
+            ->save($fullpath);
 
         return $image_name . '.' . $image->getClientOriginalExtension();
     }
@@ -377,9 +392,9 @@ class PostsController extends BaseController {
      * @param $extension
      * @return string
      */
-    private function createFullImagePath( $image_name, $extension )
+    private function createFullImagePath($image_name, $extension)
     {
-        return public_path( $this->config->upload_paths->posts->images . $image_name . '.' . $extension );
+        return public_path($this->config->upload_paths->posts->images . $image_name . '.' . $extension);
     }
 
     /**
@@ -397,12 +412,13 @@ class PostsController extends BaseController {
      * store them separately in the
      * global array
      *
+     * @return void
      */
     private function buildTagsArray()
     {
         $tags = explode(',', $this->data->tags);
 
-        foreach ( $tags as $hash )
+        foreach ($tags as $hash)
         {
             array_push($this->tags, $this->tag->byHash($hash)->id);
         }
@@ -416,13 +432,13 @@ class PostsController extends BaseController {
      */
     private function storeOrUpdatePost()
     {
-        if ( !empty( $this->data->hash ) )
+        if (! empty($this->data->hash))
         {
-            $post       = $this->post->byHash( $this->data->hash );
+            $post = $this->post->byHash($this->data->hash);
         }
         else
         {
-            $post       = new Post;
+            $post = new Post;
             $post->hash = blogify()->makeUniqueHash('posts', 'hash');
 
         }
@@ -453,11 +469,12 @@ class PostsController extends BaseController {
      * is assigned
      *
      * @param $post
+     * @return void
      */
-    private function mailReviewer( $post )
+    private function mailReviewer($post)
     {
-        $reviewer   = $this->user->find($post->reviewer_id);
-        $data       = [
+        $reviewer = $this->user->find($post->reviewer_id);
+        $data = [
             'reviewer'  => $reviewer,
             'post'      => $post,
         ];
@@ -470,12 +487,12 @@ class PostsController extends BaseController {
      * is a cached post so we can put
      * the data back in the form
      *
-     * @return mixed
+     * @return object
      */
     private function buildPostObject()
     {
         $hash = $this->auth_user->hash;
-        $cached_post    = $this->cache->get("autoSavedPost-$hash");
+        $cached_post = $this->cache->get("autoSavedPost-$hash");
 
         $post                       = [];
         $post['hash']               = '';
@@ -491,7 +508,6 @@ class PostsController extends BaseController {
         $post['tag']                = $this->buildTagsArrayForPostObject( $cached_post['tags'] );
 
         return objectify($post);
-
     }
 
     /**
@@ -501,14 +517,14 @@ class PostsController extends BaseController {
      * @param $tags
      * @return array
      */
-    private function buildTagsArrayForPostObject( $tags )
+    private function buildTagsArrayForPostObject($tags)
     {
-        if ( $tags == "" ) return [];
+        if ($tags == "") return [];
 
         $t      = [];
         $tags   = explode(',', $tags);
 
-        foreach ( $tags as $tag )
+        foreach ($tags as $tag)
         {
             array_push($t, $this->tag->byHash($tag));
         }

@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Media extends BaseModel{
+class Media extends BaseModel
+{
 
     use SoftDeletes;
 
@@ -11,21 +12,21 @@ class Media extends BaseModel{
      *
      * @var string
      */
-    protected $table        = 'media';
+    protected $table = 'media';
 
     /**
      * The attributes that are mass assignable
      *
      * @var array
      */
-    protected $fillable     = [];
+    protected $fillable = [];
 
     /**
      * Set or unset the timestamps for the model
      *
      * @var bool
      */
-    public $timestamps      = true;
+    public $timestamps = true;
 
     /*
     |--------------------------------------------------------------------------

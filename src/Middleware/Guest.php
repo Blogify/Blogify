@@ -3,7 +3,8 @@
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class Guest {
+class Guest
+{
 
     /**
      * The Guard implementation.

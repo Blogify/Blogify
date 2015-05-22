@@ -2,7 +2,8 @@
 
 use Illuminate\Database\DatabaseManager;
 
-class Blogify {
+class Blogify
+{
 
     /**
      * Holds the available char sets
@@ -30,27 +31,27 @@ class Blogify {
      * @param int $max_length
      * @return string
      */
-    public function makeUniqueHash( $table, $field, $min_length = 5, $max_length = 20 )
+    public function makeUniqueHash($table, $field, $min_length = 5, $max_length = 20)
     {
-        $hash   = '';
-        $minus  = 0;
+        $hash = '';
+        $minus = 0;
 
         // Generate a random length for the hash between the given min and max length
-        $rand   = rand($min_length, $max_length);
+        $rand = rand($min_length, $max_length);
 
-        for ( $i = 0; $i < $rand; $i++ )
+        for ($i = 0; $i < $rand; $i++)
         {
-            $char = rand( 0, strlen( $this->char_sets['hash']));
+            $char = rand(0, strlen( $this->char_sets['hash']));
 
             // When it's not the first char from the char_set make $minus equal to 1
-            if( $char != 0 ? $minus = 1 : $minus = 0 );
+            if($char != 0 ? $minus = 1 : $minus = 0);
 
             // Add the character to the hash
-            $hash .= $this->char_sets['hash'][ $char - $minus ];
+            $hash .= $this->char_sets['hash'][$char - $minus];
         }
 
         // Check if the hash doest not exist in the given table and column
-        if ( ! $this->db->table($table)->where($field, '=', $hash)->get() )
+        if (! $this->db->table($table)->where($field, '=', $hash)->get())
         {
             return $hash;
         }
@@ -69,11 +70,11 @@ class Blogify {
         $minus      = 0;
         $rand       = rand(4, 10);
 
-        for( $i = 0; $i < $rand; $i++ )
+        for($i = 0; $i < $rand; $i++)
         {
             $char = rand(0, strlen( $this->char_sets['password'] ));
 
-            if ( $char != 0 ? $minus = 1 : $minus = 0 );
+            if ($char != 0 ? $minus = 1 : $minus = 0);
 
             $password .= $this->char_sets['password'][$char - $minus];
         }
@@ -89,15 +90,15 @@ class Blogify {
      * @param int $itteration
      * @return string
      */
-    public function generateUniqueUsername( $lastname, $firstname, $itteration = 0 )
+    public function generateUniqueUsername($lastname, $firstname, $itteration = 0)
     {
-        $username = strtolower( str_replace( ' ', '', $lastname ) . substr( $firstname, 0, 1 ) );
+        $username = strtolower(str_replace(' ', '', $lastname) . substr($firstname, 0, 1));
 
-        if ( $itteration != 0 ) $username = $username . $itteration;
+        if ($itteration != 0) $username = $username . $itteration;
 
-        $usernames = count( $this->db->table('users')->where('username', '=', $username )->get() );
+        $usernames = count($this->db->table('users')->where('username', '=', $username)->get());
 
-        if ( $usernames > 0 ) return $this->generateUniqueUsername( $lastname, $firstname, $itteration + 1 );
+        if ($usernames > 0) return $this->generateUniqueUsername($lastname, $firstname, $itteration + 1);
 
         return $username;
     }

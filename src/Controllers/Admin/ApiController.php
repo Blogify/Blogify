@@ -7,7 +7,8 @@ use Input;
 use Illuminate\Contracts\Cache\Repository;
 use Carbon\Carbon;
 
-class ApiController extends BaseController {
+class ApiController extends BaseController
+{
 
     /**
      * Holds an instance of the Post model
@@ -32,7 +33,7 @@ class ApiController extends BaseController {
     {
         parent::__construct();
 
-        $this->post     = $post;
+        $this->post = $post;
     }
 
     /**
@@ -44,9 +45,9 @@ class ApiController extends BaseController {
      * @param $order
      * @param bool $trashed
      * @param DatabaseManager $db
-     * @return mixed
+     * @return object
      */
-    public function sort( $table, $column, $order, $trashed = false, DatabaseManager $db )
+    public function sort($table, $column, $order, $trashed = false, DatabaseManager $db)
     {
         $data = $db->table( $table );
 
@@ -65,12 +66,12 @@ class ApiController extends BaseController {
      * @param $slug
      * @return string
      */
-    public function checkIfSlugIsUnique( $slug )
+    public function checkIfSlugIsUnique($slug)
     {
-        $i                  = 0;
-        $this->base_slug    = $slug;
+        $i = 0;
+        $this->base_slug = $slug;
 
-        while( $this->post->whereSlug( $slug )->get()->count() > 0 )
+        while ($this->post->whereSlug($slug)->get()->count() > 0)
         {
             $i++;
             $slug = $this->base_slug . '-' . $i;
@@ -85,19 +86,19 @@ class ApiController extends BaseController {
      * @param Repository $cache
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function autoSave( Repository $cache )
+    public function autoSave(Repository $cache)
     {
         try
         {
             $hash = $this->auth_user->hash;
             $cache->put( "autoSavedPost-$hash", Input::all(), Carbon::now()->addHours(2) );
         }
-        catch( BlogifyException $exception )
+        catch(BlogifyException $exception)
         {
-            return response()->json([ false, date('d-m-Y H:i:s')] );
+            return response()->json([false, date('d-m-Y H:i:s')]);
         }
 
-        return response()->json( [true, date('d-m-Y H:i:s')] );
+        return response()->json([true, date('d-m-Y H:i:s')]);
     }
 
 }

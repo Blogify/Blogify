@@ -28,7 +28,7 @@ class BaseController extends Controller
     public function __construct()
     {
         $this->auth         = auth();
-        $this->auth_user    = $this->auth->check() ? $this->auth->user() : false;
         $this->config       = objectify( config('blogify') );
+        $this->auth_user    = $this->auth->check() ? $this->auth->user() : false;
     }
 }

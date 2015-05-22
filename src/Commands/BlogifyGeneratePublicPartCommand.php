@@ -3,7 +3,8 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 
-class BlogifyGeneratePublicPartCommand extends Command {
+class BlogifyGeneratePublicPartCommand extends Command
+{
 
     /**
      * The console command name.
@@ -203,7 +204,7 @@ class BlogifyGeneratePublicPartCommand extends Command {
             ],
             'Requests' => [
                 'CommentRequest' => __DIR__.'/../../Example/Requests/CommentRequest.txt',
-                'ProtectedPostRequest' => __DIR__.'/../../Example/Requests/ProtectedPostRequest.txt'
+                'ProtectedPostRequest' => __DIR__.'/../../Example/Requests/ProtectedPostRequest.txt',
             ]
         ];
     }

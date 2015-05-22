@@ -2,9 +2,9 @@
 
 use jorenvanhocht\Blogify\Models\Category;
 use jorenvanhocht\Blogify\Requests\CategoryRequest;
-use Request;
 
-class CategoriesController extends BaseController {
+class CategoriesController extends BaseController
+{
 
     /**
      * Holds an instance of the Category model
@@ -13,7 +13,10 @@ class CategoriesController extends BaseController {
      */
     protected $category;
 
-    public function __construct( Category $category )
+    /**
+     * @param Category $category
+     */
+    public function __construct(Category $category)
     {
         parent::__construct();
 
@@ -31,11 +34,11 @@ class CategoriesController extends BaseController {
      * @param null $trashed
      * @return \Illuminate\View\View
      */
-    public function index( $trashed = null )
+    public function index($trashed = null)
     {
         $data = [
-            'categories' => ( ! $trashed ) ? $this->category->orderBy('created_at', 'DESC')->paginate( $this->config->items_per_page ) : $this->category->onlyTrashed()->orderBy('created_at', 'DESC')->paginate( $this->config->items_per_page ),
-            'trashed' => $trashed
+            'categories' => (! $trashed) ? $this->category->orderBy('created_at', 'DESC')->paginate($this->config->items_per_page) : $this->category->onlyTrashed()->orderBy('created_at', 'DESC')->paginate($this->config->items_per_page),
+            'trashed' => $trashed,
         ];
 
         return view('blogify::admin.categories.index', $data);
@@ -58,10 +61,10 @@ class CategoriesController extends BaseController {
      * @param $hash
      * @return \Illuminate\View\View
      */
-    public function edit( $hash )
+    public function edit($hash)
     {
         $data = [
-            'category' => $this->category->byHash( $hash )
+            'category' => $this->category->byHash( $hash ),
         ];
 
         return view('blogify::admin.categories.form', $data);
@@ -77,16 +80,16 @@ class CategoriesController extends BaseController {
      * @param CategoryRequest $request
      * @return Category|string
      */
-    public function store( CategoryRequest $request )
+    public function store(CategoryRequest $request)
     {
-        $category = $this->storeOrUpdateCategory( $request );
+        $category = $this->storeOrUpdateCategory($request);
 
         tracert()->log('categories', $category->id, $this->auth_user->id);
 
-        if ( $request->ajax() ) return $category;
+        if ($request->ajax()) return $category;
 
-        $message    = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category->name, 'action' =>'created']);
-        session()->flash('notify', [ 'success', $message ] );
+        $message = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category->name, 'action' =>'created']);
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.categories.index');
     }
@@ -98,7 +101,7 @@ class CategoriesController extends BaseController {
      * @param CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update ( $hash, CategoryRequest $request )
+    public function update ($hash, CategoryRequest $request)
     {
         $category = $this->category->byHash( $hash );
         $category->name = $request->name;
@@ -106,8 +109,8 @@ class CategoriesController extends BaseController {
 
         tracert()->log('categories', $category->id, $this->auth_user->id, 'update');
 
-        $message    = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category->name, 'action' =>'updated']);
-        session()->flash('notify', [ 'success', $message ] );
+        $message = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category->name, 'action' =>'updated']);
+        session()->flash('notify', ['success', $message] );
 
         return redirect()->route('admin.categories.index');
     }
@@ -118,16 +121,16 @@ class CategoriesController extends BaseController {
      * @param $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy( $hash )
+    public function destroy($hash)
     {
-        $category        = $this->category->byHash( $hash );
-        $category_name   = $category->name;
+        $category = $this->category->byHash( $hash );
+        $category_name = $category->name;
         $category->delete();
 
         tracert()->log('categories', $category->id, $this->auth_user->id, 'delete');
 
-        $message    = trans('blogify::notify.success', ['model' => 'Categorie', 'name' => $category_name, 'action' =>'deleted']);
-        session()->flash('notify', [ 'success', $message ] );
+        $message = trans('blogify::notify.success', ['model' => 'Categorie', 'name' => $category_name, 'action' =>'deleted']);
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.categories.index');
     }
@@ -142,8 +145,8 @@ class CategoriesController extends BaseController {
         $category_name = $category->name;
         $category->restore();
 
-        $message    = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category_name, 'action' =>'restored']);
-        session()->flash('notify', [ 'success', $message ] );
+        $message = trans('blogify::notify.success', ['model' => 'Category', 'name' => $category_name, 'action' =>'restored']);
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.categories.index');
     }
@@ -158,13 +161,13 @@ class CategoriesController extends BaseController {
      * @param $request
      * @return Category
      */
-    private function storeOrUpdateCategory( $request )
+    private function storeOrUpdateCategory($request)
     {
-        $cat                = $this->category->whereName( $request->name )->first();
+        $cat = $this->category->whereName( $request->name )->first();
 
-        if ( count($cat) > 0 )
+        if (count($cat) > 0)
         {
-            $category       = $cat;
+            $category = $cat;
         }
         else
         {
@@ -172,7 +175,7 @@ class CategoriesController extends BaseController {
             $category->hash = blogify()->makeUniqueHash('categories', 'hash');
         }
 
-        $category->name     = $request->name;
+        $category->name = $request->name;
         $category->save();
 
         return $category;

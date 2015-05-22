@@ -1,10 +1,10 @@
 <?php namespace jorenvanhocht\Blogify\Requests;
 
 use App\Http\Requests\Request;
-use Input;
 use jorenvanhocht\Blogify\Models\Category;
 
-class CategoryRequest extends Request {
+class CategoryRequest extends Request
+{
 
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class CategoryRequest extends Request {
     public function rules()
     {
         $segment = $this->segment(3);
-        $id = isset( $segment ) ? Category::byHash($this->segment(3))->id : 0;
+        $id = isset($segment) ? Category::byHash($this->segment(3))->id : 0;
+
         return [
             'name'		=> "required|unique:categories,name,$id|min:3|max:45",
         ];

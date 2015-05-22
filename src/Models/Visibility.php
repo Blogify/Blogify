@@ -1,27 +1,28 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
-class Visibility extends BaseModel{
+class Visibility extends BaseModel
+{
 
     /**
      * The database table used by the model
      *
      * @var string
      */
-    protected $table        = 'visibility';
+    protected $table = 'visibility';
 
     /**
      * The attributes that are mass assignable
      *
      * @var array
      */
-    protected $fillable     = [];
+    protected $fillable = [];
 
     /**
      * Set or unset the timestamps for the model
      *
      * @var bool
      */
-    public $timestamps      = false;
+    public $timestamps = false;
 
     /*
     |--------------------------------------------------------------------------

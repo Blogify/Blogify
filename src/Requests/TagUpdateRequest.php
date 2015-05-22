@@ -2,7 +2,8 @@
 
 use App\Http\Requests\Request;
 
-class TagUpdateRequest extends Request {
+class TagUpdateRequest extends Request
+{
 
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +23,7 @@ class TagUpdateRequest extends Request {
     public function rules()
     {
         return [
-            'tags'   => 'required|min:2|max:45'
+            'tags'   => 'required|min:2|max:45',
         ];
     }
 }

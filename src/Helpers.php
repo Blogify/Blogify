@@ -1,6 +1,6 @@
 <?php
 
-if ( ! function_exists('blogify'))
+if (! function_exists('blogify'))
 {
     /**
      * Get the Blogify binding
@@ -13,7 +13,7 @@ if ( ! function_exists('blogify'))
     }
 }
 
-if ( ! function_exists('generateFullName'))
+if (! function_exists('generateFullName'))
 {
     function generateFullName($firstname, $lastname)
     {
@@ -21,7 +21,7 @@ if ( ! function_exists('generateFullName'))
     }
 }
 
-if ( ! function_exists('objectify') )
+if (! function_exists('objectify') )
 {
     /**
      * Make an object of the given var

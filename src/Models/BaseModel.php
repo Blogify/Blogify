@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class BaseModel extends Model{
+class BaseModel extends Model
+{
 
     /*
     |--------------------------------------------------------------------------
@@ -14,7 +15,7 @@ class BaseModel extends Model{
     |
     */
 
-    public function scopeByHash( $query, $hash )
+    public function scopeByHash($query, $hash)
     {
         return $query->whereHash($hash)->first();
     }

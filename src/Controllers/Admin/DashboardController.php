@@ -5,7 +5,8 @@ use jorenvanhocht\Blogify\Models\Comment;
 use jorenvanhocht\Blogify\Models\Post;
 use jorenvanhocht\Tracert\Models\History;
 
-class DashboardController extends BaseController {
+class DashboardController extends BaseController
+{
 
     /**
      * Holds an instance of the user model
@@ -42,7 +43,7 @@ class DashboardController extends BaseController {
      * @param Post $post
      * @param Comment $comment
      */
-    public function __construct( User $user, History $history, Post $post, Comment $comment )
+    public function __construct(User $user, History $history, Post $post, Comment $comment)
     {
         parent::__construct();
 
@@ -51,9 +52,9 @@ class DashboardController extends BaseController {
         $this->post = $post;
         $this->comment = $comment;
 
-        /*if ($this->auth_user->role->name == 'Admin') $this->buildDataObjectForAdmin();
+        if ($this->auth_user->role->name == 'Admin') $this->buildDataObjectForAdmin();
         if ($this->auth_user->role->name == 'Author') $this->buildDataObjectForAuthor();
-        if ($this->auth_user->role->name == 'Reviewer') $this->buildDataObjectForReviewer();*/
+        if ($this->auth_user->role->name == 'Reviewer') $this->buildDataObjectForReviewer();
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -79,7 +80,7 @@ class DashboardController extends BaseController {
      */
     private function buildDataObjectForAdmin()
     {
-        $this->data['new_users_since_last_visit'] = $this->user->newUsersSince( $this->auth_user->updated_at )->count();
+        $this->data['new_users_since_last_visit'] = $this->user->newUsersSince($this->auth_user->updated_at)->count();
 
         $this->data['activity'] = $this->history->where('crud_action', '<>', 'login')
                                                     ->where('crud_action', '<>', 'logout')

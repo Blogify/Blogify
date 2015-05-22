@@ -1,27 +1,28 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
-class Status extends BaseModel{
+class Status extends BaseModel
+{
 
     /**
      * The database table used by the model
      *
      * @var string
      */
-    protected $table        = 'statuses';
+    protected $table = 'statuses';
 
     /**
      * The attributes that are mass assignable
      *
      * @var array
      */
-    protected $fillable     = [];
+    protected $fillable = [];
 
     /**
      * Set or unset the timestamps for the model
      *
      * @var bool
      */
-    public $timestamps      = false;
+    public $timestamps = false;
 
     /*
     |--------------------------------------------------------------------------

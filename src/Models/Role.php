@@ -1,27 +1,28 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
-class Role extends BaseModel{
+class Role extends BaseModel
+{
 
     /**
      * The database table used by the model
      *
      * @var string
      */
-    protected $table        = 'roles';
+    protected $table = 'roles';
 
     /**
      * The attributes that are mass assignable
      *
      * @var array
      */
-    protected $fillable     = [];
+    protected $fillable = [];
 
     /**
      * Set or unset the timestamps for the model
      *
      * @var bool
      */
-    public $timestamps      = false;
+    public $timestamps = false;
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +49,7 @@ class Role extends BaseModel{
     |
     */
 
-    public function scopeByAdminRoles( $query )
+    public function scopeByAdminRoles($query)
     {
         $query->whereName('admin')
             ->orWhere('name', '=', 'Author')

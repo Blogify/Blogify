@@ -2,7 +2,8 @@
 
 use App\Http\Requests\Request;
 
-class ImageUploadRequest extends Request {
+class ImageUploadRequest extends Request
+{
 
     /**
      * Determine if the user is authorized to make this request.

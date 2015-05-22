@@ -1,27 +1,28 @@
 <?php namespace jorenvanhocht\Blogify\Models;
 
-class Alias extends BaseModel{
+class Alias extends BaseModel
+{
 
     /**
      * The database table used by the model
      *
      * @var string
      */
-    protected $table        = 'aliases';
+    protected $table = 'aliases';
 
     /**
      * The attributes that are mass assignable
      *
      * @var array
      */
-    protected $fillable     = [];
+    protected $fillable = [];
 
     /**
      * Set or unset the timestamps for the model
      *
      * @var bool
      */
-    public $timestamps      = false;
+    public $timestamps = false;
 
     /*
     |--------------------------------------------------------------------------
@@ -37,6 +38,5 @@ class Alias extends BaseModel{
     {
         return $this->belongsTo('jorenvanhocht\Blogify\Models\post');
     }
-
 
 }

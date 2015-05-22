@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Comment extends BaseModel{
+class Comment extends BaseModel
+{
 
     use SoftDeletes;
 
@@ -11,21 +12,21 @@ class Comment extends BaseModel{
      *
      * @var string
      */
-    protected $table        = 'comments';
+    protected $table = 'comments';
 
     /**
      * The attributes that are mass assignable
      *
      * @var array
      */
-    protected $fillable     = [];
+    protected $fillable = [];
 
     /**
      * Set or unset the timestamps for the model
      *
      * @var bool
      */
-    public $timestamps      = true;
+    public $timestamps = true;
 
     /*
     |--------------------------------------------------------------------------
@@ -57,7 +58,7 @@ class Comment extends BaseModel{
     |
     */
 
-    public function scopeByRevised( $query, $revised )
+    public function scopeByRevised($query, $revised)
     {
         return $query->whereRevised($revised);
     }

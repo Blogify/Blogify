@@ -4,7 +4,8 @@ use App\Http\Requests\Request;
 use App\User;
 use Illuminate\Contracts\Auth\Guard;
 
-class ProfileUpdateRequest extends Request {
+class ProfileUpdateRequest extends Request
+{
 
     /**
      * Holds an instance of the Guard contract
@@ -49,7 +50,7 @@ class ProfileUpdateRequest extends Request {
         $this->hash = $this->route('profile');
         $this->user_id = $this->getUserId();
 
-        if ( $this->auth->user()->id != $this->user_id ) return false;
+        if ($this->auth->user()->id != $this->user_id) return false;
 
         return true;
     }
@@ -82,6 +83,6 @@ class ProfileUpdateRequest extends Request {
      */
     private function getUserId()
     {
-        return User::byHash( $this->hash )->id;
+        return User::byHash($this->hash)->id;
     }
 }

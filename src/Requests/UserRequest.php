@@ -3,7 +3,8 @@
 use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Input;
 
-class UserRequest extends Request {
+class UserRequest extends Request
+{
 
 	/**
 	 * Holds the request specific validation rules
@@ -25,7 +26,7 @@ class UserRequest extends Request {
 	 */
 	public function __construct()
 	{
-		if ( ! Input::has('_method') ) $this->generateSpecificsArray();
+		if (! Input::has('_method')) $this->generateSpecificsArray();
 
 		$this->rules = [
 			'role'		=> 'required|exists:roles,hash',
@@ -55,6 +56,7 @@ class UserRequest extends Request {
 	/**
 	 * Fill in the request specific validation rules
 	 *
+	 * @return void
 	 */
 	public function generateSpecificsArray()
 	{

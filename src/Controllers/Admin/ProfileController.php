@@ -4,7 +4,8 @@ use App\User;
 use jorenvanhocht\Blogify\Requests\ProfileUpdateRequest;
 use Intervention\Image\Facades\Image;
 
-class ProfileController extends BaseController {
+class ProfileController extends BaseController
+{
 
     /**
      * Holds an instance of the User model
@@ -37,10 +38,10 @@ class ProfileController extends BaseController {
      * @param $hash
      * @return \Illuminate\View\View
      */
-    public function edit( $hash )
+    public function edit($hash)
     {
         $data = [
-            'user' => $this->user->byHash( $hash ),
+            'user' => $this->user->byHash($hash),
         ];
 
         return view('blogify::admin.profiles.form', $data);
@@ -65,16 +66,16 @@ class ProfileController extends BaseController {
         $user->username     = $request->username;
         $user->email        = $request->email;
 
-        if ( $request->has('newpassword') ) $user->password = $request->newpassword;
+        if ($request->has('newpassword')) $user->password = $request->newpassword;
 
-        if ( $request->hasFile('profilepicture') ) $this->handleImage($request->file('profilepicture'), $user);
+        if ($request->hasFile('profilepicture')) $this->handleImage($request->file('profilepicture'), $user);
 
         $user->save();
 
         tracert()->log('users', $user->id, $this->auth_user->id, 'update');
 
         $message = trans('blogify::notify.success', ['model' => 'User', 'name' => $user->fullName, 'action' =>'updated']);
-        session()->flash('notify', [ 'success', $message ] );
+        session()->flash('notify', ['success', $message] );
 
         return redirect()->route('admin.dashboard');
     }
@@ -94,7 +95,7 @@ class ProfileController extends BaseController {
         $filename   = $this->generateFilename();
         $path       = $this->resizeAndSaveProfilePicture( $image, $filename );
 
-        if ( isset($user->profilepicture) ) $this->removeOldPicture($user->profilepicture);
+        if (isset($user->profilepicture)) $this->removeOldPicture($user->profilepicture);
 
         $user->profilepicture = $path;
     }
@@ -137,13 +138,12 @@ class ProfileController extends BaseController {
      *
      * @param $oldPicture
      */
-    private function removeOldPicture( $oldPicture )
+    private function removeOldPicture($oldPicture)
     {
-        if ( file_exists($oldPicture) )
+        if (file_exists($oldPicture))
         {
             unlink($oldPicture);
         }
     }
-
 
 }

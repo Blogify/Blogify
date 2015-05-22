@@ -4,7 +4,8 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Blogify\Models\Role;
 
-class HasAdminOrAuthorRole {
+class HasAdminOrAuthorRole
+{
 
     /**
      * The Guard implementation.
@@ -35,8 +36,8 @@ class HasAdminOrAuthorRole {
      */
     public function __construct(Guard $auth, Role $role)
     {
-        $this->auth     = $auth;
-        $this->role     = $role;
+        $this->auth = $auth;
+        $this->role = $role;
 
         $this->fillAlowedRolesArray();
     }
@@ -50,7 +51,7 @@ class HasAdminOrAuthorRole {
      */
     public function handle($request, Closure $next)
     {
-        if ( ! in_array($this->auth->user()->role->id, $this->allowed_roles) )
+        if (! in_array($this->auth->user()->role->id, $this->allowed_roles))
         {
             return redirect()->route('admin.dashboard');
         }
@@ -62,12 +63,13 @@ class HasAdminOrAuthorRole {
      * Get the allowed roles and push
      * them in the allowed roles array
      *
+     * @return void
      */
     private function fillAlowedRolesArray()
     {
         $roles = $this->role->where('name', '<>', 'Reviewer')->where('name', '<>', 'Member')->get();
 
-        foreach ( $roles as $role )
+        foreach ($roles as $role)
         {
             array_push($this->allowed_roles, $role->id);
         }

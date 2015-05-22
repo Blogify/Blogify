@@ -2,7 +2,8 @@
 
 use jorenvanhocht\Blogify\Requests\LoginRequest;
 
-class AuthController extends BaseController{
+class AuthController extends BaseController
+{
 
     /**
      * Construct the class
@@ -37,9 +38,9 @@ class AuthController extends BaseController{
      * @param LoginRequest $request
      * @return mixed
      */
-    public function login( LoginRequest $request )
+    public function login(LoginRequest $request)
     {
-        if ( $this->auth->attempt( ['email' => $request->email, 'password'  =>  $request->password  ], isset( $request->rememberme ) ? true : false ) )
+        if ($this->auth->attempt(['email' => $request->email, 'password' => $request->password], isset($request->rememberme) ? true : false ))
         {
             tracert()->log('users', $this->auth->user()->id, $this->auth->user()->id, 'Login');
             return redirect('/admin');
@@ -58,6 +59,7 @@ class AuthController extends BaseController{
     {
         $user_id = $this->auth_user->id;
         $this->auth->logout();
+
         tracert()->log('users', $user_id, $user_id, 'Logout');
         return redirect()->route('admin.login');
     }

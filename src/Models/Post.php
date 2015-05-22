@@ -3,7 +3,8 @@
 use Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Post extends BaseModel{
+class Post extends BaseModel
+{
 
     use SoftDeletes;
 
@@ -12,21 +13,21 @@ class Post extends BaseModel{
      *
      * @var string
      */
-    protected $table        = 'posts';
+    protected $table = 'posts';
 
     /**
      * The attributes that are mass assignable
      *
      * @var array
      */
-    protected $fillable     = [];
+    protected $fillable = [];
 
     /**
      * Set or unset the timestamps for the model
      *
      * @var bool
      */
-    public $timestamps      = true;
+    public $timestamps = true;
 
     /*
     |--------------------------------------------------------------------------
@@ -108,22 +109,22 @@ class Post extends BaseModel{
     |
     */
 
-    public function scopeForAdmin( $query )
+    public function scopeForAdmin($query)
     {
         return $query;
     }
 
-    public function scopeForReviewer( $query )
+    public function scopeForReviewer($query)
     {
-        return $query->whereReviewerId( Auth::user()->id );
+        return $query->whereReviewerId(Auth::user()->id);
     }
 
-    public function scopeForAuthor( $query )
+    public function scopeForAuthor($query)
     {
-        return $query->whereUserId( Auth::user()->id );
+        return $query->whereUserId(Auth::user()->id);
     }
 
-    public function scopeBySlug( $query, $slug )
+    public function scopeBySlug($query, $slug)
     {
         return $query->whereSlug($slug)->first();
     }

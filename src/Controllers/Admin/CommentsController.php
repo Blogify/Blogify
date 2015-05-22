@@ -2,7 +2,8 @@
 
 use jorenvanhocht\Blogify\Models\Comment;
 
-class CommentsController extends BaseController{
+class CommentsController extends BaseController
+{
 
     /**
      * Holds an instance of the comment model
@@ -16,11 +17,11 @@ class CommentsController extends BaseController{
      *
      * @param Comment $comment
      */
-    public function __construct( Comment $comment )
+    public function __construct(Comment $comment)
     {
         parent::__construct();
 
-        $this->comment  = $comment;
+        $this->comment = $comment;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -34,14 +35,14 @@ class CommentsController extends BaseController{
      * @param string $revised
      * @return \Illuminate\View\View
      */
-    public function index( $revised = "pending" )
+    public function index($revised = "pending")
     {
         $revised = $this->checkRevised( $revised );
-        if ( $revised === false ) abort(404);
+        if ($revised === false) abort(404);
 
         $data = [
             'comments' => $this->comment->byRevised( $revised )->paginate( $this->config->items_per_page ),
-            'revised' => $revised
+            'revised' => $revised,
         ];
 
         return view('blogify::admin.comments.index', $data);
@@ -59,10 +60,10 @@ class CommentsController extends BaseController{
      * @param $new_revised
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function changeStatus( $hash, $new_revised )
+    public function changeStatus($hash, $new_revised)
     {
         $revised = $this->checkRevised( $new_revised );
-        if ( $revised === false ) abort(404);
+        if ($revised === false) abort(404);
 
         $comment            = $this->comment->byHash( $hash );
         $comment->revised   = $revised;
@@ -70,8 +71,8 @@ class CommentsController extends BaseController{
 
         tracert()->log('comments', $comment->id, $this->auth_user->id, $new_revised);
 
-        $message = trans('blogify::notify.comment_success', [ 'action' => $new_revised ]);
-        session()->flash('notify', [ 'success', $message ] );
+        $message = trans('blogify::notify.comment_success', ['action' => $new_revised]);
+        session()->flash('notify', [ 'success', $message]);
 
         return redirect()->route('admin.comments.index');
     }
@@ -87,11 +88,11 @@ class CommentsController extends BaseController{
      * @param $revised
      * @return int|bool
      */
-    private function checkRevised( $revised )
+    private function checkRevised($revised)
     {
-        $allowed = [ 1 => 'pending', 2 => 'approved', 3 => 'disapproved' ];
+        $allowed = [1 => 'pending', Ò2 => 'approved', 3 => 'disapproved'];
 
-        return array_search( $revised, $allowed );
+        return array_search($revised, $allowed);
     }
 
 }

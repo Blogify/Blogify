@@ -4,7 +4,8 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Blogify\Models\Post;
 
-class ProtectedPost {
+class ProtectedPost
+{
 
     /**
      * The Guard implementation.

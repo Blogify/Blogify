@@ -5,7 +5,8 @@ use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Blogify\Models\Post;
 use Request;
 
-class CanEditPost {
+class CanEditPost
+{
 
     /**
      * The Guard implementation.
@@ -27,10 +28,10 @@ class CanEditPost {
      * @param Post $post
      * @param Guard $auth
      */
-    public function __construct( Guard $auth, Post $post )
+    public function __construct(Guard $auth, Post $post)
     {
-        $this->auth     = $auth;
-        $this->post     = $post;
+        $this->auth = $auth;
+        $this->post = $post;
     }
 
     /**
@@ -42,7 +43,7 @@ class CanEditPost {
      */
     public function handle($request, Closure $next)
     {
-        if ( ! $this->checkIfUserCanEditPost() ) return redirect()->route('admin.dashboard');
+        if (! $this->checkIfUserCanEditPost()) return redirect()->route('admin.dashboard');
 
         return $next($request);
     }
@@ -58,7 +59,7 @@ class CanEditPost {
         $post = $this->post->byHash( Request::segment(3) );
         $user_id = $this->auth->user()->id;
 
-        if ( $user_id != $post->user_id && $user_id != $post->reviewer_id && $this->auth->user()->role->name != 'Admin') return false;
+        if ($user_id != $post->user_id && $user_id != $post->reviewer_id && $this->auth->user()->role->name != 'Admin') return false;
 
         return true;
     }

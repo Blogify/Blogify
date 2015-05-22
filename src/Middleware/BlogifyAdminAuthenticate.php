@@ -4,7 +4,8 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Blogify\Models\Role;
 
-class BlogifyAdminAuthenticate {
+class BlogifyAdminAuthenticate
+{
 
 	/**
 	 * The Guard implementation.
@@ -61,7 +62,7 @@ class BlogifyAdminAuthenticate {
 		}
 
 		// Check if the user has permission to visit the admin panel
-		if ( ! in_array ( $this->auth->user()->role_id, $this->allowed_roles ) )
+		if (! in_array($this->auth->user()->role_id, $this->allowed_roles))
 		{
 			return redirect()->route('admin.login');
 		}
@@ -73,10 +74,11 @@ class BlogifyAdminAuthenticate {
 	 * Loop through the allowed roles and push their
 	 * id into the allowed_roles array
 	 *
+	 * @return void
 	 */
-	public function fillAllowedRolesArray()
+	private function fillAllowedRolesArray()
 	{
-		foreach ( $this->roles as $role )
+		foreach ($this->roles as $role)
 		{
 			array_push( $this->allowed_roles, $role->id );
 		}

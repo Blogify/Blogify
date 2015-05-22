@@ -3,7 +3,8 @@
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 
-class BlogifyServiceProvider extends ServiceProvider {
+class BlogifyServiceProvider extends ServiceProvider
+{
 
     /**
      * @var array
@@ -51,21 +52,7 @@ class BlogifyServiceProvider extends ServiceProvider {
         // Load the routes for the package
         include __DIR__ . '/routes.php';
 
-        // Publish the config files for the package
-        $this->publishes([
-            __DIR__.'/../config' => config_path('blogify/'),
-        ], 'config');
-
-        $this->publishes([
-            __DIR__.'/../public/assets' => base_path('/public/assets/blogify/'),
-            __DIR__.'/../public/ckeditor' => base_path('public/ckeditor/'),
-            __DIR__.'/../public/datetimepicker' => base_path('public/datetimepicker/')
-        ], 'assets');
-
-        $this->publishes([
-            __DIR__.'/../Views/admin/auth/passwordreset/' => base_path('/resources/views/auth/'),
-            __DIR__.'/../Views/mails/resetpassword.blade.php' => base_path('/resources/views/emails/password.blade.php')
-        ], 'pass-reset');
+        $this->publish();
 
         $this->loadViewsFrom(__DIR__.'/../views', 'blogify');
         $this->loadViewsFrom(__DIR__.'/../Example/Views', 'blogifyPublic');
@@ -122,6 +109,28 @@ class BlogifyServiceProvider extends ServiceProvider {
         {
             $loader->alias($key, $alias);
         }
+    }
+
+    /**
+     * @return void
+     */
+    private function publish()
+    {
+        // Publish the config files for the package
+        $this->publishes([
+            __DIR__.'/../config' => config_path('blogify/'),
+        ], 'config');
+
+        $this->publishes([
+            __DIR__.'/../public/assets' => base_path('/public/assets/blogify/'),
+            __DIR__.'/../public/ckeditor' => base_path('public/ckeditor/'),
+            __DIR__.'/../public/datetimepicker' => base_path('public/datetimepicker/')
+        ], 'assets');
+
+        $this->publishes([
+            __DIR__.'/../Views/admin/auth/passwordreset/' => base_path('/resources/views/auth/'),
+            __DIR__.'/../Views/mails/resetpassword.blade.php' => base_path('/resources/views/emails/password.blade.php')
+        ], 'pass-reset');
     }
 
     private function registerCommands()

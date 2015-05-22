@@ -6,7 +6,8 @@ use jorenvanhocht\Blogify\Models\Tag;
 use jorenvanhocht\Blogify\Requests\TagUpdateRequest;
 use Request;
 
-class TagsController extends BaseController {
+class TagsController extends BaseController
+{
 
     /**
      * Holds an instance of the Tag model
@@ -34,11 +35,11 @@ class TagsController extends BaseController {
      *
      * @param Tag $tag
      */
-    public function __construct( Tag $tag )
+    public function __construct(Tag $tag)
     {
         parent::__construct();
 
-        $this->tag      = $tag;
+        $this->tag = $tag;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -51,11 +52,11 @@ class TagsController extends BaseController {
      * @param null $trashed
      * @return \Illuminate\View\View
      */
-    public function index( $trashed = null )
+    public function index($trashed = null)
     {
         $data = [
-            'tags' => ( ! $trashed ) ? $this->tag->orderBy('created_at', 'DESC')->paginate( $this->config->items_per_page ) : $this->tag->onlyTrashed()->orderBy('created_at', 'DESC')->paginate( $this->config->items_per_page ),
-            'trashed' => $trashed
+            'tags' => (! $trashed) ? $this->tag->orderBy('created_at', 'DESC')->paginate($this->config->items_per_page) : $this->tag->onlyTrashed()->orderBy('created_at', 'DESC')->paginate($this->config->items_per_page),
+            'trashed' => $trashed,
         ];
 
         return view('blogify::admin.tags.index', $data);
@@ -77,10 +78,10 @@ class TagsController extends BaseController {
      * @param $hash
      * @return \Illuminate\View\View
      */
-    public function edit( $hash )
+    public function edit($hash)
     {
         $data = [
-            'tag' => $this->tag->byHash( $hash )
+            'tag' => $this->tag->byHash( $hash ),
         ];
 
         return view('blogify::admin.tags.form', $data);
@@ -103,26 +104,26 @@ class TagsController extends BaseController {
 
         // validate tag(s)
         $validation = $this->tag->validate($this->tags);
-        if ( $validation->fails() )
+        if ($validation->fails())
         {
             $data = [
                 'passed' => false,
                 'messages' => $validation->messages(),
             ];
 
-            if ( Request::ajax() ) return $data;
+            if (Request::ajax()) return $data;
 
-            return redirect()->back()->withErrors( $validation->messages() )->withInput();
+            return redirect()->back()->withErrors($validation->messages())->withInput();
         }
 
         // store or update the tag in the db
         $this->storeOrUpdateTags();
 
-        $data = [ 'passed' => true, 'tags'  => $this->stored_tags ];
-        if (  Request::ajax() ) return $data;
+        $data = [ 'passed' => true, 'tags' => $this->stored_tags ];
+        if (Request::ajax()) return $data;
 
         $message = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $this->getTagNames(), 'action' =>'created']);
-        session()->flash('notify', [ 'success', $message ] );
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.tags.index');
     }
@@ -134,16 +135,16 @@ class TagsController extends BaseController {
      * @param TagUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update( $hash, TagUpdateRequest $request )
+    public function update($hash, TagUpdateRequest $request)
     {
-        $tag        = $this->tag->byHash( $hash );
-        $tag->name  = $request->tags;
+        $tag = $this->tag->byHash( $hash );
+        $tag->name = $request->tags;
         $tag->save();
 
         tracert()->log('tags', $tag->id, $this->auth_user->id, 'update');
 
-        $message    = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $tag->name, 'action' =>'updated']);
-        session()->flash('notify', [ 'success', $message ] );
+        $message = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $tag->name, 'action' =>'updated']);
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.tags.index');
     }
@@ -154,16 +155,16 @@ class TagsController extends BaseController {
      * @param $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy( $hash )
+    public function destroy($hash)
     {
-        $tag        = $this->tag->byHash( $hash );
-        $tag_name   = $tag->name;
+        $tag = $this->tag->byHash($hash);
+        $tag_name = $tag->name;
         $tag->delete();
 
         tracert()->log('tags', $tag->id, $this->auth_user->id, 'delete');
 
-        $message    = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $tag_name, 'action' =>'deleted']);
-        session()->flash('notify', [ 'success', $message ] );
+        $message = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $tag_name, 'action' =>'deleted']);
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.tags.index');
     }
@@ -178,8 +179,8 @@ class TagsController extends BaseController {
         $tag_name = $tag->name;
         $tag->restore();
 
-        $message    = trans('blogify::notify.success', ['model' => 'Post', 'name' => $tag_name, 'action' =>'restored']);
-        session()->flash('notify', [ 'success', $message ] );
+        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $tag_name, 'action' =>'restored']);
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.tags.index');
     }
@@ -191,6 +192,7 @@ class TagsController extends BaseController {
     /**
      * Fill the global tags array
      *
+     * @return void
      */
     private function fillTagsArray()
     {
@@ -203,10 +205,11 @@ class TagsController extends BaseController {
      * beginning or at the and
      * of a tag
      *
+     * @return void
      */
     private function deleteSpacesAtTheBeginningAndEnd()
     {
-        foreach ( $this->tags as $key => $tag )
+        foreach ($this->tags as $key => $tag)
         {
             $this->tags[$key] = trim($tag);
         }
@@ -216,21 +219,22 @@ class TagsController extends BaseController {
      * Store or update the tag(s)
      * in the db
      *
+     * @return void
      */
     private function storeOrUpdateTags()
     {
-        foreach ( $this->tags as $tag_name )
+        foreach ($this->tags as $tag_name)
         {
             $t = $this->tag->whereName($tag_name)->first();
 
-            if ( count( $t ) > 0 )
+            if (count($t) > 0)
             {
                 $tag = $t;
             }
             else
             {
-                $tag        = new Tag;
-                $tag->hash  = blogify()->makeUniqueHash('tags', 'hash');
+                $tag = new Tag;
+                $tag->hash = blogify()->makeUniqueHash('tags', 'hash');
             }
 
             $tag->name = $tag_name;
@@ -251,7 +255,7 @@ class TagsController extends BaseController {
     {
         $tags = '';
 
-        foreach ( $this->stored_tags as $tag )
+        foreach ($this->stored_tags as $tag)
         {
             $tags .= $tag->name . ', ';
         }

@@ -2,7 +2,8 @@
 
 use Illuminate\Console\Command;
 
-class BlogifyCreateRequiredDirectories extends Command {
+class BlogifyCreateRequiredDirectories extends Command
+{
 
     /**
      * The console command name.
@@ -25,6 +26,7 @@ class BlogifyCreateRequiredDirectories extends Command {
 
     /**
      * Construct the class
+     *
      */
     public function __construct( )
     {

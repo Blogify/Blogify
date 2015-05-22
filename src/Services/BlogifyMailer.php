@@ -2,7 +2,8 @@
 
 use Illuminate\Contracts\Mail\Mailer;
 
-class BlogifyMailer {
+class BlogifyMailer
+{
 
     /**
      * Holds an instance of the Mailter contract
@@ -16,7 +17,7 @@ class BlogifyMailer {
      *
      * @param Mailer $mail
      */
-    public function __construct( Mailer $mail )
+    public function __construct(Mailer $mail)
     {
         $this->mail = $mail;
     }
@@ -29,7 +30,7 @@ class BlogifyMailer {
      * @param $subject
      * @param $data
      */
-    public function mailPassword( $to, $subject, $data )
+    public function mailPassword($to, $subject, $data)
     {
         $this->mail->send('blogify::mails.password', ['data' => $data], function($message) use ($to, $subject)
         {
@@ -45,7 +46,7 @@ class BlogifyMailer {
      * @param $subject
      * @param $data
      */
-    public function mailReviewer( $to, $subject, $data  )
+    public function mailReviewer($to, $subject, $data)
     {
         $this->mail->send('blogify::mails.notifyReviewer', ['data' => $data], function($message) use ($to, $subject)
         {

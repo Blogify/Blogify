@@ -4,7 +4,8 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use App\User;
 
-class IsOwner {
+class IsOwner
+{
 
     /**
      * The Guard implementation.
@@ -28,8 +29,8 @@ class IsOwner {
      */
     public function __construct(Guard $auth, User $user)
     {
-        $this->auth     = $auth;
-        $this->user     = $user;
+        $this->auth = $auth;
+        $this->user = $user;
     }
 
     /**
@@ -43,7 +44,7 @@ class IsOwner {
     {
         $user = $this->user->byHash($request->segment(3));
 
-        if ( $this->auth->user()->id != $user->id ) abort(404);
+        if ($this->auth->user()->id != $user->id) abort(404);
 
         return $next($request);
     }

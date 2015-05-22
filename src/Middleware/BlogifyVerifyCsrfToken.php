@@ -4,7 +4,8 @@ use \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Closure;
 use Illuminate\Session\TokenMismatchException;
 
-class BlogifyVerifyCsrfToken extends VerifyCsrfToken {
+class BlogifyVerifyCsrfToken extends VerifyCsrfToken
+{
 
     protected $routes = [
         'admin/posts/image/upload',
@@ -36,7 +37,7 @@ class BlogifyVerifyCsrfToken extends VerifyCsrfToken {
      */
     protected function excludedRoutes($request)
     {
-        foreach($this->routes as $route)
+        foreach ($this->routes as $route)
             if ($request->is($route))
                 return true;
 
