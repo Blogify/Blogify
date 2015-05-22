@@ -74,6 +74,61 @@ var app = {
         },
 
         /**
+         * Get an array with the current
+         * datetime splited up.
+         *
+         * @returns {Array}
+         */
+        getDateTimeArray: function()
+        {
+            var current_date = new Date();
+            var data = new Array();
+            data['year'] = current_date.getFullYear();
+            data['month'] = ((current_date.getMonth() + 1) < 10) ? '0' + (current_date.getMonth() + 1) : current_date.getMonth() + 1;
+            data['day'] = (current_date.getDate() < 10) ? '0' + current_date.getDate() : current_date.getDate();
+            data['hour'] = (current_date.getHours() < 10) ? '0' + current_date.getHours() : current_date.getHours();
+            data['minutes'] = (current_date.getMinutes() < 10) ? '0' + current_date.getMinutes() : current_date.getMinutes();
+            data['seconds'] = current_date.getSeconds();
+
+            return data;
+        },
+
+        /**
+         * Get the current date formatted
+         * like it is stored in the DB
+         *
+         * @returns {string}
+         */
+        getDateTime: function()
+        {
+            var data = app.sortable.getDateTimeArray();
+
+            return data['year'] + '-' + data['month'] + '-' + data['day'] + ' ' + data['hour'] + ':' + data['minutes'] + ':' + data['seconds'];
+        },
+
+        /**
+         * Get a human readable date
+         * from a given date
+         *
+         * @param fulldate
+         * @returns {string}
+         */
+        getHumanReadableDatetime: function(fulldate)
+        {
+            var data = new Array();
+            data['year'] = fulldate.getFullYear();
+            data['month'] = ((fulldate.getMonth() + 1) < 10) ? '0' + (fulldate.getMonth() + 1) : fulldate.getMonth() + 1;
+            data['day'] = (fulldate.getDate() < 10) ? '0' + fulldate.getDate() : fulldate.getDate();
+            data['hour'] = (fulldate.getHours() < 10) ? '0' + fulldate.getHours() : fulldate.getHours();
+            data['minutes'] = (fulldate.getMinutes() < 10) ? '0' + fulldate.getMinutes() : fulldate.getMinutes();
+            data['day'] = (fulldate.getDate() < 10) ? '0' + fulldate.getDate() : fulldate.getDate();
+            data['hour'] = (fulldate.getHours() < 10) ? '0' + fulldate.getHours() : fulldate.getHours();
+            data['minutes'] = (fulldate.getMinutes() < 10) ? '0' + fulldate.getMinutes() : fulldate.getMinutes();
+
+            return data['day'] + '-' + data['month'] + '-' + data['year'] + ' ' + data['hour'] + ':' + data['minutes'];
+        },
+
+        /**
          * Fetch the new data
          *
          * @param link
@@ -112,13 +167,41 @@ var app = {
             // Loop through the results
             for ( var i = 0; i < data['data'].length; i++ )
             {
-                append_data += "<tr>";
+                var row = '<tr>';
+                if ( 'status_id' in data['data'][i] )
+                {
+                    if (data['data'][i].status_id == 1)
+                    {
+                        row = '<tr class="danger">';
+                    }
+                    if (data['data'][i].status_id == 2)
+                    {
+                        row = '<tr class="warning">';
+                    }
+                    if (data['data'][i].status_id == 3)
+                    {
+                        row = '<tr class="info">';
+                    }
+                    console.log(data['data'][i].publish_date);
+                    console.log( app.sortable.getDateTime());
+                    if (data['data'][i].publish_date <= app.sortable.getDateTime())
+                    {
+                        row = "<tr>"
+                    }
+                }
+
+                append_data += row;
 
                 for ( var n = 0; n < thead[0]['children'].length - 1; n++ )
                 {
                     // Get the role attribute from the table head column
                     // this needs to be equal to the column name in the database
                     var columnName = thead[0]['children'][n].attributes[0].value;
+
+                    if(columnName == 'created_at' || columnName == 'publish_date')
+                    {
+                        data['data'][i][columnName] = app.sortable.getHumanReadableDatetime(new Date(data['data'][i][columnName]));
+                    }
 
                     append_data += "<td>" + data['data'][i][columnName] + "</td>";
                 }

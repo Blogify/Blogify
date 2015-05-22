@@ -66,8 +66,8 @@ class DashboardController extends BaseController {
      * @return \Illuminate\View\View
      */
     public function index()
-    {dd('hello');
-        //return view("blogify::admin.home", $this->data);
+    {
+        return view("blogify::admin.home", $this->data);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -75,12 +75,11 @@ class DashboardController extends BaseController {
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Fill in the array with the data for the dashboard
-     *
+     * @return void
      */
-    /*private function buildDataObjectForAdmin()
+    private function buildDataObjectForAdmin()
     {
-        $this->data['new_users_since_last_visit'] = //$this->user->newUsersSince( $this->auth_user->updated_at )->count();
+        $this->data['new_users_since_last_visit'] = $this->user->newUsersSince( $this->auth_user->updated_at )->count();
 
         $this->data['activity'] = $this->history->where('crud_action', '<>', 'login')
                                                     ->where('crud_action', '<>', 'logout')
@@ -96,6 +95,9 @@ class DashboardController extends BaseController {
         objectify($this->data);
     }
 
+    /**
+     * @return void
+     */
     private function buildDataObjectForAuthor()
     {
         $this->data['published_posts'] = $this->post->where('publish_date', '<=', date('Y-m-d H:i:s'))->forAuthor()->count();
@@ -108,9 +110,12 @@ class DashboardController extends BaseController {
         objectify($this->data);
     }
 
+    /**
+     * @return void
+     */
     private function buildDataObjectForReviewer()
     {
         $this->data['pending_review_posts'] = $this->post->whereStatusId(2)->forReviewer()->count();
-    }*/
+    }
 
 }

@@ -62,6 +62,11 @@ class BlogifyServiceProvider extends ServiceProvider {
             __DIR__.'/public/datetimepicker' => base_path('public/datetimepicker/')
         ], 'assets');
 
+        $this->publishes([
+            __DIR__.'/Views/admin/auth/passwordreset/' => base_path('/resources/views/auth/'),
+            __DIR__.'/Views/mails/resetpassword.blade.php' => base_path('/resources/views/emails/password.blade.php')
+        ], 'pass-reset');
+
         $this->loadViewsFrom(__DIR__.'/Views', 'blogify');
         $this->loadViewsFrom(__DIR__.'/../Example/Views', 'blogifyPublic');
 

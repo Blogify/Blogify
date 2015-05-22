@@ -7,6 +7,13 @@
     {!! Form::open( [ 'route' => ['admin.profile.update', $user->hash], 'files' => true ] ) !!}
     {!! Form::hidden('_method', 'put') !!}
     {!! Form::hidden('hash', $user->hash) !!}
+    <div class="row">
+        <div class="col-sm-2 col-sm-offset-2 col-span-10">
+            <p>
+                <img src="{{URL::asset($user->profilepicture)}}" class="img-rounded">
+            </p>
+        </div>
+    </div>
     <div class="row form-group {{ $errors->has('name') ? 'has-error' : '' }}">
         <div class="col-sm-2">
             {!! Form::label('name', trans("blogify::profiles.form.name.label") ) !!}
