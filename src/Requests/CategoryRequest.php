@@ -7,6 +7,19 @@ class CategoryRequest extends Request
 {
 
     /**
+     * @var Category
+     */
+    protected $category;
+
+    /**
+     * @param Category $category
+     */
+    public function __construct(Category $category)
+    {
+        $this->category = $category;
+    }
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -24,7 +37,7 @@ class CategoryRequest extends Request
     public function rules()
     {
         $segment = $this->segment(3);
-        $id = isset($segment) ? Category::byHash($this->segment(3))->id : 0;
+        $id = isset($segment) ? $this->category->byHash($this->segment(3))->id : 0;
 
         return [
             'name'		=> "required|unique:categories,name,$id|min:3|max:45",

@@ -1,6 +1,5 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
-use Illuminate\Support\Facades\Config;
 use Input;
 use jorenvanhocht\Blogify\Models\Tag;
 use jorenvanhocht\Blogify\Requests\TagUpdateRequest;
@@ -55,7 +54,13 @@ class TagsController extends BaseController
     public function index($trashed = null)
     {
         $data = [
-            'tags' => (! $trashed) ? $this->tag->orderBy('created_at', 'DESC')->paginate($this->config->items_per_page) : $this->tag->onlyTrashed()->orderBy('created_at', 'DESC')->paginate($this->config->items_per_page),
+            'tags' => (! $trashed) ?
+                                    $this->tag->orderBy('created_at', 'DESC')
+                                        ->paginate($this->config->items_per_page)
+                                    :
+                                    $this->tag->onlyTrashed()
+                                        ->orderBy('created_at', 'DESC')
+                                        ->paginate($this->config->items_per_page),
             'trashed' => $trashed,
         ];
 
@@ -137,7 +142,7 @@ class TagsController extends BaseController
      */
     public function update($hash, TagUpdateRequest $request)
     {
-        $tag = $this->tag->byHash( $hash );
+        $tag = $this->tag->byHash($hash);
         $tag->name = $request->tags;
         $tag->save();
 
@@ -158,12 +163,11 @@ class TagsController extends BaseController
     public function destroy($hash)
     {
         $tag = $this->tag->byHash($hash);
-        $tag_name = $tag->name;
         $tag->delete();
 
         tracert()->log('tags', $tag->id, $this->auth_user->id, 'delete');
 
-        $message = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $tag_name, 'action' =>'deleted']);
+        $message = trans('blogify::notify.success', ['model' => 'Tags', 'name' => $tag->name, 'action' =>'deleted']);
         session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.tags.index');
@@ -176,10 +180,9 @@ class TagsController extends BaseController
     public function restore($hash)
     {
         $tag = $this->tag->withTrashed()->byHash($hash);
-        $tag_name = $tag->name;
         $tag->restore();
 
-        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $tag_name, 'action' =>'restored']);
+        $message = trans('blogify::notify.success', ['model' => 'Tag', 'name' => $tag->name, 'action' =>'restored']);
         session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.tags.index');

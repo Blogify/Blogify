@@ -122,12 +122,12 @@ class ProfileController extends BaseController
         $extention  = $image->getClientOriginalExtension();
         $fullpath   = $this->config->upload_paths->profiles->profilepictures . $filename . '.' . $extention;
 
-        Image::make( $image->getRealPath() )
-            ->resize( $this->config->image_sizes->profilepictures[0], $this->config->image_sizes->profilepictures[1] , function ($constraint) {
+        Image::make($image->getRealPath())
+            ->resize($this->config->image_sizes->profilepictures[0], $this->config->image_sizes->profilepictures[1] , function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })
-            ->save( $fullpath );
+            ->save($fullpath);
 
         return $fullpath;
     }
@@ -140,10 +140,7 @@ class ProfileController extends BaseController
      */
     private function removeOldPicture($oldPicture)
     {
-        if (file_exists($oldPicture))
-        {
-            unlink($oldPicture);
-        }
+        if (file_exists($oldPicture)) unlink($oldPicture);
     }
 
 }

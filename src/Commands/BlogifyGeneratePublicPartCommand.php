@@ -126,12 +126,14 @@ class BlogifyGeneratePublicPartCommand extends Command
      */
     private function publishViews()
     {
-        $path = __DIR__."/../../../../../resources/views/blogify/templates/";
+        $basepath = __DIR__."/../../../../../resources/views/blogify/";
+        $path = $basepath."templates/";
+
         if (!file_exists($path)) mkdir($path, 775, true);
 
         foreach ($this->views as $key => $file)
         {
-            $filename = __DIR__."/../../../../../resources/views/blogify/$key.blade.php";
+            $filename = $basepath . "$key.blade.php";
             if (file_exists($filename))
             {
                 if ($this->confirm("File $key allready exists, do you want to override it? Y/N"))
@@ -147,7 +149,7 @@ class BlogifyGeneratePublicPartCommand extends Command
 
         foreach ($this->layouts as $key => $file)
         {
-            $filename = __DIR__."/../../../../../resources/views/blogify/templates/$key.blade.php";
+            $filename = $basepath . "templates/$key.blade.php";
             if (file_exists($filename))
             {
                 if ($this->confirm("File $key allready exists, do you want to override it? Y/N"))

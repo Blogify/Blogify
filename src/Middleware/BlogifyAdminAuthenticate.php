@@ -32,11 +32,12 @@ class BlogifyAdminAuthenticate
 	 * Create a new filter instance.
 	 *
 	 * @param Guard $auth
+	 * @param Role $role
 	 */
-	public function __construct(Guard $auth)
+	public function __construct(Guard $auth, Role $role)
 	{
 		$this->auth = $auth;
-		$this->roles = Role::byAdminRoles()->get();
+		$this->roles = $role->byAdminRoles()->get();
 		$this->fillAllowedRolesArray();
 	}
 
@@ -80,7 +81,7 @@ class BlogifyAdminAuthenticate
 	{
 		foreach ($this->roles as $role)
 		{
-			array_push( $this->allowed_roles, $role->id );
+			array_push($this->allowed_roles, $role->id);
 		}
 	}
 

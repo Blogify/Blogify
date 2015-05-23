@@ -49,12 +49,12 @@ class ApiController extends BaseController
      */
     public function sort($table, $column, $order, $trashed = false, DatabaseManager $db)
     {
-        $data = $db->table( $table );
+        $data = $db->table($table);
 
         // Check for trashed data
         $data = $trashed ? $data->whereNotNull('deleted_at') : $data->whereNull('deleted_at');
 
-        $data = $data->orderBy($column, $order)->paginate( $this->config->items_per_page );
+        $data = $data->orderBy($column, $order)->paginate($this->config->items_per_page);
 
         return $data;
     }
@@ -74,7 +74,7 @@ class ApiController extends BaseController
         while ($this->post->whereSlug($slug)->get()->count() > 0)
         {
             $i++;
-            $slug = $this->base_slug . '-' . $i;
+            $slug = "$this->base_slug-$i";
         }
 
         return $slug;

@@ -3,7 +3,6 @@
 use App\User;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Request;
 use jorenvanhocht\Blogify\Models\Post;
 
 class DenyIfBeingEdited
@@ -35,6 +34,7 @@ class DenyIfBeingEdited
      *
      * @param Guard $auth
      * @param Post $post
+     * @param User $user
      */
     public function __construct(Guard $auth, Post $post, User $user)
     {
@@ -52,7 +52,7 @@ class DenyIfBeingEdited
      */
     public function handle($request, Closure $next)
     {
-        $hash = Request::segment(3);
+        $hash = $request->segment(3);
         $post = $this->post->byHash($hash);
 
         if ($post->being_edited_by != null && $post->being_edited_by != $this->auth->user()->id)

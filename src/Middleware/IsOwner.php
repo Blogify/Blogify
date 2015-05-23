@@ -24,8 +24,8 @@ class IsOwner
     /**
      * Create a new filter instance.
      *
-     * @param User $user
      * @param Guard $auth
+     * @param User $user
      */
     public function __construct(Guard $auth, User $user)
     {

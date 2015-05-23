@@ -144,7 +144,15 @@ class PostsController extends BaseController
     {
         $scope  = 'for'.$this->auth_user->role->name;
         $data   = [
-            'posts' => (! $trashed) ? $this->post->$scope()->orderBy('publish_date', 'DESC')->paginate($this->config->items_per_page) : $this->post->$scope()->onlyTrashed()->orderBy('publish_date', 'DESC')->paginate($this->config->items_per_page),
+            'posts' => (! $trashed) ?
+                                    $this->post->$scope()
+                                            ->orderBy('publish_date', 'DESC')
+                                            ->paginate($this->config->items_per_page)
+                                    :
+                                    $this->post->$scope()
+                                            ->onlyTrashed()
+                                            ->orderBy('publish_date', 'DESC')
+                                            ->paginate($this->config->items_per_page),
             'trashed' => $trashed,
         ];
 
@@ -171,10 +179,10 @@ class PostsController extends BaseController
      * @param $slug
      * @return \Illuminate\View\View
      */
-    public function show ( $slug )
+    public function show ($slug)
     {
         $data = [
-            'post' => $this->post->bySlug( $slug ),
+            'post' => $this->post->bySlug($slug),
         ];
 
         if ($data['post']->count() <= 0) abort(404);
@@ -190,13 +198,13 @@ class PostsController extends BaseController
      */
     public function edit($hash)
     {
-        $p      = $this->post->byHash($hash);
-        $hash   = $this->auth_user->hash;
-        $post   = ($this->cache->has("autoSavedPost-$hash")) ? $this->buildPostObject() : $p;
-        $data   = $this->getViewData( $post );
+        $originalPost = $this->post->byHash($hash);
+        $hash = $this->auth_user->hash;
+        $post = ($this->cache->has("autoSavedPost-$hash")) ? $this->buildPostObject() : $originalPost;
+        $data = $this->getViewData($post);
 
-        $p->being_edited_by = $this->auth_user->id;
-        $p->save();
+        $originalPost->being_edited_by = $this->auth_user->id;
+        $originalPost->save();
 
         return view('blogify::admin.posts.form', $data);
     }
@@ -220,7 +228,7 @@ class PostsController extends BaseController
 
         $post = $this->storeOrUpdatePost();
 
-        if ($this->status->byHash($this->data->status)->name == 'Pending review') $this->mailReviewer( $post );
+        if ($this->status->byHash($this->data->status)->name == 'Pending review') $this->mailReviewer($post);
 
         $action = ($request->hash == '') ? 'created' : 'updated';
 
@@ -228,6 +236,7 @@ class PostsController extends BaseController
 
         $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' => $action]);
         session()->flash('notify', ['success', $message]);
+
         $this->cache->forget('autoSavedPost');
 
         return redirect()->route('admin.posts.index');
@@ -242,13 +251,11 @@ class PostsController extends BaseController
     public function destroy($hash)
     {
         $post = $this->post->byHash($hash);
-        $name = $post->title;
-
         $post->delete();
 
         tracert()->log('posts', $post->id, $this->auth_user->id, 'delete');
 
-        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $name, 'action' =>'deleted']);
+        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' =>'deleted']);
         session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.posts.index');
@@ -267,7 +274,7 @@ class PostsController extends BaseController
      */
     public function uploadImage(ImageUploadRequest $request)
     {
-        $image_name = $this->resizeAnsSaveImage( $request->file('upload') );
+        $image_name = $this->resizeAndSaveImage($request->file('upload'));
         $path       = config()->get('app.url').'/uploads/posts/' . $image_name;
         $func       = $request->get('CKEditorFuncNum');
         $result     = "<script>window.parent.CKEDITOR.tools.callFunction($func, '$path', 'Image has been uploaded')</script>";
@@ -306,10 +313,9 @@ class PostsController extends BaseController
     public function restore($hash)
     {
         $post = $this->post->withTrashed()->byHash($hash);
-        $post_title = $post->title;
         $post->restore();
 
-        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post_title, 'action' =>'restored']);
+        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $post->title, 'action' =>'restored']);
         session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.posts.index');
@@ -370,7 +376,7 @@ class PostsController extends BaseController
      * @param $image
      * @return string
      */
-    private function resizeAnsSaveImage($image)
+    private function resizeAndSaveImage($image)
     {
         $image_name = $this->createImageName();
         $fullpath = $this->createFullImagePath($image_name, $image->getClientOriginalExtension());
@@ -501,11 +507,11 @@ class PostsController extends BaseController
         $post['short_description']  = $cached_post['short_description'];
         $post['content']            = $cached_post['content'];
         $post['publish_date']       = $cached_post['publishdate'];
-        $post['status_id']          = $this->status->byHash( $cached_post['status'] )->id;
-        $post['visibility_id']      = $this->visibility->byHash( $cached_post['visibility'] )->id;
-        $post['reviewer_id']        = $this->user->ByHash( $cached_post['reviewer'] )->id;
-        $post['category_id']        = $this->category->byHash( $cached_post['category'] )->id;
-        $post['tag']                = $this->buildTagsArrayForPostObject( $cached_post['tags'] );
+        $post['status_id']          = $this->status->byHash($cached_post['status'])->id;
+        $post['visibility_id']      = $this->visibility->byHash($cached_post['visibility'])->id;
+        $post['reviewer_id']        = $this->user->byHash($cached_post['reviewer'])->id;
+        $post['category_id']        = $this->category->byHash($cached_post['category'])->id;
+        $post['tag']                = $this->buildTagsArrayForPostObject($cached_post['tags']);
 
         return objectify($post);
     }
@@ -521,14 +527,14 @@ class PostsController extends BaseController
     {
         if ($tags == "") return [];
 
-        $t      = [];
-        $tags   = explode(',', $tags);
+        $aTags      = [];
+        $hashes   = explode(',', $tags);
 
-        foreach ($tags as $tag)
+        foreach ($hashes as $tag)
         {
-            array_push($t, $this->tag->byHash($tag));
+            array_push($aTags, $this->tag->byHash($tag));
         }
 
-        return $t;
+        return $aTags;
     }
 }

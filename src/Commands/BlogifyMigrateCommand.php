@@ -2,7 +2,8 @@
 
 use Illuminate\Console\Command;
 
-class BlogifyMigrateCommand extends Command {
+class BlogifyMigrateCommand extends Command
+{
 
     /**
      * The console command name.

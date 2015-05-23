@@ -13,14 +13,6 @@ if (! function_exists('blogify'))
     }
 }
 
-if (! function_exists('generateFullName'))
-{
-    function generateFullName($firstname, $lastname)
-    {
-        return $firstname . ' ' . $lastname;
-    }
-}
-
 if (! function_exists('objectify') )
 {
     /**

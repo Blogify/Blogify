@@ -65,7 +65,13 @@ class UserController extends BaseController
     public function index($trashed = false)
     {
         $data = [
-            'users'     => (! $trashed) ? $this->user->orderBy('name', 'ASC')->paginate($this->config->items_per_page) : $this->user->onlyTrashed()->orderBy('name', 'ASC')->paginate($this->config->items_per_page),
+            'users'     => (! $trashed) ?
+                                            $this->user->orderBy('name', 'ASC')
+                                                ->paginate($this->config->items_per_page)
+                                        :
+                                            $this->user->onlyTrashed()
+                                                ->orderBy('name', 'ASC')
+                                                ->paginate($this->config->items_per_page),
             'trashed'   => $trashed,
         ];
 
@@ -96,7 +102,7 @@ class UserController extends BaseController
     {
         $data = [
             'roles' => $this->role->all(),
-            'user'  => $this->user->byHash( $hash ),
+            'user'  => $this->user->byHash($hash),
         ];
 
         return view('blogify::admin.users.form', $data);
@@ -114,7 +120,7 @@ class UserController extends BaseController
      */
     public function store(UserRequest $request)
     {
-        $data = $this->storeOrUpdateUser( $request );
+        $data = $this->storeOrUpdateUser($request);
         $user = $data['user'];
         $mail_data = [
             'user'      => $data['user'],
@@ -125,7 +131,7 @@ class UserController extends BaseController
 
         tracert()->log('users', $user->id, $this->auth_user->id);
 
-        $message = trans('blogify::notify.success', ['model' => 'User', 'name' => generateFullName($user->firstname, $user->name), 'action' =>'created']);
+        $message = trans('blogify::notify.success', ['model' => 'User', 'name' => $user->fullName, 'action' =>'created']);
         session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.users.index');
@@ -140,7 +146,7 @@ class UserController extends BaseController
      */
     public function update(UserRequest $request, $hash)
     {
-        $data = $this->storeOrUpdateUser( $request, $hash );
+        $data = $this->storeOrUpdateUser($request, $hash);
         $user = $data['user'];
         $message = trans('blogify::notify.success', ['model' => 'User', 'name' => generateFullName($user->firstname, $user->name), 'action' =>'updated']);
 
@@ -159,13 +165,11 @@ class UserController extends BaseController
     public function destroy($hash)
     {
         $user = $this->user->byHash($hash);
-        $name = $user->firstname . ' ' . $user->name;
-
         $user->delete();
 
         tracert()->log('users', $user->id, $this->auth_user->id, 'delete');
 
-        $message = trans('blogify::notify.success', ['model' => 'User', 'name' => $name, 'action' =>'deleted']);
+        $message = trans('blogify::notify.success', ['model' => 'User', 'name' => $user->fullName, 'action' =>'deleted']);
         session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.users.index');
@@ -178,10 +182,9 @@ class UserController extends BaseController
     public function restore($hash)
     {
         $user = $this->user->withTrashed()->byHash($hash);
-        $fullname = $user->fullName;
         $user->restore();
 
-        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $fullname, 'action' =>'restored']);
+        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $user->fullName, 'action' =>'restored']);
         session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.users.index');
@@ -200,7 +203,7 @@ class UserController extends BaseController
             $password           = blogify()->generatePassword();
             $user               = new User;
             $user->hash         = blogify()->makeUniqueHash('users', 'hash');
-            $user->password     = $this->hash->make( $password );
+            $user->password     = $this->hash->make($password);
             $user->username     = blogify()->generateUniqueUsername( $data->name, $data->firstname );
             $user->name         = $data->name;
             $user->firstname    = $data->firstname;

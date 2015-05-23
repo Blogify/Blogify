@@ -23,6 +23,11 @@ class ProfileUpdateRequest extends Request
     protected $hash;
 
     /**
+     * @var User
+     */
+    protected $user;
+
+    /**
      * Holds the id of the user
      * that we are trying to edit
      *
@@ -34,10 +39,12 @@ class ProfileUpdateRequest extends Request
      * Construct the class
      *
      * @param Guard $auth
+     * @param User $user
      */
-    public function __construct(Guard $auth)
+    public function __construct(Guard $auth, User $user)
     {
         $this->auth = $auth;
+        $this->user = $user;
     }
 
     /**
@@ -83,6 +90,6 @@ class ProfileUpdateRequest extends Request
      */
     private function getUserId()
     {
-        return User::byHash($this->hash)->id;
+        return $this->user->byHash($this->hash)->id;
     }
 }

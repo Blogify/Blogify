@@ -67,7 +67,10 @@ class HasAdminOrAuthorRole
      */
     private function fillAlowedRolesArray()
     {
-        $roles = $this->role->where('name', '<>', 'Reviewer')->where('name', '<>', 'Member')->get();
+        $roles = $this->role
+                    ->where('name', '<>', 'Reviewer')
+                    ->where('name', '<>', 'Member')
+                    ->get();
 
         foreach ($roles as $role)
         {

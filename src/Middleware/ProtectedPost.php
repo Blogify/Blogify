@@ -23,6 +23,7 @@ class ProtectedPost
      * Create a new filter instance.
      *
      * @param Guard $auth
+     * @param Post $post
      */
     public function __construct(Guard $auth, Post $post)
     {

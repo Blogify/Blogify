@@ -123,7 +123,7 @@ class CategoriesController extends BaseController
      */
     public function destroy($hash)
     {
-        $category = $this->category->byHash( $hash );
+        $category = $this->category->byHash($hash);
         $category_name = $category->name;
         $category->delete();
 
@@ -163,7 +163,7 @@ class CategoriesController extends BaseController
      */
     private function storeOrUpdateCategory($request)
     {
-        $cat = $this->category->whereName( $request->name )->first();
+        $cat = $this->category->whereName($request->name)->first();
 
         if (count($cat) > 0)
         {

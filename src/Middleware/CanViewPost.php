@@ -3,7 +3,6 @@
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Blogify\Models\Post;
-use Request;
 
 class CanViewPost
 {
@@ -43,7 +42,7 @@ class CanViewPost
      */
     public function handle($request, Closure $next)
     {
-        if (! $this->checkIfUserCanViewPost()) return redirect()->route('/');
+        if (! $this->checkIfUserCanViewPost($request)) return redirect()->route('/');
 
         return $next($request);
     }
@@ -54,9 +53,9 @@ class CanViewPost
      *
      * @return bool
      */
-    private function checkIfUserCanViewPost()
+    private function checkIfUserCanViewPost($request)
     {
-        $post = $this->post->byHash(Request::segment(3));
+        $post = $this->post->byHash($request->segment(3));
         $user_id = $this->auth->user()->id;
 
         if ($post->visibility_id == 'Private')

@@ -37,11 +37,11 @@ class CommentsController extends BaseController
      */
     public function index($revised = "pending")
     {
-        $revised = $this->checkRevised( $revised );
+        $revised = $this->checkRevised($revised);
         if ($revised === false) abort(404);
 
         $data = [
-            'comments' => $this->comment->byRevised( $revised )->paginate( $this->config->items_per_page ),
+            'comments' => $this->comment->byRevised($revised)->paginate($this->config->items_per_page),
             'revised' => $revised,
         ];
 
@@ -65,7 +65,7 @@ class CommentsController extends BaseController
         $revised = $this->checkRevised( $new_revised );
         if ($revised === false) abort(404);
 
-        $comment            = $this->comment->byHash( $hash );
+        $comment            = $this->comment->byHash($hash);
         $comment->revised   = $revised;
         $comment->save();
 
@@ -90,7 +90,7 @@ class CommentsController extends BaseController
      */
     private function checkRevised($revised)
     {
-        $allowed = [1 => 'pending', Ò2 => 'approved', 3 => 'disapproved'];
+        $allowed = [1 => 'pending', 2 => 'approved', 3 => 'disapproved'];
 
         return array_search($revised, $allowed);
     }

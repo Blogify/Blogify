@@ -3,7 +3,6 @@
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Blogify\Models\Post;
-use Request;
 
 class CanEditPost
 {
@@ -43,7 +42,7 @@ class CanEditPost
      */
     public function handle($request, Closure $next)
     {
-        if (! $this->checkIfUserCanEditPost()) return redirect()->route('admin.dashboard');
+        if (! $this->checkIfUserCanEditPost($request)) return redirect()->route('admin.dashboard');
 
         return $next($request);
     }
@@ -52,11 +51,12 @@ class CanEditPost
      * Check if the user has permission
      * to edit the requested post
      *
+     * @param $request
      * @return bool
      */
-    private function checkIfUserCanEditPost()
+    private function checkIfUserCanEditPost($request)
     {
-        $post = $this->post->byHash( Request::segment(3) );
+        $post = $this->post->byHash($request->segment(3));
         $user_id = $this->auth->user()->id;
 
         if ($user_id != $post->user_id && $user_id != $post->reviewer_id && $this->auth->user()->role->name != 'Admin') return false;

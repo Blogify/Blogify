@@ -31,4 +31,5 @@ class BaseController extends Controller
         $this->config       = objectify( config('blogify') );
         $this->auth_user    = $this->auth->check() ? $this->auth->user() : false;
     }
+
 }
