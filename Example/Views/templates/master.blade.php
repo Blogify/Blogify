@@ -54,6 +54,9 @@
                                 <div class="panel-heading">Archive</div>
                                 <div class="panel-body">
                                     <ul class="list-unstyled">
+                                        @if (count($archives) <= 0)
+                                            <p><em>No archives found</em></p>
+                                        @endif
                                         @foreach($archives as $date => $archive)
                                             <?php $parts = explode(' ', $date); ?>
                                             <li><a href="{{ route('blog.archive', [$parts[1], $parts[0] ] ) }}" title="">{{$date}}</a></li>
@@ -70,6 +73,9 @@
                                 <div class="panel-heading">Categories</div>
                                 <div class="panel-body">
                                     <ul class="list-unstyled">
+                                        @if (count($categories) <= 0)
+                                            <p><em>No categories found</em></p>
+                                        @endif
                                         @foreach($categories as $category)
                                             <li><a href="{{route('blog.category', [$category->name])}}" title="">{{$category->name}}</a></li>
                                         @endforeach
