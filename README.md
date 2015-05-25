@@ -1,8 +1,9 @@
->**Important**: This package is still in developement. We expect to release a stable release in June 2015.
+>**Important**: This package is still in development. We expect to release a stable release in June 2015.
 
 # Blogify
 
-Blogify is a package to add a blog to you Laravel 5 application. It comes with a full admin panel with diffrent views for all user roles. You can generate the public controllers through the admin panel but feel free to customise it or implement it your self.
+Blogify is a package to add a blog to your Laravel 5 application. It comes with a full admin panel with different views for all user roles.
+You can generate the public part through an artisan command but feel free to customize it, or just create your own using or models and their scopes.
 
 ## Table of contents
 <ol>
@@ -17,6 +18,7 @@ Blogify is a package to add a blog to you Laravel 5 application. It comes with a
     <li>
         Configuration
         <ol>
+            <li>User model</li>
             <li>Publish assets &amp; config</li>
             <li>Admin user</li>
             <li>Migrations &amp; Seeds</li>
@@ -47,16 +49,18 @@ Blogify is a package to add a blog to you Laravel 5 application. It comes with a
 </ol>
 
 ## Requirements
-This package is developed for Laravel 5, for the requirements of Laravel 5 pleas check out the <a href="http://laravel.com/docs/5.0" title="Laravel documentation">offical docs</a>.
+This package is developed for Laravel 5, for the requirements of Laravel 5 pleas check out the <a href="http://laravel.com/docs/5.0" title="Laravel documentation">official docs</a>.
 
-Blogify requires some other packages that will be installed when you install this package.
+Blogify requires the following packages:
+>**Note**: Service providers of the required packages are automatically registered by the Blogify service provider.
 
 <ul>
     <li>illuminate/contracts (5.0.0)</li>
-    <li>illuminate/html (5.0.*@dev)</li>
+    <li>illuminate/html (5.0.*)</li>
     <li>guzzlehttp/guzzle (~4.0)</li>
     <li>intervention/image (~2.1)</li>
     <li>predis/predis (~1.0)</li>
+    <li>nesbot/carbon: (~1.0)</li>
     <li>jorenvanhocht/tracert (v1.3-beta)</li>
 </ul>
 
@@ -67,22 +71,34 @@ Blogify requires some other packages that will be installed when you install thi
 You can install the Blogify package through Composer by running the following command from your terminal.
 
 ```php
-composer require jorenvanhocht/blogify 0.1.6-beta
+composer require jorenvanhocht/blogify 1.0
 ```
 
 ### Service providers
 
-Now add the following code to the providers array in ```config/app.php```
+Now add the service provider to the providers array in ```config/app.php```
 
 ```php
 'jorenvanhocht\Blogify\BlogifyServiceProvider',
 ```
 
->**Note**: The service providers from the package required by Blogify are automaticly added from within the BlogifyServiceProvide so you don't need to worry about adding them.
-
-To be sure that everything will be working well you need to run ```composer update``` from your terminal.
+run ```composer update``` from your terminal to make sure everything works fine.
 
 ## Configuration
+
+### User model
+
+Your User model needs to ```use the BlogifyUserTrait```. When you have added the use statement your User model should look similar to this:
+
+```php
+...
+use jorenvanhocht\Blogify\Traits\BlogifyUserTrait;
+
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
+
+    use Authenticatable, CanResetPassword, BlogifyUserTrait;
+...
+```
 
 ### Publishing assets & config
 
@@ -92,15 +108,14 @@ From your terminal run the following command:
 php artisan vendor:publish
 ```
 
-By running this command all the assets needed for this package will be places in your public folder. A configuration file will be located at ```config/blogify/```
+When you run the command above all the assets needed for this package will be placed in your public folder. And a config file will be placed in ```config/blogify/```
 
 ### Admin user
 
 The published config file holds data for the admin user, this data will be used while seeding the database. Make sure to replace the dummy data with your own information.
 
-### Migrations & Seeds
 
->**Important**: These commands are not ready yet, but they will be released pretty soon.
+### Migrations & Seeds
 
 To run the migrations & seed your database you have to run the following commands from your terminal:
 
@@ -113,8 +128,9 @@ php artisan blogify:seed
 
 ### Middleware
 
-Beceasue of the WYSIWYG that we use we had to disable CSRF protection on one route to be sure everything works fine. 
-So you in ```app/Http/Kernel.php``` you have to replace the default VerrifyCsrfToken moddileware with the BlogifyVerifyCsrfToken
+because of the WYSIWYG that we use we had to disable CSRF protection on one route to make sure that the WYSIWYG does his job. 
+
+So in ```app/Http/Kernel.php``` you have to replace the default VerrifyCsrfToken middleware with the BlogifyVerifyCsrfToken:
 
 ```php 
 'jorenvanhocht\Blogify\Middleware\BlogifyVerifyCsrfToken',
@@ -123,25 +139,34 @@ So you in ```app/Http/Kernel.php``` you have to replace the default VerrifyCsrfT
 >**Note**: We are still looking for a good FREE alternative but for the moment this one will do the job.
 
 ### Mail
-The Blogify package sends mails on important moments so be sure to configure the settings for your mail driver in the ```.env``` file of your project
+Blogify will send mails at important moments so make sure to configure the settings for you mail driver in the ```.env```file of your project.
+
+For more information please check out the <a href="http://laravel.com/docs/5.0/mail" title="Laravel Mail documentation">official documentation</a>.
 
 ## Usage
 
 ### Access the admin panel
 
-Blogify commes with a complete admin panel out of the box. To visit the admin panel go to <a href="#" title"">http://www.yourdomein.com/admin</a>.
+Blogify comes with a complete admin panel out of the box. To visit the admin panel go to <a href="#" title"">http://www.yourdomein.com/admin</a>.
 
 To sign in use the information that you have set in the config file.
 
 ### Available models and their scopes
 
-All models are extending the BaseModel wich has a function to scope an item by it's hash
+All models are extending the BaseModel wish has a function to scope an item by it's hash
 
 #### Category
 <em>Currently no scopes available for this model</em>
 
 #### Comment
-<em>Currently no scopes available for this model</em>
+<ul>
+    <li>
+        <strong>byRevised($revised):<strong>
+        Get comments with a given revised
+    </li>
+</ul>
+
+>**Note**: Revised options: 1 (pending), 2 (approved), 3(disapproved)
 
 #### History (tracert)
 <ul>
@@ -176,6 +201,10 @@ All models are extending the BaseModel wich has a function to scope an item by i
     <li>
         <strong>bySlug($slug)</strong> : 
         get a post by it's slug
+    </li>
+    <li>
+        <strong>forPublic()</strong>:
+        get all published posts that have a visibility of 'public'
     </li>
 </ul>
 
@@ -252,23 +281,22 @@ All models are extending the BaseModel wich has a function to scope an item by i
         </tr>
         <tr>
             <td>Correct the docs</td>
-            <td>pending</td>
+            <td>Done</td>
         </tr>
         <tr>
             <td>Tag a stable release</td>
-            <td>pending</td>
+            <td>Busy</td>
         </tr>
         <tr>
-            <td>Database backup</td>
-            <td>Deleted, it's no core</td>
+            <td>Promo website</td>
+            <td>Busy</td>
         </tr>
-        
         <tr>
             <td>Tags auto complete</td>
             <td>pending</td>
         </tr>
         <tr>
-            <td>Installation screencast</td>
+            <td>Installation screen cast</td>
             <td>pending</td>
         </tr>
         <tr>
@@ -276,12 +304,8 @@ All models are extending the BaseModel wich has a function to scope an item by i
             <td>pending</td>
         </tr>
         <tr>
-            <td>Send extra e-mails when nececaary</td>
-            <td>pending</td>
-        </tr>
-        <tr>
-            <td>Promo website</td>
-            <td>pending</td>
+            <td>Database backup</td>
+            <td>Deleted, it's no core</td>
         </tr>
     </tbody>
 <table>
