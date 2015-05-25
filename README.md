@@ -161,7 +161,7 @@ All models are extending the BaseModel wish has a function to scope an item by i
 #### Comment
 <ul>
     <li>
-        <strong>byRevised($revised):<strong>
+        <strong>byRevised($revised):</strong>
         Get comments with a given revised
     </li>
 </ul>
