@@ -319,7 +319,7 @@ var app = {
             CKEDITOR.config.height = 400;
             CKEDITOR.config.extraPlugins = 'wordcount';
             CKEDITOR.replace( 'post',{
-                filebrowserUploadUrl: 'http://eindwerk.app:8000/admin/posts/image/upload/'
+                filebrowserUploadUrl: app.generateBaseUrl() + '/admin/posts/image/upload/'
             } );
         }
     },

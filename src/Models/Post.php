@@ -41,27 +41,27 @@ class Post extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('App\user');
+        return $this->belongsTo('App\User');
     }
 
     public function comment()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\comment');
+        return $this->hasMany('jorenvanhocht\Blogify\Models\Comment');
     }
 
     public function category()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\category');
+        return $this->belongsTo('jorenvanhocht\Blogify\Models\Category');
     }
 
     public function media()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\media');
+        return $this->hasMany('jorenvanhocht\Blogify\Models\Media');
     }
 
     public function alias()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\alias');
+        return $this->hasMany('jorenvanhocht\Blogify\Models\Alias');
     }
 
     public function tag()

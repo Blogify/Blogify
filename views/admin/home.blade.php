@@ -115,7 +115,7 @@
                         @if( $item->table == 'posts' )
                             <?php
                                 $icon = 'fa-pencil' ;
-                                $post = jorenvanhocht\Blogify\Models\Post::find($item->row);
+                                $post = jorenvanhocht\Blogify\Models\Post::withTrashed()->find($item->row);
                             ?>
                                 <a href="{{route('admin.posts.edit', [$post->hash])}}" class="list-group-item">
                                     <i class="fa {{$icon}} fa-fw"></i> @lang('blogify::dashboard.activity_feed.post', ['title' => $post->title, 'action' => $item->crud_action])
@@ -126,7 +126,7 @@
                         @if ( $item->table == 'comments' )
                                 <?php
                                     $icon = 'fa-comments';
-                                    $author = jorenvanhocht\Blogify\Models\Comment::find($item->row)->user->fullName;
+                                    $author = jorenvanhocht\Blogify\Models\Comment::withTrashed()->find($item->row)->user->fullName;
                                 ?>
                                 <a href="{{route('admin.comments.index', [$item->crud_action])}}" class="list-group-item">
                                     <i class="fa {{$icon}} fa-fw"></i> @lang('blogify::dashboard.activity_feed.comment', ['author' => $author, 'action' => $item->crud_action])
@@ -137,7 +137,7 @@
                         @if ( $item->table == 'categories' )
                                 <?php
                                     $icon = 'fa-th-large';
-                                    $category = jorenvanhocht\Blogify\Models\Category::find($item->row);
+                                    $category = jorenvanhocht\Blogify\Models\Category::withTrashed()->find($item->row);
                                 ?>
                                     <a href="{{route('admin.categories.edit', [$category->hash])}}" class="list-group-item">
                                         <i class="fa {{$icon}} fa-fw"></i> @lang('blogify::dashboard.activity_feed.category', ['name' => $category->name, 'action' => $item->crud_action])
@@ -148,7 +148,7 @@
                         @if ( $item->table == 'tags' )
                                 <?php
                                     $icon = 'fa-tags';
-                                    $tag = jorenvanhocht\Blogify\Models\Tag::find($item->row)
+                                    $tag = jorenvanhocht\Blogify\Models\Tag::withTrashed()->find($item->row)
                                 ?>
                                     <a href="{{route('admin.tags.edit', [$tag->hash])}}" class="list-group-item">
                                         <i class="fa {{$icon}} fa-fw"></i> @lang('blogify::dashboard.activity_feed.tag', ['name' => $tag->name, 'action' => $item->crud_action])
