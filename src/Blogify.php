@@ -13,14 +13,14 @@ class Blogify
     protected $char_sets;
 
     /**
-     * @var DatabaseManager
+     * @var \Illuminate\Database\Connection
      */
     protected $db;
 
     public function __construct(DatabaseManager $db)
     {
         $this->char_sets = config('blogify.blogify.char_sets');
-        $this->db = $db;
+        $this->db = $db->connection();
     }
 
     /**

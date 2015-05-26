@@ -49,6 +49,7 @@ class ApiController extends BaseController
      */
     public function sort($table, $column, $order, $trashed = false, DatabaseManager $db)
     {
+        $db = $db->connection();
         $data = $db->table($table);
 
         // Check for trashed data
