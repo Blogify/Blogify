@@ -258,7 +258,7 @@ class BlogifyGeneratePublicPartCommand extends Command
     private function defineRoutes()
     {
         $this->routes = "
-            Route::resource('blog', 'BlogController', ['only' => ['index', 'schow']]);
+            Route::resource('blog', 'BlogController', ['only' => ['index', 'show']]);
             Route::get('blog/archive/{year}/{month}', [
                 'as'    => 'blog.archive',
                 'uses'  => 'BlogController@archive'
