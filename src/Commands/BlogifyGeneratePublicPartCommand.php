@@ -71,8 +71,7 @@ class BlogifyGeneratePublicPartCommand extends Command
         }
 
         $this->info('Public part has successfully been created');
-        $this->info('Please add the following routes to your routes file');
-        $this->info($this->routes);
+        $this->info('Make sure to enable the routes in the config file, by setting "enable_default_routes" to true');
     }
 
     /**
@@ -228,35 +227,5 @@ class BlogifyGeneratePublicPartCommand extends Command
     private function get_file_contents($file)
     {
         return file_get_contents($file);
-    }
-
-    /**
-     * @return void
-     */
-    private function defineRoutes()
-    {
-        $this->routes = "
-            Route::resource('blog', 'BlogController', ['only' => ['index', 'show']]);
-            Route::get('blog/archive/{year}/{month}', [
-                'as'    => 'blog.archive',
-                'uses'  => 'BlogController@archive'
-            ]);
-            Route::get('blog/category/{category}', [
-                'as'    => 'blog.category',
-                'uses'  => 'BlogController@category',
-            ]);
-            Route::get('blog/protected/verify/{hash}', [
-                'as' => 'blog.askPassword',
-                'uses' => 'BlogController@askPassword'
-            ]);
-            Route::post('blog/protected/confirm', [
-                'as' => 'blog.confirmPassword',
-                'uses' => 'BlogController@confirmPassword'
-            ]);
-            Route::post('comments', [
-                'as' => 'comments.store',
-                'uses' => 'CommentsController@store'
-            ]);
-        ";
     }
 }

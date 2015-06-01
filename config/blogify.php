@@ -61,4 +61,12 @@ return [
      *
      */
     'approve_comments_first' => true,
+
+    /**
+     * Set this to true when you have ran the
+     * blogify:generate command to enable the
+     * routes of the public part
+     *
+     */
+    'enable_default_routes' => true,
 ];

@@ -5,21 +5,33 @@
 ///////////////////////////////////////////////////////////////////////////
 // public routes
 ///////////////////////////////////////////////////////////////////////////
+$use_default_routes = config('blogify.blogify.enable_default_routes');
 
-/*Route::resource('blog', 'jorenvanhocht\Blogify\Example\Controllers\BlogController');
-Route::get('blog/archive/{year}/{month}', [
-    'as'    => 'blog.archive',
-    'uses'  => 'jorenvanhocht\Blogify\Example\Controllers\BlogController@archive'
-]);
-Route::get('blog/category/{category}', [
-    'as'    => 'blog.category',
-    'uses'  => 'jorenvanhocht\Blogify\Example\Controllers\BlogController@category',
-]);
-Route::post('comments', [
-    'as' => 'comments.store',
-    'uses' => 'jorenvanhocht\Blogify\Example\Controllers\CommentsController@store'
-]);*/
-
+if ($use_default_routes) {
+    Route::group(['namespace' => 'App\Http\Controllers'], function() {
+        Route::resource('blog', 'BlogController', ['only' => ['index', 'show']]);
+        Route::get('blog/archive/{year}/{month}', [
+            'as' => 'blog.archive',
+            'uses' => 'BlogController@archive'
+        ]);
+        Route::get('blog/category/{category}', [
+            'as' => 'blog.category',
+            'uses' => 'BlogController@category',
+        ]);
+        Route::get('blog/protected/verify/{hash}', [
+            'as' => 'blog.askPassword',
+            'uses' => 'BlogController@askPassword'
+        ]);
+        Route::post('blog/protected/confirm', [
+            'as' => 'blog.confirmPassword',
+            'uses' => 'BlogController@confirmPassword'
+        ]);
+        Route::post('comments', [
+            'as' => 'comments.store',
+            'uses' => 'CommentsController@store'
+        ]);
+    });
+}
 ///////////////////////////////////////////////////////////////////////////
 // Logged in user routes
 ///////////////////////////////////////////////////////////////////////////
