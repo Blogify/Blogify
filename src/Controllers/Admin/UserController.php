@@ -1,11 +1,13 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
+use jorenvanhocht\Blogify\Blogify;
 use jorenvanhocht\Blogify\Models\Role;
 use jorenvanhocht\Blogify\Requests\UserRequest;
 use App\User;
 use Illuminate\Contracts\Hashing\Hasher as Hash;
 use jorenvanhocht\Blogify\Services\BlogifyMailer;
 use Illuminate\Contracts\Auth\Guard;
+use jorenvanhocht\Tracert\Tracert;
 
 class UserController extends BaseController
 {
@@ -15,28 +17,33 @@ class UserController extends BaseController
      *
      * @var User
      */
-    private $user;
+    protected $user;
 
     /**
      * Holds an instance of the Role model
      *
      * @var Role
      */
-    private $role;
+    protected $role;
 
     /**
      * Holds an instance of the BlogifyMailer class
      *
      * @var BlogifyMailer
      */
-    private $mail;
+    protected $mail;
 
     /**
      * Holds an instance of the Hasher contract
      *
      * @var Hash
      */
-    private $hash;
+    protected $hash;
+
+    /**
+     * @var Blogify
+     */
+    protected $blogify;
 
     /**
      * @param User $user
@@ -44,13 +51,17 @@ class UserController extends BaseController
      * @param BlogifyMailer $mail
      * @param Hash $hash
      * @param Guard $auth
+     * @param Blogify $blogify
+     * @param Tracert $tracert
      */
     public function __construct(
         User $user,
         Role $role,
         BlogifyMailer $mail,
         Hash $hash,
-        Guard $auth
+        Guard $auth,
+        Blogify $blogify,
+        Tracert $tracert
     ) {
         parent::__construct($auth);
 
@@ -58,6 +69,8 @@ class UserController extends BaseController
         $this->role = $role;
         $this->mail = $mail;
         $this->hash = $hash;
+        $this->blogify = $blogify;
+        $this->tracert = $tracert;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -138,7 +151,7 @@ class UserController extends BaseController
 
         $this->mail->mailPassword($user->email, 'Blogify temperary password', $mail_data);
 
-        tracert()->log('users', $user->id, $this->auth_user->id);
+        $this->tracert->log('users', $user->id, $this->auth_user->id);
 
         $message = trans('blogify::notify.success', [
             'model' => 'User', 'name' => $user->fullName, 'action' =>'created'
@@ -165,7 +178,7 @@ class UserController extends BaseController
             'action' =>'updated'
         ]);
 
-        tracert()->log('users', $user->id, $this->auth_user->id, 'update');
+        $this->tracert->log('users', $user->id, $this->auth_user->id, 'update');
 
         session()->flash('notify', ['success', $message]);
         return redirect()->route('admin.users.index');
@@ -182,7 +195,7 @@ class UserController extends BaseController
         $user = $this->user->byHash($hash);
         $user->delete();
 
-        tracert()->log('users', $user->id, $this->auth_user->id, 'delete');
+        $this->tracert->log('users', $user->id, $this->auth_user->id, 'delete');
 
         $message = trans('blogify::notify.success', [
             'model' => 'User', 'name' => $user->fullName, 'action' =>'deleted'
@@ -218,11 +231,11 @@ class UserController extends BaseController
         $password = null;
 
         if (! isset($hash)) {
-            $password = blogify()->generatePassword();
+            $password = $this->blogify->generatePassword();
             $user = new User;
-            $user->hash = blogify()->makeUniqueHash('users', 'hash');
+            $user->hash = $this->blogify->makeUniqueHash('users', 'hash');
             $user->password = $this->hash->make($password);
-            $user->username = blogify()->generateUniqueUsername($data->name, $data->firstname);
+            $user->username = $this->blogify->generateUniqueUsername($data->name, $data->firstname);
             $user->name = $data->name;
             $user->firstname = $data->firstname;
             $user->email = $data->email;

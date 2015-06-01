@@ -1,8 +1,10 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use Input;
+use jorenvanhocht\Blogify\Blogify;
 use jorenvanhocht\Blogify\Models\Tag;
 use jorenvanhocht\Blogify\Requests\TagUpdateRequest;
+use jorenvanhocht\Tracert\Tracert;
 use Request;
 use Illuminate\Contracts\Auth\Guard;
 
@@ -31,16 +33,34 @@ class TagsController extends BaseController
     protected $stored_tags = [];
 
     /**
+     * @var Blogify
+     */
+    protected $blogify;
+
+    /**
+     * @var Tracert
+     */
+    protected $tracert;
+
+    /**
      * Construct the class
      *
      * @param Tag $tag
      * @param Guard $auth
+     * @param Blogify $blogify
+     * @param Tracert $tracert
      */
-    public function __construct(Tag $tag, Guard $auth)
-    {
+    public function __construct(
+        Tag $tag,
+        Guard $auth,
+        Blogify $blogify,
+        Tracert $tracert
+    ) {
         parent::__construct($auth);
 
         $this->tag = $tag;
+        $this->blogify = $blogify;
+        $this->tracert = $tracert;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -151,7 +171,7 @@ class TagsController extends BaseController
         $tag->name = $request->tags;
         $tag->save();
 
-        tracert()->log('tags', $tag->id, $this->auth_user->id, 'update');
+        $this->tracert->log('tags', $tag->id, $this->auth_user->id, 'update');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Tags', 'name' => $tag->name, 'action' =>'updated'
@@ -172,7 +192,7 @@ class TagsController extends BaseController
         $tag = $this->tag->byHash($hash);
         $tag->delete();
 
-        tracert()->log('tags', $tag->id, $this->auth_user->id, 'delete');
+        $this->tracert->log('tags', $tag->id, $this->auth_user->id, 'delete');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Tags', 'name' => $tag->name, 'action' =>'deleted'
@@ -243,14 +263,14 @@ class TagsController extends BaseController
                 $tag = $t;
             } else {
                 $tag = new Tag;
-                $tag->hash = blogify()->makeUniqueHash('tags', 'hash');
+                $tag->hash = $this->blogify->makeUniqueHash('tags', 'hash');
             }
 
             $tag->name = $tag_name;
 
             $tag->save();
             array_push($this->stored_tags, $tag);
-            tracert()->log('tags', $tag->id, $this->auth_user->id);
+            $this->tracert->log('tags', $tag->id, $this->auth_user->id);
         }
     }
 

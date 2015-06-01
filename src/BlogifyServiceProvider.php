@@ -35,7 +35,8 @@ class BlogifyServiceProvider extends ServiceProvider
         $this->app->bind('jorenvanhocht.blogify', function()
         {
             $db = $this->app['db'];
-            return new Blogify($db);
+            $config = $this->app['config']['blogify'];
+            return new Blogify($db, $config);
         });
 
        $this->registerMiddleware();

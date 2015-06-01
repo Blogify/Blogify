@@ -17,9 +17,9 @@ class Blogify
      */
     protected $db;
 
-    public function __construct(DatabaseManager $db)
+    public function __construct(DatabaseManager $db, $config)
     {
-        $this->char_sets = config('blogify.blogify.char_sets');
+        $this->char_sets = $config['char_sets'];
         $this->db = $db->connection();
     }
 

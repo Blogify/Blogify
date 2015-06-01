@@ -2,6 +2,7 @@
 
 use jorenvanhocht\Blogify\Models\Comment;
 use Illuminate\Contracts\Auth\Guard;
+use jorenvanhocht\Tracert\Tracert;
 
 class CommentsController extends BaseController
 {
@@ -14,16 +15,26 @@ class CommentsController extends BaseController
     protected $comment;
 
     /**
+     * @var Tracert
+     */
+    protected $tracert;
+
+    /**
      * Construct the class
      *
      * @param Comment $comment
      * @param Guard $auth
+     * @param Tracert $tracert
      */
-    public function __construct(Comment $comment, Guard $auth)
-    {
+    public function __construct(
+        Comment $comment,
+        Guard $auth,
+        Tracert $tracert
+    ) {
         parent::__construct($auth);
 
         $this->comment = $comment;
+        $this->tracert = $tracert;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -73,7 +84,7 @@ class CommentsController extends BaseController
         $comment->revised = $revised;
         $comment->save();
 
-        tracert()->log(
+        $this->tracert->log(
             'comments',
             $comment->id,
             $this->auth_user->id,

@@ -5,6 +5,7 @@ use jorenvanhocht\Blogify\Models\Comment;
 use jorenvanhocht\Blogify\Models\Post;
 use jorenvanhocht\Tracert\Models\History;
 use Illuminate\Contracts\Auth\Guard;
+use jorenvanhocht\Tracert\Tracert;
 
 class DashboardController extends BaseController
 {
@@ -39,18 +40,25 @@ class DashboardController extends BaseController
     protected $data = [];
 
     /**
+     * @var Tracert
+     */
+    protected $tracert;
+
+    /**
      * @param User $user
      * @param History $history
      * @param Post $post
      * @param Comment $comment
      * @param Guard $auth
+     * @param Tracert $tracert
      */
     public function __construct(
         User $user,
         History $history,
         Post $post,
         Comment $comment,
-        Guard $auth
+        Guard $auth,
+        Tracert $tracert
     ) {
         parent::__construct($auth);
 
@@ -58,6 +66,7 @@ class DashboardController extends BaseController
         $this->history = $history;
         $this->post = $post;
         $this->comment = $comment;
+        $this->tracert = $tracert;
 
         $this->{"buildDataArrayFor" . $this->auth_user->role->name}();
     }

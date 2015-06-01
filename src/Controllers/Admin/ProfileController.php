@@ -4,6 +4,7 @@ use App\User;
 use jorenvanhocht\Blogify\Requests\ProfileUpdateRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Contracts\Auth\Guard;
+use jorenvanhocht\Tracert\Tracert;
 
 class ProfileController extends BaseController
 {
@@ -16,18 +17,25 @@ class ProfileController extends BaseController
     protected $user;
 
     /**
+     * @var Tracert
+     */
+    protected $tracert;
+
+    /**
      * Construct the class
      *
      * @param User $user
      * @param Guard $auth
+     * @param Tracert $tracert
      */
-    public function __construct(User $user, Guard $auth)
+    public function __construct(User $user, Guard $auth, Tracert $tracert)
     {
         parent::__construct($auth);
 
         $this->middleware('IsOwner', ['only', 'edit'] );
 
         $this->user = $user;
+        $this->tracert = $tracert;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -74,7 +82,7 @@ class ProfileController extends BaseController
 
         $user->save();
 
-        tracert()->log('users', $user->id, $this->auth_user->id, 'update');
+        $this->tracert->log('users', $user->id, $this->auth_user->id, 'update');
 
         $message = trans('blogify::notify.success', [
             'model' => 'User', 'name' => $user->fullName, 'action' =>'updated'

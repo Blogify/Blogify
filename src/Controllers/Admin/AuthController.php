@@ -2,16 +2,24 @@
 
 use jorenvanhocht\Blogify\Requests\LoginRequest;
 use Illuminate\Contracts\Auth\Guard;
+use jorenvanhocht\Tracert\Tracert;
 
 class AuthController extends BaseController
 {
 
     /**
-     * @param Guard $auth
+     * @var Tracert
      */
-    public function __construct(Guard $auth)
+    protected $tracert;
+
+    /**
+     * @param Guard $auth
+     * @param Tracert $tracert
+     */
+    public function __construct(Guard $auth, Tracert $tracert)
     {
         parent::__construct($auth);
+        $this->tracert = $tracert;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -46,7 +54,7 @@ class AuthController extends BaseController
         ], isset($request->rememberme) ? true : false );
 
         if ($credentials) {
-            tracert()->log(
+            $this->tracert->log(
                 'users',
                 $this->auth->user()->id,
                 $this->auth->user()->id,
@@ -71,7 +79,7 @@ class AuthController extends BaseController
         $user_id = $this->auth_user->id;
         $this->auth->logout();
 
-        tracert()->log('users', $user_id, $user_id, 'Logout');
+        $this->tracert->log('users', $user_id, $user_id, 'Logout');
 
         return redirect()->route('admin.login');
     }

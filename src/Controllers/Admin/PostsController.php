@@ -3,6 +3,7 @@
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Hashing\Hasher;
+use jorenvanhocht\Blogify\Blogify;
 use jorenvanhocht\Blogify\Models\Category;
 use jorenvanhocht\Blogify\Models\Role;
 use jorenvanhocht\Blogify\Models\Status;
@@ -15,6 +16,7 @@ use jorenvanhocht\Blogify\Models\Post;
 use jorenvanhocht\Blogify\Services\BlogifyMailer;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Auth\Guard;
+use jorenvanhocht\Tracert\Tracert;
 
 class PostsController extends BaseController
 {
@@ -103,6 +105,16 @@ class PostsController extends BaseController
     protected $hash;
 
     /**
+     * @var Blogify
+     */
+    protected $blogify;
+
+    /**
+     * @var Tracert
+     */
+    protected $tracert;
+
+    /**
      * @param Tag $tag
      * @param Role $role
      * @param User $user
@@ -114,6 +126,8 @@ class PostsController extends BaseController
      * @param Category $category
      * @param Visibility $visibility
      * @param Guard $auth
+     * @param Blogify $blogify
+     * @param Tracert $tracert
      */
     public function __construct(
         Tag $tag,
@@ -126,7 +140,9 @@ class PostsController extends BaseController
         Repository $cache,
         Category $category,
         Visibility $visibility,
-        Guard $auth
+        Guard $auth,
+        Blogify $blogify,
+        Tracert $tracert
     ) {
         parent::__construct($auth);
 
@@ -140,6 +156,8 @@ class PostsController extends BaseController
         $this->hash = $hash;
         $this->cache = $cache;
         $this->status = $status;
+        $this->blogify = $blogify;
+        $this->tracert = $tracert;
         $this->category = $category;
         $this->visibility = $visibility;
     }
@@ -248,7 +266,7 @@ class PostsController extends BaseController
 
         $action = ($request->hash == '') ? 'created' : 'updated';
 
-        tracert()->log('posts', $post->id, $this->auth_user->id, $action);
+        $this->tracert->log('posts', $post->id, $this->auth_user->id, $action);
 
         $message = trans('blogify::notify.success', [
             'model' => 'Post', 'name' => $post->title, 'action' => $action
@@ -272,7 +290,7 @@ class PostsController extends BaseController
         $post = $this->post->byHash($hash);
         $post->delete();
 
-        tracert()->log('posts', $post->id, $this->auth_user->id, 'delete');
+        $this->tracert->log('posts', $post->id, $this->auth_user->id, 'delete');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Post', 'name' => $post->title, 'action' =>'deleted'
@@ -319,7 +337,7 @@ class PostsController extends BaseController
         $post->being_edited_by = null;
         $post->save();
 
-        tracert()->log('posts', $post->id, $this->auth_user->id, 'canceled');
+        $this->tracert->log('posts', $post->id, $this->auth_user->id, 'canceled');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Post', 'name' => $post->name, 'action' =>'canceled'
@@ -464,8 +482,7 @@ class PostsController extends BaseController
             $post = $this->post->byHash($this->data->hash);
         } else {
             $post = new Post;
-            $post->hash = blogify()->makeUniqueHash('posts', 'hash');
-
+            $post->hash = $this->blogify->makeUniqueHash('posts', 'hash');
         }
 
         $post->slug = $this->data->slug;
