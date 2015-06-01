@@ -58,8 +58,7 @@ class CanViewPost
         $post = $this->post->byHash($request->segment(3));
         $user_id = $this->auth->user()->id;
 
-        if ($post->visibility_id == 'Private')
-        {
+        if ($post->visibility_id == 'Private') {
             if (! $post->user_id == $user_id) return false;
         }
 

@@ -42,9 +42,13 @@ class ProtectedPost
     {
         $post = $this->post->bySlug($request->segment(2));
 
-        if ($post->visibility_id == 2)
-        {
-            if (!session()->has('protected_post') || session()->get('protected_post') != $post->hash) return redirect()->route('blog.askPassword', [$post->hash]);
+        if ($post->visibility_id == 2) {
+            if (
+                ! session()->has('protected_post') ||
+                session()->get('protected_post') != $post->hash
+            ) {
+                return redirect()->route('blog.askPassword', [$post->hash]);
+            }
         }
 
         return $next($request);

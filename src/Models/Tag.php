@@ -38,8 +38,7 @@ class Tag extends BaseModel
             'max'       => trans('blogify::posts.validation.max'),
         ];
 
-        foreach ($tags as $key => $tag)
-        {
+        foreach ($tags as $key => $tag) {
             $rules[$key] = 'required|min:2|max:45';
         }
 

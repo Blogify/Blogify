@@ -94,7 +94,7 @@ class BlogifyServiceProvider extends ServiceProvider
     {
         foreach ($this->providers as $provider)
         {
-            app()->register($provider);
+            $this->app->register($provider);
         }
     }
 
@@ -105,7 +105,7 @@ class BlogifyServiceProvider extends ServiceProvider
     {
         $loader = AliasLoader::getInstance();
 
-        foreach ( $this->aliases as $key => $alias )
+        foreach ($this->aliases as $key => $alias)
         {
             $loader->alias($key, $alias);
         }

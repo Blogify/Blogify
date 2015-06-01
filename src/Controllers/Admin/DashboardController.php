@@ -4,6 +4,7 @@ use App\User;
 use jorenvanhocht\Blogify\Models\Comment;
 use jorenvanhocht\Blogify\Models\Post;
 use jorenvanhocht\Tracert\Models\History;
+use Illuminate\Contracts\Auth\Guard;
 
 class DashboardController extends BaseController
 {
@@ -42,19 +43,23 @@ class DashboardController extends BaseController
      * @param History $history
      * @param Post $post
      * @param Comment $comment
+     * @param Guard $auth
      */
-    public function __construct(User $user, History $history, Post $post, Comment $comment)
-    {
-        parent::__construct();
+    public function __construct(
+        User $user,
+        History $history,
+        Post $post,
+        Comment $comment,
+        Guard $auth
+    ) {
+        parent::__construct($auth);
 
         $this->user = $user;
         $this->history = $history;
         $this->post = $post;
         $this->comment = $comment;
 
-        if ($this->auth_user->role->name == 'Admin') $this->buildDataObjectForAdmin();
-        if ($this->auth_user->role->name == 'Author') $this->buildDataObjectForAuthor();
-        if ($this->auth_user->role->name == 'Reviewer') $this->buildDataObjectForReviewer();
+        $this->{"buildDataArrayFor" . $this->auth_user->role->name}();
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -78,7 +83,7 @@ class DashboardController extends BaseController
     /**
      * @return void
      */
-    private function buildDataObjectForAdmin()
+    private function buildDataArrayForAdmin()
     {
         $this->data['new_users_since_last_visit'] = $this->user->newUsersSince($this->auth_user->updated_at)->count();
 
@@ -92,29 +97,27 @@ class DashboardController extends BaseController
         $this->data['published_posts'] = $this->post->where('publish_date', '<=', date('Y-m-d H:i:s'))->count();
 
         $this->data['pending_review_posts'] = $this->post->whereStatusId(2)->count();
-
-        objectify($this->data);
     }
 
     /**
      * @return void
      */
-    private function buildDataObjectForAuthor()
+    private function buildDataArrayForAuthor()
     {
-        $this->data['published_posts'] = $this->post->where('publish_date', '<=', date('Y-m-d H:i:s'))->forAuthor()->count();
+        $this->data['published_posts'] = $this->post->where('publish_date', '<=', date('Y-m-d H:i:s'))
+                                            ->forAuthor()
+                                            ->count();
 
         $this->data['pending_review_posts'] = $this->post->whereStatusId(2)->forAuthor()->count();
 
         $post_ids = $this->post->forAuthor()->lists('id');
         $this->data['pending_comments'] = $this->comment->byRevised(1)->whereIn('post_id', $post_ids)->count();
-
-        objectify($this->data);
     }
 
     /**
      * @return void
      */
-    private function buildDataObjectForReviewer()
+    private function buildDataArrayForReviewer()
     {
         $this->data['pending_review_posts'] = $this->post->whereStatusId(2)->forReviewer()->count();
     }

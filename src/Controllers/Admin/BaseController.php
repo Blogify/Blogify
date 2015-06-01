@@ -1,6 +1,7 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Auth\Guard;
 
 class BaseController extends Controller
 {
@@ -25,11 +26,14 @@ class BaseController extends Controller
      */
     protected $config;
 
-    public function __construct()
+    /**
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     */
+    public function __construct(Guard $auth)
     {
-        $this->auth         = auth();
-        $this->config       = objectify( config('blogify') );
-        $this->auth_user    = $this->auth->check() ? $this->auth->user() : false;
+        $this->auth = $auth;
+        $this->config = objectify(config('blogify'));
+        $this->auth_user = $this->auth->check() ? $this->auth->user() : false;
     }
 
 }

@@ -44,8 +44,7 @@ class BlogifyMigrateCommand extends Command
      */
     public function fire()
     {
-        foreach ($this->paths as $path)
-        {
+        foreach ($this->paths as $path) {
             $this->call('migrate', ['--path' => $path]);
         }
     }

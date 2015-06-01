@@ -5,6 +5,7 @@ use jorenvanhocht\Blogify\Requests\UserRequest;
 use App\User;
 use Illuminate\Contracts\Hashing\Hasher as Hash;
 use jorenvanhocht\Blogify\Services\BlogifyMailer;
+use Illuminate\Contracts\Auth\Guard;
 
 class UserController extends BaseController
 {
@@ -42,10 +43,16 @@ class UserController extends BaseController
      * @param Role $role
      * @param BlogifyMailer $mail
      * @param Hash $hash
+     * @param Guard $auth
      */
-    public function __construct(User $user, Role $role, BlogifyMailer $mail, Hash $hash)
-    {
-        parent::__construct();
+    public function __construct(
+        User $user,
+        Role $role,
+        BlogifyMailer $mail,
+        Hash $hash,
+        Guard $auth
+    ) {
+        parent::__construct($auth);
 
         $this->user = $user;
         $this->role = $role;
@@ -65,14 +72,16 @@ class UserController extends BaseController
     public function index($trashed = false)
     {
         $data = [
-            'users'     => (! $trashed) ?
-                                            $this->user->orderBy('name', 'ASC')
-                                                ->paginate($this->config->items_per_page)
-                                        :
-                                            $this->user->onlyTrashed()
-                                                ->orderBy('name', 'ASC')
-                                                ->paginate($this->config->items_per_page),
-            'trashed'   => $trashed,
+            'users' => (! $trashed) ?
+                    $this->user
+                        ->orderBy('name', 'ASC')
+                        ->paginate($this->config->items_per_page)
+                    :
+                    $this->user
+                        ->onlyTrashed()
+                        ->orderBy('name', 'ASC')
+                        ->paginate($this->config->items_per_page),
+            'trashed' => $trashed,
         ];
 
         return view('blogify::admin.users.index', $data);
@@ -131,7 +140,9 @@ class UserController extends BaseController
 
         tracert()->log('users', $user->id, $this->auth_user->id);
 
-        $message = trans('blogify::notify.success', ['model' => 'User', 'name' => $user->fullName, 'action' =>'created']);
+        $message = trans('blogify::notify.success', [
+            'model' => 'User', 'name' => $user->fullName, 'action' =>'created'
+        ]);
         session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.users.index');
@@ -148,7 +159,11 @@ class UserController extends BaseController
     {
         $data = $this->storeOrUpdateUser($request, $hash);
         $user = $data['user'];
-        $message = trans('blogify::notify.success', ['model' => 'User', 'name' => generateFullName($user->firstname, $user->name), 'action' =>'updated']);
+        $message = trans('blogify::notify.success', [
+            'model' => 'User',
+            'name' => $user->firstname . ' ' . $user->name,
+            'action' =>'updated'
+        ]);
 
         tracert()->log('users', $user->id, $this->auth_user->id, 'update');
 
@@ -169,7 +184,9 @@ class UserController extends BaseController
 
         tracert()->log('users', $user->id, $this->auth_user->id, 'delete');
 
-        $message = trans('blogify::notify.success', ['model' => 'User', 'name' => $user->fullName, 'action' =>'deleted']);
+        $message = trans('blogify::notify.success', [
+            'model' => 'User', 'name' => $user->fullName, 'action' =>'deleted'
+        ]);
         session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.users.index');
@@ -184,7 +201,9 @@ class UserController extends BaseController
         $user = $this->user->withTrashed()->byHash($hash);
         $user->restore();
 
-        $message = trans('blogify::notify.success', ['model' => 'Post', 'name' => $user->fullName, 'action' =>'restored']);
+        $message = trans('blogify::notify.success', [
+            'model' => 'Post', 'name' => $user->fullName, 'action' =>'restored'
+        ]);
         session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.users.index');
@@ -198,19 +217,16 @@ class UserController extends BaseController
     {
         $password = null;
 
-        if (! isset($hash))
-        {
-            $password           = blogify()->generatePassword();
-            $user               = new User;
-            $user->hash         = blogify()->makeUniqueHash('users', 'hash');
-            $user->password     = $this->hash->make($password);
-            $user->username     = blogify()->generateUniqueUsername( $data->name, $data->firstname );
-            $user->name         = $data->name;
-            $user->firstname    = $data->firstname;
-            $user->email        = $data->email;
-        }
-        else
-        {
+        if (! isset($hash)) {
+            $password = blogify()->generatePassword();
+            $user = new User;
+            $user->hash = blogify()->makeUniqueHash('users', 'hash');
+            $user->password = $this->hash->make($password);
+            $user->username = blogify()->generateUniqueUsername($data->name, $data->firstname);
+            $user->name = $data->name;
+            $user->firstname = $data->firstname;
+            $user->email = $data->email;
+        } else {
             $user = $this->user->byHash($hash);
         }
 

@@ -4,8 +4,9 @@ use Illuminate\Database\DatabaseManager;
 use jorenvanhocht\Blogify\Exceptions\BlogifyException;
 use jorenvanhocht\Blogify\Models\Post;
 use Input;
-use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Contracts\Cache\Repository as Cache;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Guard;
 
 class ApiController extends BaseController
 {
@@ -28,10 +29,11 @@ class ApiController extends BaseController
      * Construct the class
      *
      * @param Post $post
+     * @param Guard $auth
      */
-    public function __construct(Post $post)
+    public function __construct(Post $post, Guard $auth)
     {
-        parent::__construct();
+        parent::__construct($auth);
 
         $this->post = $post;
     }
@@ -47,15 +49,22 @@ class ApiController extends BaseController
      * @param DatabaseManager $db
      * @return object
      */
-    public function sort($table, $column, $order, $trashed = false, DatabaseManager $db)
-    {
+    public function sort(
+        $table,
+        $column,
+        $order,
+        $trashed = false,
+        DatabaseManager $db
+    ) {
         $db = $db->connection();
         $data = $db->table($table);
 
         // Check for trashed data
         $data = $trashed ? $data->whereNotNull('deleted_at') : $data->whereNull('deleted_at');
 
-        $data = $data->orderBy($column, $order)->paginate($this->config->items_per_page);
+        $data = $data
+            ->orderBy($column, $order)
+            ->paginate($this->config->items_per_page);
 
         return $data;
     }
@@ -72,8 +81,7 @@ class ApiController extends BaseController
         $i = 0;
         $this->base_slug = $slug;
 
-        while ($this->post->whereSlug($slug)->get()->count() > 0)
-        {
+        while ($this->post->whereSlug($slug)->get()->count() > 0) {
             $i++;
             $slug = "$this->base_slug-$i";
         }
@@ -84,18 +92,19 @@ class ApiController extends BaseController
     /**
      * Save the current post in the cache
      *
-     * @param Repository $cache
+     * @param Cache $cache
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function autoSave(Repository $cache)
+    public function autoSave(Cache $cache)
     {
-        try
-        {
+        try {
             $hash = $this->auth_user->hash;
-            $cache->put( "autoSavedPost-$hash", Input::all(), Carbon::now()->addHours(2) );
-        }
-        catch(BlogifyException $exception)
-        {
+            $cache->put(
+                "autoSavedPost-$hash",
+                Input::all(),
+                Carbon::now()->addHours(2)
+            );
+        } catch (BlogifyException $exception) {
             return response()->json([false, date('d-m-Y H:i:s')]);
         }
 

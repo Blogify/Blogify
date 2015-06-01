@@ -50,21 +50,16 @@ class BlogifyAdminAuthenticate
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($this->auth->guest())
-		{
-			if ($request->ajax())
-			{
+		if ($this->auth->guest()) {
+			if ($request->ajax()) {
 				return response('Unauthorized.', 401);
-			}
-			else
-			{
+			} else {
 				return redirect()->route('admin.login');
 			}
 		}
 
 		// Check if the user has permission to visit the admin panel
-		if (! in_array($this->auth->user()->role_id, $this->allowed_roles))
-		{
+		if (! in_array($this->auth->user()->role_id, $this->allowed_roles)) {
 			return redirect()->route('admin.login');
 		}
 
@@ -79,8 +74,7 @@ class BlogifyAdminAuthenticate
 	 */
 	private function fillAllowedRolesArray()
 	{
-		foreach ($this->roles as $role)
-		{
+		foreach ($this->roles as $role) {
 			array_push($this->allowed_roles, $role->id);
 		}
 	}

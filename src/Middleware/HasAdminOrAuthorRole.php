@@ -51,8 +51,7 @@ class HasAdminOrAuthorRole
      */
     public function handle($request, Closure $next)
     {
-        if (! in_array($this->auth->user()->role->id, $this->allowed_roles))
-        {
+        if (! in_array($this->auth->user()->role->id, $this->allowed_roles)) {
             return redirect()->route('admin.dashboard');
         }
 
@@ -72,8 +71,7 @@ class HasAdminOrAuthorRole
                     ->where('name', '<>', 'Member')
                     ->get();
 
-        foreach ($roles as $role)
-        {
+        foreach ($roles as $role) {
             array_push($this->allowed_roles, $role->id);
         }
     }

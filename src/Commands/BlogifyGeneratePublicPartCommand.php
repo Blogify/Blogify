@@ -40,7 +40,7 @@ class BlogifyGeneratePublicPartCommand extends Command
      */
     protected $routes;
 
-    public function __construct( )
+    public function __construct()
     {
         parent::__construct();
 
@@ -63,8 +63,7 @@ class BlogifyGeneratePublicPartCommand extends Command
         $this->publishTemplates($namespace);
         $this->info('Controllers and requests created');
 
-        if ( ! $this->option('only-backend') )
-        {
+        if (! $this->option('only-backend')) {
             $this->publishViews();
             $this->info('Views created');
             $this->publishAssets();
@@ -95,10 +94,8 @@ class BlogifyGeneratePublicPartCommand extends Command
      */
     private function publishTemplates($namespace)
     {
-        foreach ($this->templates as $key => $files)
-        {
-            foreach($files as $k => $file)
-            {
+        foreach ($this->templates as $key => $files) {
+            foreach($files as $k => $file) {
                 $contents = $this->get_file_contents($file);
                 $contents = str_replace('{{namespace}}', $namespace."\\Http\\$key", $contents);
                 $contents = str_replace('{{appnamespace}}', $namespace, $contents);
@@ -106,15 +103,11 @@ class BlogifyGeneratePublicPartCommand extends Command
                 $key = ucfirst($key);
                 $filename = __DIR__."/../../../../../app/Http/$key/".$k.'.php';
 
-                if (file_exists($filename))
-                {
-                    if ($this->confirm("File $k allready exists, do you want to override it? Y/N"))
-                    {
+                if (file_exists($filename)) {
+                    if ($this->confirm("File $k allready exists, do you want to override it? Y/N")) {
                         file_put_contents($filename, $contents);
                     }
-                }
-                else
-                {
+                } else {
                     file_put_contents($filename, $contents);
                 }
             }
@@ -129,39 +122,28 @@ class BlogifyGeneratePublicPartCommand extends Command
         $basepath = __DIR__."/../../../../../resources/views/blogify/";
         $path = $basepath."templates/";
 
-        if (!file_exists($path)) mkdir($path, 775, true);
+        if (! file_exists($path)) mkdir($path, 775, true);
 
-        foreach ($this->views as $key => $file)
-        {
+        foreach ($this->views as $key => $file) {
             $filename = $basepath . "$key.blade.php";
-            if (file_exists($filename))
-            {
-                if ($this->confirm("File $key allready exists, do you want to override it? Y/N"))
-                {
+            if (file_exists($filename)) {
+                if ($this->confirm("File $key allready exists, do you want to override it? Y/N")) {
                     copy($file, $filename);
                 }
-            }
-            else
-            {
+            } else {
                 copy($file, $filename);
             }
         }
 
-        foreach ($this->layouts as $key => $file)
-        {
+        foreach ($this->layouts as $key => $file) {
             $filename = $basepath . "templates/$key.blade.php";
-            if (file_exists($filename))
-            {
-                if ($this->confirm("File $key allready exists, do you want to override it? Y/N"))
-                {
+            if (file_exists($filename)) {
+                if ($this->confirm("File $key allready exists, do you want to override it? Y/N")) {
                     copy($file, $filename);
                 }
-            }
-            else
-            {
+            } else {
                 copy($file, $filename);
             }
-
         }
     }
 
@@ -171,20 +153,16 @@ class BlogifyGeneratePublicPartCommand extends Command
     private function publishAssets()
     {
         $path = __DIR__."/../../../../../public/assets/";
-        if (!file_exists($path)) mkdir($path, 775, true);
+        if (! file_exists($path)) mkdir($path, 775, true);
 
-        foreach ($this->js as $key => $file)
-        {
+        foreach ($this->js as $key => $file) {
             $filename = "$path$key.js";
-            if (file_exists($filename))
-            {
-                if ($this->confirm("File $key allready exists, do you want to override it? Y/N"))
-                {
+            if (file_exists($filename)) {
+                if ($this->confirm("File $key allready exists, do you want to override it? Y/N")) {
                     copy($file, $filename);
                 }
             }
-            else
-            {
+            else {
                 copy($file, $filename);
             }
         }

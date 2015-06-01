@@ -1,17 +1,17 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use jorenvanhocht\Blogify\Requests\LoginRequest;
+use Illuminate\Contracts\Auth\Guard;
 
 class AuthController extends BaseController
 {
 
     /**
-     * Construct the class
-     *
+     * @param Guard $auth
      */
-    public function __construct()
+    public function __construct(Guard $auth)
     {
-        parent::__construct();
+        parent::__construct($auth);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -40,13 +40,24 @@ class AuthController extends BaseController
      */
     public function login(LoginRequest $request)
     {
-        if ($this->auth->attempt(['email' => $request->email, 'password' => $request->password], isset($request->rememberme) ? true : false ))
-        {
-            tracert()->log('users', $this->auth->user()->id, $this->auth->user()->id, 'Login');
+        $credentials = $this->auth->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ], isset($request->rememberme) ? true : false );
+
+        if ($credentials) {
+            tracert()->log(
+                'users',
+                $this->auth->user()->id,
+                $this->auth->user()->id,
+                'Login'
+            );
+
             return redirect('/admin');
         }
 
         session()->flash('message', 'Wrong credentials');
+
         return redirect()->route('admin.login');
     }
 
@@ -61,6 +72,7 @@ class AuthController extends BaseController
         $this->auth->logout();
 
         tracert()->log('users', $user_id, $user_id, 'Logout');
+
         return redirect()->route('admin.login');
     }
 }

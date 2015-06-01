@@ -3,6 +3,7 @@
 use App\User;
 use jorenvanhocht\Blogify\Requests\ProfileUpdateRequest;
 use Intervention\Image\Facades\Image;
+use Illuminate\Contracts\Auth\Guard;
 
 class ProfileController extends BaseController
 {
@@ -18,10 +19,11 @@ class ProfileController extends BaseController
      * Construct the class
      *
      * @param User $user
+     * @param Guard $auth
      */
-    public function __construct(User $user)
+    public function __construct(User $user, Guard $auth)
     {
-        parent::__construct();
+        parent::__construct($auth);
 
         $this->middleware('IsOwner', ['only', 'edit'] );
 
@@ -60,11 +62,11 @@ class ProfileController extends BaseController
      */
     public function update($hash, ProfileUpdateRequest $request)
     {
-        $user               = $this->user->byHash($hash);
-        $user->name         = $request->name;
-        $user->firstname    = $request->firstname;
-        $user->username     = $request->username;
-        $user->email        = $request->email;
+        $user = $this->user->byHash($hash);
+        $user->name = $request->name;
+        $user->firstname = $request->firstname;
+        $user->username = $request->username;
+        $user->email = $request->email;
 
         if ($request->has('newpassword')) $user->password = $request->newpassword;
 
@@ -74,7 +76,9 @@ class ProfileController extends BaseController
 
         tracert()->log('users', $user->id, $this->auth_user->id, 'update');
 
-        $message = trans('blogify::notify.success', ['model' => 'User', 'name' => $user->fullName, 'action' =>'updated']);
+        $message = trans('blogify::notify.success', [
+            'model' => 'User', 'name' => $user->fullName, 'action' =>'updated'
+        ]);
         session()->flash('notify', ['success', $message] );
 
         return redirect()->route('admin.dashboard');
@@ -92,8 +96,8 @@ class ProfileController extends BaseController
      */
     private function handleImage($image, $user)
     {
-        $filename   = $this->generateFilename();
-        $path       = $this->resizeAndSaveProfilePicture( $image, $filename );
+        $filename = $this->generateFilename();
+        $path = $this->resizeAndSaveProfilePicture( $image, $filename );
 
         if (isset($user->profilepicture)) $this->removeOldPicture($user->profilepicture);
 
@@ -119,8 +123,8 @@ class ProfileController extends BaseController
      */
     private function resizeAndSaveProfilePicture($image, $filename)
     {
-        $extention  = $image->getClientOriginalExtension();
-        $fullpath   = $this->config->upload_paths->profiles->profilepictures . $filename . '.' . $extention;
+        $extention = $image->getClientOriginalExtension();
+        $fullpath = $this->config->upload_paths->profiles->profilepictures . $filename . '.' . $extention;
 
         Image::make($image->getRealPath())
             ->resize($this->config->image_sizes->profilepictures[0], $this->config->image_sizes->profilepictures[1] , function ($constraint) {

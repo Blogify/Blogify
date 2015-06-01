@@ -1,6 +1,7 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use jorenvanhocht\Blogify\Models\Comment;
+use Illuminate\Contracts\Auth\Guard;
 
 class CommentsController extends BaseController
 {
@@ -16,10 +17,11 @@ class CommentsController extends BaseController
      * Construct the class
      *
      * @param Comment $comment
+     * @param Guard $auth
      */
-    public function __construct(Comment $comment)
+    public function __construct(Comment $comment, Guard $auth)
     {
-        parent::__construct();
+        parent::__construct($auth);
 
         $this->comment = $comment;
     }
@@ -41,7 +43,9 @@ class CommentsController extends BaseController
         if ($revised === false) abort(404);
 
         $data = [
-            'comments' => $this->comment->byRevised($revised)->paginate($this->config->items_per_page),
+            'comments' => $this->comment
+                                ->byRevised($revised)
+                                ->paginate($this->config->items_per_page),
             'revised' => $revised,
         ];
 
@@ -65,13 +69,21 @@ class CommentsController extends BaseController
         $revised = $this->checkRevised( $new_revised );
         if ($revised === false) abort(404);
 
-        $comment            = $this->comment->byHash($hash);
-        $comment->revised   = $revised;
+        $comment = $this->comment->byHash($hash);
+        $comment->revised = $revised;
         $comment->save();
 
-        tracert()->log('comments', $comment->id, $this->auth_user->id, $new_revised);
+        tracert()->log(
+            'comments',
+            $comment->id,
+            $this->auth_user->id,
+            $new_revised
+        );
 
-        $message = trans('blogify::notify.comment_success', ['action' => $new_revised]);
+        $message = trans(
+            'blogify::notify.comment_success',
+            ['action' => $new_revised]
+        );
         session()->flash('notify', [ 'success', $message]);
 
         return redirect()->route('admin.comments.index');

@@ -44,8 +44,8 @@ class PostRequest extends Request
      */
     public function rules()
     {
-        $hash   = $this->input('hash');
-        $id     = (! empty($hash)) ? $this->post->byHash($hash)->id : 0;
+        $hash = $this->input('hash');
+        $id = (! empty($hash)) ? $this->post->byHash($hash)->id : 0;
         $protected_visibility = $this->visibility->whereName('Protected')->first()->hash;
 
         return [

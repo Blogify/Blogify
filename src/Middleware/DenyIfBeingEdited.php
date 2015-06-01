@@ -55,8 +55,10 @@ class DenyIfBeingEdited
         $hash = $request->segment(3);
         $post = $this->post->byHash($hash);
 
-        if ($post->being_edited_by != null && $post->being_edited_by != $this->auth->user()->id)
-        {
+        if (
+            $post->being_edited_by != null &&
+            $post->being_edited_by != $this->auth->user()->id
+        ) {
             $user = $this->user->find($post->being_edited_by)->fullName;
 
             session()->flash('notify', [ 'danger', trans('blogify::posts.notify.being_edited', ['name' => $user]) ] );

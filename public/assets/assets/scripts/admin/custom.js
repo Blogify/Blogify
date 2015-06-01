@@ -163,13 +163,16 @@ var app = {
 
             // Empty the table body
             tbody.empty();
-
+            console.log(data['data']);
             // Loop through the results
             for ( var i = 0; i < data['data'].length; i++ )
             {
                 var row = '<tr>';
                 if ( 'status_id' in data['data'][i] )
                 {
+                    /**
+                     * IN SWITCH STEKEN
+                     */
                     if (data['data'][i].status_id == 1)
                     {
                         row = '<tr class="danger">';

@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return [
 
     /**
      * Array with all available character sets
@@ -14,7 +14,7 @@ return array (
     /**
      * Information about the admin user
      * This will be used to seed the users table
-     *
+     * ENV VARIBALES MAKEN
      */
     'admin_user'     => [
         'name'          => 'Van Hocht',
@@ -61,4 +61,4 @@ return array (
      *
      */
     'approve_comments_first' => true,
-);
+];

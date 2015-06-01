@@ -21,8 +21,11 @@ class BlogifyVerifyCsrfToken extends VerifyCsrfToken
      */
     public function handle($request, Closure $next)
     {
-        if ($this->isReading($request) || $this->excludedRoutes($request) || $this->tokensMatch($request))
-        {
+        if (
+            $this->isReading($request) ||
+            $this->excludedRoutes($request) ||
+            $this->tokensMatch($request)
+        ) {
             return $this->addCookieToResponse($request, $next($request));
         }
 
@@ -37,9 +40,11 @@ class BlogifyVerifyCsrfToken extends VerifyCsrfToken
      */
     protected function excludedRoutes($request)
     {
-        foreach ($this->routes as $route)
-            if ($request->is($route))
+        foreach ($this->routes as $route) {
+            if ($request->is($route)) {
                 return true;
+            }
+        }
 
         return false;
     }
