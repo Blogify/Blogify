@@ -183,7 +183,6 @@ class BlogifyGeneratePublicPartCommand extends Command
             ],
             'Requests' => [
                 'CommentRequest' => __DIR__.'/../../Example/Requests/CommentRequest.txt',
-                'ProtectedPostRequest' => __DIR__.'/../../Example/Requests/ProtectedPostRequest.txt',
             ]
         ];
     }

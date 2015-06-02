@@ -1,7 +1,9 @@
 <?php namespace jorenvanhocht\Blogify\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Hashing\Hasher;
 use jorenvanhocht\Blogify\Models\Post;
 
 class ProtectedPost
@@ -19,16 +21,19 @@ class ProtectedPost
      */
     protected $post;
 
+    protected $hash;
+
     /**
      * Create a new filter instance.
      *
      * @param Guard $auth
      * @param Post $post
      */
-    public function __construct(Guard $auth, Post $post)
+    public function __construct(Guard $auth, Post $post, Hasher $hash)
     {
         $this->auth = $auth;
         $this->post = $post;
+        $this->hash = $hash;
     }
 
     /**
@@ -43,12 +48,16 @@ class ProtectedPost
         $post = $this->post->bySlug($request->segment(2));
 
         if ($post->visibility_id == 2) {
-            if (
-                ! session()->has('protected_post') ||
-                session()->get('protected_post') != $post->hash
-            ) {
-                return redirect()->route('blog.askPassword', [$post->hash]);
+
+            if (!$this->hash->check(Input::get('password'), $post->password))
+            {
+                return redirect()->route('blog.askPassword', [$post->slug])
+                    ->with(
+                        'wrong_password',
+                        'Please provide a valid password to view this post'
+                    );
             }
+
         }
 
         return $next($request);

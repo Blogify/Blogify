@@ -1,18 +1,20 @@
 @extends('blogify.templates.master')
 @section('content')
     <?php $data = session()->get('wrong_password') ?>
-    <div id="notify" class="fixed-to-top">
-        @include('blogify::admin.widgets.alert', ['class'=>'danger', 'dismissable'=>true, 'message'=> $data, 'icon'=> 'check'])
-    </div>
+    @if(isset($data))
+        <div id="notify" class="fixed-to-top">
+            @include('blogify::admin.widgets.alert', ['class'=>'danger', 'dismissable'=>true, 'message'=> $data, 'icon'=> 'check'])
+        </div>
+    @endif
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Provide a valid password to view this post</div>
                 <div class="panel-body">
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('blog.confirmPassword') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('blog.confirmPass', [$slug]) }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="hash" value="{{$hash}}">
+                        <input type="hidden" name="hash" value="{{$slug}}">
                         <div class="form-group">
                             <div class="col-md-6">
                                 <input type="password" class="form-control" name="password" placeholder="Password">

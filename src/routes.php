@@ -10,6 +10,10 @@ $use_default_routes = config('blogify.blogify.enable_default_routes');
 if ($use_default_routes) {
     Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::resource('blog', 'BlogController', ['only' => ['index', 'show']]);
+        Route::post('blog/{slug}', [
+            'as' => 'blog.confirmPass',
+            'uses' => 'BlogController@show',
+        ]);
         Route::get('blog/archive/{year}/{month}', [
             'as' => 'blog.archive',
             'uses' => 'BlogController@archive'
@@ -21,10 +25,6 @@ if ($use_default_routes) {
         Route::get('blog/protected/verify/{hash}', [
             'as' => 'blog.askPassword',
             'uses' => 'BlogController@askPassword'
-        ]);
-        Route::post('blog/protected/confirm', [
-            'as' => 'blog.confirmPassword',
-            'uses' => 'BlogController@confirmPassword'
         ]);
         Route::post('comments', [
             'as' => 'comments.store',

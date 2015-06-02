@@ -1,5 +1,6 @@
 <?php namespace jorenvanhocht\Blogify;
 
+use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Database\DatabaseManager;
 
 class Blogify
@@ -17,7 +18,7 @@ class Blogify
      */
     protected $db;
 
-    public function __construct(DatabaseManager $db, $config)
+    public function __construct(DatabaseManager $db, Config $config)
     {
         $this->char_sets = $config['char_sets'];
         $this->db = $db->connection();
