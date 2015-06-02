@@ -1,6 +1,7 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use App\User;
+use Illuminate\Contracts\Hashing\Hasher;
 use jorenvanhocht\Blogify\Requests\ProfileUpdateRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Contracts\Auth\Guard;
@@ -22,20 +23,32 @@ class ProfileController extends BaseController
     protected $tracert;
 
     /**
+     * @var Hasher
+     */
+    protected $hash;
+
+    /**
      * Construct the class
      *
      * @param User $user
      * @param Guard $auth
      * @param Tracert $tracert
+     * @param Hasher $hash
      */
-    public function __construct(User $user, Guard $auth, Tracert $tracert)
-    {
+    public function __construct(
+        User $user,
+        Guard $auth,
+        Tracert $tracert,
+        Hasher $hash
+    ) {
         parent::__construct($auth);
 
         $this->middleware('IsOwner', ['only', 'edit'] );
+        $this->middleware('ConfirmPasswordChange', ['only', 'update'] );
 
         $this->user = $user;
         $this->tracert = $tracert;
+        $this->hash = $hash;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -76,7 +89,7 @@ class ProfileController extends BaseController
         $user->username = $request->username;
         $user->email = $request->email;
 
-        if ($request->has('newpassword')) $user->password = $request->newpassword;
+        if ($request->has('newpassword')) $user->password = $this->hash->make($request->newpassword);
 
         if ($request->hasFile('profilepicture')) $this->handleImage($request->file('profilepicture'), $user);
 

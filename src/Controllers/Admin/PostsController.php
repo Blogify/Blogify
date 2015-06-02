@@ -211,10 +211,10 @@ class PostsController extends BaseController
      * @param $slug
      * @return \Illuminate\View\View
      */
-    public function show ($slug)
+    public function show ($hash)
     {
         $data = [
-            'post' => $this->post->bySlug($slug),
+            'post' => $this->post->byHash($hash),
         ];
 
         if ($data['post']->count() <= 0) abort(404);
@@ -482,7 +482,7 @@ class PostsController extends BaseController
             $post = $this->post->byHash($this->data->hash);
         } else {
             $post = new Post;
-            $post->hash = $this->blogify->makeUniqueHash('posts', 'hash');
+            $post->hash = $this->blogify->makeHash('posts', 'hash', true);
         }
 
         $post->slug = $this->data->slug;

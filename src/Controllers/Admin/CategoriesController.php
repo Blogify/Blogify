@@ -227,8 +227,8 @@ class CategoriesController extends BaseController
         if (count($cat) > 0) {
             $category = $cat;
         } else {
-            $category       = new Category;
-            $category->hash = $this->blogify->makeUniqueHash('categories', 'hash');
+            $category = new Category;
+            $category->hash = $this->blogify->makeHash('categories', 'hash', true);
         }
 
         $category->name = $request->name;

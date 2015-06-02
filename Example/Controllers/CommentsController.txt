@@ -1,8 +1,7 @@
 <?php namespace {{namespace}};
 
-use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
-use jorenvanhocht\Blogify\Example\Requests\CommentRequest;
+use {{appnamespace}}\Http\Requests\CommentRequest;
 use jorenvanhocht\Blogify\Models\Comment;
 use jorenvanhocht\Blogify\Models\Post;
 

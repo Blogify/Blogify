@@ -20,65 +20,45 @@ class Blogify
 
     public function __construct(DatabaseManager $db, Config $config)
     {
-        $this->char_sets = $config['char_sets'];
+        $this->char_sets = $config['blogify']['char_sets'];
         $this->db = $db->connection();
     }
 
     /**
-     * Generate a unique hash
-     *
-     * @param $table
+     * @param null $table
+     * @param null $field
+     * @param bool $unique_in_table
      * @param int $min_length
      * @param int $max_length
      * @return string
      */
-    public function makeUniqueHash(
-        $table,
-        $field,
-        $min_length = 5,
-        $max_length = 20
-    ) {
+    public function makeHash($table = null, $field = null, $unique_in_table = false, $min_length = 5, $max_length = 20)
+    {
         $hash = '';
 
         // Generate a random length for the hash between the given min and max length
         $rand = rand($min_length, $max_length);
 
         for ($i = 0; $i < $rand; $i++) {
-            $char = rand(0, strlen($this->char_sets['hash']));
+            $char = rand(0, strlen($this->char_sets[($unique_in_table) ? 'hash' : 'password']));
 
             // When it's not the first char from the char_set make $minus equal to 1
             $minus = $char != 0 ? 1 : 0;
 
             // Add the character to the hash
-            $hash .= $this->char_sets['hash'][$char - $minus];
+            $hash .= $this->char_sets[($unique_in_table) ? 'hash' : 'password'][$char - $minus];
         }
 
-        // Check if the hash doest not exist in the given table and column
-        if (! $this->db->table($table)->where($field, '=', $hash)->get()) {
+        if ($unique_in_table) {
+            // Check if the hash doest not exist in the given table and column
+            if (! $this->db->table($table)->where($field, '=', $hash)->get()) {
+                return $hash;
+            } else {
+                return $this->makeUniqueHash($table, $field, $min_length, $max_length);
+            }
+        } else {
             return $hash;
         }
-
-        return $this->makeUniqueHash($table, $field, $min_length, $max_length);
-    }
-
-    /**
-     * Generate a random password
-     *
-     * @return string
-     */
-    public function generatePassword()
-    {
-        $password   = '';
-        $rand       = rand(4, 10);
-
-        for($i = 0; $i < $rand; $i++) {
-            $char = rand(0, strlen($this->char_sets['password'] ));
-
-            $minus = $char != 0 ? 1 : 0;
-
-            $password .= $this->char_sets['password'][$char - $minus];
-        }
-        return $password;
     }
 
     /**

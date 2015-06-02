@@ -48,7 +48,6 @@ class BlogifyGeneratePublicPartCommand extends Command
         $this->fillViewsArray();
         $this->fillLayoutsArray();
         $this->fillJsArray();
-        $this->defineRoutes();
     }
 
     /**

@@ -85,3 +85,25 @@ th a {
 #password-protected-post {
     display:none;
 }
+
+.img-rounded {
+    margin-bottom:20px;
+}
+
+.media-body .media-heading {
+    border-top:1px solid grey;
+    font-size:0.8em;
+}
+
+.media-body .media-heading p {
+    margin-bottom:10px;
+}
+
+.panel-heading a.post-title {
+    font-size:1.5em;
+}
+
+.post-details {
+    margin-top:25px;
+    font-size:0.9em;
+}

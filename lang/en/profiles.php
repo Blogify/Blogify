@@ -16,6 +16,9 @@ return [
         'email'          => [
             'label' => 'E-mail: ',
         ],
+        'password'          => [
+            'label' => 'Password',
+        ],
         'newpassword'          => [
             'label' => 'New password',
         ],

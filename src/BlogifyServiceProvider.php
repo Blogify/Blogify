@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use jorenvanhocht\Blogify\Services\Validation;
 
 class BlogifyServiceProvider extends ServiceProvider
 {
@@ -35,7 +36,7 @@ class BlogifyServiceProvider extends ServiceProvider
         $this->app->bind('jorenvanhocht.blogify', function()
         {
             $db = $this->app['db'];
-            $config = $this->app['config']['blogify'];
+            $config = $this->app['config'];
             return new Blogify($db, $config);
         });
 
@@ -64,6 +65,18 @@ class BlogifyServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../lang/', 'blogify');
 
         $this->registerCommands();
+
+        // Register the class that serves extra validation rules
+        $this->app->validator->resolver(
+            function(
+                $translator,
+                $data,
+                $rules,
+                $messages = array(),
+                $customAttributes = array()
+            ) {
+            return new Validation($translator, $data, $rules, $messages, $customAttributes);
+        });
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -86,6 +99,7 @@ class BlogifyServiceProvider extends ServiceProvider
         $this->app['router']->middleware('IsOwner', 'jorenvanhocht\Blogify\Middleware\IsOwner');
         $this->app['router']->middleware('CanViewPost', 'jorenvanhocht\Blogify\Middleware\CanViewPost');
         $this->app['router']->middleware('ProtectedPost', 'jorenvanhocht\Blogify\Middleware\ProtectedPost');
+        $this->app['router']->middleware('ConfirmPasswordChange', 'jorenvanhocht\Blogify\Middleware\ConfirmPasswordChange');
     }
 
     /**

@@ -231,9 +231,9 @@ class UserController extends BaseController
         $password = null;
 
         if (! isset($hash)) {
-            $password = $this->blogify->generatePassword();
+            $password = $this->blogify->makeHash();
             $user = new User;
-            $user->hash = $this->blogify->makeUniqueHash('users', 'hash');
+            $user->hash = $this->blogify->makeHash('users', 'hash', true);
             $user->password = $this->hash->make($password);
             $user->username = $this->blogify->generateUniqueUsername($data->name, $data->firstname);
             $user->name = $data->name;

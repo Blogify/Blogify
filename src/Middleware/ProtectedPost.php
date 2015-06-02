@@ -21,6 +21,9 @@ class ProtectedPost
      */
     protected $post;
 
+    /**
+     * @var Hasher
+     */
     protected $hash;
 
     /**
@@ -28,6 +31,7 @@ class ProtectedPost
      *
      * @param Guard $auth
      * @param Post $post
+     * @param Hasher $hash
      */
     public function __construct(Guard $auth, Post $post, Hasher $hash)
     {

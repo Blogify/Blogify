@@ -55,6 +55,7 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
                 <td>
                     @if(!$trashed)
                         <a href="{{ route('admin.posts.edit', [$post->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
+                        <a href="{{ route('admin.posts.show', [$post->hash] ) }}"><span class="fa fa-eye fa-fw"></span></a>
                         {!! Form::open( [ 'route' => ['admin.posts.destroy', $post->hash], 'class' => $post->hash . ' form-delete' ] ) !!}
 
                         {!! Form::hidden('_method', 'delete') !!}

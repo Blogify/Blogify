@@ -141,7 +141,7 @@ var app = {
                 url: app.sortable.url,
                 dataType: 'json'
             } ).done( function( data ) {
-                app.sortable.appendData(data);
+                app.sortable.appendData(data, link);
             } );
         },
 
@@ -150,7 +150,7 @@ var app = {
          *
          * @param data
          */
-        appendData: function(data)
+        appendData: function(data, atag)
         {
             // get the columns of the table head
             var thead = $('.sortable thead tr');
@@ -163,7 +163,7 @@ var app = {
 
             // Empty the table body
             tbody.empty();
-            console.log(data['data']);
+
             // Loop through the results
             for ( var i = 0; i < data['data'].length; i++ )
             {
@@ -185,8 +185,6 @@ var app = {
                     {
                         row = '<tr class="info">';
                     }
-                    console.log(data['data'][i].publish_date);
-                    console.log( app.sortable.getDateTime());
                     if (data['data'][i].publish_date <= app.sortable.getDateTime())
                     {
                         row = "<tr>"
@@ -209,14 +207,27 @@ var app = {
                     append_data += "<td>" + data['data'][i][columnName] + "</td>";
                 }
 
-                // Append the actions to the last column
-                append_data += "<td><a href='#'><span class='fa fa-edit fa-fw'></span></a> <a href='#'><span class='fa fa-trash-o fa-fw'></span></a></td>";
+                var link            = $(atag);
+                var url             = link[0].href;
+                var urlParts        = url.split('/');
+                var newUrl = app.generateBaseUrl() + '/' + '/admin/' + urlParts[6] + '/';
+
+                if ( 'status_id' in data['data'][i] ) {
+                    // Append the actions to the last column
+                    append_data += "<td><a href='"+ newUrl + data['data'][i]['hash'] +'/edit' +"'><span class='fa fa-edit fa-fw'></span></a> <a href='"+ newUrl + data['data'][i]['hash'] +"'><span class='fa fa-eye fa-fw'></span></a> <form method='POST' action='"+ newUrl + data['data'][i]['hash'] +"' accept-charset='UTF-8' class='"+ data['data'][i]['hash'] +"' form-delete'><input name='_token' type='hidden' value='"+$('meta[name="_token"]').attr('content')+"'><input name='_method' type='hidden' value='delete'><a href='#' title='"+data['data'][i]['title']+"' class='delete' id='"+data['data'][i]['hash']+"'><span class='fa fa-trash-o fa-fw'></span></a></form></td>";
+                }
+                else {
+                    // Append the actions to the last column
+                    append_data += "<td><a href='"+ newUrl + data['data'][i]['hash'] +'/edit' +"'><span class='fa fa-edit fa-fw'></span></a> <form method='POST' action='"+ newUrl + data['data'][i]['hash'] +"' accept-charset='UTF-8' class='"+ data['data'][i]['hash'] +"' form-delete'><input name='_token' type='hidden' value='"+$('meta[name="_token"]').attr('content')+"'><input name='_method' type='hidden' value='delete'><a href='#' title='"+data['data'][i]['name']+"' class='delete' id='"+data['data'][i]['hash']+"'><span class='fa fa-trash-o fa-fw'></span></a></form></td>";
+                }
+
 
                 append_data += "</tr>";
             }
 
             // Append the sorted data to the table body
             tbody.append(append_data);
+            app.delete.init();
         },
 
         /**

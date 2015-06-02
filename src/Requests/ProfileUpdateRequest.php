@@ -27,6 +27,7 @@ class ProfileUpdateRequest extends Request
      */
     protected $user;
 
+
     /**
      * Holds the id of the user
      * that we are trying to edit
@@ -77,7 +78,8 @@ class ProfileUpdateRequest extends Request
             'firstname'             => 'required|min:3|max:30',
             'username'              => 'required|min:2|max:30',
             'email'                 => "required|email|unique:users,email,$this->user_id",
-            'newpasswordconfirm'    => "required_with:newpassword",
+            'password'              => "required_with:newpassword|AuthUserPass",
+            'newpasswordconfirm'    => "required_with:newpassword|same:newpassword",
             'profilepicture'        => 'image|max:1000',
         ];
     }
@@ -91,5 +93,17 @@ class ProfileUpdateRequest extends Request
     private function getUserId()
     {
         return $this->user->byHash($this->hash)->id;
+    }
+
+    /**
+     * Override default messages
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'auth_user_pass' => 'The given password does not match your current password',
+        ];
     }
 }
