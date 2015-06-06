@@ -10,27 +10,25 @@ class CategoriesController extends BaseController
 {
 
     /**
-     * Holds an instance of the Category model
-     *
-     * @var Category
+     * @var \jorenvanhocht\Blogify\Models\Category
      */
     protected $category;
 
     /**
-     * @var Blogify
+     * @var \jorenvanhocht\Blogify\Blogify
      */
     protected $blogify;
 
     /**
-     * @var Tracert
+     * @var \jorenvanhocht\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * @param Category $category
-     * @param Guard $auth
-     * @param Blogify $blogify
-     * @param Tracert $tracert
+     * @param \jorenvanhocht\Blogify\Models\Category $category
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \jorenvanhocht\Blogify\Blogify $blogify
+     * @param \jorenvanhocht\Tracert\Tracert $tracert
      */
     public function __construct(
         Category $category,
@@ -50,9 +48,6 @@ class CategoriesController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Show the view with all active/trashed
-     * categories
-     *
      * @param $trashed
      * @return \Illuminate\View\View
      */
@@ -72,8 +67,6 @@ class CategoriesController extends BaseController
     }
 
     /**
-     * Show the view to create a new category
-     *
      * @return \Illuminate\View\View
      */
     public function create()
@@ -82,9 +75,6 @@ class CategoriesController extends BaseController
     }
 
     /**
-     * Show the view to edit a given
-     * category
-     *
      * @param $hash
      * @return \Illuminate\View\View
      */
@@ -100,10 +90,8 @@ class CategoriesController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Store a new category
-     *
-     * @param CategoryRequest $request
-     * @return Category|string
+     * @param \jorenvanhocht\Blogify\Requests\CategoryRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CategoryRequest $request)
     {
@@ -126,10 +114,8 @@ class CategoriesController extends BaseController
     }
 
     /**
-     * Update a given category
-     *
      * @param $hash
-     * @param CategoryRequest $request
+     * @param \jorenvanhocht\Blogify\Requests\CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update ($hash, CategoryRequest $request)
@@ -158,8 +144,6 @@ class CategoriesController extends BaseController
     }
 
     /**
-     * Delete a given category
-     *
      * @param $hash
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -218,7 +202,7 @@ class CategoriesController extends BaseController
      * Save the given category in the db
      *
      * @param $request
-     * @return Category
+     * @return \jorenvanhocht\Blogify\Models\Category
      */
     private function storeOrUpdateCategory($request)
     {

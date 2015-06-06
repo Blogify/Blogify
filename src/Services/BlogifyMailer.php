@@ -8,14 +8,14 @@ class BlogifyMailer
     /**
      * Holds an instance of the Mailter contract
      *
-     * @var Mailer
+     * @var \Illuminate\Contracts\Mail\Mailer
      */
     protected $mail;
 
     /**
      * Construct the class
      *
-     * @param Mailer $mail
+     * @param \Illuminate\Contracts\Mail\Mailer $mail
      */
     public function __construct(Mailer $mail)
     {

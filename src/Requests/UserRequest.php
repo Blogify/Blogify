@@ -20,10 +20,6 @@ class UserRequest extends Request
 	 */
 	protected $rules;
 
-	/**
-	 * Construct the request
-	 *
-	 */
 	public function __construct()
 	{
 		if (! Input::has('_method')) $this->generateSpecificsArray();

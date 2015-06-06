@@ -41,7 +41,7 @@ class Post extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withTrashed();
     }
 
     public function comment()
@@ -51,7 +51,7 @@ class Post extends BaseModel
 
     public function category()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\Category');
+        return $this->belongsTo('jorenvanhocht\Blogify\Models\Category')->withTrashed();
     }
 
     public function media()
@@ -66,7 +66,7 @@ class Post extends BaseModel
 
     public function tag()
     {
-        return $this->belongsToMany('jorenvanhocht\Blogify\Models\tag', 'posts_have_tags', 'post_id', 'tag_id');
+        return $this->belongsToMany('jorenvanhocht\Blogify\Models\tag', 'posts_have_tags', 'post_id', 'tag_id')->withTrashed();
     }
 
     public function status()

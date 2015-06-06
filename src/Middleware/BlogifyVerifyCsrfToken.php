@@ -7,6 +7,9 @@ use Illuminate\Session\TokenMismatchException;
 class BlogifyVerifyCsrfToken extends VerifyCsrfToken
 {
 
+    /**
+     * @var array
+     */
     protected $routes = [
         'admin/posts/image/upload',
     ];
@@ -33,8 +36,6 @@ class BlogifyVerifyCsrfToken extends VerifyCsrfToken
     }
 
     /**
-     * Exclude given routes from CSRF protection
-     *
      * @param $request
      * @return bool
      */

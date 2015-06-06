@@ -22,51 +22,37 @@ class PostsController extends BaseController
 {
 
     /**
-     * Holds an instance of the Post model
-     *
-     * @var Post
+     * @var \jorenvanhocht\Blogify\Models\Post
      */
     protected $post;
 
     /**
-     * Holds an instance of the Status model
-     *
-     * @var Status
+     * @var \jorenvanhocht\Blogify\Models\Status
      */
     protected $status;
 
     /**
-     * Holds an instance of the Visibility model
-     *
-     * @var Visibility
+     * @var \jorenvanhocht\Blogify\Models\Visibility
      */
     protected $visibility;
 
     /**
-     * Holds an instance of the User model
-     *
-     * @var User
+     * @var \App\User
      */
     protected $user;
 
     /**
-     * Holds an instance of the Category model
-     *
-     * @var Category
+     * @var \jorenvanhocht\Blogify\Models\Category
      */
     protected $category;
 
     /**
-     * Holds an instance of the Tag model
-     *
-     * @var Tag
+     * @var \jorenvanhocht\Blogify\Models\Tag
      */
     protected $tag;
 
     /**
-     * Holds an instance of the Role model
-     *
-     * @var Role
+     * @var \jorenvanhocht\Blogify\Models\Role
      */
     protected $role;
 
@@ -86,48 +72,44 @@ class PostsController extends BaseController
     protected $tags = [];
 
     /**
-     * Holds an instance of the BlogifyMailer class
-     *
-     * @var BlogifyMailer
+     * @var \jorenvanhocht\Blogify\Services\BlogifyMailer
      */
     protected $mail;
 
     /**
-     * Holds an instance of the Cache contract
-     *
-     * @var Repository
+     * @var \Illuminate\Contracts\Cache\Repository;
      */
     protected $cache;
 
     /**
-     * @var Hasher
+     * @var \Illuminate\Contracts\Hashing\Hasher
      */
     protected $hash;
 
     /**
-     * @var Blogify
+     * @var \jorenvanhocht\Blogify\Blogify
      */
     protected $blogify;
 
     /**
-     * @var Tracert
+     * @var \jorenvanhocht\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * @param Tag $tag
-     * @param Role $role
-     * @param User $user
-     * @param Post $post
-     * @param BlogifyMailer $mail
-     * @param Hasher $hash
-     * @param Status $status
-     * @param Repository $cache
-     * @param Category $category
-     * @param Visibility $visibility
-     * @param Guard $auth
-     * @param Blogify $blogify
-     * @param Tracert $tracert
+     * @param \jorenvanhocht\Blogify\Models\Tag $tag
+     * @param \jorenvanhocht\Blogify\Models\Role $role
+     * @param \App\User $user
+     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \jorenvanhocht\Blogify\Services\BlogifyMailer $mail
+     * @param \Illuminate\Contracts\Hashing\Hasher $hash
+     * @param \jorenvanhocht\Blogify\Models\Status $status
+     * @param \Illuminate\Contracts\Cache\Repository $cache
+     * @param \jorenvanhocht\Blogify\Models\Category $category
+     * @param \jorenvanhocht\Blogify\Models\Visibility $visibility
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \jorenvanhocht\Blogify\Blogify $blogify
+     * @param \jorenvanhocht\Tracert\Tracert $tracert
      */
     public function __construct(
         Tag $tag,
@@ -167,8 +149,6 @@ class PostsController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Show the view with the overview off all posts
-     *
      * @param bool $trashed
      * @return \Illuminate\View\View
      */
@@ -192,8 +172,6 @@ class PostsController extends BaseController
     }
 
     /**
-     * Show the view to create a new post
-     *
      * @return \Illuminate\View\View
      */
     public function create()
@@ -206,9 +184,7 @@ class PostsController extends BaseController
     }
 
     /**
-     * Show the view to display a given post
-     *
-     * @param $slug
+     * @param $hash
      * @return \Illuminate\View\View
      */
     public function show ($hash)
@@ -223,8 +199,6 @@ class PostsController extends BaseController
     }
 
     /**
-     * Show the view to edit a given post
-     *
      * @param $hash
      * @return \Illuminate\View\View
      */
@@ -246,10 +220,9 @@ class PostsController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Store a new post and call all
-     * side functions
+     * Store or update a post
      *
-     * @param PostRequest $request
+     * @param \jorenvanhocht\Blogify\Requests\PostRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(PostRequest $request)
@@ -274,14 +247,12 @@ class PostsController extends BaseController
         session()->flash('notify', ['success', $message]);
 
         $hash = $this->auth_user->hash;
-        $this->cache->has("autoSavedPost-$hash");
+        $this->cache->forget("autoSavedPost-$hash");
 
         return redirect()->route('admin.posts.index');
     }
 
     /**
-     * Delete a given post
-     *
      * @param $hash
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -308,7 +279,7 @@ class PostsController extends BaseController
      * calling this function because we are using the
      * CKEditor within an iframe :(
      *
-     * @param ImageUploadRequest $request
+     * @param \jorenvanhocht\Blogify\Requests\ImageUploadRequest $request
      * @return string
      */
     public function uploadImage(ImageUploadRequest $request)
@@ -332,6 +303,12 @@ class PostsController extends BaseController
     public function cancel($hash = null)
     {
         if (! isset($hash)) return redirect()->route('admin.posts.index');
+
+        $userHash = $this->auth_user->hash;
+        if ($this->cache->has("autoSavedPost-$userHash"))
+        {
+            $this->cache->forget("autoSavedPost-$userHash");
+        }
 
         $post = $this->post->byHash($hash);
         $post->being_edited_by = null;
@@ -369,8 +346,6 @@ class PostsController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Add middleware to some functions
-     *
      * @return void
      */
     private function appendMiddleware()
@@ -412,8 +387,6 @@ class PostsController extends BaseController
     }
 
     /**
-     * Resize and save an uploaded image
-     *
      * @param $image
      * @return string
      */
@@ -433,8 +406,6 @@ class PostsController extends BaseController
     }
 
     /**
-     * Generate the full path to the uploaded image
-     *
      * @param $image_name
      * @param $extension
      * @return string
@@ -445,8 +416,6 @@ class PostsController extends BaseController
     }
 
     /**
-     * Generate a name for the uploaded image
-     *
      * @return string
      */
     private function createImageName()
@@ -455,10 +424,6 @@ class PostsController extends BaseController
     }
 
     /**
-     * Separate the given tags and
-     * store them separately in the
-     * global array
-     *
      * @return void
      */
     private function buildTagsArray()
@@ -471,10 +436,7 @@ class PostsController extends BaseController
     }
 
     /**
-     * Store a new post or update an
-     * given post in the DB
-     *
-     * @return Post
+     * @return \jorenvanhocht\Blogify\Models\Post
      */
     private function storeOrUpdatePost()
     {
@@ -487,7 +449,6 @@ class PostsController extends BaseController
 
         $post->slug = $this->data->slug;
         $post->title = $this->data->title;
-        $post->short_description = $this->data->short_description;
         $post->content = $this->data->post;
         $post->status_id = $this->status->byHash($this->data->status)->id;
         $post->publish_date = $this->data->publishdate;
@@ -497,7 +458,7 @@ class PostsController extends BaseController
         $post->category_id = $this->category->byHash($this->data->category)->id;
         $post->being_edited_by = null;
 
-        if (isset($this->data->password)) $post->password = $this->hash->make($this->data->password);
+        if (!empty($this->data->password)) $post->password = $this->hash->make($this->data->password);
 
         $post->save();
         $post->tag()->sync($this->tags);
@@ -506,10 +467,6 @@ class PostsController extends BaseController
     }
 
     /**
-     * Send the assigned reviewer a
-     * mail to notify him that he
-     * is assigned
-     *
      * @param $post
      * @return void
      */
@@ -540,7 +497,6 @@ class PostsController extends BaseController
         $post['hash'] = '';
         $post['title'] = $cached_post['title'];
         $post['slug'] = $cached_post['slug'];
-        $post['short_description'] = $cached_post['short_description'];
         $post['content'] = $cached_post['content'];
         $post['publish_date'] = $cached_post['publishdate'];
         $post['status_id'] = $this->status->byHash($cached_post['status'])->id;
@@ -553,9 +509,6 @@ class PostsController extends BaseController
     }
 
     /**
-     * Build an array with all the
-     * tags for a cached post
-     *
      * @param $tags
      * @return array
      */

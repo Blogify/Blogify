@@ -8,18 +8,18 @@ class PostRequest extends Request
 {
 
     /**
-     * @var Post
+     * @var \jorenvanhocht\Blogify\Models\Post
      */
     protected $post;
 
     /**
-     * @var Visibility
+     * @var \jorenvanhocht\Blogify\Models\Visibility
      */
     protected $visibility;
 
     /**
-     * @param Post $post
-     * @param Visibility $visibility
+     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \jorenvanhocht\Blogify\Models\Visibility $visibility
      */
     public function __construct(Post $post, Visibility $visibility)
     {
@@ -51,7 +51,6 @@ class PostRequest extends Request
         return [
             'title'             => 'required|min:2|max:100',
             'slug'              => "required|unique:posts,slug,$id|min:2|max:120",
-            'short_description' => 'required|min:2|max:400',
             'reviewer'          => 'exists:users,hash',
             'post'              => 'required',
             'category'          => 'required|exists:categories,hash',

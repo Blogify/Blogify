@@ -194,6 +194,11 @@ Route::group($admin, function()
                 'as'    => 'admin.api.autosave',
                 'uses'  => 'ApiController@autoSave',
             ]);
+
+            Route::get('tags/{hash}', [
+                'as' => 'admin.api.tags',
+                'uses' => 'ApiController@getTag'
+            ]);
         });
 
     });

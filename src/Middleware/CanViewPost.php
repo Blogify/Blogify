@@ -10,22 +10,20 @@ class CanViewPost
     /**
      * The Guard implementation.
      *
-     * @var Guard
+     * @var \Illuminate\Contracts\Auth\Guard
      */
     protected $auth;
 
     /**
-     * Holds an instance of the post model
-     *
-     * @var Post
+     * @var \jorenvanhocht\Blogify\Models\Post
      */
     protected $post;
 
     /**
      * Create a new filter instance.
      *
-     * @param Post $post
-     * @param Guard $auth
+     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \Illuminate\Contracts\Auth\Guard $auth
      */
     public function __construct(Guard $auth, Post $post)
     {
@@ -48,9 +46,6 @@ class CanViewPost
     }
 
     /**
-     * Check if the user has permission
-     * to edit the requested post
-     *
      * @return bool
      */
     private function checkIfUserCanViewPost($request)

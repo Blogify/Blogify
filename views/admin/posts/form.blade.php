@@ -33,18 +33,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('slug') ? 'has-error' : '' }}">
+                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('slug') ? 'has-error' : '' }} has-feedback">
                     {!! Form::text('slug', isset($post) ? $post->slug : '', [ 'class' => 'form-control', 'id' => 'slug', 'placeholder' => trans("blogify::posts.form.slug.placeholder") ] ) !!}
+                    <span class="hidden form-control-feedback" aria-hidden="true"><img src="{{URL::asset('assets/blogify/img/ajax-loader.gif')}}" /></span>
                     @if ( $errors->has('slug') )
                         <span class="help-block text-danger">{{$errors->first('slug')}}</span>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('short_description') ? 'has-error' : '' }}">
-                    {!! Form::textarea('short_description', isset($post) ? $post->short_description : '', ['id' => 'short_description', 'class' => 'form-control', 'placeholder' => 'Enter a short description here'] ) !!}
-                    @if ( $errors->has('short_description') )
-                        <span class="help-block text-danger">{{$errors->first('short_description')}}</span>
                     @endif
                 </div>
             </div>
@@ -75,7 +68,6 @@
                             <a data-toggle="collapse"
                                href="#collapsePublish">
                                 {{ trans("blogify::posts.form.publish.title") }}
-                                <span class="fa fa-caret-up"></span>
                             </a>
                         </h4>
                     </div>

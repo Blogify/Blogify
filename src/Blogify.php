@@ -32,8 +32,13 @@ class Blogify
      * @param int $max_length
      * @return string
      */
-    public function makeHash($table = null, $field = null, $unique_in_table = false, $min_length = 5, $max_length = 20)
-    {
+    public function makeHash(
+        $table = null,
+        $field = null,
+        $unique_in_table = false,
+        $min_length = 5,
+        $max_length = 20
+    ) {
         $hash = '';
 
         // Generate a random length for the hash between the given min and max length
@@ -54,7 +59,7 @@ class Blogify
             if (! $this->db->table($table)->where($field, '=', $hash)->get()) {
                 return $hash;
             } else {
-                return $this->makeUniqueHash($table, $field, $min_length, $max_length);
+                return $this->makeHAsh($table, $field, true, $min_length, $max_length);
             }
         } else {
             return $hash;

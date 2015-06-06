@@ -13,46 +13,38 @@ class UserController extends BaseController
 {
 
     /**
-     * Holds an instance of the User model
-     *
-     * @var User
+     * @var \App\User
      */
     protected $user;
 
     /**
-     * Holds an instance of the Role model
-     *
-     * @var Role
+     * @var \jorenvanhocht\Blogify\Models\Role
      */
     protected $role;
 
     /**
-     * Holds an instance of the BlogifyMailer class
-     *
-     * @var BlogifyMailer
+     * @var \jorenvanhocht\Blogify\Services\BlogifyMailer
      */
     protected $mail;
 
     /**
-     * Holds an instance of the Hasher contract
-     *
-     * @var Hash
+     * @var \Illuminate\Contracts\Hashing\Hasher
      */
     protected $hash;
 
     /**
-     * @var Blogify
+     * @var \jorenvanhocht\Blogify\Blogify
      */
     protected $blogify;
 
     /**
-     * @param User $user
-     * @param Role $role
-     * @param BlogifyMailer $mail
-     * @param Hash $hash
-     * @param Guard $auth
-     * @param Blogify $blogify
-     * @param Tracert $tracert
+     * @param \App\User $user
+     * @param \jorenvanhocht\Blogify\Models\Role $role
+     * @param \jorenvanhocht\Blogify\Services\BlogifyMailer $mail
+     * @param \Illuminate\Contracts\Hashing\Hasher $hash
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \jorenvanhocht\Blogify\Blogify $blogify
+     * @param \jorenvanhocht\Tracert\Tracert $tracert
      */
     public function __construct(
         User $user,
@@ -78,8 +70,6 @@ class UserController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Show the view with all the active users
-     *
      * @return \Illuminate\View\View
      */
     public function index($trashed = false)
@@ -101,8 +91,6 @@ class UserController extends BaseController
     }
 
     /**
-     * Show the view to create a new user
-     *
      * @return \Illuminate\View\View
      */
     public function create()
@@ -115,8 +103,6 @@ class UserController extends BaseController
     }
 
     /**
-     * Show the view to edit a given user
-     *
      * @param $hash
      * @return \Illuminate\View\View
      */
@@ -135,10 +121,8 @@ class UserController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Store a new user in the database
-     *
-     * @param UserRequest $request
-     * @return mixed
+     * @param \jorenvanhocht\Blogify\Requests\UserRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(UserRequest $request)
     {
@@ -162,9 +146,7 @@ class UserController extends BaseController
     }
 
     /**
-     * Update a given user in the database
-     *
-     * @param UserRequest $request
+     * @param \jorenvanhocht\Blogify\Requests\UserRequest $request
      * @param $hash
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -185,8 +167,6 @@ class UserController extends BaseController
     }
 
     /**
-     * Delete a given user
-     *
      * @param $hash
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -226,6 +206,11 @@ class UserController extends BaseController
     // Helper methods
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * @param $data
+     * @param null $hash
+     * @return array
+     */
     private function storeOrUpdateUser($data, $hash = null)
     {
         $password = null;
@@ -248,4 +233,5 @@ class UserController extends BaseController
 
         return ['user' => $user, 'password' => $password];
     }
+
 }

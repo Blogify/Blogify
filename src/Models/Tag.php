@@ -29,6 +29,10 @@ class Tag extends BaseModel
      */
     public $timestamps = true;
 
+    /**
+     * @param $tags
+     * @return \Illuminate\Validation\Validator
+     */
     public function validate($tags)
     {
         $rules = [];

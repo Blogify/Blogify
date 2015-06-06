@@ -11,29 +11,25 @@ class ProfileController extends BaseController
 {
 
     /**
-     * Holds an instance of the User model
-     *
-     * @var User
+     * @var \App\User
      */
     protected $user;
 
     /**
-     * @var Tracert
+     * @var \jorenvanhocht\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * @var Hasher
+     * @var \Illuminate\Contracts\Hashing\Hasher
      */
     protected $hash;
 
     /**
-     * Construct the class
-     *
-     * @param User $user
-     * @param Guard $auth
-     * @param Tracert $tracert
-     * @param Hasher $hash
+     * @param \App\User $user
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \jorenvanhocht\Tracert\Tracert $tracert
+     * @param \Illuminate\Contracts\Hashing\Hasher $hash
      */
     public function __construct(
         User $user,
@@ -56,8 +52,6 @@ class ProfileController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Show the view to edit a given profile
-     *
      * @param $hash
      * @return \Illuminate\View\View
      */
@@ -75,10 +69,8 @@ class ProfileController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Update the profile of the given user
-     *
      * @param $hash
-     * @param ProfileUpdateRequest $request
+     * @param \jorenvanhocht\Blogify\Requests\ProfileUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update($hash, ProfileUpdateRequest $request)
@@ -110,8 +102,6 @@ class ProfileController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Call the functions to handle the profile picture
-     *
      * @param $image
      * @param $user
      */
@@ -126,8 +116,6 @@ class ProfileController extends BaseController
     }
 
     /**
-     * Generate a file name for the profile picture
-     *
      * @return string
      */
     private function generateFilename()
@@ -136,8 +124,6 @@ class ProfileController extends BaseController
     }
 
     /**
-     * Resize and save the profile picture
-     *
      * @param $image
      * @param $filename
      * @return string
@@ -158,9 +144,6 @@ class ProfileController extends BaseController
     }
 
     /**
-     * Remove the old profile picture
-     * from the server
-     *
      * @param $oldPicture
      */
     private function removeOldPicture($oldPicture)

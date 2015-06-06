@@ -6,8 +6,6 @@ use Illuminate\Contracts\Auth\Guard;
 class BaseController extends Controller
 {
     /**
-     * Holds an instance of the Auth object
-     *
      * @var \Illuminate\Contracts\Auth\Guard
      */
     protected $auth;
@@ -20,9 +18,7 @@ class BaseController extends Controller
     protected $auth_user;
 
     /**
-     * Holds the configuration settings
-     *
-     * @var
+     * @var \Illuminate\Support\Facades\Config
      */
     protected $config;
 

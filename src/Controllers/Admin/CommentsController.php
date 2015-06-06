@@ -8,23 +8,19 @@ class CommentsController extends BaseController
 {
 
     /**
-     * Holds an instance of the comment model
-     *
-     * @var Comment
+     * @var \jorenvanhocht\Blogify\Models\Comment
      */
     protected $comment;
 
     /**
-     * @var Tracert
+     * @var \jorenvanhocht\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * Construct the class
-     *
-     * @param Comment $comment
-     * @param Guard $auth
-     * @param Tracert $tracert
+     * @param \jorenvanhocht\Blogify\Models\Comment $comment
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \jorenvanhocht\Tracert\Tracert $tracert
      */
     public function __construct(
         Comment $comment,
@@ -42,9 +38,6 @@ class CommentsController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Show the view with the overview
-     * of comments
-     *
      * @param string $revised
      * @return \Illuminate\View\View
      */
@@ -69,8 +62,6 @@ class CommentsController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Change the status of an given comment
-     *
      * @param $hash
      * @param $new_revised
      * @return \Illuminate\Http\RedirectResponse

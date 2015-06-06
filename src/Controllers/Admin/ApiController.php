@@ -7,14 +7,13 @@ use Input;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
+use jorenvanhocht\Blogify\Models\Tag;
 
 class ApiController extends BaseController
 {
 
     /**
-     * Holds an instance of the Post model
-     *
-     * @var Post
+     * @var \jorenvanhocht\Blogify\Models\Post
      */
     protected $post;
 
@@ -26,10 +25,8 @@ class ApiController extends BaseController
     protected $base_slug;
 
     /**
-     * Construct the class
-     *
-     * @param Post $post
-     * @param Guard $auth
+     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \Illuminate\Contracts\Auth\Guard $auth
      */
     public function __construct(Post $post, Guard $auth)
     {
@@ -46,7 +43,7 @@ class ApiController extends BaseController
      * @param $column
      * @param $order
      * @param bool $trashed
-     * @param DatabaseManager $db
+     * @param \Illuminate\Database\DatabaseManager $db
      * @return object
      */
     public function sort(
@@ -92,7 +89,7 @@ class ApiController extends BaseController
     /**
      * Save the current post in the cache
      *
-     * @param Cache $cache
+     * @param \Illuminate\Contracts\Cache\Repository $cache
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function autoSave(Cache $cache)
@@ -110,5 +107,16 @@ class ApiController extends BaseController
 
         return response()->json([true, date('d-m-Y H:i:s')]);
     }
+
+    /**
+     * @param $hash
+     * @param \jorenvanhocht\Blogify\Models\Tag $tag
+     * @return mixed
+     */
+    public function getTag($hash, Tag $tag)
+    {
+        return $tag->byHash($hash);
+    }
+
 
 }

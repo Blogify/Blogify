@@ -7,12 +7,12 @@ class CategoryRequest extends Request
 {
 
     /**
-     * @var Category
+     * @var \jorenvanhocht\Blogify\Models\Category
      */
     protected $category;
 
     /**
-     * @param Category $category
+     * @param \jorenvanhocht\Blogify\Models\Category $category
      */
     public function __construct(Category $category)
     {

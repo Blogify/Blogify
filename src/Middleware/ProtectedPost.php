@@ -12,26 +12,26 @@ class ProtectedPost
     /**
      * The Guard implementation.
      *
-     * @var Guard
+     * @var \Illuminate\Contracts\Auth\Guard
      */
     protected $auth;
 
     /**
-     * @var Post
+     * @var \jorenvanhocht\Blogify\Models\Post
      */
     protected $post;
 
     /**
-     * @var Hasher
+     * @var \Illuminate\Contracts\Hashing\Hasher
      */
     protected $hash;
 
     /**
      * Create a new filter instance.
      *
-     * @param Guard $auth
-     * @param Post $post
-     * @param Hasher $hash
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \Illuminate\Contracts\Hashing\Hasher $hash
      */
     public function __construct(Guard $auth, Post $post, Hasher $hash)
     {

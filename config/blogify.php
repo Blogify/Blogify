@@ -20,8 +20,8 @@ return [
         'name'          => 'Van Hocht',
         'firstname'     => 'Joren',
         'username'      => 'admin',
-        'email'         => "vanhochtjoren@gmail.com",
-        'password'      => 'admin',
+        'email'         => env('BLOGIFY_ADMIN_EMAIL'),
+        'password'      => env('BLOGIFY_ADMIN_PASSWORD'),
     ],
 
     /**

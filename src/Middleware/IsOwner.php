@@ -10,22 +10,20 @@ class IsOwner
     /**
      * The Guard implementation.
      *
-     * @var Guard
+     * @var \Illuminate\Contracts\Auth\Guard
      */
     protected $auth;
 
     /**
-     * Holds an instance of the User model
-     *
-     * @var User
+     * @var \App\User
      */
     protected $user;
 
     /**
      * Create a new filter instance.
      *
-     * @param Guard $auth
-     * @param User $user
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \App\User $user
      */
     public function __construct(Guard $auth, User $user)
     {

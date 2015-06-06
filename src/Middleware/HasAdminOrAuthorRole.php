@@ -10,20 +10,16 @@ class HasAdminOrAuthorRole
     /**
      * The Guard implementation.
      *
-     * @var Guard
+     * @var \Illuminate\Contracts\Auth\Guard
      */
     protected $auth;
 
     /**
-     * Roles
-     *
-     * @var
+     * @var \jorenvanhocht\Blogify\Models\Role
      */
     private $role;
 
     /**
-     * Holds the allowed roles
-     *
      * @var array
      */
     private $allowed_roles = [];
@@ -31,8 +27,8 @@ class HasAdminOrAuthorRole
     /**
      * Create a new filter instance.
      *
-     * @param Role $role
-     * @param Guard $auth
+     * @param \jorenvanhocht\Blogify\Models\Role $role
+     * @param \Illuminate\Contracts\Auth\Guard $auth
      */
     public function __construct(Guard $auth, Role $role)
     {
@@ -59,9 +55,6 @@ class HasAdminOrAuthorRole
     }
 
     /**
-     * Get the allowed roles and push
-     * them in the allowed roles array
-     *
      * @return void
      */
     private function fillAlowedRolesArray()

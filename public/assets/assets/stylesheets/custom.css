@@ -107,3 +107,7 @@ th a {
     margin-top:25px;
     font-size:0.9em;
 }
+
+.form-control-feedback {
+    right:20px;
+}

@@ -12,9 +12,7 @@ class TagsController extends BaseController
 {
 
     /**
-     * Holds an instance of the Tag model
-     *
-     * @var Tag
+     * @var \jorenvanhocht\Blogify\Models\Tag
      */
     protected $tag;
 
@@ -33,22 +31,20 @@ class TagsController extends BaseController
     protected $stored_tags = [];
 
     /**
-     * @var Blogify
+     * @var \jorenvanhocht\Blogify\Blogify
      */
     protected $blogify;
 
     /**
-     * @var Tracert
+     * @var \jorenvanhocht\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * Construct the class
-     *
-     * @param Tag $tag
-     * @param Guard $auth
-     * @param Blogify $blogify
-     * @param Tracert $tracert
+     * @param \jorenvanhocht\Blogify\Models\Tag $tag
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \jorenvanhocht\Blogify\Blogify $blogify
+     * @param \jorenvanhocht\Tracert\Tracert $tracert
      */
     public function __construct(
         Tag $tag,
@@ -68,8 +64,6 @@ class TagsController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Show the view with active/deleted tags
-     *
      * @param null $trashed
      * @return \Illuminate\View\View
      */
@@ -90,8 +84,6 @@ class TagsController extends BaseController
     }
 
     /**
-     * Show the view to create new tag(s)
-     *
      * @return \Illuminate\View\View
      */
     public function create()
@@ -100,8 +92,6 @@ class TagsController extends BaseController
     }
 
     /**
-     * Show the view to edit a given tag
-     *
      * @param $hash
      * @return \Illuminate\View\View
      */
@@ -119,8 +109,6 @@ class TagsController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Store or update tag(s)
-     *
      * @return $this|array|\Illuminate\Http\RedirectResponse
      */
     public function storeOrUpdate()
@@ -159,10 +147,8 @@ class TagsController extends BaseController
     }
 
     /**
-     * Update an given tag
-     *
      * @param $hash
-     * @param TagUpdateRequest $request
+     * @param \jorenvanhocht\Blogify\Requests\TagUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update($hash, TagUpdateRequest $request)
@@ -182,8 +168,6 @@ class TagsController extends BaseController
     }
 
     /**
-     * Delete a given hash
-     *
      * @param $hash
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -224,8 +208,6 @@ class TagsController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Fill the global tags array
-     *
      * @return void
      */
     private function fillTagsArray()
@@ -235,10 +217,6 @@ class TagsController extends BaseController
     }
 
     /**
-     * Delete the spaces at the
-     * beginning or at the and
-     * of a tag
-     *
      * @return void
      */
     private function deleteSpacesAtTheBeginningAndEnd()
@@ -249,9 +227,6 @@ class TagsController extends BaseController
     }
 
     /**
-     * Store or update the tag(s)
-     * in the db
-     *
      * @return void
      */
     private function storeOrUpdateTags()
@@ -275,9 +250,6 @@ class TagsController extends BaseController
     }
 
     /**
-     * Get the names of the tags
-     * that have been added
-     *
      * @return string
      */
     private function getTagNames()

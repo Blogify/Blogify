@@ -8,13 +8,13 @@ class AuthController extends BaseController
 {
 
     /**
-     * @var Tracert
+     * @var \jorenvanhocht\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * @param Guard $auth
-     * @param Tracert $tracert
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \jorenvanhocht\Tracert\Tracert $tracert
      */
     public function __construct(Guard $auth, Tracert $tracert)
     {
@@ -41,10 +41,8 @@ class AuthController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Log the user in to the application
-     *
-     * @param LoginRequest $request
-     * @return mixed
+     * @param \jorenvanhocht\Blogify\Requests\LoginRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function login(LoginRequest $request)
     {
@@ -70,9 +68,7 @@ class AuthController extends BaseController
     }
 
     /**
-     * Log the user out
-     *
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function logout()
     {

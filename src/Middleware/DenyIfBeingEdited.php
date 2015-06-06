@@ -11,30 +11,26 @@ class DenyIfBeingEdited
     /**
      * Holds the Guard Contract
      *
-     * @var Guard
+     * @var \Illuminate\Contracts\Auth\Guard
      */
     protected $auth;
 
     /**
-     * Holds an instance of the Post model
-     *
-     * @var Post
+     * @var \jorenvanhocht\Blogify\Models\Post
      */
     protected $post;
 
     /**
-     * Holds an instance of the User model
-     *
-     * @var User
+     * @var \App\User
      */
     protected $user;
 
     /**
      * Create a new filter instance.
      *
-     * @param Guard $auth
-     * @param Post $post
-     * @param User $user
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \App\User $user
      */
     public function __construct(Guard $auth, Post $post, User $user)
     {

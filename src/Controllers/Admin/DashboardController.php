@@ -11,24 +11,22 @@ class DashboardController extends BaseController
 {
 
     /**
-     * Holds an instance of the user model
-     *
-     * @var User
+     * @var \App\User
      */
     protected $user;
 
     /**
-     * @var History
+     * @var \jorenvanhocht\Tracert\Models\History
      */
     protected $history;
 
     /**
-     * @var Post
+     * @var \jorenvanhocht\Blogify\Models\Post
      */
     protected $post;
 
     /**
-     * @var Comment
+     * @var \jorenvanhocht\Blogify\Models\Comment
      */
     protected $comment;
 
@@ -40,17 +38,17 @@ class DashboardController extends BaseController
     protected $data = [];
 
     /**
-     * @var Tracert
+     * @var \jorenvanhocht\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * @param User $user
-     * @param History $history
-     * @param Post $post
-     * @param Comment $comment
-     * @param Guard $auth
-     * @param Tracert $tracert
+     * @param \App\User $user
+     * @param \jorenvanhocht\Tracert\Models\History $history
+     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \jorenvanhocht\Blogify\Models\Comment $comment
+     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \jorenvanhocht\Tracert\Tracert $tracert
      */
     public function __construct(
         User $user,

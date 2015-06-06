@@ -214,11 +214,11 @@ var app = {
 
                 if ( 'status_id' in data['data'][i] ) {
                     // Append the actions to the last column
-                    append_data += "<td><a href='"+ newUrl + data['data'][i]['hash'] +'/edit' +"'><span class='fa fa-edit fa-fw'></span></a> <a href='"+ newUrl + data['data'][i]['hash'] +"'><span class='fa fa-eye fa-fw'></span></a> <form method='POST' action='"+ newUrl + data['data'][i]['hash'] +"' accept-charset='UTF-8' class='"+ data['data'][i]['hash'] +"' form-delete'><input name='_token' type='hidden' value='"+$('meta[name="_token"]').attr('content')+"'><input name='_method' type='hidden' value='delete'><a href='#' title='"+data['data'][i]['title']+"' class='delete' id='"+data['data'][i]['hash']+"'><span class='fa fa-trash-o fa-fw'></span></a></form></td>";
+                    append_data += "<td><a href='"+ newUrl + data['data'][i]['hash'] +'/edit' +"'><span class='fa fa-edit fa-fw'></span></a> <a href='"+ newUrl + data['data'][i]['hash'] +"'><span class='fa fa-eye fa-fw'></span></a> <form method='POST' action='"+ newUrl + data['data'][i]['hash'] +"' accept-charset='UTF-8' class='"+'form-delete '+ data['data'][i]['hash'] +"'><input name='_token' type='hidden' value='"+$('meta[name="_token"]').attr('content')+"'><input name='_method' type='hidden' value='delete'><a href='#' title='"+data['data'][i]['title']+"' class='delete' id='"+data['data'][i]['hash']+"'><span class='fa fa-trash-o fa-fw'></span></a></form></td>";
                 }
                 else {
                     // Append the actions to the last column
-                    append_data += "<td><a href='"+ newUrl + data['data'][i]['hash'] +'/edit' +"'><span class='fa fa-edit fa-fw'></span></a> <form method='POST' action='"+ newUrl + data['data'][i]['hash'] +"' accept-charset='UTF-8' class='"+ data['data'][i]['hash'] +"' form-delete'><input name='_token' type='hidden' value='"+$('meta[name="_token"]').attr('content')+"'><input name='_method' type='hidden' value='delete'><a href='#' title='"+data['data'][i]['name']+"' class='delete' id='"+data['data'][i]['hash']+"'><span class='fa fa-trash-o fa-fw'></span></a></form></td>";
+                    append_data += "<td><a href='"+ newUrl + data['data'][i]['hash'] +'/edit' +"'><span class='fa fa-edit fa-fw'></span></a> <form method='POST' action='"+ newUrl + data['data'][i]['hash'] +"' accept-charset='UTF-8' class='"+'form-delete '+ data['data'][i]['hash'] +"'><input name='_token' type='hidden' value='"+$('meta[name="_token"]').attr('content')+"'><input name='_method' type='hidden' value='delete'><a href='#' title='"+data['data'][i]['title']+"' class='delete' id='"+data['data'][i]['hash']+"'><span class='fa fa-trash-o fa-fw'></span></a></form></td>";
                 }
 
 
@@ -400,10 +400,12 @@ var app = {
         listener: function()
         {
             $('#title').keyup(app.debounce(function(e){
+                $('.form-control-feedback').removeClass('hidden');
                 app.slug.generateSlug();
             }, 1000));
 
             $('#slug').keyup(app.debounce(function(e){
+                $('.form-control-feedback').removeClass('hidden');
                 app.slug.slug = $('#slug')[0].value;
                 app.slug.slug = app.slug.slug.replace(/ /g,"-").toLowerCase();
                 app.slug.checkIfSlugIsUnique();
@@ -448,6 +450,7 @@ var app = {
         fillSlugField: function( slug )
         {
             $('#slug')[0].value = slug;
+            $('.form-control-feedback').addClass('hidden');
         }
     },
 
@@ -537,6 +540,7 @@ var app = {
                 app.tags.fillTagsArray();
                 app.tags.listener();
                 app.tags.tagDeleteListener();
+                app.tags.prefill();
             }
         },
 
@@ -609,6 +613,41 @@ var app = {
             $('#newTags')[0].value = '';
             app.tags.fillTagsArray();
             app.tags.tagDeleteListener();
+        },
+
+        /**
+         * Prefill the visible tags
+         * that where all ready added
+         * (when you have validation errors
+         * these tags where added in the
+         * background but where not visible for
+         * the end user)
+         *
+         */
+        prefill: function()
+        {
+            var tags = $('#addedTags')[0].value;
+            var hashes = tags.split(',');
+
+            $('tags').empty();
+
+            for (var i = 0; i < hashes.length; i++)
+            {
+                $.ajax({
+                    method:     'get',
+                    url:        app.generateBaseUrl() + '/admin/api/tags/' + hashes[i],
+                    dataType:   'json',
+                    success: function(data)
+                    {
+                        if ( $('.' + data['hash']).length <= 0 )
+                        {
+                            $('#tags').append('<span class="tag '+ data['hash'] +'"><a href="#" class="'+ data['hash'] +'" title="Remove tag"><span class="fa fa-times-circle"></span></a> ' + data['name'] + ' ');
+                        }
+                        $('#newTags')[0].value = '';
+                        app.tags.tagDeleteListener();
+                    }
+                });
+            }
         },
 
         /**
@@ -732,7 +771,6 @@ var app = {
             app.autoSave.data = {
                 title: $('#title')[0].value,
                 slug: $('#slug')[0].value,
-                short_description: $('#short_description')[0].value,
                 content: CKEDITOR.instances.post.getData(),
                 status: $('#status')[0].value,
                 visibility: $('#visibility')[0].value,

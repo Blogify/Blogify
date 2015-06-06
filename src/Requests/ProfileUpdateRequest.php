@@ -10,7 +10,7 @@ class ProfileUpdateRequest extends Request
     /**
      * Holds an instance of the Guard contract
      *
-     * @var Guard
+     * @var \Illuminate\Contracts\Auth\Guard
      */
     protected $auth;
 
@@ -23,7 +23,7 @@ class ProfileUpdateRequest extends Request
     protected $hash;
 
     /**
-     * @var User
+     * @var \App\User
      */
     protected $user;
 
