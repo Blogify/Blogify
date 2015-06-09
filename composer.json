@@ -10,6 +10,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "nesbot/carbon": "~1.18",
+        "illuminate/contracts": "5.0.0",
         "guzzlehttp/guzzle": "~4.0",
         "illuminate/html": "5.0.*@dev",
         "intervention/image": "~2.1",
@@ -24,14 +26,6 @@
         },
         "files": [
             "src/Helpers.php"
-        ]
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php artisan blogify:create-dirs"
-        ],
-        "post-update-cmd": [
-            "php artisan blogify:create-dirs"
         ]
     }
 }

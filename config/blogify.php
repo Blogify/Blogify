@@ -19,7 +19,7 @@ return [
     'admin_user'     => [
         'name'          => 'Van Hocht',
         'firstname'     => 'Joren',
-        'username'      => 'admin',
+        'username'      => env('BLOGIFY_ADMIN_USERNAME'),
         'email'         => env('BLOGIFY_ADMIN_EMAIL'),
         'password'      => env('BLOGIFY_ADMIN_PASSWORD'),
     ],
