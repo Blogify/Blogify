@@ -9,17 +9,17 @@ class StatusesTableSeeder extends Seeder {
     public function run()
     {
         Status::create([
-            "hash"          => Blogify::makeUniqueHash('statuses', 'hash'),
+            "hash"          => blogify()->makeHash('statuses', 'hash', true),
             "name"          => "Draft",
         ]);
 
         Status::create([
-            "hash"          => Blogify::makeUniqueHash('statuses', 'hash'),
+            "hash"          => blogify()->makeHash('statuses', 'hash', true),
             "name"          => "Pending review",
         ]);
 
         Status::create([
-            "hash"          => Blogify::makeUniqueHash('statuses', 'hash'),
+            "hash"          => blogify()->makeHash('statuses', 'hash', true),
             "name"          => "Reviewed",
         ]);
     }

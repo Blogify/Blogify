@@ -9,17 +9,17 @@ class VisibilityTableSeeder extends Seeder {
     public function run()
     {
         Visibility::create([
-            "hash"          => Blogify::makeUniqueHash('visibility', 'hash'),
+            "hash"          => blogify()->makeHash('visibility', 'hash', true),
             "name"          => "Public",
         ]);
 
         Visibility::create([
-            "hash"          => Blogify::makeUniqueHash('visibility', 'hash'),
+            "hash"          => blogify()->makeHash('visibility', 'hash', true),
             "name"          => "Protected",
         ]);
 
         Visibility::create([
-            "hash"          => Blogify::makeUniqueHash('visibility', 'hash'),
+            "hash"          => blogify()->makeHash('visibility', 'hash', true),
             "name"          => "Private",
         ]);
     }

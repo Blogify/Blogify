@@ -3,29 +3,28 @@
 use Illuminate\Database\Seeder;
 use jorenvanhocht\Blogify\Facades\Blogify;
 use jorenvanhocht\Blogify\Models\Role;
-use jorenvanhocht\Blogify\Models\User;
 
 class RolesTableSeeder extends Seeder {
 
     public function run()
     {
         Role::create([
-            "hash"          => Blogify::makeUniqueHash('roles', 'hash'),
+            "hash"          => blogify()->makeHash('roles', 'hash', true),
             "name"          => "Admin",
         ]);
 
         Role::create([
-            "hash"          => Blogify::makeUniqueHash('roles', 'hash'),
+            "hash"          => blogify()->makeHash('roles', 'hash', true),
             "name"          => "Author",
         ]);
 
         Role::create([
-            "hash"          => Blogify::makeUniqueHash('roles', 'hash'),
+            "hash"          => blogify()->makeHash('roles', 'hash', true),
             "name"          => "Reviewer",
         ]);
 
         Role::create([
-            "hash"          => Blogify::makeUniqueHash('roles', 'hash'),
+            "hash"          => blogify()->makeHash('roles', 'hash', true),
             "name"          => "Member",
         ]);
     }
