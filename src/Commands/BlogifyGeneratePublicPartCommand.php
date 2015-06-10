@@ -120,7 +120,9 @@ class BlogifyGeneratePublicPartCommand extends Command
         $basepath = __DIR__."/../../../../../resources/views/blogify/";
         $path = $basepath."templates/";
 
-        if (! file_exists($path)) mkdir($path, 775, true);
+        if (! file_exists($path)) {
+            mkdir($path, 775, true);
+        }
 
         foreach ($this->views as $key => $file) {
             $filename = $basepath . "$key.blade.php";
@@ -134,7 +136,7 @@ class BlogifyGeneratePublicPartCommand extends Command
         }
 
         foreach ($this->layouts as $key => $file) {
-            $filename = $basepath . "templates/$key.blade.php";
+            $filename = $basepath."templates/$key.blade.php";
             if (file_exists($filename)) {
                 if ($this->confirm("File $key allready exists, do you want to override it? Y/N")) {
                     copy($file, $filename);
@@ -151,7 +153,9 @@ class BlogifyGeneratePublicPartCommand extends Command
     private function publishAssets()
     {
         $path = __DIR__."/../../../../../public/assets/";
-        if (! file_exists($path)) mkdir($path, 775, true);
+        if (! file_exists($path)) {
+            mkdir($path, 775, true);
+        }
 
         foreach ($this->js as $key => $file) {
             $filename = "$path$key.js";

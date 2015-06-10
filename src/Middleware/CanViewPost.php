@@ -40,7 +40,9 @@ class CanViewPost
      */
     public function handle($request, Closure $next)
     {
-        if (! $this->checkIfUserCanViewPost($request)) return redirect()->route('/');
+        if (! $this->checkIfUserCanViewPost($request)) {
+            return redirect()->route('/');
+        }
 
         return $next($request);
     }
@@ -55,7 +57,9 @@ class CanViewPost
         $user_id = $this->auth->user()->id;
 
         if ($post->visibility_id == 'Private') {
-            if (! $post->user_id == $user_id) return false;
+            if (! $post->user_id == $user_id) {
+                return false;
+            }
         }
 
         return true;

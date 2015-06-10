@@ -81,9 +81,13 @@ class ProfileController extends BaseController
         $user->username = $request->username;
         $user->email = $request->email;
 
-        if ($request->has('newpassword')) $user->password = $this->hash->make($request->newpassword);
+        if ($request->has('newpassword')) {
+            $user->password = $this->hash->make($request->newpassword);
+        }
 
-        if ($request->hasFile('profilepicture')) $this->handleImage($request->file('profilepicture'), $user);
+        if ($request->hasFile('profilepicture')) {
+            $this->handleImage($request->file('profilepicture'), $user);
+        }
 
         $user->save();
 
@@ -110,7 +114,9 @@ class ProfileController extends BaseController
         $filename = $this->generateFilename();
         $path = $this->resizeAndSaveProfilePicture($image, $filename);
 
-        if (isset($user->profilepicture)) $this->removeOldPicture($user->profilepicture);
+        if (isset($user->profilepicture)) {
+            $this->removeOldPicture($user->profilepicture);
+        }
 
         $user->profilepicture = $path;
     }
@@ -134,7 +140,7 @@ class ProfileController extends BaseController
         $fullpath = $this->config->upload_paths->profiles->profilepictures.$filename.'.'.$extention;
 
         Image::make($image->getRealPath())
-            ->resize($this->config->image_sizes->profilepictures[0], $this->config->image_sizes->profilepictures[1] , function($constraint) {
+            ->resize($this->config->image_sizes->profilepictures[0], $this->config->image_sizes->profilepictures[1], function($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })
@@ -148,7 +154,9 @@ class ProfileController extends BaseController
      */
     private function removeOldPicture($oldPicture)
     {
-        if (file_exists($oldPicture)) unlink($oldPicture);
+        if (file_exists($oldPicture)) {
+            unlink($oldPicture);
+        }
     }
 
 }

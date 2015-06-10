@@ -99,7 +99,9 @@ class CategoriesController extends BaseController
 
         $this->tracert->log('categories', $category->id, $this->auth_user->id);
 
-        if ($request->ajax()) return $category;
+        if ($request->ajax()) {
+            return $category;
+        }
 
         $message = trans(
             'blogify::notify.success', [

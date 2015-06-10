@@ -7,7 +7,9 @@
         foreach ($post->tag as $tag) {
             $hash = $tag->hash;
 
-            if ($i < $count - 1) $hash = $hash . ',';
+            if ($i < $count - 1) {
+                $hash = $hash . ',';
+            }
 
             $hashes .= $hash;
             $i++;

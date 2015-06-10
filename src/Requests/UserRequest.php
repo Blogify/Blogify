@@ -22,7 +22,9 @@ class UserRequest extends Request
 
 	public function __construct()
 	{
-		if (! Input::has('_method')) $this->generateSpecificsArray();
+		if (! Input::has('_method')) {
+			$this->generateSpecificsArray();
+		}
 
 		$this->rules = [
 			'role'		=> 'required|exists:roles,hash',

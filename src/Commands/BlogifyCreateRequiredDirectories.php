@@ -39,8 +39,10 @@ class BlogifyCreateRequiredDirectories extends Command
     public function fire()
     {
         foreach ($this->config->upload_paths as $paths) {
-            foreach($paths as $path) {
-                if (! file_exists(public_path($path))) mkdir(public_path($path), 775, true);
+            foreach ($paths as $path) {
+                if (! file_exists(public_path($path))) {
+                    mkdir(public_path($path), 775, true);
+                }
             }
         }
     }

@@ -125,7 +125,9 @@ class TagsController extends BaseController
                 'messages' => $validation->messages(),
             ];
 
-            if (Request::ajax()) return $data;
+            if (Request::ajax()) {
+                return $data;
+            }
 
             return redirect()->back()->withErrors($validation->messages())->withInput();
         }
@@ -134,7 +136,9 @@ class TagsController extends BaseController
         $this->storeOrUpdateTags();
 
         $data = ['passed' => true, 'tags' => $this->stored_tags];
-        if (Request::ajax()) return $data;
+        if (Request::ajax()) {
+            return $data;
+        }
 
         $message = trans('blogify::notify.success', [
             'model' => 'Tags',

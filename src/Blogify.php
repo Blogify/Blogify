@@ -72,18 +72,22 @@ class Blogify
      *
      * @param $lastname
      * @param $firstname
-     * @param int $itteration
+     * @param int $iteration
      * @return string
      */
-    public function generateUniqueUsername($lastname, $firstname, $itteration = 0)
+    public function generateUniqueUsername($lastname, $firstname, $iteration = 0)
     {
         $username = strtolower(str_replace(' ', '', $lastname).substr($firstname, 0, 1));
 
-        if ($itteration != 0) $username = $username.$itteration;
+        if ($iteration != 0) {
+            $username = $username.$iteration;
+        }
 
         $usernames = count($this->db->table('users')->where('username', '=', $username)->get());
 
-        if ($usernames > 0) return $this->generateUniqueUsername($lastname, $firstname, $itteration + 1);
+        if ($usernames > 0) {
+            return $this->generateUniqueUsername($lastname, $firstname, $iteration + 1);
+        }
 
         return $username;
     }

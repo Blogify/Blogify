@@ -58,7 +58,9 @@ class ProfileUpdateRequest extends Request
         $this->hash = $this->route('profile');
         $this->user_id = $this->getUserId();
 
-        if ($this->auth->user()->id != $this->user_id) return false;
+        if ($this->auth->user()->id != $this->user_id) {
+            return false;
+        }
 
         return true;
     }

@@ -193,7 +193,9 @@ class PostsController extends BaseController
             'post' => $this->post->byHash($hash),
         ];
 
-        if ($data['post']->count() <= 0) abort(404);
+        if ($data['post']->count() <= 0) {
+            abort(404);
+        }
 
         return view('blogify::admin.posts.show', $data);
     }
@@ -231,11 +233,15 @@ class PostsController extends BaseController
             '_token', 'newCategory', 'newTags'
         ]));
 
-        if (! empty($this->data->tags)) $this->buildTagsArray();
+        if (! empty($this->data->tags)) {
+            $this->buildTagsArray();
+        }
 
         $post = $this->storeOrUpdatePost();
 
-        if ($this->status->byHash($this->data->status)->name == 'Pending review') $this->mailReviewer($post);
+        if ($this->status->byHash($this->data->status)->name == 'Pending review') {
+            $this->mailReviewer($post);
+        }
 
         $action = ($request->hash == '') ? 'created' : 'updated';
 
@@ -302,7 +308,9 @@ class PostsController extends BaseController
      */
     public function cancel($hash = null)
     {
-        if (! isset($hash)) return redirect()->route('admin.posts.index');
+        if (! isset($hash)) {
+            return redirect()->route('admin.posts.index');
+        }
 
         $userHash = $this->auth_user->hash;
         if ($this->cache->has("autoSavedPost-$userHash"))
@@ -458,7 +466,9 @@ class PostsController extends BaseController
         $post->category_id = $this->category->byHash($this->data->category)->id;
         $post->being_edited_by = null;
 
-        if (!empty($this->data->password)) $post->password = $this->hash->make($this->data->password);
+        if (!empty($this->data->password)) {
+            $post->password = $this->hash->make($this->data->password);
+        }
 
         $post->save();
         $post->tag()->sync($this->tags);
@@ -514,7 +524,9 @@ class PostsController extends BaseController
      */
     private function buildTagsArrayForPostObject($tags)
     {
-        if ($tags == "") return [];
+        if ($tags == "") {
+            return [];
+        }
 
         $aTags = [];
         $hashes = explode(',', $tags);

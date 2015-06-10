@@ -40,7 +40,9 @@ class CanEditPost
      */
     public function handle($request, Closure $next)
     {
-        if (! $this->checkIfUserCanEditPost($request)) return redirect()->route('admin.dashboard');
+        if (! $this->checkIfUserCanEditPost($request)) {
+            return redirect()->route('admin.dashboard');
+        }
 
         return $next($request);
     }
