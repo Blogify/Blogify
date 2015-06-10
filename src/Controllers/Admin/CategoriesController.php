@@ -118,9 +118,9 @@ class CategoriesController extends BaseController
      * @param \jorenvanhocht\Blogify\Requests\CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update ($hash, CategoryRequest $request)
+    public function update($hash, CategoryRequest $request)
     {
-        $category = $this->category->byHash( $hash );
+        $category = $this->category->byHash($hash);
         $category->name = $request->name;
         $category->save();
 
@@ -138,7 +138,7 @@ class CategoriesController extends BaseController
                 'action' =>'updated'
             ]
         );
-        session()->flash('notify', ['success', $message] );
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.categories.index');
     }
@@ -201,7 +201,7 @@ class CategoriesController extends BaseController
     /**
      * Save the given category in the db
      *
-     * @param $request
+     * @param CategoryRequest $request
      * @return \jorenvanhocht\Blogify\Models\Category
      */
     private function storeOrUpdateCategory($request)

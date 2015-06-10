@@ -1,5 +1,5 @@
 <?php
-$currentPage    = (Request::has('page')) ? Request::get('page') : '1';
+$currentPage = (Request::has('page')) ? Request::get('page') : '1';
 ?>
 @extends('blogify::admin.layouts.dashboard')
 @section('page_heading', trans("blogify::comments.overview.page_title") )

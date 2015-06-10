@@ -93,7 +93,7 @@ class BlogifyGeneratePublicPartCommand extends Command
     private function publishTemplates($namespace)
     {
         foreach ($this->templates as $key => $files) {
-            foreach($files as $k => $file) {
+            foreach ($files as $k => $file) {
                 $contents = $this->get_file_contents($file);
                 $contents = str_replace('{{namespace}}', $namespace."\\Http\\$key", $contents);
                 $contents = str_replace('{{appnamespace}}', $namespace, $contents);
@@ -159,8 +159,7 @@ class BlogifyGeneratePublicPartCommand extends Command
                 if ($this->confirm("File $key allready exists, do you want to override it? Y/N")) {
                     copy($file, $filename);
                 }
-            }
-            else {
+            } else {
                 copy($file, $filename);
             }
         }

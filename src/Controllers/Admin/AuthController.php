@@ -49,7 +49,7 @@ class AuthController extends BaseController
         $credentials = $this->auth->attempt([
             'email' => $request->email,
             'password' => $request->password
-        ], isset($request->rememberme) ? true : false );
+        ], isset($request->rememberme) ? true : false);
 
         if ($credentials) {
             $this->tracert->log(

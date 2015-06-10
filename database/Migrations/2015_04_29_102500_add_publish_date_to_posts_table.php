@@ -8,7 +8,7 @@ class AddPublishDateToPostsTable extends Migration {
 
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
+        Schema::table('posts', function(Blueprint $table) {
             $table->dateTime('publish_date')->after('status_id');
         });
     }

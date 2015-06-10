@@ -1,15 +1,13 @@
 <?php
-    if ( ! empty($post) && count($post->tag) > 0 )
-    {
+    if (! empty($post) && count($post->tag) > 0) {
         $hashes = '';
         $i      = 0;
         $count  = count($post->tag);
 
-        foreach ( $post->tag as $tag )
-        {
+        foreach ($post->tag as $tag) {
             $hash = $tag->hash;
 
-            if ( $i < $count - 1 ) $hash = $hash . ',';
+            if ($i < $count - 1) $hash = $hash . ',';
 
             $hashes .= $hash;
             $i++;

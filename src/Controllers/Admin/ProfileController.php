@@ -39,8 +39,8 @@ class ProfileController extends BaseController
     ) {
         parent::__construct($auth);
 
-        $this->middleware('IsOwner', ['only', 'edit'] );
-        $this->middleware('ConfirmPasswordChange', ['only', 'update'] );
+        $this->middleware('IsOwner', ['only', 'edit']);
+        $this->middleware('ConfirmPasswordChange', ['only', 'update']);
 
         $this->user = $user;
         $this->tracert = $tracert;
@@ -92,7 +92,7 @@ class ProfileController extends BaseController
         $message = trans('blogify::notify.success', [
             'model' => 'User', 'name' => $user->fullName, 'action' =>'updated'
         ]);
-        session()->flash('notify', ['success', $message] );
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.dashboard');
     }
@@ -108,7 +108,7 @@ class ProfileController extends BaseController
     private function handleImage($image, $user)
     {
         $filename = $this->generateFilename();
-        $path = $this->resizeAndSaveProfilePicture( $image, $filename );
+        $path = $this->resizeAndSaveProfilePicture($image, $filename);
 
         if (isset($user->profilepicture)) $this->removeOldPicture($user->profilepicture);
 
@@ -120,21 +120,21 @@ class ProfileController extends BaseController
      */
     private function generateFilename()
     {
-        return time() . '-' . $this->auth_user->username . '-profilepicture';
+        return time().'-'.$this->auth_user->username.'-profilepicture';
     }
 
     /**
      * @param $image
-     * @param $filename
+     * @param string $filename
      * @return string
      */
     private function resizeAndSaveProfilePicture($image, $filename)
     {
         $extention = $image->getClientOriginalExtension();
-        $fullpath = $this->config->upload_paths->profiles->profilepictures . $filename . '.' . $extention;
+        $fullpath = $this->config->upload_paths->profiles->profilepictures.$filename.'.'.$extention;
 
         Image::make($image->getRealPath())
-            ->resize($this->config->image_sizes->profilepictures[0], $this->config->image_sizes->profilepictures[1] , function ($constraint) {
+            ->resize($this->config->image_sizes->profilepictures[0], $this->config->image_sizes->profilepictures[1] , function($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })

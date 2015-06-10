@@ -8,7 +8,7 @@ class AddRevisedColumnToCommentsTable extends Migration {
 
     public function up()
     {
-        Schema::table('comments', function (Blueprint $table) {
+        Schema::table('comments', function(Blueprint $table) {
             $table->integer('revised')->after('post_id');
         });
     }

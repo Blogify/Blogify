@@ -8,7 +8,7 @@ class AddStatusAndVisibilityIdToPostsTable extends Migration {
 
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
+        Schema::table('posts', function(Blueprint $table) {
             $table->integer('status_id')->after('category_id');
             $table->integer('visibility_id')->after('category_id');
         });

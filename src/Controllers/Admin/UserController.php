@@ -156,7 +156,7 @@ class UserController extends BaseController
         $user = $data['user'];
         $message = trans('blogify::notify.success', [
             'model' => 'User',
-            'name' => $user->firstname . ' ' . $user->name,
+            'name' => $user->firstname.' '.$user->name,
             'action' =>'updated'
         ]);
 
@@ -207,7 +207,7 @@ class UserController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param $data
+     * @param \jorenvanhocht\Blogify\Requests\UserRequest $data
      * @param null $hash
      * @return array
      */

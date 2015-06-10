@@ -178,7 +178,7 @@ class PostsController extends BaseController
     {
         $hash = $this->auth_user->hash;
         $post = $this->cache->has("autoSavedPost-$hash") ? $this->buildPostObject() : null;
-        $data = $this->getViewData( $post );
+        $data = $this->getViewData($post);
 
         return view('blogify::admin.posts.form', $data);
     }
@@ -187,7 +187,7 @@ class PostsController extends BaseController
      * @param $hash
      * @return \Illuminate\View\View
      */
-    public function show ($hash)
+    public function show($hash)
     {
         $data = [
             'post' => $this->post->byHash($hash),
@@ -285,7 +285,7 @@ class PostsController extends BaseController
     public function uploadImage(ImageUploadRequest $request)
     {
         $image_name = $this->resizeAndSaveImage($request->file('upload'));
-        $path = config('app.url').'/uploads/posts/' . $image_name;
+        $path = config('app.url').'/uploads/posts/'.$image_name;
         $func = $request->get('CKEditorFuncNum');
         $result = "<script>window.parent.CKEDITOR.tools.callFunction($func, '$path', 'Image has been uploaded')</script>";
 
@@ -396,23 +396,23 @@ class PostsController extends BaseController
         $fullpath = $this->createFullImagePath($image_name, $image->getClientOriginalExtension());
 
         Image::make($image->getRealPath())
-            ->resize($this->config->image_sizes->posts[0], null, function ($constraint) {
+            ->resize($this->config->image_sizes->posts[0], null, function($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })
             ->save($fullpath);
 
-        return $image_name . '.' . $image->getClientOriginalExtension();
+        return $image_name.'.'.$image->getClientOriginalExtension();
     }
 
     /**
-     * @param $image_name
+     * @param string $image_name
      * @param $extension
      * @return string
      */
     private function createFullImagePath($image_name, $extension)
     {
-        return public_path($this->config->upload_paths->posts->images . $image_name . '.' . $extension);
+        return public_path($this->config->upload_paths->posts->images.$image_name.'.'.$extension);
     }
 
     /**
@@ -420,7 +420,7 @@ class PostsController extends BaseController
      */
     private function createImageName()
     {
-        return time() . '-' . str_replace(' ', '-', $this->auth_user->fullName);
+        return time().'-'.str_replace(' ', '-', $this->auth_user->fullName);
     }
 
     /**
@@ -467,7 +467,7 @@ class PostsController extends BaseController
     }
 
     /**
-     * @param $post
+     * @param \jorenvanhocht\Blogify\Models\Post $post
      * @return void
      */
     private function mailReviewer($post)
@@ -478,7 +478,7 @@ class PostsController extends BaseController
             'post'      => $post,
         ];
 
-        $this->mail->mailReviewer($reviewer->email, 'An article needs your expertise' , $data);
+        $this->mail->mailReviewer($reviewer->email, 'An article needs your expertise', $data);
     }
 
     /**

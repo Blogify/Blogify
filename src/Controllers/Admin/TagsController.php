@@ -98,7 +98,7 @@ class TagsController extends BaseController
     public function edit($hash)
     {
         $data = [
-            'tag' => $this->tag->byHash( $hash ),
+            'tag' => $this->tag->byHash($hash),
         ];
 
         return view('blogify::admin.tags.form', $data);
@@ -133,7 +133,7 @@ class TagsController extends BaseController
         // store or update the tag in the db
         $this->storeOrUpdateTags();
 
-        $data = [ 'passed' => true, 'tags' => $this->stored_tags ];
+        $data = ['passed' => true, 'tags' => $this->stored_tags];
         if (Request::ajax()) return $data;
 
         $message = trans('blogify::notify.success', [
@@ -257,7 +257,7 @@ class TagsController extends BaseController
         $tags = '';
 
         foreach ($this->stored_tags as $tag) {
-            $tags .= $tag->name . ', ';
+            $tags .= $tag->name.', ';
         }
 
         return $tags;

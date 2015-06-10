@@ -40,9 +40,9 @@ class BlogifyServiceProvider extends ServiceProvider
             return new Blogify($db, $config);
         });
 
-       $this->registerMiddleware();
-       $this->registerServiceProviders();
-       $this->registerAliases();
+        $this->registerMiddleware();
+        $this->registerServiceProviders();
+        $this->registerAliases();
     }
 
     /**
@@ -52,7 +52,7 @@ class BlogifyServiceProvider extends ServiceProvider
     public function boot()
     {
         // Load the routes for the package
-        include __DIR__ . '/routes.php';
+        include __DIR__.'/routes.php';
 
         $this->publish();
 

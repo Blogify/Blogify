@@ -72,8 +72,8 @@ Trait BlogifyUserTrait
         return $query->where(function($q) use ($reviewer_role_id, $admin_role_id)
         {
             $q->whereRoleId($reviewer_role_id)
-                ->orWhere( 'role_id', '=', $admin_role_id );
-        })->where( 'id', '<>', Auth::user()->id )->get();
+                ->orWhere('role_id', '=', $admin_role_id);
+        })->where('id', '<>', Auth::user()->id)->get();
     }
 
     /*
@@ -88,7 +88,7 @@ Trait BlogifyUserTrait
 
     public function getFullNameAttribute()
     {
-        return $this->attributes['firstname'] . ' ' . $this->attributes['name'];
+        return $this->attributes['firstname'].' '.$this->attributes['name'];
     }
 }
 

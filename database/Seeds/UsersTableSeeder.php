@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder {
             'firstname'     => $this->admin['firstname'],
             'username'      => $this->admin['username'],
             'email'         => $this->admin['email'],
-            'password'      => Hash::make( $this->admin['password'] ),
+            'password'      => Hash::make($this->admin['password']),
             'role_id'       => $this->admin_role,
             'created_at'    => Carbon::now(),
             'updated_at'    => Carbon::now()

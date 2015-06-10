@@ -46,6 +46,7 @@ class CanViewPost
     }
 
     /**
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
     private function checkIfUserCanViewPost($request)

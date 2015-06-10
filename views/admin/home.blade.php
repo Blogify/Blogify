@@ -114,7 +114,7 @@
                     @foreach ( $activity as $item )
                         @if( $item->table == 'posts' )
                             <?php
-                                $icon = 'fa-pencil' ;
+                                $icon = 'fa-pencil';
                                 $post = jorenvanhocht\Blogify\Models\Post::withTrashed()->find($item->row);
                             ?>
                                 <a href="{{route('admin.posts.edit', [$post->hash])}}" class="list-group-item">

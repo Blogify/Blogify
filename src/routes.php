@@ -59,7 +59,7 @@ $admin = [
 
 Route::group($admin, function()
 {
-    Route::group( ['middleware' => 'BlogifyGuest'], function(){
+    Route::group(['middleware' => 'BlogifyGuest'], function(){
         // Login
         Route::get('login', [
             'as'    =>  'admin.login',
@@ -107,7 +107,7 @@ Route::group($admin, function()
                 'uses' => 'CategoriesController@index',
             ]);
             Route::get('categories/{hash}/restore', [
-               'as' => 'admin.categories.restore',
+                'as' => 'admin.categories.restore',
                 'uses' => 'CategoriesController@restore'
             ]);
         });
@@ -121,7 +121,7 @@ Route::group($admin, function()
             'except' => 'store', 'update'
         ]);
         Route::post('posts', [
-           'as'     => 'admin.posts.store',
+            'as'     => 'admin.posts.store',
             'uses'  => 'PostsController@store'
         ]);
         Route::post('posts/image/upload', [
@@ -141,7 +141,7 @@ Route::group($admin, function()
             'uses' => 'PostsController@restore'
         ]);
 
-        Route::group(['middleware' => 'HasAdminOrAuthorRole'], function(){
+        Route::group(['middleware' => 'HasAdminOrAuthorRole'], function() {
             Route::resource('tags', 'TagsController', [
                 'except'    => 'store'
             ]);

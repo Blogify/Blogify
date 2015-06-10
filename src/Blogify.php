@@ -77,9 +77,9 @@ class Blogify
      */
     public function generateUniqueUsername($lastname, $firstname, $itteration = 0)
     {
-        $username = strtolower(str_replace(' ', '', $lastname) . substr($firstname, 0, 1));
+        $username = strtolower(str_replace(' ', '', $lastname).substr($firstname, 0, 1));
 
-        if ($itteration != 0) $username = $username . $itteration;
+        if ($itteration != 0) $username = $username.$itteration;
 
         $usernames = count($this->db->table('users')->where('username', '=', $username)->get());
 

@@ -1,5 +1,5 @@
 <?php
-$editable = (isset($user)) ? "disabled" : null ;
+$editable = (isset($user)) ? "disabled" : null;
 ?>
 @extends('blogify::admin.layouts.dashboard')
 @section('page_heading', isset($user) ? trans("blogify::users.form.page_title_edit")  : trans("blogify::users.form.page_title_create") )

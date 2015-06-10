@@ -46,7 +46,7 @@ class CanEditPost
     }
 
     /**
-     * @param $request
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
     private function checkIfUserCanEditPost($request)

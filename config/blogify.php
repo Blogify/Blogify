@@ -51,7 +51,7 @@ return [
      *
      */
     'image_sizes'   => [
-        'posts' => [500,null],
+        'posts' => [500, null],
         'profilepictures' => [100, 100],
     ],
 

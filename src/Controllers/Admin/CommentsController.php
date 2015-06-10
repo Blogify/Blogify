@@ -68,7 +68,7 @@ class CommentsController extends BaseController
      */
     public function changeStatus($hash, $new_revised)
     {
-        $revised = $this->checkRevised( $new_revised );
+        $revised = $this->checkRevised($new_revised);
         if ($revised === false) abort(404);
 
         $comment = $this->comment->byHash($hash);
@@ -86,7 +86,7 @@ class CommentsController extends BaseController
             'blogify::notify.comment_success',
             ['action' => $new_revised]
         );
-        session()->flash('notify', [ 'success', $message]);
+        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.comments.index');
     }
