@@ -77,7 +77,7 @@ class UserController extends BaseController
         $data = [
             'users' => (! $trashed) ?
                     $this->user
-                        ->orderBy('name', 'ASC')
+                        ->orderBy('lastname', 'ASC')
                         ->paginate($this->config->items_per_page)
                     :
                     $this->user

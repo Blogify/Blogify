@@ -168,28 +168,6 @@ var app = {
             for ( var i = 0; i < data['data'].length; i++ )
             {
                 var row = '<tr>';
-                if ( 'status_id' in data['data'][i] )
-                {
-                    /**
-                     * IN SWITCH STEKEN
-                     */
-                    if (data['data'][i].status_id == 1)
-                    {
-                        row = '<tr class="danger">';
-                    }
-                    if (data['data'][i].status_id == 2)
-                    {
-                        row = '<tr class="warning">';
-                    }
-                    if (data['data'][i].status_id == 3)
-                    {
-                        row = '<tr class="info">';
-                    }
-                    if (data['data'][i].publish_date <= app.sortable.getDateTime())
-                    {
-                        row = "<tr>"
-                    }
-                }
 
                 append_data += row;
 
@@ -202,6 +180,14 @@ var app = {
                     if(columnName == 'created_at' || columnName == 'publish_date')
                     {
                         data['data'][i][columnName] = app.sortable.getHumanReadableDatetime(new Date(data['data'][i][columnName]));
+                    }
+
+                    if(columnName == 'role_id') {
+                        data['data'][i][columnName] = data['data'][i]['name'];
+                    }
+
+                    if(columnName == 'status_id') {
+                        data['data'][i][columnName] = data['data'][i]['name'];
                     }
 
                     append_data += "<td>" + data['data'][i][columnName] + "</td>";

@@ -60,6 +60,14 @@ class ApiController extends BaseController
         // Check for trashed data
         $data = $trashed ? $data->whereNotNull('deleted_at') : $data->whereNull('deleted_at');
 
+        if ($table == 'users') {
+            $data = $data->join('roles', 'users.role_id', '=', 'roles.id');
+        }
+
+        if ($table == 'posts') {
+            $data = $data->join('statuses', 'posts.status_id', '=', 'statuses.id');
+        }
+
         $data = $data
             ->orderBy($column, $order)
             ->paginate($this->config->items_per_page);

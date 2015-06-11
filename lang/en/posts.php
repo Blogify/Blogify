@@ -9,8 +9,9 @@ return [
             'title_active'     => 'Posts',
             'title_trashed'    => 'Deleted posts',
             'hash'             => 'Hash',
-            'title'            => 'title',
-            'slug'             => 'slug',
+            'title'            => 'Title',
+            'slug'             => 'Slug',
+            'status'           => 'Status',
             'publish_date'     => 'Publish date',
             'actions'          => 'Actions'
         ],

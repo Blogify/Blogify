@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder {
     {
         User::create([
             'hash'          => blogify()->makeHash('users', 'hash', true),
-            'name'          => $this->admin['name'],
+            'lastname'          => $this->admin['name'],
             'firstname'     => $this->admin['firstname'],
             'username'      => $this->admin['username'],
             'email'         => $this->admin['email'],

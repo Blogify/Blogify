@@ -159,7 +159,6 @@
                     @endforeach
                 </div>
                 <!-- /.list-group -->
-                <a href="#" class="btn btn-default btn-block">@lang('blogify::dashboard.activity_feed.all_activity')</a>
 
                 <!-- /.panel-body -->
             @endsection

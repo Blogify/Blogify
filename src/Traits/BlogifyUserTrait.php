@@ -88,7 +88,7 @@ Trait BlogifyUserTrait
 
     public function getFullNameAttribute()
     {
-        return $this->attributes['firstname'].' '.$this->attributes['name'];
+        return $this->attributes['firstname'].' '.$this->attributes['lastname'];
     }
 }
 

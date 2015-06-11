@@ -71,7 +71,7 @@ class Post extends BaseModel
 
     public function status()
     {
-        return $this->belongsTo('jorenvanhoch\Blogify\Models\Status');
+        return $this->belongsTo('jorenvanhocht\Blogify\Models\Status');
     }
 
     public function visibility()
