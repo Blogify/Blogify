@@ -61,11 +61,6 @@ class Post extends BaseModel
         return $this->hasMany('jorenvanhocht\Blogify\Models\Media');
     }
 
-    public function alias()
-    {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\Alias');
-    }
-
     public function tag()
     {
         return $this->belongsToMany('jorenvanhocht\Blogify\Models\tag', 'posts_have_tags', 'post_id', 'tag_id')->withTrashed();

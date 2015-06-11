@@ -57,12 +57,7 @@ class Blogify
         }
 
         if ($unique_in_table) {
-            // Check if the hash doest not exist in the given table and column
-            if (! $this->db->table($table)->where($field, '=', $hash)->get()) {
-                return $hash;
-            } else {
-                return $this->makeHAsh($table, $field, true, $min_length, $max_length);
-            }
+            return $this->checkIfHashIsUnique($table, $field, $hash, $min_length, $max_length);
         } else {
             return $hash;
         }
@@ -92,6 +87,27 @@ class Blogify
         }
 
         return $username;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Helper methods
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param $table
+     * @param $field
+     * @param $hash
+     * @param $min_length
+     * @param $max_length
+     * @return string
+     */
+    private function checkIfHAshIsUnique($table, $field, $hash, $min_length, $max_length)
+    {
+        if (! $this->db->table($table)->where($field, '=', $hash)->get()) {
+            return $hash;
+        } else {
+            return $this->makeHAsh($table, $field, true, $min_length, $max_length);
+        }
     }
 
 }
