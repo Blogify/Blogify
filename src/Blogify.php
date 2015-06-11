@@ -42,18 +42,19 @@ class Blogify
         $max_length = 10
     ) {
         $hash = '';
+        $charset = $this->char_sets[($unique_in_table) ? 'hash' : 'password'];
 
         // Generate a random length for the hash between the given min and max length
         $rand = rand($min_length, $max_length);
 
         for ($i = 0; $i < $rand; $i++) {
-            $char = rand(0, strlen($this->char_sets[($unique_in_table) ? 'hash' : 'password']));
+            $char = rand(0, strlen($charset));
 
             // When it's not the first char from the char_set make $minus equal to 1
             $minus = $char != 0 ? 1 : 0;
 
             // Add the character to the hash
-            $hash .= $this->char_sets[($unique_in_table) ? 'hash' : 'password'][$char - $minus];
+            $hash .= $charset[$char - $minus];
         }
 
         if ($unique_in_table) {
