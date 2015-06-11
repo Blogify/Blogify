@@ -56,8 +56,8 @@ class AuthController extends BaseController
         if ($credentials) {
             $this->tracert->log(
                 'users',
-                $this->auth->user()->id,
-                $this->auth->user()->id,
+                $this->auth->user()->getAuthIdentifier(),
+                $this->auth->user()->getAuthIdentifier(),
                 'Login'
             );
 
