@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Services;
+<?php
+
+namespace jorenvanhocht\Blogify\Services;
 
 use Illuminate\Contracts\Mail\Mailer;
 

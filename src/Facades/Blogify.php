@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Facades;
+<?php
+
+namespace jorenvanhocht\Blogify\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

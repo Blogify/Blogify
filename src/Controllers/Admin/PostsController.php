@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php
+
+namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use App\User;
 use Carbon\Carbon;
@@ -184,7 +186,7 @@ class PostsController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\View\View
      */
     public function show($hash)
@@ -201,7 +203,7 @@ class PostsController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\View\View
      */
     public function edit($hash)
@@ -259,7 +261,7 @@ class PostsController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($hash)
@@ -303,7 +305,7 @@ class PostsController extends BaseController
      * and set being_edited_by
      * back to null
      *
-     * @param null $hash
+     * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
     public function cancel($hash = null)
@@ -332,7 +334,7 @@ class PostsController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($hash)

@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Requests;
+<?php
+
+namespace jorenvanhocht\Blogify\Requests;
 
 use App\Http\Requests\Request;
 use App\User;

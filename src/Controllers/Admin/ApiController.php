@@ -1,10 +1,11 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php namespace
+
+jorenvanhocht\Blogify\Controllers\Admin;
 
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
 use jorenvanhocht\Blogify\Exceptions\BlogifyException;
 use jorenvanhocht\Blogify\Models\Post;
-use Input;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
@@ -40,9 +41,9 @@ class ApiController extends BaseController
      * Order the data of a given table on the given column
      * and the given order
      *
-     * @param $table
-     * @param $column
-     * @param $order
+     * @param string $table
+     * @param string $column
+     * @param string $order
      * @param bool $trashed
      * @param \Illuminate\Database\DatabaseManager $db
      * @return object
@@ -79,7 +80,7 @@ class ApiController extends BaseController
      * Check if a given slug already exists
      * and when it exists generate a new one
      *
-     * @param $slug
+     * @param string $slug
      * @return string
      */
     public function checkIfSlugIsUnique($slug)
@@ -99,15 +100,16 @@ class ApiController extends BaseController
      * Save the current post in the cache
      *
      * @param \Illuminate\Contracts\Cache\Repository $cache
+     * @param \Illuminate\Http\Request $request;
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function autoSave(Cache $cache)
+    public function autoSave(Cache $cache, Request $request)
     {
         try {
             $hash = $this->auth_user->hash;
             $cache->put(
                 "autoSavedPost-$hash",
-                Input::all(),
+                $request->all(),
                 Carbon::now()->addHours(2)
             );
         } catch (BlogifyException $exception) {

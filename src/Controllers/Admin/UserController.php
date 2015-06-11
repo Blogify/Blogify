@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php
+
+namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use jorenvanhocht\Blogify\Blogify;
 use jorenvanhocht\Blogify\Models\Role;
@@ -70,6 +72,7 @@ class UserController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
+     * @param bool $trashed
      * @return \Illuminate\View\View
      */
     public function index($trashed = false)
@@ -103,7 +106,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\View\View
      */
     public function edit($hash)
@@ -147,7 +150,7 @@ class UserController extends BaseController
 
     /**
      * @param \jorenvanhocht\Blogify\Requests\UserRequest $request
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UserRequest $request, $hash)
@@ -167,7 +170,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($hash)
@@ -186,7 +189,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($hash)
@@ -208,7 +211,7 @@ class UserController extends BaseController
 
     /**
      * @param \jorenvanhocht\Blogify\Requests\UserRequest $data
-     * @param null $hash
+     * @param string $hash
      * @return array
      */
     private function storeOrUpdateUser($data, $hash = null)

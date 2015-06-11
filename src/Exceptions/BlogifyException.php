@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Exceptions;
+<?php
+
+namespace jorenvanhocht\Blogify\Exceptions;
 
 use Exception;
 

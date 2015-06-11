@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php
+
+namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use App\User;
 use Illuminate\Contracts\Hashing\Hasher;
@@ -52,7 +54,7 @@ class ProfileController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\View\View
      */
     public function edit($hash)
@@ -69,7 +71,7 @@ class ProfileController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param $hash
+     * @param string $hash
      * @param \jorenvanhocht\Blogify\Requests\ProfileUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */

@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify;
+<?php
+
+namespace jorenvanhocht\Blogify;
 
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Database\DatabaseManager;

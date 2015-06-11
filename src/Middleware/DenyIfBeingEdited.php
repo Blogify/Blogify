@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Middleware;
+<?php
+
+namespace jorenvanhocht\Blogify\Middleware;
 
 use App\User;
 use Closure;

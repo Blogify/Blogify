@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php
+
+namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use jorenvanhocht\Blogify\Requests\LoginRequest;
 use Illuminate\Contracts\Auth\Guard;

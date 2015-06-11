@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php namespace
+
+jorenvanhocht\Blogify\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;

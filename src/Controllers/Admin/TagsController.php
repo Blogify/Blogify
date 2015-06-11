@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php
+
+namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use Input;
 use jorenvanhocht\Blogify\Blogify;
@@ -64,7 +66,7 @@ class TagsController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param null $trashed
+     * @param string $trashed
      * @return \Illuminate\View\View
      */
     public function index($trashed = null)
@@ -151,7 +153,7 @@ class TagsController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @param \jorenvanhocht\Blogify\Requests\TagUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -172,7 +174,7 @@ class TagsController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($hash)
@@ -191,7 +193,7 @@ class TagsController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($hash)

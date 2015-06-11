@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php
+
+namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use jorenvanhocht\Blogify\Models\Comment;
 use Illuminate\Contracts\Auth\Guard;
@@ -64,8 +66,8 @@ class CommentsController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param $hash
-     * @param $new_revised
+     * @param string $hash
+     * @param string $new_revised
      * @return \Illuminate\Http\RedirectResponse
      */
     public function changeStatus($hash, $new_revised)
@@ -103,7 +105,7 @@ class CommentsController extends BaseController
      * Check if the given revised
      * is valid
      *
-     * @param $revised
+     * @param string $revised
      * @return int|bool
      */
     private function checkRevised($revised)

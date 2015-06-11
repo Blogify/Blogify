@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Traits;
+<?php
+
+namespace jorenvanhocht\Blogify\Traits;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth;

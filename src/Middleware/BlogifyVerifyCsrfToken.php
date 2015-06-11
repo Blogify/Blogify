@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Middleware;
+<?php
+
+namespace jorenvanhocht\Blogify\Middleware;
 
 use \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Closure;

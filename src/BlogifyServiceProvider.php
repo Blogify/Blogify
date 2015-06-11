@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify;
+<?php
+
+namespace jorenvanhocht\Blogify;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;

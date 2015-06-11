@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Models;
+<?php
+
+namespace jorenvanhocht\Blogify\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 

@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Commands;
+<?php
+
+namespace jorenvanhocht\Blogify\Commands;
 
 use Illuminate\Console\Command;
 

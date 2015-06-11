@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Models;
+<?php
+
+namespace jorenvanhocht\Blogify\Models;
 
 class Role extends BaseModel
 {

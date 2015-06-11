@@ -1,4 +1,6 @@
-<?php namespace jorenvanhocht\Blogify\Controllers\Admin;
+<?php
+
+namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Blogify\Blogify;
@@ -75,7 +77,7 @@ class CategoriesController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\View\View
      */
     public function edit($hash)
@@ -116,7 +118,7 @@ class CategoriesController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @param \jorenvanhocht\Blogify\Requests\CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -146,7 +148,7 @@ class CategoriesController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($hash)
@@ -175,7 +177,7 @@ class CategoriesController extends BaseController
     }
 
     /**
-     * @param $hash
+     * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($hash)
