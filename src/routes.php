@@ -59,7 +59,7 @@ $admin = [
 
 Route::group($admin, function()
 {
-    Route::group(['middleware' => 'BlogifyGuest'], function(){
+    Route::group(['middleware' => 'BlogifyGuest'], function() {
         // Login
         Route::get('login', [
             'as'    =>  'admin.login',

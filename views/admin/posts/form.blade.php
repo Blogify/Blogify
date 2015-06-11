@@ -8,7 +8,7 @@
             $hash = $tag->hash;
 
             if ($i < $count - 1) {
-                $hash = $hash . ',';
+                $hash = $hash.',';
             }
 
             $hashes .= $hash;

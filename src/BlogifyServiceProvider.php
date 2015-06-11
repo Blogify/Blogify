@@ -28,8 +28,6 @@ class BlogifyServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider
-     *
-     * @return Blogify
      */
     public function register()
     {
