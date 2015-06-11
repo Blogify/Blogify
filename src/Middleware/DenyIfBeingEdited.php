@@ -55,7 +55,7 @@ class DenyIfBeingEdited
 
         if (
             $post->being_edited_by != null &&
-            $post->being_edited_by != $this->auth->user()->id
+            $post->being_edited_by != $this->auth->user()->getAuthIdentifier()
         ) {
             $user = $this->user->find($post->being_edited_by)->fullName;
 

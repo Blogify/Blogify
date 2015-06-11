@@ -56,7 +56,7 @@ class CanViewPost
     private function checkIfUserCanViewPost($request)
     {
         $post = $this->post->byHash($request->segment(3));
-        $user_id = $this->auth->user()->id;
+        $user_id = $this->auth->user()->getAuthIdentifier();
 
         if ($post->visibility_id == 'Private') {
             if (! $post->user_id == $user_id) {

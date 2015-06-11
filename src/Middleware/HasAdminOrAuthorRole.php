@@ -1,6 +1,4 @@
-<?php
-
-namespace jorenvanhocht\Blogify\Middleware;
+<?php namespace jorenvanhocht\Blogify\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;

@@ -44,7 +44,7 @@ class IsOwner
     {
         $user = $this->user->byHash($request->segment(3));
 
-        if ($this->auth->user()->id != $user->id) {
+        if ($this->auth->user()->getAuthIdentifier() != $user->id) {
             abort(404);
         }
 
