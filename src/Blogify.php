@@ -37,7 +37,7 @@ class Blogify
         $field = null,
         $unique_in_table = false,
         $min_length = 5,
-        $max_length = 20
+        $max_length = 10
     ) {
         $hash = '';
 

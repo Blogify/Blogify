@@ -67,7 +67,7 @@ class BlogifyServiceProvider extends ServiceProvider
         $this->registerCommands();
 
         // Register the class that serves extra validation rules
-        $this->app->validator->resolver(
+        $this->app['validator']->resolver(
             function(
                 $translator,
                 $data,

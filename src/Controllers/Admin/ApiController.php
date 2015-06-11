@@ -1,6 +1,7 @@
 <?php namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Http\Request;
 use jorenvanhocht\Blogify\Exceptions\BlogifyException;
 use jorenvanhocht\Blogify\Models\Post;
 use Input;

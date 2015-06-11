@@ -1,5 +1,4 @@
 <h1>Blogify password</h1>
-{{var_dump($data['password'])}}
 <p>
     Hello {{ $data['user']->firstname }},
 </p>

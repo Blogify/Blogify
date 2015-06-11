@@ -8,13 +8,12 @@ return [
      */
     'char_sets' => [
         'hash'      => 'ABCDEFGHIJKLMNOPQRSTUVWabcdefghijklmnopqrstuvw0123456789',
-        'password'  => 'ABCDEFGHIJKLMNOPQRSTUVWabcdefghijklmnopqrstuvw0123456789@&é#$%?!èà',
+        'password'  => 'ABCDEFGHIJKLMNOPQRSTUVWabcdefghijklmnopqrstuvw0123456789@$?!',
     ],
 
     /**
      * Information about the admin user
      * This will be used to seed the users table
-     * ENV VARIBALES MAKEN
      */
     'admin_user'     => [
         'name'          => 'Van Hocht',

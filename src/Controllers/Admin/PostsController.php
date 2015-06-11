@@ -313,8 +313,7 @@ class PostsController extends BaseController
         }
 
         $userHash = $this->auth_user->hash;
-        if ($this->cache->has("autoSavedPost-$userHash"))
-        {
+        if ($this->cache->has("autoSavedPost-$userHash")) {
             $this->cache->forget("autoSavedPost-$userHash");
         }
 
