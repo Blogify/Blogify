@@ -1,5 +1,5 @@
 <?php
-namespace jorenvanhocht\Blogify\database\Migrations;
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
