@@ -1,3 +1,6 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jorenvh/Blogify/badges/quality-score.png?b=master&s=bfa84038769f26ed426394aa03ad6c4aa0706a39)](https://scrutinizer-ci.com/g/jorenvh/Blogify/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/jorenvh/Blogify/badges/build.png?b=master&s=9122193c8e9d05c37ad053332bd3428fc2978f7d)](https://scrutinizer-ci.com/g/jorenvh/Blogify/build-status/master)
+
 >**Important**: This package is still in development. We expect to release a stable release in June 2015.
 
 # Blogify
