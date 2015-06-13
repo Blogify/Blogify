@@ -77,7 +77,7 @@ class ProfileController extends BaseController
     public function update($hash, ProfileUpdateRequest $request)
     {
         $user = $this->user->byHash($hash);
-        $user->name = $request->name;
+        $user->lastname = $request->name;
         $user->firstname = $request->firstname;
         $user->username = $request->username;
         $user->email = $request->email;
