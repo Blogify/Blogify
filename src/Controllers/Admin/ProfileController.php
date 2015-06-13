@@ -42,7 +42,6 @@ class ProfileController extends BaseController
         parent::__construct($auth);
 
         $this->middleware('IsOwner', ['only', 'edit']);
-        $this->middleware('ConfirmPasswordChange', ['only', 'update']);
 
         $this->user = $user;
         $this->tracert = $tracert;

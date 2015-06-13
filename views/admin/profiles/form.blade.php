@@ -12,7 +12,7 @@
             {!! Form::label('name', trans("blogify::profiles.form.name.label") ) !!}
         </div>
         <div class="col-sm-10">
-            {!! Form::text('name', isset($user) ? $user->name : '', ['class' => 'form-control form-small' ]) !!}
+            {!! Form::text('name', isset($user) ? $user->lastname : '', ['class' => 'form-control form-small' ]) !!}
         </div>
     </div>
 
