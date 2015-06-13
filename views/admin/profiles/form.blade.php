@@ -75,7 +75,11 @@
             {!! Form::label('profilepicture', trans("blogify::profiles.form.profilepicture.label") ) !!}
         </div>
         <div class="col-sm-10">
-            <img src="{{URL::asset($user->profilepicture)}}" class="img-rounded">
+            @if($user->profilepicture != null)
+                <img src="{{URL::asset($user->profilepicture)}}" class="img-rounded">
+            @else
+                <img src="{{URL::asset('assets/blogify/img/profile-icon.png')}}" class="img-rounded">
+            @endif
             {!! Form::file('profilepicture','', ['class' => 'form-control form-small']) !!}
         </div>
     </div>

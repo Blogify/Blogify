@@ -319,7 +319,7 @@ var app = {
             CKEDITOR.config.height = 400;
             CKEDITOR.config.extraPlugins = 'wordcount';
             CKEDITOR.replace( 'post',{
-                filebrowserUploadUrl: app.generateBaseUrl() + '/admin/posts/image/upload/'
+                filebrowserUploadUrl: app.generateBaseUrl() + '/admin/posts/image/upload'
             } );
         }
     },
@@ -419,9 +419,9 @@ var app = {
             if ( app.slug.slug.length > 0 )
             {
                 $.ajax({
-                    'method': 'get',
+                    'type': 'get',
                     'url': app.slug.apiBaseUrl,
-                    'type': 'json'
+                    'dateType': 'json'
                 }).done( function( data ) {
                     app.slug.fillSlugField(data);
                 } );
@@ -483,7 +483,7 @@ var app = {
                 headers: {
                     'X-CSRF-TOKEN': $("input[name='_token']")[0].value
                 },
-                method:     'post',
+                type:     'post',
                 url:        app.generateBaseUrl() + '/admin/categories',
                 data:       { 'name': $('#newCategory')[0].value },
                 dataType:   'json',
@@ -553,7 +553,7 @@ var app = {
                 headers: {
                     'X-CSRF-TOKEN': $("input[name='_token']")[0].value
                 },
-                method:     'post',
+                type:     'post',
                 url:        app.generateBaseUrl() + '/admin/tags',
                 data:       { 'tags': $('#newTags')[0].value },
                 dataType:   'json',
@@ -620,7 +620,7 @@ var app = {
             for (var i = 0; i < hashes.length; i++)
             {
                 $.ajax({
-                    method:     'get',
+                    type:     'get',
                     url:        app.generateBaseUrl() + '/admin/api/tags/' + hashes[i],
                     dataType:   'json',
                     success: function(data)
@@ -777,8 +777,8 @@ var app = {
                 headers: {
                     'X-CSRF-TOKEN': $("input[name='_token']")[0].value
                 },
-                method:     'post',
-                url:        app.generateBaseUrl() + '/admin/api/autosave/',
+                type:     'post',
+                url:        app.generateBaseUrl() + '/admin/api/autosave',
                 data:       app.autoSave.data,
                 dataType:   'json',
                 success: function( response )

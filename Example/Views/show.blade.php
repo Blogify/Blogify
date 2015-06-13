@@ -87,9 +87,11 @@ use Carbon\Carbon;
                 @if($comment->revised == 2)
                     <div class="media">
                         <div class="media-left">
-                            <a href="#">
+                            @if($comment->user->profilepicture != null)
                                 <img class="media-object" src="{{URL::asset($comment->user->profilepicture)}}" alt="..." width="64px" height="64px">
-                            </a>
+                            @else
+                                <img class="media-object" src="{{URL::asset('assets/blogify/img/profile-icon.png')}}" alt="..." width="64px" height="64px">
+                            @endif
                         </div>
                         <div class="media-body">
                             <p>
