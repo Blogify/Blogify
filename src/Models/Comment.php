@@ -47,7 +47,7 @@ class Comment extends BaseModel
 
     public function post()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\post');
+        return $this->belongsTo('jorenvanhocht\Blogify\Models\Post');
     }
 
     /*
