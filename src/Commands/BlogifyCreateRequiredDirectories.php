@@ -2,6 +2,7 @@
 
 namespace jorenvanhocht\Blogify\Commands;
 
+use File;
 use Illuminate\Console\Command;
 
 class BlogifyCreateRequiredDirectories extends Command
@@ -43,7 +44,7 @@ class BlogifyCreateRequiredDirectories extends Command
         foreach ($this->config->upload_paths as $paths) {
             foreach ($paths as $path) {
                 if (! file_exists(public_path($path))) {
-                    mkdir(public_path($path), 775, true);
+                    File::makeDirectory(public_path($path), 775, true);
                 }
             }
         }

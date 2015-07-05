@@ -1,6 +1,6 @@
-<?php namespace
+<?php
 
-jorenvanhocht\Blogify\Controllers\Admin;
+namespace jorenvanhocht\Blogify\Controllers\Admin;
 
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;

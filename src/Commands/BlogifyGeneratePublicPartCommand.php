@@ -2,6 +2,7 @@
 
 namespace jorenvanhocht\Blogify\Commands;
 
+use File;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -123,7 +124,7 @@ class BlogifyGeneratePublicPartCommand extends Command
         $path = $basepath."templates/";
 
         if (! file_exists($path)) {
-            mkdir($path, 775, true);
+            File::makeDirectory($path, 775, true);
         }
 
         foreach ($this->views as $key => $file) {
@@ -156,7 +157,7 @@ class BlogifyGeneratePublicPartCommand extends Command
     {
         $path = __DIR__."/../../../../../public/assets/";
         if (! file_exists($path)) {
-            mkdir($path, 775, true);
+            File::makeDirectory($path, 775, true);
         }
 
         foreach ($this->js as $key => $file) {
