@@ -2,7 +2,6 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use jorenvanhocht\Blogify\Facades\Blogify;
 use jorenvanhocht\Blogify\Models\Role;
 use App\User;
 use \Illuminate\Support\Facades\Hash;
@@ -23,9 +22,10 @@ class UsersTableSeeder extends Seeder {
 
     public function run()
     {
-        User::create([
+        $user = app()->make(config(('auth.model')));
+        $user->create([
             'hash'          => blogify()->makeHash('users', 'hash', true),
-            'lastname'          => $this->admin['name'],
+            'lastname'      => $this->admin['name'],
             'firstname'     => $this->admin['firstname'],
             'username'      => $this->admin['username'],
             'email'         => $this->admin['email'],
