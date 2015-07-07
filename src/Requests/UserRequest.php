@@ -2,7 +2,6 @@
 
 namespace jorenvanhocht\Blogify\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Input;
 
 class UserRequest extends Request

@@ -2,7 +2,6 @@
 
 namespace jorenvanhocht\Blogify\Requests;
 
-use App\Http\Requests\Request;
 use App\User;
 use Illuminate\Contracts\Auth\Guard;
 

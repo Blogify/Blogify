@@ -2,7 +2,6 @@
 
 namespace jorenvanhocht\Blogify\Requests;
 
-use App\Http\Requests\Request;
 
 class LoginRequest extends Request
 {

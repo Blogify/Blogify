@@ -2,7 +2,6 @@
 
 namespace jorenvanhocht\Blogify\Requests;
 
-use App\Http\Requests\Request;
 use jorenvanhocht\Blogify\Models\Post;
 use jorenvanhocht\Blogify\Models\Visibility;
 

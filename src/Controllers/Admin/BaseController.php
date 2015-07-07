@@ -1,8 +1,8 @@
-<?php namespace
+<?php
 
-jorenvanhocht\Blogify\Controllers\Admin;
+namespace jorenvanhocht\Blogify\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use jorenvanhocht\Blogify\Controllers\Admin;
 use Illuminate\Contracts\Auth\Guard;
 
 class BaseController extends Controller
