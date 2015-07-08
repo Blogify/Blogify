@@ -6,28 +6,28 @@ use Illuminate\Database\Migrations\Migration;
 class CreateUsersTable extends Migration {
 
     /**
+     * @var array
+     */
+    protected $fields;
+
+    public function __construct()
+    {
+        $this->fillFieldsArray();
+    }
+
+    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('users', function($table)
-        {
-            $table->increments('id');
-            $table->string('hash', 80)->unique();
-            $table->string('lastname', 30);
-            $table->string('firstname', 30);
-            $table->string('username', 30)->unique();
-            $table->string('email', 70)->unique();
-            $table->string('password', 100);
-            $table->string('remember_token', 100)->nullable();
-            $table->integer('role_id')->unsigned();
-            $table->foreign('role_id')->references('id')->on('roles');
-            $table->string('profilepicture', 200);
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        if(! Schema::hasTable('users')) {
+            $this->createUsersTable();
+        } else {
+            $this->updateUSersTable();
+        }
+
     }
 
     /**
@@ -38,6 +38,112 @@ class CreateUsersTable extends Migration {
     public function down()
     {
         Schema::dropIfExists('users');
+    }
+
+    /**
+     * Fill the fields array
+     */
+    private function fillFieldsArray()
+    {
+        $this->fields =  [
+            'id' => [
+                'type' => 'increments',
+            ],
+            'hash' => [
+                'type' => 'string',
+                'length' => 80,
+                'extra' => 'unique',
+            ],
+            'lastname' => [
+                'type' => 'string',
+                'length' => 30,
+            ],
+            'firstname' => [
+                'type' => 'string',
+                'length' => 30,
+            ],
+            'username' => [
+                'type' => 'string',
+                'length' => 30,
+                'extra' => 'unique'
+            ],
+            'email' => [
+                'type' => 'string',
+                'length' => 70,
+                'extra' => 'unique'
+            ],
+            'password' => [
+                'type' => 'string',
+                'length' => 100,
+            ],
+            'remember_token' => [
+                'type' => 'string',
+                'length' => 100,
+                'extra' => 'nullable'
+            ],
+            'role_id' => [
+                'type' => 'integer',
+                'extra' => 'unsigned'
+            ],
+            'profilepicture' => [
+                'type' => 'string',
+                'length' => 200,
+            ],
+        ];
+    }
+
+    /**
+     * Create a new Users table with
+     * all the required fields
+     */
+    private function createUsersTable()
+    {
+        Schema::create('users', function($table)
+        {
+            foreach($this->fields as $field => $value) {
+                //$maxChars = (array_key_exists('length', $value)) ? ', ' . $value['length'] : null;
+                $query = $table->$value['type']($field);
+
+                if (isset($value['extra'])) {
+                    $query->$value['extra']();
+                }
+
+            }
+            $table->foreign('role_id')->references('id')->on('roles');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Add the not existing columns
+     * to the existing users table
+     */
+    private function updateUSersTable()
+    {
+        Schema::table('users', function($table) {
+            foreach($this->fields as $field => $value) {
+                if (!Schema::hasColumn('users', $field)) {
+                    $query = $table->$value['type']($field);
+
+                    if (isset($value['extra'])) {
+                        $query->$value['extra']();
+                    }
+
+                    if ($field == 'role_id') {
+                        $table->foreign('role_id')->references('id')->on('roles');
+                    }
+                }
+            }
+
+            if (!Schema::hasColumn('users', 'created_at') && !Schema::hasColumn('users', 'updated_at')) {
+                $table->timestamps();
+            }
+
+            if (!Schema::hasColumn('users', 'deleted_at')) {
+                $table->softDeletes();
+            }
+        });
     }
 
 }
