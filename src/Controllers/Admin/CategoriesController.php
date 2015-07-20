@@ -5,6 +5,7 @@ namespace jorenvanhocht\Blogify\Controllers\Admin;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Blogify\Blogify;
 use jorenvanhocht\Blogify\Models\Category;
+use jorenvanhocht\Blogify\Repositories\Category\CategoryInterface;
 use jorenvanhocht\Blogify\Requests\CategoryRequest;
 use jorenvanhocht\Tracert\Tracert;
 
@@ -12,7 +13,7 @@ class CategoriesController extends BaseController
 {
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Category
+     * @var \jorenvanhocht\Blogify\Repositories\Category\CategoryInterface
      */
     protected $category;
 
@@ -27,13 +28,13 @@ class CategoriesController extends BaseController
     protected $tracert;
 
     /**
-     * @param \jorenvanhocht\Blogify\Models\Category $category
+     * @param \jorenvanhocht\Blogify\Repositories\Category\CategoryInterface $category
      * @param \Illuminate\Contracts\Auth\Guard $auth
      * @param \jorenvanhocht\Blogify\Blogify $blogify
      * @param \jorenvanhocht\Tracert\Tracert $tracert
      */
     public function __construct(
-        Category $category,
+        CategoryInterface $category,
         Guard $auth,
         Blogify $blogify,
         Tracert $tracert
