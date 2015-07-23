@@ -2,7 +2,7 @@
 
 namespace jorenvanhocht\Blogify\Controllers\Admin;
 
-use jorenvanhocht\Blogify\Models\Comment;
+use jorenvanhocht\Blogify\Repositories\Comment\CommentInterface as Comment;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Tracert\Tracert;
 
