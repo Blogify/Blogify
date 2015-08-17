@@ -143,8 +143,8 @@ class BlogifyServiceProvider extends ServiceProvider
         ], 'assets');
 
         $this->publishes([
-            __DIR__.'/../Views/admin/auth/passwordreset/' => base_path('/resources/views/auth/'),
-            __DIR__.'/../Views/mails/resetpassword.blade.php' => base_path('/resources/views/emails/password.blade.php')
+            __DIR__.'/../views/admin/auth/passwordreset/' => base_path('/resources/views/auth/'),
+            __DIR__.'/../views/mails/resetpassword.blade.php' => base_path('/resources/views/emails/password.blade.php')
         ], 'pass-reset');
     }
 
