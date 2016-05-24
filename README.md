@@ -1,5 +1,13 @@
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jorenvh/Blogify/badges/quality-score.png?b=master&s=bfa84038769f26ed426394aa03ad6c4aa0706a39)](https://scrutinizer-ci.com/g/jorenvh/Blogify/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/jorenvh/Blogify/badges/build.png?b=master&s=9122193c8e9d05c37ad053332bd3428fc2978f7d)](https://scrutinizer-ci.com/g/jorenvh/Blogify/build-status/master)
+# NEWS FLASH 24/05/2016
+
+First I want to apologies to all of you, the users of Blogify. I started this project
+for my final school project and I let you all down after it because of my new job that took all 
+of my time.
+
+But GREATE news from today on I will start merging the package over to Laravel 5.2 and I will make sure 
+that you can use it again.
+
+Want to help? Feel free to make a PR with the merged code.
 
 # Blogify
 
