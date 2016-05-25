@@ -13,7 +13,7 @@ class BlogifyServiceProvider extends ServiceProvider
      * @var array
      */
     protected $providers = [
-        'Illuminate\Html\HtmlServiceProvider',
+        'Collective\Html\HtmlServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'jorenvanhocht\Tracert\TracertServiceProvider'
     ];
