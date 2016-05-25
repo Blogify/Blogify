@@ -34,8 +34,8 @@ class BlogifyMigrateCommand extends Command
         parent::__construct();
 
         $this->paths = [
-            'vendor/jorenvanhocht/blogify/database/Migrations',
-            'vendor/jorenvanhocht/tracert/database/Migrations',
+            'packages/jorenvanhocht/blogify/database/Migrations',
+            'packages/jorenvanhocht/tracert/database/Migrations',
         ];
     }
 
