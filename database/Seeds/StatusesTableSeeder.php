@@ -1,26 +1,28 @@
-<?php namespace jorenvanhocht\Blogify\database\Seeds;
+<?php
+
+namespace jorenvanhocht\Blogify\database\Seeds;
 
 use Illuminate\Database\Seeder;
-use jorenvanhocht\Blogify\Facades\Blogify;
 use jorenvanhocht\Blogify\Models\Status;
 
-class StatusesTableSeeder extends Seeder {
+class StatusesTableSeeder extends Seeder
+{
 
     public function run()
     {
         Status::create([
-            "hash"          => blogify()->makeHash('statuses', 'hash', true),
-            "name"          => "Draft",
+            "hash" => blogify()->makeHash('statuses', 'hash', true),
+            "name" => "Draft",
         ]);
 
         Status::create([
-            "hash"          => blogify()->makeHash('statuses', 'hash', true),
-            "name"          => "Pending review",
+            "hash" => blogify()->makeHash('statuses', 'hash', true),
+            "name" => "Pending review",
         ]);
 
         Status::create([
-            "hash"          => blogify()->makeHash('statuses', 'hash', true),
-            "name"          => "Reviewed",
+            "hash" => blogify()->makeHash('statuses', 'hash', true),
+            "name" => "Reviewed",
         ]);
     }
 
