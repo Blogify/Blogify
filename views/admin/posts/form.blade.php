@@ -62,7 +62,7 @@
 
             <!-- publish box -->
             <div class="panel-group" id="accordion">
-                <div class="panel panel-{{{ isset($class) ? $class : 'default' }}}">
+                <div class="panel panel-{{ isset($class) ? $class : 'default' }}">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
@@ -136,7 +136,7 @@
 
             <!-- categories box -->
             <div class="panel-group" id="accordion">
-                <div class="panel panel-{{{ isset($class) ? $class : 'default' }}}">
+                <div class="panel panel-{{ isset($class) ? $class : 'default' }}">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
@@ -169,7 +169,7 @@
 
             <!-- categories box -->
             <div class="panel-group" id="accordion">
-                <div class="panel panel-{{{ isset($class) ? $class : 'default' }}}">
+                <div class="panel panel-{{ isset($class) ? $class : 'default' }}">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
@@ -223,7 +223,7 @@
 
             <!-- tags box -->
             <div class="panel-group" id="accordion">
-                <div class="panel panel-{{{ isset($class) ? $class : 'default' }}}">
+                <div class="panel panel-{{ isset($class) ? $class : 'default' }}">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse"
