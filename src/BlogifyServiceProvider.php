@@ -22,10 +22,10 @@ class BlogifyServiceProvider extends ServiceProvider
      * @var array
      */
     protected $aliases = [
-        'Tracert'	=> 'jorenvanhocht\Blogify\Facades\Tracert',
+        'Tracert' => 'jorenvanhocht\Blogify\Facades\Tracert',
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
-        'Image'     => 'Intervention\Image\Facades\Image',
+        'Image' => 'Intervention\Image\Facades\Image',
         'Input' => 'Illuminate\Support\Facades\Input',
     ];
 
