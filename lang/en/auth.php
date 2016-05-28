@@ -2,30 +2,30 @@
 
 return [
     'login' => [
-        'title'         => 'Please sign in',
+        'title' => 'Please sign in',
 
-        'email'         => [
-            'label'         => 'E-mail adress',
+        'email' => [
+            'label' => 'E-mail adress',
             'placeholder' => 'example@example.com',
         ],
 
-        'password'      => [
-            'label'         => 'Password',
-            'placeholder'   => 'Password',
+        'password' => [
+            'label' => 'Password',
+            'placeholder' => 'Password',
         ],
 
-        'remember_me'   => [
-            'label'         => 'Remember me'
+        'remember_me' => [
+            'label' => 'Remember me'
         ],
 
         'submit_button' => [
-            'value'         => 'Login',
+            'value' => 'Login',
         ],
 
         'forgot-password' => [
             'value' => 'Lost your password?',
             'title' => 'Request a password reset link',
-        ]
+        ],
     ],
 
     'request-pass-reset' => [
@@ -36,7 +36,7 @@ return [
         ],
         'submit_button' => [
             'value' => 'Send password reset link',
-        ]
+        ],
     ],
 
     'reset-password' => [
@@ -56,5 +56,5 @@ return [
         'submit_button' => [
             'value' => 'Reset password',
         ],
-    ]
+    ],
 ];
