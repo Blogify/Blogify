@@ -1,26 +1,28 @@
-<?php namespace jorenvanhocht\Blogify\database\Seeds;
+<?php
+
+namespace jorenvanhocht\Blogify\database\Seeds;
 
 use Illuminate\Database\Seeder;
-use jorenvanhocht\Blogify\Facades\Blogify;
 use jorenvanhocht\Blogify\Models\Visibility;
 
-class VisibilityTableSeeder extends Seeder {
+class VisibilityTableSeeder extends Seeder
+{
 
     public function run()
     {
         Visibility::create([
-            "hash"          => blogify()->makeHash('visibility', 'hash', true),
-            "name"          => "Public",
+            "hash" => blogify()->makeHash('visibility', 'hash', true),
+            "name" => "Public",
         ]);
 
         Visibility::create([
-            "hash"          => blogify()->makeHash('visibility', 'hash', true),
-            "name"          => "Protected",
+            "hash" => blogify()->makeHash('visibility', 'hash', true),
+            "name" => "Protected",
         ]);
 
         Visibility::create([
-            "hash"          => blogify()->makeHash('visibility', 'hash', true),
-            "name"          => "Private",
+            "hash" => blogify()->makeHash('visibility', 'hash', true),
+            "name" => "Private",
         ]);
     }
 

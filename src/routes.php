@@ -8,7 +8,7 @@
 $use_default_routes = config('blogify.blogify.enable_default_routes');
 
 if ($use_default_routes) {
-    Route::group(['namespace' => 'App\Http\Controllers'], function() {
+    Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => 'web'], function() {
         Route::resource('blog', 'BlogController', ['only' => ['index', 'show']]);
         Route::post('blog/{slug}', [
             'as' => 'blog.confirmPass',
@@ -39,7 +39,7 @@ if ($use_default_routes) {
 Route::group(['prefix' => 'auth'], function()
 {
 
-    Route::group(['middleware' => 'auth'], function()
+    Route::group(['middleware' => 'auth|web'], function()
     {
 
     });
@@ -54,6 +54,7 @@ Route::group(['prefix' => 'auth'], function()
 $admin = [
     'prefix'    => 'admin',
     'namespace' =>'jorenvanhocht\Blogify\Controllers\Admin',
+    'middleware' => 'web',
 ];
 
 

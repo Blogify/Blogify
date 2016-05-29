@@ -13,7 +13,7 @@ class BlogifyServiceProvider extends ServiceProvider
      * @var array
      */
     protected $providers = [
-        'Illuminate\Html\HtmlServiceProvider',
+        'Collective\Html\HtmlServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'jorenvanhocht\Tracert\TracertServiceProvider'
     ];
@@ -22,10 +22,11 @@ class BlogifyServiceProvider extends ServiceProvider
      * @var array
      */
     protected $aliases = [
-        'Tracert'	=> 'jorenvanhocht\Blogify\Facades\Tracert',
-        'Form'      => 'Illuminate\Html\FormFacade',
-        'HTML'      => 'Illuminate\Html\HtmlFacade',
-        'Image'     => 'Intervention\Image\Facades\Image',
+        'Tracert' => 'jorenvanhocht\Blogify\Facades\Tracert',
+        'Form' => 'Collective\Html\FormFacade',
+        'Html' => 'Collective\Html\HtmlFacade',
+        'Image' => 'Intervention\Image\Facades\Image',
+        'Input' => 'Illuminate\Support\Facades\Input',
     ];
 
     /**
