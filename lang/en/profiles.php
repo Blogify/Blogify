@@ -2,36 +2,35 @@
 
 return [
     'form' => [
-        'page_title'    => 'Edit profile',
+        'page_title' => 'Edit profile',
 
-        'name'          => [
+        'name' => [
             'label' => 'Name: ',
         ],
-        'firstname'          => [
+        'firstname' => [
             'label' => 'Firstname: ',
         ],
-        'username'          => [
+        'username' => [
             'label' => 'Username: ',
         ],
-        'email'          => [
+        'email' => [
             'label' => 'E-mail: ',
         ],
-        'password'          => [
+        'password' => [
             'label' => 'Password',
         ],
-        'newpassword'          => [
+        'newpassword' => [
             'label' => 'New password',
         ],
-        'newpasswordconfirm'          => [
+        'newpasswordconfirm' => [
             'label' => 'Confirm new password',
         ],
-        'profilepicture'          => [
+        'profilepicture' => [
             'label' => 'Profile picture: ',
         ],
 
-        'submit_button'          => [
+        'submit_button' => [
             'value' => 'Save profile',
         ],
-
     ],
 ];

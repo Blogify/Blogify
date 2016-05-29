@@ -44,7 +44,7 @@ class BlogifyCreateRequiredDirectories extends Command
         foreach ($this->config->upload_paths as $paths) {
             foreach ($paths as $path) {
                 if (! file_exists(public_path($path))) {
-                    File::makeDirectory(public_path($path), 775, true);
+                    File::makeDirectory(public_path($path), 0775, true);
                 }
             }
         }

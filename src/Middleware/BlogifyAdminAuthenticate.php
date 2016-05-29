@@ -51,9 +51,9 @@ class BlogifyAdminAuthenticate
         if ($this->auth->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
-            } else {
-                return redirect()->route('admin.login');
             }
+
+            return redirect()->route('admin.login');
         }
 
         // Check if the user has permission to visit the admin panel

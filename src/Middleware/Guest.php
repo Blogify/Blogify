@@ -38,9 +38,9 @@ class Guest
         if ( ! $this->auth->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
-            } else {
-                return redirect('admin');
             }
+
+            return redirect('admin');
         }
 
         return $next($request);

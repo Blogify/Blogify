@@ -3,6 +3,12 @@
 return [
 
     /**
+     * The model used for authentication and/or your users.
+     *
+     */
+    'auth_model' => \App\User::class,
+    
+    /**
      * Array with all available character sets
      *
      */
