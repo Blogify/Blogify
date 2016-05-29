@@ -15,7 +15,7 @@
         "laravelcollective/html": "5.2.*",
         "intervention/image": "~2.1",
         "predis/predis": "~1.0",
-        "jorenvanhocht/tracert": "v1.3-RC@dev"
+        "jorenvanhocht/tracert": "v2.0"
     },
     "autoload": {
         "psr-4": {
