@@ -68,7 +68,9 @@ class DashboardController extends BaseController
         $this->comment = $comment;
         $this->tracert = $tracert;
 
-        $this->{"buildDataArrayFor".$this->auth_user->role->name}();
+        if ($this->auth_user) {
+            $this->{"buildDataArrayFor".$this->auth_user->role->name}();
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
