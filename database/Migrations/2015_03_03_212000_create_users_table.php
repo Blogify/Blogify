@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
         if (! Schema::hasTable('users')) {
             $this->createUsersTable();
         } else {
-            $this->updateUSersTable();
+            $this->updateUsersTable();
         }
 
     }
@@ -118,15 +118,17 @@ class CreateUsersTable extends Migration
      * Add the not existing columns
      * to the existing users table
      */
-    private function updateUSersTable()
+    private function updateUsersTable()
     {
         Schema::table('users', function ($table) {
             foreach ($this->fields as $field => $value) {
                 if (!Schema::hasColumn('users', $field)) {
-                    $query = $table->$value['type']($field);
+                    $type  = $value['type'];
+                    $query = $table->$type($field);
 
                     if (isset($value['extra'])) {
-                        $query->$value['extra']();
+                        $extra = $value['extra'];
+                        $query->$extra();
                     }
 
                     if ($field == 'role_id') {
