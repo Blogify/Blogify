@@ -3,7 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration {
+class CreateUsersTable extends Migration
+{
 
     /**
      * @var array
@@ -22,7 +23,7 @@ class CreateUsersTable extends Migration {
      */
     public function up()
     {
-        if(! Schema::hasTable('users')) {
+        if (! Schema::hasTable('users')) {
             $this->createUsersTable();
         } else {
             $this->updateUSersTable();
@@ -98,17 +99,15 @@ class CreateUsersTable extends Migration {
      */
     private function createUsersTable()
     {
-        Schema::create('users', function($table)
-        {
-            foreach($this->fields as $field => $value) {
-                //$maxChars = (array_key_exists('length', $value)) ? ', ' . $value['length'] : null;
+        Schema::create('users', function ($table) {
+            foreach ($this->fields as $field => $value) {
                 $query = $table->$value['type']($field);
 
                 if (isset($value['extra'])) {
                     $query->$value['extra']();
                 }
-
             }
+
             $table->foreign('role_id')->references('id')->on('roles');
             $table->timestamps();
             $table->softDeletes();
@@ -121,8 +120,8 @@ class CreateUsersTable extends Migration {
      */
     private function updateUSersTable()
     {
-        Schema::table('users', function($table) {
-            foreach($this->fields as $field => $value) {
+        Schema::table('users', function ($table) {
+            foreach ($this->fields as $field => $value) {
                 if (!Schema::hasColumn('users', $field)) {
                     $query = $table->$value['type']($field);
 
