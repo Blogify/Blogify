@@ -42,7 +42,7 @@ class Category extends BaseModel
 
     public function post()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\category');
+        return $this->hasMany('jorenvanhocht\Blogify\Models\Post');
     }
 
 }
