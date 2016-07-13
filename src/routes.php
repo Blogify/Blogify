@@ -52,7 +52,7 @@ Route::group(['prefix' => 'auth'], function()
 ///////////////////////////////////////////////////////////////////////////
 
 $admin = [
-    'prefix'    => 'admin',
+    'prefix'    => config('blogify.blogify.admin_slug'),
     'namespace' =>'jorenvanhocht\Blogify\Controllers\Admin',
     'middleware' => 'web',
 ];

@@ -74,4 +74,10 @@ return [
      *
      */
     'enable_default_routes' => true,
+
+    /**
+     * Define a non-standard admin url
+     *
+     */
+    'admin_slug' => env('BLOGIFY_ADMIN_SLUG', 'admin'),
 ];
