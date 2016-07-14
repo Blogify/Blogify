@@ -38,7 +38,7 @@ class Role extends BaseModel
 
     public function user()
     {
-        return $this->hasMany('App\user');
+        return $this->hasMany('App\User');
     }
 
     /*
