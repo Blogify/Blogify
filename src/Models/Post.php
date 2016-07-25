@@ -3,6 +3,12 @@
 namespace jorenvanhocht\Blogify\Models;
 
 use Auth;
+use jorenvanhocht\Blogify\Models\Tag;
+use jorenvanhocht\Blogify\Models\Media;
+use jorenvanhocht\Blogify\Models\Status;
+use jorenvanhocht\Blogify\Models\Comment;
+use jorenvanhocht\Blogify\Models\Category;
+use jorenvanhocht\Blogify\Models\Visibility;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends BaseModel
@@ -43,37 +49,37 @@ class Post extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('App\User')->withTrashed();
+        return $this->belongsTo(config('blogify.auth_model'))->withTrashed();
     }
 
     public function comment()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\Comment');
+        return $this->hasMany(Comment::class);
     }
 
     public function category()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\Category')->withTrashed();
+        return $this->belongsTo(Category::class)->withTrashed();
     }
 
     public function media()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\Media');
+        return $this->hasMany(Media::class);
     }
 
     public function tag()
     {
-        return $this->belongsToMany('jorenvanhocht\Blogify\Models\tag', 'posts_have_tags', 'post_id', 'tag_id')->withTrashed();
+        return $this->belongsToMany(Tag::class, 'posts_have_tags', 'post_id', 'tag_id')->withTrashed();
     }
 
     public function status()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\Status');
+        return $this->belongsTo(Status::class);
     }
 
     public function visibility()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\Visibility');
+        return $this->belongsTo(Visibility::class);
     }
 
     /*

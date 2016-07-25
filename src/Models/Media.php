@@ -2,6 +2,7 @@
 
 namespace jorenvanhocht\Blogify\Models;
 
+use jorenvanhocht\Blogify\Models\Post;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Media extends BaseModel
@@ -42,7 +43,7 @@ class Media extends BaseModel
 
     public function post()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\post');
+        return $this->belongsTo(Post::class);
     }
 
 
