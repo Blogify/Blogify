@@ -61,7 +61,7 @@ class ProtectedPost
                 );
         }
         
-        if ($post->count() == 1 && $post->visibility_id == 2) {
+        if ($post->visibility_id == 2) {
 
             if (!$this->hash->check(Input::get('password'), $post->password)) {
                 return redirect()->route('blog.askPassword', [$post->slug])
