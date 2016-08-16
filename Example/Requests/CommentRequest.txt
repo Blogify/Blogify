@@ -1,5 +1,7 @@
 <?php namespace {{namespace}};
 
+//test comment
+
 use App\Http\Requests\Request;
 
 class CommentRequest extends Request {
