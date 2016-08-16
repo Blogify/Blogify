@@ -18,7 +18,7 @@ class CreateCommentsTable extends Migration {
             $table->string('hash', 80)->unique();
             $table->text('content');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on(config('blogify.blogify.users_table'));
             $table->integer('post_id')->unsigned();
             $table->foreign('post_id')->references('id')->on('posts');
             $table->timestamps();
