@@ -51,10 +51,10 @@ class PostRequest extends Request
 
         return [
             'title'             => 'required|min:2|max:100',
-            'slug'              => "required|unique:posts,slug,$id|min:2|max:120",
+            'slug'              => "required|unique:blogify_posts,slug,$id|min:2|max:120",
             'reviewer'          => 'exists:'.config('blogify.blogify.users_table').',hash',
             'post'              => 'required',
-            'category'          => 'required|exists:categories,hash',
+            'category'          => 'required|exists:blogify_categories,hash',
             'publishdate'       => 'required|date_format: d-m-Y H:i',
             'password'          => "required_if:visibility,$protected_visibility",
         ];

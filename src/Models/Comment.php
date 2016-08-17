@@ -14,7 +14,7 @@ class Comment extends BaseModel
      *
      * @var string
      */
-    protected $table = 'comments';
+    protected $table = 'blogify_comments';
 
     /**
      * The attributes that are mass assignable
@@ -42,12 +42,12 @@ class Comment extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('App\user');
+        return $this->belongsTo('App\user', 'user_id');
     }
 
     public function post()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\Post');
+        return $this->belongsTo('jorenvanhocht\Blogify\Models\Post', 'post_id');
     }
 
     /*

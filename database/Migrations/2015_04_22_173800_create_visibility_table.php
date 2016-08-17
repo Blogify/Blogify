@@ -11,7 +11,7 @@ class CreateVisibilityTable extends Migration {
      */
     public function up()
     {
-        Schema::create('visibility', function($table)
+        Schema::create('blogify_visibility', function($table)
         {
             $table->increments('id');
             $table->string('hash', 80)->unique();
@@ -26,7 +26,7 @@ class CreateVisibilityTable extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('visibility');
+        Schema::dropIfExists('blogify_visibility');
     }
 
 }

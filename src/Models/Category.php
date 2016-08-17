@@ -14,7 +14,7 @@ class Category extends BaseModel
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'blogify_categories';
 
     /**
      * The attributes that are mass assignable
@@ -42,7 +42,7 @@ class Category extends BaseModel
 
     public function post()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\category');
+        return $this->hasMany('jorenvanhocht\Blogify\Models\category', 'id', 'category_id');
     }
 
 }

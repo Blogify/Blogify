@@ -10,7 +10,7 @@ class Role extends BaseModel
      *
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'blogify_roles';
 
     /**
      * The attributes that are mass assignable

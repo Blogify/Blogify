@@ -59,41 +59,41 @@ class CreateUsersTable extends Migration
                 'length' => 80,
                 'extra' => 'unique',
             ],
-            'lastname' => [
-                'type' => 'string',
-                'length' => 30,
-            ],
-            'firstname' => [
-                'type' => 'string',
-                'length' => 30,
-            ],
-            'username' => [
-                'type' => 'string',
-                'length' => 30,
-                'extra' => 'unique'
-            ],
-            'email' => [
-                'type' => 'string',
-                'length' => 70,
-                'extra' => 'unique'
-            ],
-            'password' => [
-                'type' => 'string',
-                'length' => 100,
-            ],
-            'remember_token' => [
-                'type' => 'string',
-                'length' => 100,
-                'extra' => 'nullable'
-            ],
+//            'lastname' => [
+//                'type' => 'string',
+//                'length' => 30,
+//            ],
+//            'firstname' => [
+//                'type' => 'string',
+//                'length' => 30,
+//            ],
+//            'username' => [
+//                'type' => 'string',
+//                'length' => 30,
+//                'extra' => 'unique'
+//            ],
+//            'email' => [
+//                'type' => 'string',
+//                'length' => 70,
+//                'extra' => 'unique'
+//            ],
+//            'password' => [
+//                'type' => 'string',
+//                'length' => 100,
+//            ],
+//            'remember_token' => [
+//                'type' => 'string',
+//                'length' => 100,
+//                'extra' => 'nullable'
+//            ],
             'role_id' => [
                 'type' => 'integer',
                 'extra' => 'unsigned'
             ],
-            'profilepicture' => [
-                'type' => 'string',
-                'length' => 200,
-            ],
+//            'profilepicture' => [
+//                'type' => 'string',
+//                'length' => 200,
+//            ],
         ];
     }
 
@@ -112,7 +112,7 @@ class CreateUsersTable extends Migration
                 }
             }
 
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('role_id')->references('id')->on('blogify_roles');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -136,7 +136,7 @@ class CreateUsersTable extends Migration
                     }
 
                     if ($field == 'role_id') {
-                        $table->foreign('role_id')->references('id')->on('roles');
+                        $table->foreign('role_id')->references('id')->on('blogify_roles');
                     }
                 }
             }

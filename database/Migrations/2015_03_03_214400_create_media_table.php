@@ -12,14 +12,14 @@ class CreateMediaTable extends Migration {
      */
     public function up()
     {
-        Schema::create('media', function($table)
+        Schema::create('blogify_media', function($table)
         {
             $table->increments('id');
             $table->string('hash', 80)->unique();
             $table->string('type', 25);
             $table->string('path', 200);
             $table->integer('post_id')->unsigned();
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->foreign('post_id')->references('id')->on('blogify_posts');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,7 +32,7 @@ class CreateMediaTable extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists('blogify_media');
     }
 
 }

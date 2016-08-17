@@ -14,7 +14,7 @@ class Media extends BaseModel
      *
      * @var string
      */
-    protected $table = 'media';
+    protected $table = 'blogify_media';
 
     /**
      * The attributes that are mass assignable
@@ -42,7 +42,7 @@ class Media extends BaseModel
 
     public function post()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\post');
+        return $this->belongsTo('jorenvanhocht\Blogify\Models\post', 'post_id');
     }
 
 

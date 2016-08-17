@@ -421,7 +421,7 @@ class PostsController extends BaseController
      */
     private function createFullImagePath($image_name, $extension)
     {
-        return public_path($this->config->upload_paths->posts->images.$image_name.'.'.$extension);
+        return env('PUBLIC_PATH') . $this->config->upload_paths->posts->images.$image_name.'.'.$extension;
     }
 
     /**
@@ -453,7 +453,7 @@ class PostsController extends BaseController
             $post = $this->post->byHash($this->data->hash);
         } else {
             $post = new Post;
-            $post->hash = $this->blogify->makeHash('posts', 'hash', true);
+            $post->hash = $this->blogify->makeHash('blogify_posts', 'hash', true);
         }
 
         $post->slug = $this->data->slug;

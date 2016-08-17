@@ -19,6 +19,7 @@
 @extends('blogify::admin.layouts.dashboard')
 @section('page_heading',trans("blogify::posts.form.page.title.create"))
 @section('section')
+
     {!! Form::open( ['route' => 'admin.posts.store'] ) !!}
     {!! Form::hidden('hash', (isset($post)) ? $post->hash : '') !!}
 
@@ -270,11 +271,11 @@
 
 @stop
 @section('scripts')
-    <link rel="stylesheet" type="text/css" href="{{asset('datetimepicker/DateTimePicker.css')}}" />
-    <script type="text/javascript" src="{{asset('datetimepicker/DateTimePicker.js')}}"></script>
-    <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/js/datetimepicker/DateTimePicker.css" />
+    <script type="text/javascript" src="/assets/js/datetimepicker/DateTimePicker.js"></script>
+    <script src="/assets/js/ckeditor/ckeditor.js"></script>
     <!--[if lt IE 9]>
-    <link rel="stylesheet" type="text/css" href="{{asset('datetimepicker/DateTimePicker-ltie9.css')}}" />
-    <script type="text/javascript" src="{{asset('datetimepicker/DateTimePicker-ltie9.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/js/datetimepicker/DateTimePicker-ltie9.css" />
+    <script type="text/javascript" src="/assets/js/datetimepicker/DateTimePicker-ltie9.js"></script>
     <![endif]-->
 @endsection

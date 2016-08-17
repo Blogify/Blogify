@@ -12,7 +12,7 @@ class CreatePostsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('posts', function($table)
+        Schema::create('blogify_posts', function($table)
         {
             $table->increments('id');
             $table->string('hash', 80)->unique();
@@ -23,7 +23,7 @@ class CreatePostsTable extends Migration {
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on(config('blogify.blogify.users_table'));
             $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('blogify_categories');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -36,7 +36,7 @@ class CreatePostsTable extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('blogify_posts');
     }
 
 }

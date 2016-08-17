@@ -15,7 +15,7 @@ class Post extends BaseModel
      *
      * @var string
      */
-    protected $table = 'posts';
+    protected $table = 'blogify_posts';
 
     /**
      * The attributes that are mass assignable
@@ -43,27 +43,27 @@ class Post extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('App\User')->withTrashed();
+        return $this->belongsTo('App\User', 'user_id')->withTrashed();
     }
 
     public function comment()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\Comment');
+        return $this->hasMany('jorenvanhocht\Blogify\Models\Comment', 'post_id', 'id');
     }
 
     public function category()
     {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\Category')->withTrashed();
+        return $this->belongsTo('jorenvanhocht\Blogify\Models\Category', 'category_id')->withTrashed();
     }
 
     public function media()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\Media');
+        return $this->hasMany('jorenvanhocht\Blogify\Models\Media', 'id');
     }
 
     public function tag()
     {
-        return $this->belongsToMany('jorenvanhocht\Blogify\Models\tag', 'posts_have_tags', 'post_id', 'tag_id')->withTrashed();
+        return $this->belongsToMany('jorenvanhocht\Blogify\Models\tag', 'blogify_posts_have_tags', 'post_id', 'tag_id')->withTrashed();
     }
 
     public function status()

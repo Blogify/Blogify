@@ -41,7 +41,7 @@ class CategoryRequest extends Request
         $id = isset($segment) ? $this->category->byHash($this->segment(3))->id : 0;
 
         return [
-            'name'		=> "required|unique:categories,name,$id|min:3|max:45",
+            'name'		=> "required|unique:blogify_categories,name,$id|min:3|max:45",
         ];
     }
 

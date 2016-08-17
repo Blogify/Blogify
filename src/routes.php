@@ -60,18 +60,6 @@ $admin = [
 
 Route::group($admin, function()
 {
-    Route::group(['middleware' => 'BlogifyGuest'], function() {
-        // Login
-        Route::get('login', [
-            'as'    =>  'admin.login',
-            'uses'  =>  'AuthController@index'
-        ]);
-
-        Route::post('login/post', [
-            'as'    =>  'admin.login.post',
-            'uses'  =>  'AuthController@login'
-        ]);
-    });
 
     Route::group(['middleware' => 'BlogifyAdminAuthenticate'], function()
     {

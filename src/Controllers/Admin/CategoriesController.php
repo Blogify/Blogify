@@ -97,6 +97,7 @@ class CategoriesController extends BaseController
      */
     public function store(CategoryRequest $request)
     {
+
         $category = $this->storeOrUpdateCategory($request);
 
         $this->tracert->log('categories', $category->id, $this->auth_user->id);
@@ -216,7 +217,7 @@ class CategoriesController extends BaseController
             $category = $cat;
         } else {
             $category = new Category;
-            $category->hash = $this->blogify->makeHash('categories', 'hash', true);
+            $category->hash = $this->blogify->makeHash('blogify_categories', 'hash', true);
         }
 
         $category->name = $request->name;

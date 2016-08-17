@@ -12,7 +12,7 @@ class CreateRolesTable extends Migration {
      */
     public function up()
     {
-        Schema::create('roles', function($table)
+        Schema::create('blogify_roles', function($table)
         {
             $table->increments('id');
             $table->string('hash', 80)->unique();
@@ -27,7 +27,7 @@ class CreateRolesTable extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('blogify_roles');
     }
 
 }
