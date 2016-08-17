@@ -53,12 +53,12 @@ class BlogifyAdminAuthenticate
                 return response('Unauthorized.', 401);
             }
 
-            return redirect()->route('admin.login');
+            return redirect('auth/login');
         }
 
         // Check if the user has permission to visit the admin panel
         if (! in_array($this->auth->user()->role_id, $this->allowed_roles)) {
-            return redirect()->route('admin.login');
+            return redirect('auth/login');
         }
 
         return $next($request);
