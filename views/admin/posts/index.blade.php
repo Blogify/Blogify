@@ -25,6 +25,7 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
             <th role="slug"><a href="{!! route('admin.api.sort', ['posts', 'slug', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by slug" class="sort"> {{ trans("blogify::posts.overview.table_head.slug") }} </a></th>
             <th role="status_id"><a href="{!! route('admin.api.sort', ['posts', 'status_id', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by status" class="sort"> {{ trans("blogify::posts.overview.table_head.status") }} </a></th>
             <th role="publish_date"><a href="{!! route('admin.api.sort', ['posts', 'publish_date', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by publish date" class="sort"> {{ trans("blogify::posts.overview.table_head.publish_date") }} <span class="fa fa-sort-down fa-fw"></span> </a></th>
+            <th role="highlight"><a href="{!! route('admin.api.sort', ['posts', 'highlight', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by feature" class="sort">Feature<span class="fa fa-sort-down fa-fw"></span> </a></th>
             <th> {{ trans("blogify::posts.overview.table_head.actions") }} </th>
         </tr>
         </thead>
@@ -42,6 +43,7 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
                 <td>{!! $post->slug !!}</td>
                 <td>{!! $post->status->name !!}</td>
                 <td>{!! $post->publish_date !!}</td>
+                <td>{{ $post->highlight == 1 ? 'Yes' : 'No' }}</td>
                 <td>
                     @if(!$trashed)
                         <a href="{{ route('admin.posts.edit', [$post->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>

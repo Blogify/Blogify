@@ -457,6 +457,7 @@ class PostsController extends BaseController
         }
 
         $post->slug = $this->data->slug;
+        $post->highlight = $this->data->highlight;
         $post->title = $this->data->title;
         $post->content = $this->data->post;
         $post->status_id = $this->status->byHash($this->data->status)->id;
@@ -466,6 +467,7 @@ class PostsController extends BaseController
         $post->visibility_id = $this->visibility->byHash($this->data->visibility)->id;
         $post->category_id = $this->category->byHash($this->data->category)->id;
         $post->being_edited_by = null;
+        $post->highlight = $this->data->highlight;
 
         if (!empty($this->data->password)) {
             $post->password = $this->hash->make($this->data->password);
@@ -508,6 +510,7 @@ class PostsController extends BaseController
         $post['hash'] = '';
         $post['title'] = $cached_post['title'];
         $post['slug'] = $cached_post['slug'];
+        $post['highlight'] = $cached_post['highlight'];
         $post['content'] = $cached_post['content'];
         $post['publish_date'] = $cached_post['publishdate'];
         $post['status_id'] = $this->status->byHash($cached_post['status'])->id;

@@ -4,6 +4,7 @@ namespace jorenvanhocht\Blogify\Models;
 
 use Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Post extends BaseModel
 {
@@ -31,6 +32,9 @@ class Post extends BaseModel
      */
     public $timestamps = true;
 
+    public $dates = [
+        //'publish_date'
+    ];
     /*
     |--------------------------------------------------------------------------
     | Relationships
@@ -96,6 +100,11 @@ class Post extends BaseModel
         return date("d-m-Y H:i", strtotime($value));
     }
 
+    public function getCarbonPublishDateAttribute($value)
+    {
+        return new Carbon($value);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Scopes
@@ -130,5 +139,23 @@ class Post extends BaseModel
     {
         return $query->where('publish_date', '<=', date('Y-m-d H:i:s'))
                     ->where('visibility_id', '=', '1');
+    }
+
+
+
+    //Accessors
+
+    /**
+     * Get the post's image.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getSrcImageAttribute($value)
+    {
+
+        return is_null($this->image) ?
+            'aaa' :
+            $this->image;
     }
 }

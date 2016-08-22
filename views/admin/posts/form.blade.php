@@ -42,6 +42,17 @@
                     @endif
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('slug') ? 'has-error' : '' }} has-feedback">
+                    Feature post : {!! Form::select('highlight', [0 => 'No', 1 => 'Yes'], isset($post) ? $post->highlight : 0, [ 'class' => 'form-control', 'id' => 'highlight' ] ) !!}
+                    <span class="hidden form-control-feedback" aria-hidden="true"><img src="{{URL::asset('assets/blogify/img/ajax-loader.gif')}}" /></span>
+                    @if ( $errors->has('slug') )
+                        <span class="help-block text-danger">{{$errors->first('slug')}}</span>
+                    @endif
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-12 col-md-12 form-group {{ $errors->has('post') ? 'has-error' : '' }}">
                     <textarea name="post" id="post" class="form-control">
