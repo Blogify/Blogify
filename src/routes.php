@@ -30,6 +30,10 @@ if ($use_default_routes) {
             'as' => 'comments.store',
             'uses' => 'CommentsController@store'
         ]);
+        Route::get('press', [
+            'as' => 'blog.press',
+            'uses' => 'BlogController@press'
+        ]);
     });
 }
 ///////////////////////////////////////////////////////////////////////////

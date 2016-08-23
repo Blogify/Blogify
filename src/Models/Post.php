@@ -5,6 +5,7 @@ namespace jorenvanhocht\Blogify\Models;
 use Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Sunra\PhpSimple\HtmlDomParser;
 
 class Post extends BaseModel
 {
@@ -153,9 +154,16 @@ class Post extends BaseModel
      */
     public function getSrcImageAttribute($value)
     {
+        if (is_null($this->image))
+        {
+            $dom = HtmlDomParser::str_get_html($this->content);
+            $src = isset($dom->find('img')[0]) ? $dom->find('img')[0]->src : null ;
 
-        return is_null($this->image) ?
-            'aaa' :
-            $this->image;
+            return $src;
+
+        }
+        else
+            return $this->image;
+
     }
 }
