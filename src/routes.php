@@ -36,19 +36,6 @@ if ($use_default_routes) {
         ]);
     });
 }
-///////////////////////////////////////////////////////////////////////////
-// Logged in user routes
-///////////////////////////////////////////////////////////////////////////
-
-Route::group(['prefix' => 'auth'], function()
-{
-
-    Route::group(['middleware' => 'auth|web'], function()
-    {
-
-    });
-
-});
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -65,7 +52,7 @@ $admin = [
 Route::group($admin, function()
 {
 
-    Route::group(['middleware' => 'BlogifyAdminAuthenticate'], function()
+    Route::group(['middleware' => 'isAdmin'], function()
     {
         // Dashboard
         Route::get('/', [
@@ -134,32 +121,30 @@ Route::group($admin, function()
             'uses' => 'PostsController@restore'
         ]);
 
-        Route::group(['middleware' => 'HasAdminOrAuthorRole'], function() {
-            Route::resource('tags', 'TagsController', [
-                'except'    => 'store'
-            ]);
-            Route::post('tags', [
-                'as'    => 'admin.tags.store',
-                'uses'  => 'TagsController@storeOrUpdate'
-            ]);
-            Route::get('tags/overview/{trashed?}', [
-                'as'    => 'admin.tags.overview',
-                'uses'  => 'TagsController@index',
-            ]);
-            Route::get('tags/{hash}/restore', [
-                'as' => 'admin.tags.restore',
-                'uses' => 'TagsController@restore'
-            ]);
+        Route::resource('tags', 'TagsController', [
+            'except'    => 'store'
+        ]);
+        Route::post('tags', [
+            'as'    => 'admin.tags.store',
+            'uses'  => 'TagsController@storeOrUpdate'
+        ]);
+        Route::get('tags/overview/{trashed?}', [
+            'as'    => 'admin.tags.overview',
+            'uses'  => 'TagsController@index',
+        ]);
+        Route::get('tags/{hash}/restore', [
+            'as' => 'admin.tags.restore',
+            'uses' => 'TagsController@restore'
+        ]);
 
-            Route::get('comments/{revised?}', [
-                'as'    => 'admin.comments.index',
-                'uses'  => 'CommentsController@index'
-            ]);
-            Route::get('comments/changestatus/{hash}/{revised}', [
-                'as'    => 'admin.comments.changeStatus',
-                'uses'  => 'CommentsController@changeStatus'
-            ]);
-        });
+        Route::get('comments/{revised?}', [
+            'as'    => 'admin.comments.index',
+            'uses'  => 'CommentsController@index'
+        ]);
+        Route::get('comments/changestatus/{hash}/{revised}', [
+            'as'    => 'admin.comments.changeStatus',
+            'uses'  => 'CommentsController@changeStatus'
+        ]);
 
         Route::resource('profile', 'ProfileController');
 

@@ -510,7 +510,7 @@ class PostsController extends BaseController
         $post['hash'] = '';
         $post['title'] = $cached_post['title'];
         $post['slug'] = $cached_post['slug'];
-        $post['highlight'] = $cached_post['highlight'];
+        $post['highlight'] = isset($cached_post['highlight']) ? $cached_post['highlight'] : 0;
         $post['content'] = $cached_post['content'];
         $post['publish_date'] = $cached_post['publishdate'];
         $post['status_id'] = $this->status->byHash($cached_post['status'])->id;

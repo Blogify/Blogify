@@ -2,31 +2,7 @@
 @section('page_heading','Dashboard')
 @section('section')
 
-    @if ( isset($new_users_since_last_visit) )
         <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-users fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge">{{$new_users_since_last_visit}}</div>
-                                <div>@lang('blogify::dashboard.new_users')</div>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="{{route('admin.users.index')}}">
-                        <div class="panel-footer">
-                            <span class="pull-left">@lang('blogify::dashboard.view_all_users')</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        @endif
 
         @if ( isset($published_posts) )
             <div class="col-lg-3 col-md-6">
@@ -105,13 +81,16 @@
 
     </div>
 
-    @if ( isset($activity) )
+
+    @if (isset($activity))
+
     <div class="row">
         <div class="col-md-12">
             @section ('activityfeed_panel_title', trans('blogify::dashboard.activity_feed.title'))
             @section ('activityfeed_panel_body')
                 <div class="list-group">
                     @foreach ( $activity as $item )
+
                         @if( $item->table == 'posts' )
                             <?php
                                 $icon = 'fa-pencil';
@@ -123,6 +102,7 @@
                                         </span>
                                 </a>
                         @endif
+
                         @if ( $item->table == 'comments' )
                                 <?php
                                     $icon = 'fa-comments';
@@ -145,6 +125,7 @@
                                         </span>
                                     </a>
                         @endif
+
                         @if ( $item->table == 'tags' )
                                 <?php
                                     $icon = 'fa-tags';
@@ -156,7 +137,9 @@
                                         </span>
                                     </a>
                         @endif
+
                     @endforeach
+
                 </div>
                 <!-- /.list-group -->
 

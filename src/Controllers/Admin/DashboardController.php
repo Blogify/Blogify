@@ -69,8 +69,9 @@ class DashboardController extends BaseController
         $this->tracert = $tracert;
 
         if ($this->auth_user) {
-            $this->{"buildDataArrayFor".$this->auth_user->role->name}();
+            $this->buildDataArrayForAdmin();
         }
+
     }
 
     ///////////////////////////////////////////////////////////////////////////

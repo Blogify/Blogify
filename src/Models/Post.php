@@ -142,6 +142,12 @@ class Post extends BaseModel
                     ->where('visibility_id', '=', '1');
     }
 
+    public function scopeNotPress($query)
+    {
+            return $query->whereHas('category', function($query){
+                $query->where('name', '!=', 'press');
+            });
+    }
 
 
     //Accessors
