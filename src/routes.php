@@ -52,7 +52,7 @@ $admin = [
 Route::group($admin, function()
 {
 
-    Route::group(['middleware' => 'isAdmin'], function()
+    Route::group(['middleware' => ['auth', 'isAdmin']], function()
     {
         // Dashboard
         Route::get('/', [

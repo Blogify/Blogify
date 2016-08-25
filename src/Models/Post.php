@@ -33,9 +33,6 @@ class Post extends BaseModel
      */
     public $timestamps = true;
 
-    public $dates = [
-        //'publish_date'
-    ];
     /*
     |--------------------------------------------------------------------------
     | Relationships
@@ -103,7 +100,7 @@ class Post extends BaseModel
 
     public function getCarbonPublishDateAttribute($value)
     {
-        return new Carbon($value);
+        return new Carbon($this->publish_date);
     }
 
     /*

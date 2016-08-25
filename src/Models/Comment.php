@@ -30,6 +30,7 @@ class Comment extends BaseModel
      */
     public $timestamps = true;
 
+
     /*
     |--------------------------------------------------------------------------
     | Relationships
