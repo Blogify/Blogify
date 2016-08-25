@@ -221,6 +221,7 @@ class CategoriesController extends BaseController
         }
 
         $category->name = $request->name;
+        $category->slug = $request->slug;
         $category->save();
 
         return $category;
