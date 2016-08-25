@@ -26,7 +26,8 @@
     <div class="row">
         <div class="col-lg-8 col-md-12">
             <div class="row">
-                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+                <div class="col-md-2"><p>Title:</p></div>
+                <div class="col-md-10 form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                     {!! Form::text('title', isset($post) ? $post->title : '' , [ 'class' => 'form-control', 'id' => 'title', 'placeholder' => trans("blogify::posts.form.title.placeholder") ] ) !!}
                     @if ( $errors->has('title') )
                         <span class="help-block text-danger">{{$errors->first('title')}}</span>
@@ -34,7 +35,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('slug') ? 'has-error' : '' }} has-feedback">
+                <div class="col-md-2"><p>Slug:</p></div>
+                <div class="col-md-10 form-group {{ $errors->has('slug') ? 'has-error' : '' }} has-feedback">
                     {!! Form::text('slug', isset($post) ? $post->slug : '', [ 'class' => 'form-control', 'id' => 'slug', 'placeholder' => trans("blogify::posts.form.slug.placeholder") ] ) !!}
                     <span class="hidden form-control-feedback" aria-hidden="true"><img src="{{URL::asset('assets/blogify/img/ajax-loader.gif')}}" /></span>
                     @if ( $errors->has('slug') )
@@ -44,14 +46,42 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-12 col-md-12 form-group {{ $errors->has('slug') ? 'has-error' : '' }} has-feedback">
-                    Feature post : {!! Form::select('highlight', [0 => 'No', 1 => 'Yes'], isset($post) ? $post->highlight : 0, [ 'class' => 'form-control', 'id' => 'highlight' ] ) !!}
+
+                <div class="col-md-2"><p>Feature post:</p></div>
+                <div class="col-md-10 form-group {{ $errors->has('slug') ? 'has-error' : '' }} has-feedback">
+                    {!! Form::select('highlight', [0 => 'No', 1 => 'Yes'], isset($post) ? $post->highlight : 0, [ 'class' => 'form-control', 'id' => 'highlight' ] ) !!}
                     <span class="hidden form-control-feedback" aria-hidden="true"><img src="{{URL::asset('assets/blogify/img/ajax-loader.gif')}}" /></span>
                     @if ( $errors->has('slug') )
                         <span class="help-block text-danger">{{$errors->first('slug')}}</span>
                     @endif
                 </div>
             </div>
+
+            <div class="row">
+                <div class=col-md-2>
+                    <p>Meta description</p>
+                </div>
+                <div class="col-md-10 form-group {{ $errors->has('meta_desc') ? 'has-error' : '' }}">
+                    {!! Form::text('meta_desc', isset($post) ? $post->meta_desc : '' , [ 'class' => 'form-control', 'id' => 'metaDesc' ] ) !!}
+                    @if ( $errors->has('meta_desc') )
+                        <span class="help-block text-danger">{{$errors->first('meta_desc')}}</span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <p>Meta keywords</p>
+                </div>
+                <div class="col-md-10 form-group {{ $errors->has('meta_keys') ? 'has-error' : '' }}">
+                    {!! Form::text('meta_keys', isset($post) ? $post->meta_keys : '' , [ 'class' => 'form-control', 'id' => 'metaKeys' ] ) !!}
+                    @if ( $errors->has('meta_keys') )
+                        <span class="help-block text-danger">{{$errors->first('meta_keys')}}</span>
+                    @endif
+                </div>
+            </div>
+
+
 
             <div class="row">
                 <div class="col-lg-12 col-md-12 form-group {{ $errors->has('post') ? 'has-error' : '' }}">
