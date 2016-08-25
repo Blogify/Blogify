@@ -48,6 +48,11 @@ class Post extends BaseModel
         return $this->belongsTo('App\User', 'user_id')->withTrashed();
     }
 
+    public function reviewer()
+    {
+        return $this->belongsTo('App\User', 'reviewer_id')->withTrashed();
+    }
+
     public function comment()
     {
         return $this->hasMany('jorenvanhocht\Blogify\Models\Comment', 'post_id', 'id');

@@ -48,11 +48,10 @@
             <div class="row">
 
                 <div class="col-md-2"><p>Feature post:</p></div>
-                <div class="col-md-10 form-group {{ $errors->has('slug') ? 'has-error' : '' }} has-feedback">
+                <div class="col-md-10 form-group {{ $errors->has('highlight') ? 'has-error' : '' }} has-feedback">
                     {!! Form::select('highlight', [0 => 'No', 1 => 'Yes'], isset($post) ? $post->highlight : 0, [ 'class' => 'form-control', 'id' => 'highlight' ] ) !!}
-                    <span class="hidden form-control-feedback" aria-hidden="true"><img src="{{URL::asset('assets/blogify/img/ajax-loader.gif')}}" /></span>
-                    @if ( $errors->has('slug') )
-                        <span class="help-block text-danger">{{$errors->first('slug')}}</span>
+                    @if ( $errors->has('highlight') )
+                        <span class="help-block text-danger">{{$errors->first('highlight')}}</span>
                     @endif
                 </div>
             </div>
