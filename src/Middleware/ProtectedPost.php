@@ -53,6 +53,14 @@ class ProtectedPost
     {
         $post = $this->post->bySlug($request->segment(2));
 
+        if($post->count() == 0) {
+            return redirect('/', 404)
+                ->with(
+                    'error',
+                    'Post not found.'
+                );
+        }
+        
         if ($post->visibility_id == 2) {
 
             if (!$this->hash->check(Input::get('password'), $post->password)) {
