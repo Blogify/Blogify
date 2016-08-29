@@ -1,10 +1,11 @@
 <?php namespace {{namespace}};
 
-use jorenvanhocht\Blogify\Models\Category;
-use jorenvanhocht\Blogify\Models\Post;
-use jorenvanhocht\Blogify\Models\Tag;
 use Carbon\Carbon;
+use jorenvanhocht\Blogify\Models\Tag;
+use jorenvanhocht\Blogify\Models\Post;
 use Illuminate\Database\DatabaseManager;
+use jorenvanhocht\Blogify\Models\Category;
+use jorenvanhocht\Blogify\Middleware\ProtectedPost;
 
 class BlogController extends Controller
 {
@@ -47,7 +48,7 @@ class BlogController extends Controller
         $this->db = $db;
         $this->config = objectify(config('blogify'));
 
-        $this->middleware('jorenvanhocht\Blogify\Middleware\ProtectedPost', ['only' => 'show']);
+        $this->middleware(ProtectedPost::class, ['only' => 'show']);
     }
 
     ///////////////////////////////////////////////////////////////////////////

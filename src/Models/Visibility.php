@@ -2,6 +2,8 @@
 
 namespace jorenvanhocht\Blogify\Models;
 
+use jorenvanhocht\Blogify\Models\Post;
+
 class Visibility extends BaseModel
 {
 
@@ -38,7 +40,7 @@ class Visibility extends BaseModel
 
     public function post()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\Post');
+        return $this->hasMany(Post::class);
     }
 
 }
