@@ -38,7 +38,7 @@ class Role extends BaseModel
 
     public function user()
     {
-        return $this->hasMany('App\User');
+        return $this->hasMany(config('blogify.auth_model'));
     }
 
     /*
