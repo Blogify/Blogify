@@ -178,9 +178,7 @@ class PostsController extends BaseController
      */
     public function create()
     {
-        $hash = $this->auth_user->hash;
-        $post = $this->cache->has("autoSavedPost-$hash") ? $this->buildPostObject() : null;
-        $data = $this->getViewData($post);
+        $data = $this->getViewData(null);
 
         return view('blogify::admin.posts.form', $data);
     }
@@ -209,9 +207,7 @@ class PostsController extends BaseController
     public function edit($hash)
     {
         $originalPost = $this->post->byHash($hash);
-        $hash = $this->auth_user->hash;
-        $post = $this->cache->has("autoSavedPost-$hash") ? $this->buildPostObject() : $originalPost;
-        $data = $this->getViewData($post);
+        $data = $this->getViewData($originalPost);
 
         $originalPost->being_edited_by = $this->auth_user->id;
         $originalPost->save();
@@ -253,9 +249,6 @@ class PostsController extends BaseController
             'model' => 'Post', 'name' => $post->title, 'action' => $action
         ]);
         session()->flash('notify', ['success', $message]);
-
-        $hash = $this->auth_user->hash;
-        $this->cache->forget("autoSavedPost-$hash");
 
         return redirect()->route('admin.posts.index');
     }
@@ -312,11 +305,6 @@ class PostsController extends BaseController
     {
         if (! isset($hash)) {
             return redirect()->route('admin.posts.index');
-        }
-
-        $userHash = $this->auth_user->hash;
-        if ($this->cache->has("autoSavedPost-$userHash")) {
-            $this->cache->forget("autoSavedPost-$userHash");
         }
 
         $post = $this->post->byHash($hash);
