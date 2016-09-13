@@ -122,7 +122,7 @@ class BlogifyGeneratePublicPartCommand extends Command
     {
         $basepath = app_path('../resources/views/blogify/');
         $path = $basepath."templates/";
-
+dd($path);
         if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
         }
