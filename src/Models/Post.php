@@ -135,7 +135,7 @@ class Post extends BaseModel
 
     public function scopeBySlug($query, $slug)
     {
-        return $query->whereSlug($slug)->first();
+        return $query->whereSlug($slug)->firstOrFail();
     }
 
     public function scopeForPublic($query)
