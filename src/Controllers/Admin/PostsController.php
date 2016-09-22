@@ -389,17 +389,12 @@ class PostsController extends BaseController
      */
     private function resizeAndSaveImage($image)
     {
-        $image_name = $this->createImageName();
-        $fullpath = $this->createFullImagePath($image_name, $image->getClientOriginalExtension());
+        $image_name = $image->getClientOriginalName();
+        $fullpath = $this->createFullImagePath($image_name);
 
-        Image::make($image->getRealPath())
-            ->resize($this->config->image_sizes->posts[0], null, function($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })
-            ->save($fullpath);
+        Image::make($image->getRealPath())->save($fullpath);
 
-        return $image_name.'.'.$image->getClientOriginalExtension();
+        return $image_name;
     }
 
     /**
@@ -407,9 +402,9 @@ class PostsController extends BaseController
      * @param $extension
      * @return string
      */
-    private function createFullImagePath($image_name, $extension)
+    private function createFullImagePath($image_name)
     {
-        return env('PUBLIC_PATH') . $this->config->upload_paths->posts->images.$image_name.'.'.$extension;
+        return env('PUBLIC_PATH') . $this->config->upload_paths->posts->images.$image_name;
     }
 
     /**
