@@ -452,6 +452,7 @@ class PostsController extends BaseController
         $post->highlight = $this->data->highlight;
         $post->meta_desc = $this->data->meta_desc;
         $post->meta_keys = $this->data->meta_keys;
+        $post->meta_title = $this->data->meta_title;
 
         if (!empty($this->data->password)) {
             $post->password = $this->hash->make($this->data->password);
@@ -497,6 +498,7 @@ class PostsController extends BaseController
         $post['highlight'] = $cached_post['highlight'];
         $post['meta_desc'] = $cached_post['meta_desc'];
         $post['meta_keys'] = $cached_post['meta_keys'];
+        $post['meta_title'] = $cached_post['meta_title'];
         $post['content'] = $cached_post['content'];
         $post['publish_date'] = $cached_post['publishdate'];
         $post['status_id'] = $this->status->byHash($cached_post['status'])->id;

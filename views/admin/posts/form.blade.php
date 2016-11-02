@@ -79,6 +79,18 @@
                     @endif
                 </div>
             </div>
+            
+            <div class="row">
+                <div class=col-md-2>
+                    <p>Meta title</p>
+                </div>
+                <div class="col-md-10 form-group {{ $errors->has('meta_title') ? 'has-error' : '' }}">
+                    {!! Form::text('meta_title', isset($post) ? $post->meta_title : '' , [ 'class' => 'form-control', 'id' => 'metaTitle' ] ) !!}
+                    @if ( $errors->has('meta_title') )
+                        <span class="help-block text-danger">{{$errors->first('meta_title')}}</span>
+                    @endif
+                </div>
+            </div>
 
 
 
