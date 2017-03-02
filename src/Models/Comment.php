@@ -43,7 +43,7 @@ class Comment extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('App\user', 'user_id');
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     public function post()
