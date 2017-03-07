@@ -24,9 +24,6 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="{{route('admin.profile.edit', Auth::user()->hash)}}"><i class="fa fa-user fa-fw"></i> {{ trans("blogify::navigation.profile") }} </a>
                         </li>
-                        <li class="divider"></li>
-                        <li><a href="{!! route('admin.logout') !!}"><i class="fa fa-sign-out fa-fw"></i> {{ trans("blogify::navigation.logout") }} </a>
-                        </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
