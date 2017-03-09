@@ -84,12 +84,12 @@ class CommentsController extends BaseController
         $comment->revised = $revised;
         $comment->save();
 
-        $this->tracert->log(
+        /*$this->tracert->log(
             'comments',
             $comment->id,
             $this->auth_user->id,
             $new_revised
-        );
+        );*/
 
         $message = trans(
             'blogify::notify.comment_success',

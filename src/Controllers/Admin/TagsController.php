@@ -163,7 +163,7 @@ class TagsController extends BaseController
         $tag->name = $request->tags;
         $tag->save();
 
-        $this->tracert->log('tags', $tag->id, $this->auth_user->id, 'update');
+        //$this->tracert->log('tags', $tag->id, $this->auth_user->id, 'update');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Tags', 'name' => $tag->name, 'action' =>'updated'
@@ -182,7 +182,7 @@ class TagsController extends BaseController
         $tag = $this->tag->byHash($hash);
         $tag->delete();
 
-        $this->tracert->log('tags', $tag->id, $this->auth_user->id, 'delete');
+        //$this->tracert->log('tags', $tag->id, $this->auth_user->id, 'delete');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Tags', 'name' => $tag->name, 'action' =>'deleted'
@@ -251,7 +251,7 @@ class TagsController extends BaseController
 
             $tag->save();
             array_push($this->stored_tags, $tag);
-            $this->tracert->log('tags', $tag->id, $this->auth_user->id);
+            //$this->tracert->log('tags', $tag->id, $this->auth_user->id);
         }
     }
 

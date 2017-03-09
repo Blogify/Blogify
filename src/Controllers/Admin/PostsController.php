@@ -243,7 +243,7 @@ class PostsController extends BaseController
 
         $action = ($request->hash == '') ? 'created' : 'updated';
 
-        $this->tracert->log('posts', $post->id, $this->auth_user->id, $action);
+        //$this->tracert->log('posts', $post->id, $this->auth_user->id, $action);
 
         $message = trans('blogify::notify.success', [
             'model' => 'Post', 'name' => $post->title, 'action' => $action
@@ -262,7 +262,7 @@ class PostsController extends BaseController
         $post = $this->post->byHash($hash);
         $post->delete();
 
-        $this->tracert->log('posts', $post->id, $this->auth_user->id, 'delete');
+        //$this->tracert->log('posts', $post->id, $this->auth_user->id, 'delete');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Post', 'name' => $post->title, 'action' =>'deleted'
@@ -311,7 +311,7 @@ class PostsController extends BaseController
         $post->being_edited_by = null;
         $post->save();
 
-        $this->tracert->log('posts', $post->id, $this->auth_user->id, 'canceled');
+        //$this->tracert->log('posts', $post->id, $this->auth_user->id, 'canceled');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Post', 'name' => $post->name, 'action' =>'canceled'

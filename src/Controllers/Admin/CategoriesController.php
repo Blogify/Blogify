@@ -100,7 +100,7 @@ class CategoriesController extends BaseController
 
         $category = $this->storeOrUpdateCategory($request);
 
-        $this->tracert->log('categories', $category->id, $this->auth_user->id);
+        //$this->tracert->log('categories', $category->id, $this->auth_user->id);
 
         if ($request->ajax()) {
             return $category;
@@ -129,12 +129,12 @@ class CategoriesController extends BaseController
         $category->name = $request->name;
         $category->save();
 
-        $this->tracert->log(
+        /*$this->tracert->log(
             'categories',
             $category->id,
             $this->auth_user->id,
             'update'
-        );
+        );*/
 
         $message = trans(
             'blogify::notify.success', [
@@ -158,12 +158,12 @@ class CategoriesController extends BaseController
         $category_name = $category->name;
         $category->delete();
 
-        $this->tracert->log(
+        /*$this->tracert->log(
             'categories',
             $category->id,
             $this->auth_user->id,
             'delete'
-        );
+        );*/
 
         $message = trans(
             'blogify::notify.success', [
