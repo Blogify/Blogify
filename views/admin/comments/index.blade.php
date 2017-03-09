@@ -44,9 +44,9 @@ $currentPage = (Request::has('page')) ? Request::get('page') : '1';
                 <td><a href="{{route('admin.posts.show', [$comment->post->hash])}}" title="{{ $comment->post->title }}">{!! $comment->post->title !!}</a></td>
                 <td>{!! $comment->created_at !!}</td>
                 <td>
-                    <a href="{{ route('admin.comments.changeStatus', [$comment->hash, 'approved'] ) }}" title="{{ trans('blogify::comments.overview.actions.approve') }}"><span class="fa fa-check fa-fw"></span></a>
-                    <a href="{{ route('admin.comments.changeStatus', [$comment->hash, 'disapproved'] ) }}" title="{{ trans('blogify::comments.overview.actions.disapprove') }}"><span class="fa fa-times fa-fw"></span></a>
-                    <a href="{{ route('admin.comments.changeStatus', [$comment->hash, 'pending'] ) }}" title="{{ trans('blogify::comments.overview.actions.pending') }}"><span class="fa fa-question fa-fw"></span></a>
+                    <a href="{{ route('admin.comments.changeStatus', [$comment->id, 'approved'] ) }}" title="{{ trans('blogify::comments.overview.actions.approve') }}"><span class="fa fa-check fa-fw"></span></a>
+                    <a href="{{ route('admin.comments.changeStatus', [$comment->id, 'disapproved'] ) }}" title="{{ trans('blogify::comments.overview.actions.disapprove') }}"><span class="fa fa-times fa-fw"></span></a>
+                    <a href="{{ route('admin.comments.changeStatus', [$comment->id, 'pending'] ) }}" title="{{ trans('blogify::comments.overview.actions.pending') }}"><span class="fa fa-question fa-fw"></span></a>
                 </td>
             </tr>
         @endforeach
