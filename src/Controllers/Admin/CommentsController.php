@@ -53,6 +53,9 @@ class CommentsController extends BaseController
         $data = [
             'comments' => $this->comment
                                 ->byRevised($revised)
+                                ->with(['user' => function($query){
+                                    $query->withTrashed();
+                                }])
                                 ->paginate($this->config->items_per_page),
             'revised' => $revised,
         ];
