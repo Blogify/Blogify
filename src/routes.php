@@ -138,7 +138,7 @@ Route::group($admin, function()
             'as'   => 'comments.index',
             'uses' => 'CommentsController@index'
         ]);
-        Route::get('comments/changestatus/{hash}/{revised}', [
+        Route::get('comments/changestatus/{id}/{revised}', [
             'as'   => 'comments.changeStatus',
             'uses' => 'CommentsController@changeStatus'
         ]);

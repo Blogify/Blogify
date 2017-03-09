@@ -73,14 +73,15 @@ class CommentsController extends BaseController
      * @param string $new_revised
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function changeStatus($hash, $new_revised)
+    public function changeStatus($id, $new_revised)
     {
         $revised = $this->checkRevised($new_revised);
         if ($revised === false) {
             abort(404);
         }
 
-        $comment = $this->comment->byHash($hash);
+        //$comment = $this->comment->byHash($hash);
+        $comment = $this->comment->find($id);
         $comment->revised = $revised;
         $comment->save();
 
