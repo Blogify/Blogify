@@ -133,7 +133,7 @@ class PostsController extends BaseController
 
         $this->appendMiddleware();
 
-        $this->id = $id
+        $this->id = $id;
         $this->tag = $tag;
         $this->role = $role;
         $this->user = $user;
