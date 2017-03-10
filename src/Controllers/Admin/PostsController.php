@@ -187,10 +187,11 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\View\View
      */
-    public function show($hash)
+    public function show($id)
     {
         $data = [
-            'post' => $this->post->byHash($hash),
+            //'post' => $this->post->byHash($hash),
+            'post' => $this->post->first($id),
         ];
 
         if ($data['post']->count() <= 0) {
