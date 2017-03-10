@@ -114,7 +114,6 @@ class PostsController extends BaseController
      * @param \jorenvanhocht\Tracert\Tracert $tracert
      */
     public function __construct(
-        Id $id,
         Tag $tag,
         Role $role,
         User $user,
@@ -133,7 +132,6 @@ class PostsController extends BaseController
 
         $this->appendMiddleware();
 
-        $this->id = $id;
         $this->tag = $tag;
         $this->role = $role;
         $this->user = $user;
@@ -189,11 +187,10 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show($hash)
     {
         $data = [
-            //'post' => $this->post->byHash($hash),
-            'post' => $this->post->first($id),
+            'post' => $this->post->byHash($hash),
         ];
 
         if ($data['post']->count() <= 0) {
@@ -207,10 +204,9 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit($hash)
     {
-        //$originalPost = $this->post->byHash($hash);
-        $originalPost = $this->post->first($id);
+        $originalPost = $this->post->byHash($hash);
         $data = $this->getViewData($originalPost);
 
         $originalPost->being_edited_by = $this->auth_user->id;
@@ -261,10 +257,9 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($hash)
     {
-        //$post = $this->post->byHash($hash);
-        $post = $this->post->first($id);
+        $post = $this->post->byHash($hash);
         $post->delete();
 
         //$this->tracert->log('posts', $post->id, $this->auth_user->id, 'delete');
