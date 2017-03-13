@@ -205,9 +205,10 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\View\View
      */
-    public function edit($hash)
+    public function edit($id)
     {
-        $originalPost = $this->post->byHash($hash);
+        //$originalPost = $this->post->byHash($hash);
+        $originalPost = $this->post->find($id);
         $data = $this->getViewData($originalPost);
 
         $originalPost->being_edited_by = $this->auth_user->id;
@@ -258,9 +259,10 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($hash)
+    public function destroy($id)
     {
-        $post = $this->post->byHash($hash);
+        //$post = $this->post->byHash($hash);
+        $post = $this->post->find($id);
         $post->delete();
 
         //$this->tracert->log('posts', $post->id, $this->auth_user->id, 'delete');
@@ -302,13 +304,14 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function cancel($hash = null)
+    public function cancel($id = null)
     {
-        if (! isset($hash)) {
+        if (! isset($id)) {
             return redirect()->route('admin.posts.index');
         }
 
-        $post = $this->post->byHash($hash);
+        //$post = $this->post->byHash($hash);
+        $post = $this->post->find($id);
         $post->being_edited_by = null;
         $post->save();
 
@@ -326,9 +329,10 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($hash)
+    public function restore($id)
     {
-        $post = $this->post->withTrashed()->byHash($hash);
+        //$post = $this->post->withTrashed()->byHash($hash);
+        $post = $this->post->withTrashed()->find($id);
         $post->restore();
 
         $message = trans('blogify::notify.success', [
