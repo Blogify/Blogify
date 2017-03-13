@@ -23,7 +23,7 @@ if ($use_default_routes)
             'as'   => 'blog.category',
             'uses' => 'BlogController@category',
         ]);
-        Route::get('blog/protected/verify/{hash}', [
+        Route::get('blog/protected/verify/{id}', [
             'as'   => 'blog.askPassword',
             'uses' => 'BlogController@askPassword'
         ]);
@@ -73,7 +73,7 @@ Route::group($admin, function()
                 'as'   => 'users.overview',
                 'uses' => 'UserController@index',
             ]);
-            Route::get('users/{hash}/restore', [
+            Route::get('users/{id}/restore', [
                 'as'   => 'users.restore',
                 'uses' => 'UserController@restore'
             ]);
@@ -83,7 +83,7 @@ Route::group($admin, function()
                 'as'   => 'categories.overview',
                 'uses' => 'CategoriesController@index',
             ]);
-            Route::get('categories/{hash}/restore', [
+            Route::get('categories/{id}/restore', [
                 'as'   => 'categories.restore',
                 'uses' => 'CategoriesController@restore'
             ]);
@@ -109,11 +109,11 @@ Route::group($admin, function()
             'as'   => 'posts.overview',
             'uses' => 'PostsController@index',
         ]);
-        Route::get('posts/action/cancel/{hash?}', [
+        Route::get('posts/action/cancel/{id?}', [
             'as'   => 'posts.cancel',
             'uses' => 'PostsController@cancel',
         ]);
-        Route::get('posts/{hash}/restore', [
+        Route::get('posts/{id}/restore', [
             'as'   => 'posts.restore',
             'uses' => 'PostsController@restore'
         ]);
@@ -129,7 +129,7 @@ Route::group($admin, function()
             'as'   => 'tags.overview',
             'uses' => 'TagsController@index',
         ]);
-        Route::get('tags/{hash}/restore', [
+        Route::get('tags/{id}/restore', [
             'as'   => 'tags.restore',
             'uses' => 'TagsController@restore'
         ]);
@@ -170,7 +170,7 @@ Route::group($admin, function()
                 'uses' => 'ApiController@autoSave',
             ]);
 
-            Route::get('tags/{hash}', [
+            Route::get('tags/{id}', [
                 'as'   => 'api.tags',
                 'uses' => 'ApiController@getTag'
             ]);
