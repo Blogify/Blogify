@@ -125,9 +125,10 @@ class ApiController extends BaseController
      * @param \jorenvanhocht\Blogify\Models\Tag $tag
      * @return mixed
      */
-    public function getTag($hash, Tag $tag)
+    public function getTag($id, Tag $tag)
     {
-        return $tag->byHash($hash);
+        //return $tag->byHash($hash);
+        return $tag->find($id);
     }
     
 }
