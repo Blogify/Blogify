@@ -83,7 +83,7 @@ class CategoriesController extends BaseController
     public function edit($id)
     {
         //$category = $this->category->byHash($hash);
-        $category = $this->category->first($id);
+        $category = $this->category->find($id);
 
         return view('blogify::admin.categories.form', compact('category'));
     }
