@@ -7,7 +7,7 @@
     @if ( ! isset($category) )
         {!! Form::open( [ 'route' => 'admin.categories.store' ] ) !!}
     @else
-        {!! Form::open( [ 'route' => ['admin.categories.update', $category->hash] ] ) !!}
+        {!! Form::open( [ 'route' => ['admin.categories.update', $category->id] ] ) !!}
         {!! Form::hidden('_method', 'PUT') !!}
     @endif
 

@@ -80,9 +80,10 @@ class CategoriesController extends BaseController
      * @param string $hash
      * @return \Illuminate\View\View
      */
-    public function edit($hash)
+    public function edit($id)
     {
-        $category = $this->category->byHash($hash);
+        //$category = $this->category->byHash($hash);
+        $category = $this->category->first($id);
 
         return view('blogify::admin.categories.form', compact('category'));
     }
@@ -123,9 +124,10 @@ class CategoriesController extends BaseController
      * @param \jorenvanhocht\Blogify\Requests\CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update($hash, CategoryRequest $request)
+    public function update($id, CategoryRequest $request)
     {
-        $category = $this->category->byHash($hash);
+        //$category = $this->category->byHash($hash);
+        $category = $this->category->find($id);
         $category->name = $request->name;
         $category->save();
 
@@ -152,9 +154,10 @@ class CategoriesController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($hash)
+    public function destroy($id)
     {
-        $category = $this->category->byHash($hash);
+        //$category = $this->category->byHash($hash);
+        $category = $this->category->find($id);
         $category_name = $category->name;
         $category->delete();
 
@@ -181,9 +184,10 @@ class CategoriesController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($hash)
+    public function restore($id)
     {
-        $category = $this->category->withTrashed()->byHash($hash);
+        //$category = $this->category->withTrashed()->byHash($hash);
+        $category = $this->category->withTrashed()->find($id);
         $category_name = $category->name;
         $category->restore();
 
