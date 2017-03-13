@@ -441,7 +441,7 @@ class PostsController extends BaseController
             $post = $this->post->byHash($this->data->hash);
         } else {
             $post = new Post;
-            $post->hash = $this->blogify->makeHash('blogify_posts', 'hash', true);
+            //$post->hash = $this->blogify->makeHash('blogify_posts', 'hash', true);
         }
 
         $post->slug = $this->data->slug;
