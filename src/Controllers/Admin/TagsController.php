@@ -101,7 +101,7 @@ class TagsController extends BaseController
     {
         $data = [
             //'tag' => $this->tag->byHash($hash),
-            'tag' => $this->tag->first($id),
+            'tag' => $this->tag->find($id),
         ];
 
         return view('blogify::admin.tags.form', $data);
