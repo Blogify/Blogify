@@ -191,7 +191,7 @@ class PostsController extends BaseController
     {
         $data = [
             //'post' => $this->post->byHash($hash),
-            'post' => $this->post->first($id),
+            'post' => $this->post->find($id),
         ];
 
         if ($data['post']->count() <= 0) {
@@ -239,11 +239,11 @@ class PostsController extends BaseController
 
         $post = $this->storeOrUpdatePost();
 
-        if ($this->status->byHash($this->data->status)->name == 'Pending review') {
+        if ($this->status->find($this->data->status)->name == 'Pending review') {
             $this->mailReviewer($post);
         }
 
-        $action = ($request->hash == '') ? 'created' : 'updated';
+        $action = ($request->id == '') ? 'created' : 'updated';
 
         //$this->tracert->log('posts', $post->id, $this->auth_user->id, $action);
 
@@ -428,7 +428,9 @@ class PostsController extends BaseController
         $tags = explode(',', $this->data->tags);
 
         foreach ($tags as $hash) {
-            array_push($this->tags, $this->tag->byHash($hash)->id);
+            //array_push($this->tags, $this->tag->byHash($hash)->id);
+            array_push($this->tags, $this->tag->id);
+
         }
     }
 
@@ -437,8 +439,9 @@ class PostsController extends BaseController
      */
     private function storeOrUpdatePost()
     {
-        if (! empty($this->data->hash)) {
-            $post = $this->post->byHash($this->data->hash);
+        if (! empty($this->data->id)) {
+            //$post = $this->post->byHash($this->data->hash);
+             $post = $this->post->find($this->data->id);
         } else {
             $post = new Post;
             //$post->hash = $this->blogify->makeHash('blogify_posts', 'hash', true);
