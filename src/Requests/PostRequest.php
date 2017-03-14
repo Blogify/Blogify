@@ -45,9 +45,9 @@ class PostRequest extends Request
      */
     public function rules()
     {
-        $hash = $this->input('hash');
-        $id = (! empty($hash)) ? $this->post->byHash($hash)->id : 0;
-        $protected_visibility = $this->visibility->whereName('Protected')->first()->hash;
+        $id = $this->input('id');
+        //$id = (! empty($hash)) ? $this->post->byHash($hash)->id : 0;
+        $protected_visibility = $this->visibility->whereName('Protected')->first()->id;
 
         return [
             'title'             => 'required|min:2|max:100',
