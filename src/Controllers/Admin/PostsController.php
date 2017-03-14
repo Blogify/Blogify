@@ -450,12 +450,12 @@ class PostsController extends BaseController
         $post->slug = $this->data->slug;
         $post->title = $this->data->title;
         $post->content = $this->data->post;
-        $post->status_id = $this->status->byHash($this->data->status)->id;
+        $post->status_id = $this->status->find($this->data->status)->id;
         $post->publish_date = $this->data->publishdate;
         $post->user_id = $this->user->byHash($this->auth_user->hash)->id;
-        $post->reviewer_id = $this->user->byHash($this->data->reviewer)->id;
-        $post->visibility_id = $this->visibility->byHash($this->data->visibility)->id;
-        $post->category_id = $this->category->byHash($this->data->category)->id;
+        $post->reviewer_id = $this->user->find($this->data->reviewer)->id;
+        $post->visibility_id = $this->visibility->find($this->data->visibility)->id;
+        $post->category_id = $this->category->find($this->data->category)->id;
         $post->being_edited_by = null;
         $post->highlight = $this->data->highlight;
         $post->meta_desc = $this->data->meta_desc;
