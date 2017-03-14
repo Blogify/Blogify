@@ -61,6 +61,7 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
         @endforeach
         </tbody>
     </table>
+    
 @endsection
 
 @include('blogify::admin.widgets.panel', ['header'=>true, 'as'=>'cotable'])

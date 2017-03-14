@@ -320,7 +320,6 @@
         </div>
         {!! Form::close() !!}
     </div>
-
 @stop
 @section('scripts')
     <link rel="stylesheet" type="text/css" href="/assets/js/datetimepicker/DateTimePicker.css" />
