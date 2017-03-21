@@ -4,8 +4,6 @@ use App\Http\Requests\Request;
 
 class CommentRequest extends Request {
 
-	// Test comment 4
-
     /**
      * Determine if the user is authorized to make this request.
      *
