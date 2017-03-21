@@ -40,14 +40,14 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
                 <td>{!! $category->created_at !!}</td>
                 <td>
                     @if(!$trashed)
-                        <a href="{{ route('admin.categories.edit', [$category->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
-                        {!! Form::open( [ 'route' => ['admin.categories.destroy', $category->hash], 'class' => $category->hash . ' form-delete' ] ) !!}
+                        <a href="{{ route('admin.categories.edit', [$category->id] ) }}"><span class="fa fa-edit fa-fw"></span></a>
+                        {!! Form::open( [ 'route' => ['admin.categories.destroy', $category->id], 'class' => $category->id . ' form-delete' ] ) !!}
 
                         {!! Form::hidden('_method', 'delete') !!}
-                            <a href="#" title="{{$category->name}}" class="delete" id="{{$category->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
+                            <a href="#" title="{{$category->name}}" class="delete" id="{{$category->id}}"><span class="fa fa-trash-o fa-fw"></span></a>
                         {!! Form::close() !!}
                     @else
-                        <a href="{{route('admin.categories.restore', [$category->hash])}}" title="">Restore</a>
+                        <a href="{{route('admin.categories.restore', [$category->id])}}" title="">Restore</a>
                     @endif
                 </td>
             </tr>

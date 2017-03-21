@@ -46,21 +46,22 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
                 <td>{{ $post->highlight == 1 ? 'Yes' : 'No' }}</td>
                 <td>
                     @if(!$trashed)
-                        <a href="{{ route('admin.posts.edit', [$post->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
-                        <a href="{{ route('admin.posts.show', [$post->hash] ) }}"><span class="fa fa-eye fa-fw"></span></a>
-                        {!! Form::open( [ 'route' => ['admin.posts.destroy', $post->hash], 'class' => $post->hash . ' form-delete' ] ) !!}
+                        <a href="{{ route('admin.posts.edit', [$post->id] ) }}"><span class="fa fa-edit fa-fw"></span></a>
+                        <a href="{{ route('admin.posts.show', [$post->id] ) }}"><span class="fa fa-eye fa-fw"></span></a>
+                        {!! Form::open( [ 'route' => ['admin.posts.destroy', $post->id], 'class' => $post->id . ' form-delete' ] ) !!}
 
                         {!! Form::hidden('_method', 'delete') !!}
-                        <a href="#" title="{{$post->name}}" class="delete" id="{{$post->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
+                        <a href="#" title="{{$post->name}}" class="delete" id="{{$post->id}}"><span class="fa fa-trash-o fa-fw"></span></a>
                         {!! Form::close() !!}
                     @else
-                        <a href="{{route('admin.posts.restore', [$post->hash])}}" title="">Restore</a>
+                        <a href="{{route('admin.posts.restore', [$post->id])}}" title="">Restore</a>
                     @endif
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+    
 @endsection
 
 @include('blogify::admin.widgets.panel', ['header'=>true, 'as'=>'cotable'])

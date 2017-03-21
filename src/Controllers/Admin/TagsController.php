@@ -97,10 +97,11 @@ class TagsController extends BaseController
      * @param $hash
      * @return \Illuminate\View\View
      */
-    public function edit($hash)
+    public function edit($id)
     {
         $data = [
-            'tag' => $this->tag->byHash($hash),
+            //'tag' => $this->tag->byHash($hash),
+            'tag' => $this->tag->find($id),
         ];
 
         return view('blogify::admin.tags.form', $data);
@@ -157,13 +158,14 @@ class TagsController extends BaseController
      * @param \jorenvanhocht\Blogify\Requests\TagUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update($hash, TagUpdateRequest $request)
+    public function update($id, TagUpdateRequest $request)
     {
-        $tag = $this->tag->byHash($hash);
+        //$tag = $this->tag->byHash($hash);
+        $tag = $this->tag->find($id);
         $tag->name = $request->tags;
         $tag->save();
 
-        $this->tracert->log('tags', $tag->id, $this->auth_user->id, 'update');
+        //$this->tracert->log('tags', $tag->id, $this->auth_user->id, 'update');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Tags', 'name' => $tag->name, 'action' =>'updated'
@@ -177,12 +179,13 @@ class TagsController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($hash)
+    public function destroy($id)
     {
-        $tag = $this->tag->byHash($hash);
+        //$tag = $this->tag->byHash($hash);
+        $tag = $this->tag->find($id);
         $tag->delete();
 
-        $this->tracert->log('tags', $tag->id, $this->auth_user->id, 'delete');
+        //$this->tracert->log('tags', $tag->id, $this->auth_user->id, 'delete');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Tags', 'name' => $tag->name, 'action' =>'deleted'
@@ -196,9 +199,10 @@ class TagsController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($hash)
+    public function restore($id)
     {
-        $tag = $this->tag->withTrashed()->byHash($hash);
+        //$tag = $this->tag->withTrashed()->byHash($hash);
+        $tag = $this->tag->withTrashed()->find($id);
         $tag->restore();
 
         $message = trans('blogify::notify.success', [
@@ -244,14 +248,14 @@ class TagsController extends BaseController
                 $tag = $t;
             } else {
                 $tag = new Tag;
-                $tag->hash = $this->blogify->makeHash('blogify_tags', 'hash', true);
+                //$tag->hash = $this->blogify->makeHash('blogify_tags', 'hash', true);
             }
 
             $tag->name = $tag_name;
 
             $tag->save();
             array_push($this->stored_tags, $tag);
-            $this->tracert->log('tags', $tag->id, $this->auth_user->id);
+            //$this->tracert->log('tags', $tag->id, $this->auth_user->id);
         }
     }
 

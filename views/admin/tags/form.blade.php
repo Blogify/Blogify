@@ -7,7 +7,7 @@
     @if ( ! isset($tag) )
         {!! Form::open( [ 'route' => 'admin.tags.store' ] ) !!}
     @else
-        {!! Form::open( [ 'route' => ['admin.tags.update', $tag->hash] ] ) !!}
+        {!! Form::open( [ 'route' => ['admin.tags.update', $tag->id] ] ) !!}
         {!! Form::hidden('_method', 'PUT') !!}
     @endif
 

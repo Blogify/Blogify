@@ -40,14 +40,14 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
                 <td>{!! $tag->created_at !!}</td>
                 <td>
                     @if(!$trashed)
-                        <a href="{{ route('admin.tags.edit', [$tag->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
-                        {!! Form::open( [ 'route' => ['admin.tags.destroy', $tag->hash], 'class' => $tag->hash . ' form-delete' ] ) !!}
+                        <a href="{{ route('admin.tags.edit', [$tag->id] ) }}"><span class="fa fa-edit fa-fw"></span></a>
+                        {!! Form::open( [ 'route' => ['admin.tags.destroy', $tag->id], 'class' => $tag->id . ' form-delete' ] ) !!}
 
                         {!! Form::hidden('_method', 'delete') !!}
-                        <a href="#" title="{{$tag->name}}" class="delete" id="{{$tag->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
+                        <a href="#" title="{{$tag->name}}" class="delete" id="{{$tag->id}}"><span class="fa fa-trash-o fa-fw"></span></a>
                         {!! Form::close() !!}
                     @else
-                        <a href="{{route('admin.tags.restore', [$tag->hash])}}" title="">Restore</a>
+                        <a href="{{route('admin.tags.restore', [$tag->id])}}" title="">Restore</a>
                     @endif
                 </td>
             </tr>

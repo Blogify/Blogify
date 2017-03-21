@@ -80,9 +80,10 @@ class CategoriesController extends BaseController
      * @param string $hash
      * @return \Illuminate\View\View
      */
-    public function edit($hash)
+    public function edit($id)
     {
-        $category = $this->category->byHash($hash);
+        //$category = $this->category->byHash($hash);
+        $category = $this->category->find($id);
 
         return view('blogify::admin.categories.form', compact('category'));
     }
@@ -100,7 +101,7 @@ class CategoriesController extends BaseController
 
         $category = $this->storeOrUpdateCategory($request);
 
-        $this->tracert->log('categories', $category->id, $this->auth_user->id);
+        //$this->tracert->log('categories', $category->id, $this->auth_user->id);
 
         if ($request->ajax()) {
             return $category;
@@ -123,18 +124,19 @@ class CategoriesController extends BaseController
      * @param \jorenvanhocht\Blogify\Requests\CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update($hash, CategoryRequest $request)
+    public function update($id, CategoryRequest $request)
     {
-        $category = $this->category->byHash($hash);
+        //$category = $this->category->byHash($hash);
+        $category = $this->category->find($id);
         $category->name = $request->name;
         $category->save();
 
-        $this->tracert->log(
+        /*$this->tracert->log(
             'categories',
             $category->id,
             $this->auth_user->id,
             'update'
-        );
+        );*/
 
         $message = trans(
             'blogify::notify.success', [
@@ -152,18 +154,19 @@ class CategoriesController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($hash)
+    public function destroy($id)
     {
-        $category = $this->category->byHash($hash);
+        //$category = $this->category->byHash($hash);
+        $category = $this->category->find($id);
         $category_name = $category->name;
         $category->delete();
 
-        $this->tracert->log(
+        /*$this->tracert->log(
             'categories',
             $category->id,
             $this->auth_user->id,
             'delete'
-        );
+        );*/
 
         $message = trans(
             'blogify::notify.success', [
@@ -181,9 +184,10 @@ class CategoriesController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($hash)
+    public function restore($id)
     {
-        $category = $this->category->withTrashed()->byHash($hash);
+        //$category = $this->category->withTrashed()->byHash($hash);
+        $category = $this->category->withTrashed()->find($id);
         $category_name = $category->name;
         $category->restore();
 
@@ -217,7 +221,7 @@ class CategoriesController extends BaseController
             $category = $cat;
         } else {
             $category = new Category;
-            $category->hash = $this->blogify->makeHash('blogify_categories', 'hash', true);
+            //$category->hash = $this->blogify->makeHash('blogify_categories', 'hash', true);
         }
 
         $category->name = $request->name;

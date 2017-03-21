@@ -21,7 +21,7 @@
 @section('section')
 
     {!! Form::open( ['route' => 'admin.posts.store'] ) !!}
-    {!! Form::hidden('hash', (isset($post)) ? $post->hash : '') !!}
+    {!! Form::hidden('id', (isset($post)) ? $post->id : '') !!}
 
     <div class="row">
         <div class="col-lg-8 col-md-12">
@@ -134,9 +134,9 @@
                                     <select name="status" id="status" class="form-control form-small">
                                         @foreach ( $statuses as $status )
                                             @if ( isset($post) )
-                                                <option {{ ($status->id === $post->status_id || $status->hash == Input::old('status') ) ? 'selected' : '' }} value="{{$status->hash}}">{{$status->name}}</option>
+                                                <option {{ ($status->id === $post->status_id || $status->id == Input::old('status') ) ? 'selected' : '' }} value="{{$status->id}}">{{$status->name}}</option>
                                             @else
-                                                <option {{  $status->hash == Input::old('status') ? 'selected' : '' }} value="{{$status->hash}}">{{$status->name}}</option>
+                                                <option {{  $status->id == Input::old('status') ? 'selected' : '' }} value="{{$status->id}}">{{$status->name}}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -150,9 +150,9 @@
                                     <select name="visibility" id="visibility" class="form-control form-small">
                                         @foreach ( $visibility as $item )
                                             @if ( isset($post) )
-                                                <option {{ ( $item->id === $post->visibility_id || $item->hash == Input::old('visibility') ) ? 'selected' : '' }} value="{{$item->hash}}">{{$item->name}}</option>
+                                                <option {{ ( $item->id === $post->visibility_id || $item->id == Input::old('visibility') ) ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
                                             @else
-                                                <option {{  ( $item->hash == Input::old('visibility') ) ? 'selected' : '' }} value="{{$item->hash}}">{{$item->name}}</option>
+                                                <option {{  ( $item->id == Input::old('visibility') ) ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -178,7 +178,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     {!! Form::submit( trans("blogify::posts.form.publish.save_button.value"), [ 'class' => 'btn btn-success' ] ) !!}
-                                    <a href="{{route('admin.posts.cancel', [isset($post) ? $post->hash : ''])}}" class="btn btn-danger" role="button">Cancel</a>
+                                    <a href="{{route('admin.posts.cancel', [isset($post) ? $post->id : ''])}}" class="btn btn-danger" role="button">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -203,12 +203,12 @@
                             <div class="row">
                                 <div class="col-sm-12 form-group">
                                     <select name="reviewer" id="reviewer" class="form-control">
-                                        <option {{ (!isset($post) ? 'selected' : '') }} value="{{Auth::user()->hash}}">{{Auth::user()->fullName}}</option>
+                                        <option {{ (!isset($post) ? 'selected' : '') }} value="{{Auth::user()->id}}">{{Auth::user()->fullName}}</option>
                                         @foreach ( $reviewers as $reviewer )
                                             @if ( isset($post) )
-                                                <option {{ ($reviewer->id === $post->reviewer_id || $reviewer->hash == Input::old('reviewer') ) ? 'selected' : '' }} value="{{$reviewer->hash}}">{{$reviewer->fullName}}</option>
+                                                <option {{ ($reviewer->id === $post->reviewer_id || $reviewer->id == Input::old('reviewer') ) ? 'selected' : '' }} value="{{$reviewer->id}}">{{$reviewer->fullName}}</option>
                                             @else
-                                                <option {{ ( $reviewer->hash == Input::old('reviewer') ) ? 'selected' : '' }} value="{{$reviewer->hash}}">{{$reviewer->fullName}}</option>
+                                                <option {{ ( $reviewer->id == Input::old('reviewer') ) ? 'selected' : '' }} value="{{$reviewer->id}}">{{$reviewer->fullName}}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -254,9 +254,9 @@
                                         <select name="category" id="category" class="form-control form-small">
                                             @foreach ( $categories as $category )
                                                 @if ( isset($post) )
-                                                    <option {{ ($category->id === $post->category_id || $category->hash == Input::old('category') ) ? 'selected' : '' }} value="{{$category->hash}}">{{$category->name}}</option>
+                                                    <option {{ ($category->id === $post->category_id || $category->id == Input::old('category') ) ? 'selected' : '' }} value="{{$category->id}}">{{$category->name}}</option>
                                                 @else
-                                                    <option {{  $category->hash == Input::old('category') ? 'selected' : '' }} value="{{$category->hash}}">{{$category->name}}</option>
+                                                    <option {{  $category->id == Input::old('category') ? 'selected' : '' }} value="{{$category->id}}">{{$category->name}}</option>
                                                 @endif
                                             @endforeach
                                         </select>
@@ -303,7 +303,7 @@
                                     <div id="tags">
                                         @if( isset($post) && count($post->tag) > 0 )
                                             @foreach ( $post->tag as $tag )
-                                                <span class="tag {{$tag->hash}}"><a href="#" class="{{$tag->hash}}" title="Remove tag"><span class="fa fa-times-circle"></span></a> {{ $tag->name }} </span>
+                                                <span class="tag {{$tag->id}}"><a href="#" class="{{$tag->id}}" title="Remove tag"><span class="fa fa-times-circle"></span></a> {{ $tag->name }} </span>
                                             @endforeach
                                         @endif
 
@@ -320,7 +320,6 @@
         </div>
         {!! Form::close() !!}
     </div>
-
 @stop
 @section('scripts')
     <link rel="stylesheet" type="text/css" href="/assets/js/datetimepicker/DateTimePicker.css" />

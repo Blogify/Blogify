@@ -38,7 +38,7 @@ class CategoryRequest extends Request
     public function rules()
     {
         $segment = $this->segment(3);
-        $id = isset($segment) ? $this->category->byHash($this->segment(3))->id : 0;
+        $id = isset($segment) ? $this->category->find($this->segment(3))->id : 0;
 
         return [
             'name'		=> "required|unique:blogify_categories,name,$id|min:3|max:45",

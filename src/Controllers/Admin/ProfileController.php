@@ -92,7 +92,7 @@ class ProfileController extends BaseController
 
         $user->save();
 
-        $this->tracert->log('users', $user->id, $this->auth_user->id, 'update');
+        //$this->tracert->log('users', $user->id, $this->auth_user->id, 'update');
 
         $message = trans('blogify::notify.success', [
             'model' => 'User', 'name' => $user->fullName, 'action' =>'updated'
