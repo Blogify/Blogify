@@ -29,6 +29,24 @@
         </div>
     </div>
 
+    <div class="row form-group {{ $errors->has('meta_title') ? 'has-error' : '' }}">
+        <div class="col-sm-1">
+            Meta_title
+        </div>
+        <div class="col-sm-11">
+            {!! Form::text('meta_title', isset($category) ? $category->meta_title : '', ['class' => 'form-control form-small' ]) !!}
+        </div>
+    </div>
+
+    <div class="row form-group {{ $errors->has('meta_description') ? 'has-error' : '' }}">
+        <div class="col-sm-1">
+            Meta_description
+        </div>
+        <div class="col-sm-11">
+            {!! Form::text('meta_description', isset($category) ? $category->meta_description : '', ['class' => 'form-control form-small' ]) !!}
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-sm-2">
             {!! Form::submit(trans("blogify::categories.form.submit_button.value"), ['class'=>'btn btn-success']) !!}

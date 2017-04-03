@@ -226,6 +226,8 @@ class CategoriesController extends BaseController
 
         $category->name = $request->name;
         $category->slug = $request->slug;
+        $category->meta_title = $request->meta_title;
+        $category->meta_description = $request->meta_description;
         $category->save();
 
         return $category;
