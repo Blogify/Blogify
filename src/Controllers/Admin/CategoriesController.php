@@ -129,6 +129,9 @@ class CategoriesController extends BaseController
         //$category = $this->category->byHash($hash);
         $category = $this->category->find($id);
         $category->name = $request->name;
+        $category->slug = $request->slug;
+        $category->meta_title = $request->meta_title;
+        $category->meta_description = $request->meta_description;
         $category->save();
 
         /*$this->tracert->log(
