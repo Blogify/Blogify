@@ -275,7 +275,7 @@
             <!-- end categories box -->
 
             <!-- tags box -->
-            <div class="panel-group" id="accordion">
+            <!--<div class="panel-group" id="accordion">
                 <div class="panel panel-{{ isset($class) ? $class : 'default' }}">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -313,7 +313,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!-- end tags box -->
 
 
