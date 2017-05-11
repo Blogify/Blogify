@@ -174,4 +174,19 @@ class Post extends BaseModel
             return $this->image;
 
     }
+
+    public function getAltImageAttribute($value)
+    {
+        if (is_null($this->image))
+        {
+            $dom = HtmlDomParser::str_get_html($this->content);
+            $src = isset($dom->find('img')[0]) ? $dom->find('img')[0]->alt : null ;
+
+            return $src;
+
+        }
+        else
+            return $this->image;
+
+    }
 }
