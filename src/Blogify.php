@@ -107,7 +107,7 @@ class Blogify
         if (! $this->db->table($table)->where($field, '=', $hash)->get()) {
             return $hash;
         } else {
-            return $this->makeHAsh($table, $field, true, $min_length, $max_length);
+            return $this->makeHash($table, $field, true, $min_length, $max_length);
         }
     }
 
