@@ -324,7 +324,7 @@
 @section('scripts')
     <link rel="stylesheet" type="text/css" href="/assets/js/datetimepicker/DateTimePicker.css" />
     <script type="text/javascript" src="/assets/js/datetimepicker/DateTimePicker.js"></script>
-    <script src="/assets/js/ckeditor/ckeditor.js"></script>
+    <script src="/assets/js/ckeditor4.7/ckeditor.js"></script>
     <!--[if lt IE 9]>
     <link rel="stylesheet" type="text/css" href="/assets/js/datetimepicker/DateTimePicker-ltie9.css" />
     <script type="text/javascript" src="/assets/js/datetimepicker/DateTimePicker-ltie9.js"></script>
