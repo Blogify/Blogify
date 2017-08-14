@@ -117,6 +117,10 @@ Route::group($admin, function()
             'as'   => 'posts.cancel',
             'uses' => 'PostsController@cancel',
         ]);
+        Route::get('posts/action/clear/{id?}', [
+            'as'   => 'posts.clear',
+            'uses' => 'PostsController@clear',
+        ]);
         Route::get('posts/{id}/restore', [
             'as'   => 'posts.restore',
             'uses' => 'PostsController@restore'
