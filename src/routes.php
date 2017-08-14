@@ -15,10 +15,6 @@ if ($use_default_routes)
             'as'   => 'blog.confirmPass',
             'uses' => 'BlogController@show',
         ]);
-        Route::get('blog/archive/{year}/{month}', [
-            'as'   => 'blog.archive',
-            'uses' => 'BlogController@archive'
-        ]);
         Route::get('blog/category/{category}', [
             'as'   => 'blog.category',
             'uses' => 'BlogController@category',
@@ -26,6 +22,14 @@ if ($use_default_routes)
         Route::get('blog/protected/verify/{id}', [
             'as'   => 'blog.askPassword',
             'uses' => 'BlogController@askPassword'
+        ]);
+        Route::get('latest-posts', [
+            'as'   => 'blog.latest',
+            'uses' => 'BlogController@latest'
+        ]);
+        Route::get('popular-posts', [
+            'as' => 'blog.popular',
+            'uses' => 'BlogController@popular'
         ]);
         Route::post('comments', [
             'as'   => 'comments.store',
