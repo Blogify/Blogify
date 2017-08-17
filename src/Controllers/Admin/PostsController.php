@@ -343,6 +343,20 @@ class PostsController extends BaseController
         return redirect()->route('admin.posts.index');
     }
 
+    public function clear($id)
+    {
+        $post = $this->post->find($id);
+        $post->being_edited_by = null;
+        $post->save();
+
+        $message = trans('blogify::notify.success', [
+            'model' => 'Post', 'name' => $post->name, 'action' =>'clered'
+        ]);
+        session()->flash('notify', ['success', $message]);
+
+        return redirect()->route('admin.posts.index');
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Helper methods
     ///////////////////////////////////////////////////////////////////////////
