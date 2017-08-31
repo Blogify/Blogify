@@ -26,5 +26,10 @@
         "files": [
             "src/Helpers.php"
         ]
+    },
+    "extra": {
+        "branch-alias": {
+            "features/laravel-55-support": "0.1-dev"
+        }
     }
 }
