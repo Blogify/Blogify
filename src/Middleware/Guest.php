@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Middleware;
+namespace Donatix\Blogify\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
@@ -35,7 +35,7 @@ class Guest
      */
     public function handle($request, Closure $next)
     {
-        if ( ! $this->auth->guest()) {
+        if (! $this->auth->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             }
@@ -45,5 +45,4 @@ class Guest
 
         return $next($request);
     }
-
 }

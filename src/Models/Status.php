@@ -1,8 +1,8 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Models;
+namespace Donatix\Blogify\Models;
 
-use jorenvanhocht\Blogify\Models\Post;
+use Donatix\Blogify\Models\Post;
 
 class Status extends BaseModel
 {

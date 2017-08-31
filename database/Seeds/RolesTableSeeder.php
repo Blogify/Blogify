@@ -1,12 +1,12 @@
 <?php
 
-namespace jorenvanhocht\Blogify\database\Seeds;
+namespace Donatix\Blogify\database\Seeds;
 
 use Illuminate\Database\Seeder;
-use jorenvanhocht\Blogify\Models\Role;
+use Donatix\Blogify\Models\Role;
 
-class RolesTableSeeder extends Seeder {
-
+class RolesTableSeeder extends Seeder
+{
     public function run()
     {
         Role::create([
@@ -29,5 +29,4 @@ class RolesTableSeeder extends Seeder {
             "name" => "Member",
         ]);
     }
-
 }

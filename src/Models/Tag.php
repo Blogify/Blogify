@@ -1,9 +1,9 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Models;
+namespace Donatix\Blogify\Models;
 
 use Validator;
-use jorenvanhocht\Blogify\Models\Post;
+use Donatix\Blogify\Models\Post;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends BaseModel
@@ -66,5 +66,4 @@ class Tag extends BaseModel
     {
         return $this->belongsToMany(Post::class, 'posts_have_tags', 'tag_id', 'post_id');
     }
-
 }

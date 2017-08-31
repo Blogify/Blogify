@@ -1,10 +1,10 @@
 <?php
 
-namespace jorenvanhocht\Blogify;
+namespace Donatix\Blogify;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
-use jorenvanhocht\Blogify\Services\Validation;
+use Donatix\Blogify\Services\Validation;
 
 class BlogifyServiceProvider extends ServiceProvider
 {
@@ -22,7 +22,7 @@ class BlogifyServiceProvider extends ServiceProvider
      * @var array
      */
     protected $aliases = [
-        'Tracert' => 'jorenvanhocht\Blogify\Facades\Tracert',
+        'Tracert' => 'Donatix\Blogify\Facades\Tracert',
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
         'Image' => 'Intervention\Image\Facades\Image',
@@ -34,7 +34,7 @@ class BlogifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('jorenvanhocht.blogify', function()
+        $this->app->bind('Donatix.blogify', function()
         {
             $db = $this->app['db'];
             $config = $this->app['config'];
@@ -89,18 +89,18 @@ class BlogifyServiceProvider extends ServiceProvider
      */
     private function registerMiddleware()
     {
-        $this->app['router']->middleware('BlogifyAdminAuthenticate', 'jorenvanhocht\Blogify\Middleware\BlogifyAdminAuthenticate');
-        $this->app['router']->middleware('BlogifyVerifyCsrfToken', 'jorenvanhocht\Blogify\Middleware\BlogifyVerifyCsrfToken');
-        $this->app['router']->middleware('CanEditPost', 'jorenvanhocht\Blogify\Middleware\CanEditPost');
-        $this->app['router']->middleware('DenyIfBeingEdited', 'jorenvanhocht\Blogify\Middleware\DenyIfBeingEdited');
-        $this->app['router']->middleware('BlogifyGuest', 'jorenvanhocht\Blogify\Middleware\Guest');
-        $this->app['router']->middleware('HasAdminOrAuthorRole', 'jorenvanhocht\Blogify\Middleware\HasAdminOrAuthorRole');
-        $this->app['router']->middleware('HasAdminRole', 'jorenvanhocht\Blogify\Middleware\HasAdminRole');
-        $this->app['router']->middleware('RedirectIfAuthenticated', 'jorenvanhocht\Blogify\Middleware\RedirectIfAuthenticated');
-        $this->app['router']->middleware('IsOwner', 'jorenvanhocht\Blogify\Middleware\IsOwner');
-        $this->app['router']->middleware('CanViewPost', 'jorenvanhocht\Blogify\Middleware\CanViewPost');
-        $this->app['router']->middleware('ProtectedPost', 'jorenvanhocht\Blogify\Middleware\ProtectedPost');
-        $this->app['router']->middleware('ConfirmPasswordChange', 'jorenvanhocht\Blogify\Middleware\ConfirmPasswordChange');
+        $this->app['router']->middleware('BlogifyAdminAuthenticate', 'Donatix\Blogify\Middleware\BlogifyAdminAuthenticate');
+        $this->app['router']->middleware('BlogifyVerifyCsrfToken', 'Donatix\Blogify\Middleware\BlogifyVerifyCsrfToken');
+        $this->app['router']->middleware('CanEditPost', 'Donatix\Blogify\Middleware\CanEditPost');
+        $this->app['router']->middleware('DenyIfBeingEdited', 'Donatix\Blogify\Middleware\DenyIfBeingEdited');
+        $this->app['router']->middleware('BlogifyGuest', 'Donatix\Blogify\Middleware\Guest');
+        $this->app['router']->middleware('HasAdminOrAuthorRole', 'Donatix\Blogify\Middleware\HasAdminOrAuthorRole');
+        $this->app['router']->middleware('HasAdminRole', 'Donatix\Blogify\Middleware\HasAdminRole');
+        $this->app['router']->middleware('RedirectIfAuthenticated', 'Donatix\Blogify\Middleware\RedirectIfAuthenticated');
+        $this->app['router']->middleware('IsOwner', 'Donatix\Blogify\Middleware\IsOwner');
+        $this->app['router']->middleware('CanViewPost', 'Donatix\Blogify\Middleware\CanViewPost');
+        $this->app['router']->middleware('ProtectedPost', 'Donatix\Blogify\Middleware\ProtectedPost');
+        $this->app['router']->middleware('ConfirmPasswordChange', 'Donatix\Blogify\Middleware\ConfirmPasswordChange');
     }
 
     /**
@@ -152,10 +152,10 @@ class BlogifyServiceProvider extends ServiceProvider
     private function registerCommands()
     {
         $this->commands([
-            'jorenvanhocht\Blogify\Commands\BlogifyMigrateCommand',
-            'jorenvanhocht\Blogify\Commands\BlogifySeedCommand',
-            'jorenvanhocht\Blogify\Commands\BlogifyGeneratePublicPartCommand',
-            'jorenvanhocht\Blogify\Commands\BlogifyCreateRequiredDirectories',
+            'Donatix\Blogify\Commands\BlogifyMigrateCommand',
+            'Donatix\Blogify\Commands\BlogifySeedCommand',
+            'Donatix\Blogify\Commands\BlogifyGeneratePublicPartCommand',
+            'Donatix\Blogify\Commands\BlogifyCreateRequiredDirectories',
         ]);
     }
 

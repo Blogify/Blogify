@@ -1,11 +1,11 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Middleware;
+namespace Donatix\Blogify\Middleware;
 
 use App\User;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use jorenvanhocht\Blogify\Models\Post;
+use Donatix\Blogify\Models\Post;
 
 class DenyIfBeingEdited
 {
@@ -18,7 +18,7 @@ class DenyIfBeingEdited
     protected $auth;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Post
+     * @var \Donatix\Blogify\Models\Post
      */
     protected $post;
 
@@ -31,7 +31,7 @@ class DenyIfBeingEdited
      * Create a new filter instance.
      *
      * @param \Illuminate\Contracts\Auth\Guard $auth
-     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \Donatix\Blogify\Models\Post $post
      * @param \App\User $user
      */
     public function __construct(Guard $auth, Post $post, User $user)

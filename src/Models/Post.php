@@ -1,14 +1,14 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Models;
+namespace Donatix\Blogify\Models;
 
 use Auth;
-use jorenvanhocht\Blogify\Models\Tag;
-use jorenvanhocht\Blogify\Models\Media;
-use jorenvanhocht\Blogify\Models\Status;
-use jorenvanhocht\Blogify\Models\Comment;
-use jorenvanhocht\Blogify\Models\Category;
-use jorenvanhocht\Blogify\Models\Visibility;
+use Donatix\Blogify\Models\Tag;
+use Donatix\Blogify\Models\Media;
+use Donatix\Blogify\Models\Status;
+use Donatix\Blogify\Models\Comment;
+use Donatix\Blogify\Models\Category;
+use Donatix\Blogify\Models\Visibility;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends BaseModel

@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Services;
+namespace Donatix\Blogify\Services;
 
 use Hash;
 use Auth;

@@ -1,8 +1,8 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Models;
+namespace Donatix\Blogify\Models;
 
-use jorenvanhocht\Blogify\Models\Post;
+use Donatix\Blogify\Models\Post;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends BaseModel
@@ -45,5 +45,4 @@ class Category extends BaseModel
     {
         return $this->hasMany(Post::class);
     }
-
 }

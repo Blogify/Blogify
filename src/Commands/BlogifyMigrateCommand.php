@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Commands;
+namespace Donatix\Blogify\Commands;
 
 use Illuminate\Console\Command;
 
@@ -34,8 +34,8 @@ class BlogifyMigrateCommand extends Command
         parent::__construct();
 
         $this->paths = [
-            'vendor/jorenvanhocht/blogify/database/Migrations',
-            'vendor/jorenvanhocht/tracert/database/Migrations',
+            'vendor/Donatix/blogify/database/Migrations',
+            'vendor/Donatix/tracert/database/Migrations',
         ];
     }
 

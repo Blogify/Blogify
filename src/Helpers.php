@@ -9,7 +9,7 @@ if (! function_exists('blogify'))
      */
     function blogify()
     {
-        return app('jorenvanhocht.blogify');
+        return app('Donatix.blogify');
     }
 }
 

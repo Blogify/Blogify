@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

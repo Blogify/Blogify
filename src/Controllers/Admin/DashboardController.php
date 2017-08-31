@@ -1,11 +1,11 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
 use App\User;
-use jorenvanhocht\Blogify\Models\Comment;
-use jorenvanhocht\Blogify\Models\Post;
-use jorenvanhocht\Tracert\Models\History;
+use Donatix\Blogify\Models\Comment;
+use Donatix\Blogify\Models\Post;
+use Donatix\Tracert\Models\History;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Tracert\Tracert;
 
@@ -18,17 +18,17 @@ class DashboardController extends BaseController
     protected $user;
 
     /**
-     * @var \jorenvanhocht\Tracert\Models\History
+     * @var \Donatix\Tracert\Models\History
      */
     protected $history;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Post
+     * @var \Donatix\Blogify\Models\Post
      */
     protected $post;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Comment
+     * @var \Donatix\Blogify\Models\Comment
      */
     protected $comment;
 
@@ -40,17 +40,17 @@ class DashboardController extends BaseController
     protected $data = [];
 
     /**
-     * @var \jorenvanhocht\Tracert\Tracert
+     * @var \Donatix\Tracert\Tracert
      */
     protected $tracert;
 
     /**
      * @param \App\User $user
-     * @param \jorenvanhocht\Tracert\Models\History $history
-     * @param \jorenvanhocht\Blogify\Models\Post $post
-     * @param \jorenvanhocht\Blogify\Models\Comment $comment
+     * @param \Donatix\Tracert\Models\History $history
+     * @param \Donatix\Blogify\Models\Post $post
+     * @param \Donatix\Blogify\Models\Comment $comment
      * @param \Illuminate\Contracts\Auth\Guard $auth
-     * @param \jorenvanhocht\Tracert\Tracert $tracert
+     * @param \Donatix\Tracert\Tracert $tracert
      */
     public function __construct(
         User $user,

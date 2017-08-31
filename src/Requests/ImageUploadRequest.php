@@ -1,7 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Requests;
-
+namespace Donatix\Blogify\Requests;
 
 class ImageUploadRequest extends Request
 {
@@ -24,8 +23,7 @@ class ImageUploadRequest extends Request
     public function rules()
     {
         return [
-            'upload'		=> 'required|image|max:1000',
+            'upload' => 'required|image|max:1000',
         ];
     }
-
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Models;
+namespace Donatix\Blogify\Models;
 
-use jorenvanhocht\Blogify\Models\Post;
+use Donatix\Blogify\Models\Post;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Media extends BaseModel
@@ -45,6 +45,4 @@ class Media extends BaseModel
     {
         return $this->belongsTo(Post::class);
     }
-
-
 }

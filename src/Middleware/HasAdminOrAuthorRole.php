@@ -1,8 +1,8 @@
-<?php namespace jorenvanhocht\Blogify\Middleware;
+<?php namespace Donatix\Blogify\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use jorenvanhocht\Blogify\Models\Role;
+use Donatix\Blogify\Models\Role;
 
 class HasAdminOrAuthorRole
 {
@@ -15,7 +15,7 @@ class HasAdminOrAuthorRole
     protected $auth;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Role
+     * @var \Donatix\Blogify\Models\Role
      */
     private $role;
 
@@ -27,7 +27,7 @@ class HasAdminOrAuthorRole
     /**
      * Create a new filter instance.
      *
-     * @param \jorenvanhocht\Blogify\Models\Role $role
+     * @param \Donatix\Blogify\Models\Role $role
      * @param \Illuminate\Contracts\Auth\Guard $auth
      */
     public function __construct(Guard $auth, Role $role)
@@ -68,5 +68,4 @@ class HasAdminOrAuthorRole
             array_push($this->allowed_roles, $role->id);
         }
     }
-
 }

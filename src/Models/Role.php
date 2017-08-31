@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Models;
+namespace Donatix\Blogify\Models;
 
 class Role extends BaseModel
 {

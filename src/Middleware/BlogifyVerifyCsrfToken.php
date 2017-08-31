@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Middleware;
+namespace Donatix\Blogify\Middleware;
 
 use \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Closure;
@@ -51,6 +51,4 @@ class BlogifyVerifyCsrfToken extends VerifyCsrfToken
 
         return false;
     }
-
 }
-

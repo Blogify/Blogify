@@ -1,21 +1,21 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Hashing\Hasher;
-use jorenvanhocht\Blogify\Blogify;
-use jorenvanhocht\Blogify\Models\Category;
-use jorenvanhocht\Blogify\Models\Role;
-use jorenvanhocht\Blogify\Models\Status;
-use jorenvanhocht\Blogify\Models\Tag;
-use jorenvanhocht\Blogify\Models\Visibility;
-use jorenvanhocht\Blogify\Requests\ImageUploadRequest;
+use Donatix\Blogify\Blogify;
+use Donatix\Blogify\Models\Category;
+use Donatix\Blogify\Models\Role;
+use Donatix\Blogify\Models\Status;
+use Donatix\Blogify\Models\Tag;
+use Donatix\Blogify\Models\Visibility;
+use Donatix\Blogify\Requests\ImageUploadRequest;
 use Intervention\Image\Facades\Image;
-use jorenvanhocht\Blogify\Requests\PostRequest;
-use jorenvanhocht\Blogify\Models\Post;
-use jorenvanhocht\Blogify\Services\BlogifyMailer;
+use Donatix\Blogify\Requests\PostRequest;
+use Donatix\Blogify\Models\Post;
+use Donatix\Blogify\Services\BlogifyMailer;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Tracert\Tracert;
@@ -24,17 +24,17 @@ class PostsController extends BaseController
 {
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Post
+     * @var \Donatix\Blogify\Models\Post
      */
     protected $post;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Status
+     * @var \Donatix\Blogify\Models\Status
      */
     protected $status;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Visibility
+     * @var \Donatix\Blogify\Models\Visibility
      */
     protected $visibility;
 
@@ -44,17 +44,17 @@ class PostsController extends BaseController
     protected $user;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Category
+     * @var \Donatix\Blogify\Models\Category
      */
     protected $category;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Tag
+     * @var \Donatix\Blogify\Models\Tag
      */
     protected $tag;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Role
+     * @var \Donatix\Blogify\Models\Role
      */
     protected $role;
 
@@ -74,7 +74,7 @@ class PostsController extends BaseController
     protected $tags = [];
 
     /**
-     * @var \jorenvanhocht\Blogify\Services\BlogifyMailer
+     * @var \Donatix\Blogify\Services\BlogifyMailer
      */
     protected $mail;
 
@@ -89,29 +89,29 @@ class PostsController extends BaseController
     protected $hash;
 
     /**
-     * @var \jorenvanhocht\Blogify\Blogify
+     * @var \Donatix\Blogify\Blogify
      */
     protected $blogify;
 
     /**
-     * @var \jorenvanhocht\Tracert\Tracert
+     * @var \Donatix\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * @param \jorenvanhocht\Blogify\Models\Tag $tag
-     * @param \jorenvanhocht\Blogify\Models\Role $role
+     * @param \Donatix\Blogify\Models\Tag $tag
+     * @param \Donatix\Blogify\Models\Role $role
      * @param \App\User $user
-     * @param \jorenvanhocht\Blogify\Models\Post $post
-     * @param \jorenvanhocht\Blogify\Services\BlogifyMailer $mail
+     * @param \Donatix\Blogify\Models\Post $post
+     * @param \Donatix\Blogify\Services\BlogifyMailer $mail
      * @param \Illuminate\Contracts\Hashing\Hasher $hash
-     * @param \jorenvanhocht\Blogify\Models\Status $status
+     * @param \Donatix\Blogify\Models\Status $status
      * @param \Illuminate\Contracts\Cache\Repository $cache
-     * @param \jorenvanhocht\Blogify\Models\Category $category
-     * @param \jorenvanhocht\Blogify\Models\Visibility $visibility
+     * @param \Donatix\Blogify\Models\Category $category
+     * @param \Donatix\Blogify\Models\Visibility $visibility
      * @param \Illuminate\Contracts\Auth\Guard $auth
-     * @param \jorenvanhocht\Blogify\Blogify $blogify
-     * @param \jorenvanhocht\Tracert\Tracert $tracert
+     * @param \Donatix\Blogify\Blogify $blogify
+     * @param \Donatix\Tracert\Tracert $tracert
      */
     public function __construct(
         Tag $tag,
@@ -226,7 +226,7 @@ class PostsController extends BaseController
     /**
      * Store or update a post
      *
-     * @param \jorenvanhocht\Blogify\Requests\PostRequest $request
+     * @param \Donatix\Blogify\Requests\PostRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(PostRequest $request)
@@ -287,7 +287,7 @@ class PostsController extends BaseController
      * calling this function because we are using the
      * CKEditor within an iframe :(
      *
-     * @param \jorenvanhocht\Blogify\Requests\ImageUploadRequest $request
+     * @param \Donatix\Blogify\Requests\ImageUploadRequest $request
      * @return string
      */
     public function uploadImage(ImageUploadRequest $request)
@@ -445,7 +445,7 @@ class PostsController extends BaseController
     }
 
     /**
-     * @return \jorenvanhocht\Blogify\Models\Post
+     * @return \Donatix\Blogify\Models\Post
      */
     private function storeOrUpdatePost()
     {
@@ -478,7 +478,7 @@ class PostsController extends BaseController
     }
 
     /**
-     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \Donatix\Blogify\Models\Post $post
      * @return void
      */
     private function mailReviewer($post)

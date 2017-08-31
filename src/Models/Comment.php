@@ -1,8 +1,8 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Models;
+namespace Donatix\Blogify\Models;
 
-use jorenvanhocht\Blogify\Models\Post;
+use Donatix\Blogify\Models\Post;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends BaseModel
@@ -80,5 +80,4 @@ class Comment extends BaseModel
     {
         return date("d-m-Y H:i", strtotime($value));
     }
-
 }

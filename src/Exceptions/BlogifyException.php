@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Exceptions;
+namespace Donatix\Blogify\Exceptions;
 
 use Exception;
 

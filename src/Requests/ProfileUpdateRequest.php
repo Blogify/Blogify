@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Requests;
+namespace Donatix\Blogify\Requests;
 
 use App\User;
 use Illuminate\Contracts\Auth\Guard;
