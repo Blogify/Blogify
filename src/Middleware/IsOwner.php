@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Middleware;
+namespace Donatix\Blogify\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
@@ -50,5 +50,4 @@ class IsOwner
 
         return $next($request);
     }
-
 }

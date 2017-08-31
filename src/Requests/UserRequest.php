@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Requests;
+namespace Donatix\Blogify\Requests;
 
 use Illuminate\Support\Facades\Input;
 

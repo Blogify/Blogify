@@ -2,8 +2,8 @@
 
 use Illuminate\Contracts\Auth\Guard;
 use {{appnamespace}}\Http\Requests\CommentRequest;
-use jorenvanhocht\Blogify\Models\Comment;
-use jorenvanhocht\Blogify\Models\Post;
+use Donatix\Blogify\Models\Comment;
+use Donatix\Blogify\Models\Post;
 
 class CommentsController extends Controller
 {

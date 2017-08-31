@@ -1,19 +1,19 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Requests;
+namespace Donatix\Blogify\Requests;
 
-use jorenvanhocht\Blogify\Models\Category;
+use Donatix\Blogify\Models\Category;
 
 class CategoryRequest extends Request
 {
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Category
+     * @var \Donatix\Blogify\Models\Category
      */
     protected $category;
 
     /**
-     * @param \jorenvanhocht\Blogify\Models\Category $category
+     * @param \Donatix\Blogify\Models\Category $category
      */
     public function __construct(Category $category)
     {
@@ -41,8 +41,7 @@ class CategoryRequest extends Request
         $id = isset($segment) ? $this->category->byHash($this->segment(3))->id : 0;
 
         return [
-            'name'		=> "required|unique:categories,name,$id|min:3|max:45",
+            'name' => "required|unique:categories,name,$id|min:3|max:45",
         ];
     }
-
 }

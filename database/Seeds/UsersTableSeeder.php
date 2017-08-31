@@ -1,10 +1,10 @@
 <?php
 
-namespace jorenvanhocht\Blogify\database\Seeds;
+namespace Donatix\Blogify\database\Seeds;
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use jorenvanhocht\Blogify\Models\Role;
+use Donatix\Blogify\Models\Role;
 use \Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
@@ -47,5 +47,4 @@ class UsersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
     }
-
 }

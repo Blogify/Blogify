@@ -1,11 +1,11 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
 use Input;
-use jorenvanhocht\Blogify\Blogify;
-use jorenvanhocht\Blogify\Models\Tag;
-use jorenvanhocht\Blogify\Requests\TagUpdateRequest;
+use Donatix\Blogify\Blogify;
+use Donatix\Blogify\Models\Tag;
+use Donatix\Blogify\Requests\TagUpdateRequest;
 use jorenvanhocht\Tracert\Tracert;
 use Request;
 use Illuminate\Contracts\Auth\Guard;
@@ -14,7 +14,7 @@ class TagsController extends BaseController
 {
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Tag
+     * @var \Donatix\Blogify\Models\Tag
      */
     protected $tag;
 
@@ -33,20 +33,20 @@ class TagsController extends BaseController
     protected $stored_tags = [];
 
     /**
-     * @var \jorenvanhocht\Blogify\Blogify
+     * @var \Donatix\Blogify\Blogify
      */
     protected $blogify;
 
     /**
-     * @var \jorenvanhocht\Tracert\Tracert
+     * @var \Donatix\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * @param \jorenvanhocht\Blogify\Models\Tag $tag
+     * @param \Donatix\Blogify\Models\Tag $tag
      * @param \Illuminate\Contracts\Auth\Guard $auth
-     * @param \jorenvanhocht\Blogify\Blogify $blogify
-     * @param \jorenvanhocht\Tracert\Tracert $tracert
+     * @param \Donatix\Blogify\Blogify $blogify
+     * @param \Donatix\Tracert\Tracert $tracert
      */
     public function __construct(
         Tag $tag,
@@ -154,7 +154,7 @@ class TagsController extends BaseController
 
     /**
      * @param string $hash
-     * @param \jorenvanhocht\Blogify\Requests\TagUpdateRequest $request
+     * @param \Donatix\Blogify\Requests\TagUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update($hash, TagUpdateRequest $request)

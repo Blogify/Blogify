@@ -1,10 +1,10 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Middleware;
+namespace Donatix\Blogify\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use jorenvanhocht\Blogify\Models\Post;
+use Donatix\Blogify\Models\Post;
 
 class CanViewPost
 {
@@ -17,14 +17,14 @@ class CanViewPost
     protected $auth;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Post
+     * @var \Donatix\Blogify\Models\Post
      */
     protected $post;
 
     /**
      * Create a new filter instance.
      *
-     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \Donatix\Blogify\Models\Post $post
      * @param \Illuminate\Contracts\Auth\Guard $auth
      */
     public function __construct(Guard $auth, Post $post)
@@ -66,5 +66,4 @@ class CanViewPost
 
         return true;
     }
-
 }

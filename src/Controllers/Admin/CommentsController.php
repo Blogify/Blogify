@@ -1,8 +1,8 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
-use jorenvanhocht\Blogify\Models\Comment;
+use Donatix\Blogify\Models\Comment;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Tracert\Tracert;
 
@@ -10,19 +10,19 @@ class CommentsController extends BaseController
 {
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Comment
+     * @var \Donatix\Blogify\Models\Comment
      */
     protected $comment;
 
     /**
-     * @var \jorenvanhocht\Tracert\Tracert
+     * @var \Donatix\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * @param \jorenvanhocht\Blogify\Models\Comment $comment
+     * @param \Donatix\Blogify\Models\Comment $comment
      * @param \Illuminate\Contracts\Auth\Guard $auth
-     * @param \jorenvanhocht\Tracert\Tracert $tracert
+     * @param \Donatix\Tracert\Tracert $tracert
      */
     public function __construct(
         Comment $comment,

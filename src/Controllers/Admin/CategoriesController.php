@@ -1,36 +1,36 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
 use Illuminate\Contracts\Auth\Guard;
-use jorenvanhocht\Blogify\Blogify;
-use jorenvanhocht\Blogify\Models\Category;
-use jorenvanhocht\Blogify\Requests\CategoryRequest;
+use Donatix\Blogify\Blogify;
+use Donatix\Blogify\Models\Category;
+use Donatix\Blogify\Requests\CategoryRequest;
 use jorenvanhocht\Tracert\Tracert;
 
 class CategoriesController extends BaseController
 {
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Category
+     * @var \Donatix\Blogify\Models\Category
      */
     protected $category;
 
     /**
-     * @var \jorenvanhocht\Blogify\Blogify
+     * @var \Donatix\Blogify\Blogify
      */
     protected $blogify;
 
     /**
-     * @var \jorenvanhocht\Tracert\Tracert
+     * @var \Donatix\Tracert\Tracert
      */
     protected $tracert;
 
     /**
-     * @param \jorenvanhocht\Blogify\Models\Category $category
+     * @param \Donatix\Blogify\Models\Category $category
      * @param \Illuminate\Contracts\Auth\Guard $auth
-     * @param \jorenvanhocht\Blogify\Blogify $blogify
-     * @param \jorenvanhocht\Tracert\Tracert $tracert
+     * @param \Donatix\Blogify\Blogify $blogify
+     * @param \Donatix\Tracert\Tracert $tracert
      */
     public function __construct(
         Category $category,
@@ -92,7 +92,7 @@ class CategoriesController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param \jorenvanhocht\Blogify\Requests\CategoryRequest $request
+     * @param \Donatix\Blogify\Requests\CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CategoryRequest $request)
@@ -119,7 +119,7 @@ class CategoriesController extends BaseController
 
     /**
      * @param string $hash
-     * @param \jorenvanhocht\Blogify\Requests\CategoryRequest $request
+     * @param \Donatix\Blogify\Requests\CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update($hash, CategoryRequest $request)
@@ -206,7 +206,7 @@ class CategoriesController extends BaseController
      * Save the given category in the db
      *
      * @param CategoryRequest $request
-     * @return \jorenvanhocht\Blogify\Models\Category
+     * @return \Donatix\Blogify\Models\Category
      */
     private function storeOrUpdateCategory($request)
     {

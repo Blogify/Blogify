@@ -1,11 +1,11 @@
 <?php namespace {{namespace}};
 
 use Carbon\Carbon;
-use jorenvanhocht\Blogify\Models\Tag;
-use jorenvanhocht\Blogify\Models\Post;
+use Donatix\Blogify\Models\Tag;
+use Donatix\Blogify\Models\Post;
 use Illuminate\Database\DatabaseManager;
-use jorenvanhocht\Blogify\Models\Category;
-use jorenvanhocht\Blogify\Middleware\ProtectedPost;
+use Donatix\Blogify\Models\Category;
+use Donatix\Blogify\Middleware\ProtectedPost;
 
 class BlogController extends Controller
 {

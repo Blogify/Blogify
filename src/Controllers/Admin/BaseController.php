@@ -1,8 +1,8 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
-use jorenvanhocht\Blogify\Controllers\Admin;
+use Donatix\Blogify\Controllers\Admin;
 use Illuminate\Contracts\Auth\Guard;
 
 class BaseController extends Controller

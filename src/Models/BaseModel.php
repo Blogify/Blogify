@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Models;
+namespace Donatix\Blogify\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,5 +36,4 @@ class BaseModel extends Model
     {
         return date("d-m-Y H:i", strtotime($value));
     }
-
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace jorenvanhocht\Blogify\database\Seeds;
+namespace Donatix\Blogify\database\Seeds;
 
 use Illuminate\Database\Seeder;
-use jorenvanhocht\Blogify\Models\Visibility;
+use Donatix\Blogify\Models\Visibility;
 
 class VisibilityTableSeeder extends Seeder
 {
@@ -25,5 +25,4 @@ class VisibilityTableSeeder extends Seeder
             "name" => "Private",
         ]);
     }
-
 }

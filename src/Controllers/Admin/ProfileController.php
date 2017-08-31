@@ -1,10 +1,10 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
 use App\User;
 use Illuminate\Contracts\Hashing\Hasher;
-use jorenvanhocht\Blogify\Requests\ProfileUpdateRequest;
+use Donatix\Blogify\Requests\ProfileUpdateRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Tracert\Tracert;
@@ -18,7 +18,7 @@ class ProfileController extends BaseController
     protected $user;
 
     /**
-     * @var \jorenvanhocht\Tracert\Tracert
+     * @var \Donatix\Tracert\Tracert
      */
     protected $tracert;
 
@@ -30,7 +30,7 @@ class ProfileController extends BaseController
     /**
      * @param \App\User $user
      * @param \Illuminate\Contracts\Auth\Guard $auth
-     * @param \jorenvanhocht\Tracert\Tracert $tracert
+     * @param \Donatix\Tracert\Tracert $tracert
      * @param \Illuminate\Contracts\Hashing\Hasher $hash
      */
     public function __construct(
@@ -71,7 +71,7 @@ class ProfileController extends BaseController
 
     /**
      * @param string $hash
-     * @param \jorenvanhocht\Blogify\Requests\ProfileUpdateRequest $request
+     * @param \Donatix\Blogify\Requests\ProfileUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update($hash, ProfileUpdateRequest $request)

@@ -1,5 +1,5 @@
 {
-    "name": "jorenvanhocht/blogify",
+    "name": "Donatix/blogify",
     "description": "Laravel 5 blog package",
     "license": "MIT",
     "authors": [
@@ -12,16 +12,16 @@
     "require": {
         "nesbot/carbon": "~1.18",
         "guzzlehttp/guzzle": "~6.2",
-        "laravelcollective/html": "5.2.*",
+        "laravelcollective/html": "5.*",
         "intervention/image": "~2.1",
         "predis/predis": "~1.0",
         "jorenvanhocht/tracert": "v2.0.1"
     },
     "autoload": {
         "psr-4": {
-            "jorenvanhocht\\Blogify\\": "src/",
-            "jorenvanhocht\\Blogify\\Example\\": "Example/",
-            "jorenvanhocht\\Blogify\\database\\": "database/"
+            "Donatix\\Blogify\\": "src/",
+            "Donatix\\Blogify\\Example\\": "Example/",
+            "Donatix\\Blogify\\database\\": "database/"
         },
         "files": [
             "src/Helpers.php"

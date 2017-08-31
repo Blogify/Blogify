@@ -1,21 +1,21 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
-use jorenvanhocht\Blogify\Exceptions\BlogifyException;
-use jorenvanhocht\Blogify\Models\Post;
+use Donatix\Blogify\Exceptions\BlogifyException;
+use Donatix\Blogify\Models\Post;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
-use jorenvanhocht\Blogify\Models\Tag;
+use Donatix\Blogify\Models\Tag;
 
 class ApiController extends BaseController
 {
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Post
+     * @var \Donatix\Blogify\Models\Post
      */
     protected $post;
 
@@ -27,7 +27,7 @@ class ApiController extends BaseController
     protected $base_slug;
 
     /**
-     * @param \jorenvanhocht\Blogify\Models\Post $post
+     * @param \Donatix\Blogify\Models\Post $post
      * @param \Illuminate\Contracts\Auth\Guard $auth
      */
     public function __construct(Post $post, Guard $auth)
@@ -121,12 +121,12 @@ class ApiController extends BaseController
 
     /**
      * @param $hash
-     * @param \jorenvanhocht\Blogify\Models\Tag $tag
+     * @param \Donatix\Blogify\Models\Tag $tag
      * @return mixed
      */
     public function getTag($hash, Tag $tag)
     {
         return $tag->byHash($hash);
     }
-    
+
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Commands;
+namespace Donatix\Blogify\Commands;
 
 use Illuminate\Console\Command;
 
@@ -33,7 +33,7 @@ class BlogifySeedCommand extends Command
     {
         parent::__construct();
 
-        $this->class = 'jorenvanhocht\Blogify\database\Seeds\BlogifySeeder';
+        $this->class = 'Donatix\Blogify\database\Seeds\BlogifySeeder';
     }
 
     /**

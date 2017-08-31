@@ -1,6 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Commands;
+namespace Donatix\Blogify\Commands;
 
 use File;
 use Illuminate\Console\Command;

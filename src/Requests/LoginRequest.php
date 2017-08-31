@@ -1,7 +1,6 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Requests;
-
+namespace Donatix\Blogify\Requests;
 
 class LoginRequest extends Request
 {
@@ -24,9 +23,8 @@ class LoginRequest extends Request
     public function rules()
     {
         return [
-            'email'		=> 'required|email|exists:users,email',
-            'password'	=> 'required',
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required',
         ];
     }
-
 }

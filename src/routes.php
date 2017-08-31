@@ -53,7 +53,7 @@ Route::group(['prefix' => 'auth'], function()
 
 $admin = [
     'prefix'    => 'admin',
-    'namespace' =>'jorenvanhocht\Blogify\Controllers\Admin',
+    'namespace' =>'Donatix\Blogify\Controllers\Admin',
     'middleware' => 'web',
 ];
 

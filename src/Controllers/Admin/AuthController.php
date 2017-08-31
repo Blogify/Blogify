@@ -1,8 +1,8 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
-use jorenvanhocht\Blogify\Requests\LoginRequest;
+use Donatix\Blogify\Requests\LoginRequest;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Tracert\Tracert;
 
@@ -10,13 +10,13 @@ class AuthController extends BaseController
 {
 
     /**
-     * @var \jorenvanhocht\Tracert\Tracert
+     * @var \Donatix\Tracert\Tracert
      */
     protected $tracert;
 
     /**
      * @param \Illuminate\Contracts\Auth\Guard $auth
-     * @param \jorenvanhocht\Tracert\Tracert $tracert
+     * @param \Donatix\Tracert\Tracert $tracert
      */
     public function __construct(Guard $auth, Tracert $tracert)
     {
@@ -43,7 +43,7 @@ class AuthController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param \jorenvanhocht\Blogify\Requests\LoginRequest $request
+     * @param \Donatix\Blogify\Requests\LoginRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function login(LoginRequest $request)

@@ -1,9 +1,9 @@
 <?php
 
-namespace jorenvanhocht\Blogify\database\Seeds;
+namespace Donatix\Blogify\database\Seeds;
 
 use Illuminate\Database\Seeder;
-use jorenvanhocht\Blogify\Models\Status;
+use Donatix\Blogify\Models\Status;
 
 class StatusesTableSeeder extends Seeder
 {
@@ -25,5 +25,4 @@ class StatusesTableSeeder extends Seeder
             "name" => "Reviewed",
         ]);
     }
-
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace jorenvanhocht\Blogify\Controllers\Admin;
+namespace Donatix\Blogify\Controllers\Admin;
 
-use jorenvanhocht\Blogify\Blogify;
-use jorenvanhocht\Blogify\Models\Role;
-use jorenvanhocht\Blogify\Requests\UserRequest;
+use Donatix\Blogify\Blogify;
+use Donatix\Blogify\Models\Role;
+use Donatix\Blogify\Requests\UserRequest;
 use App\User;
 use Illuminate\Contracts\Hashing\Hasher as Hash;
-use jorenvanhocht\Blogify\Services\BlogifyMailer;
+use Donatix\Blogify\Services\BlogifyMailer;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Tracert\Tracert;
 
@@ -20,12 +20,12 @@ class UserController extends BaseController
     protected $user;
 
     /**
-     * @var \jorenvanhocht\Blogify\Models\Role
+     * @var \Donatix\Blogify\Models\Role
      */
     protected $role;
 
     /**
-     * @var \jorenvanhocht\Blogify\Services\BlogifyMailer
+     * @var \Donatix\Blogify\Services\BlogifyMailer
      */
     protected $mail;
 
@@ -35,18 +35,18 @@ class UserController extends BaseController
     protected $hash;
 
     /**
-     * @var \jorenvanhocht\Blogify\Blogify
+     * @var \Donatix\Blogify\Blogify
      */
     protected $blogify;
 
     /**
      * @param \App\User $user
-     * @param \jorenvanhocht\Blogify\Models\Role $role
-     * @param \jorenvanhocht\Blogify\Services\BlogifyMailer $mail
+     * @param \Donatix\Blogify\Models\Role $role
+     * @param \Donatix\Blogify\Services\BlogifyMailer $mail
      * @param \Illuminate\Contracts\Hashing\Hasher $hash
      * @param \Illuminate\Contracts\Auth\Guard $auth
-     * @param \jorenvanhocht\Blogify\Blogify $blogify
-     * @param \jorenvanhocht\Tracert\Tracert $tracert
+     * @param \Donatix\Blogify\Blogify $blogify
+     * @param \Donatix\Tracert\Tracert $tracert
      */
     public function __construct(
         User $user,
@@ -124,7 +124,7 @@ class UserController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param \jorenvanhocht\Blogify\Requests\UserRequest $request
+     * @param \Donatix\Blogify\Requests\UserRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(UserRequest $request)
@@ -149,7 +149,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @param \jorenvanhocht\Blogify\Requests\UserRequest $request
+     * @param \Donatix\Blogify\Requests\UserRequest $request
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -210,7 +210,7 @@ class UserController extends BaseController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param \jorenvanhocht\Blogify\Requests\UserRequest $data
+     * @param \Donatix\Blogify\Requests\UserRequest $data
      * @param string $hash
      * @return array
      */
@@ -236,5 +236,4 @@ class UserController extends BaseController
 
         return ['user' => $user, 'password' => $password];
     }
-
 }
