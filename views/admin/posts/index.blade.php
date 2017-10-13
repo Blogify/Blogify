@@ -16,17 +16,18 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
         <a href="{{ ($trashed) ? route('admin.posts.index') : route('admin.posts.overview', ['trashed']) }}" title=""> {{ ($trashed) ? trans('blogify::posts.overview.links.active') : trans('blogify::posts.overview.links.trashed') }} </a>
     </p>
 
-@section ('cotable_panel_title', ($trashed) ? trans("blogify::posts.overview.table_head.title_trashed") : trans("blogify::posts.overview.table_head.title_active"))
-@section ('cotable_panel_body')
-    <table class="table table-bordered sortable">
+    @section ('cotable_panel_title', ($trashed) ? trans("blogify::posts.overview.table_head.title_trashed") : trans("blogify::posts.overview.table_head.title_active"))
+    @section ('cotable_panel_body')
+
+    <table id="table-apps" class="table table-hover table-striped">
         <thead>
         <tr>
-            <th role="title"><a href="{!! route('admin.api.sort', ['posts', 'title', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by title" class="sort"> {{ trans("blogify::posts.overview.table_head.title") }} </a></th>
-            <th role="slug"><a href="{!! route('admin.api.sort', ['posts', 'slug', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by slug" class="sort"> {{ trans("blogify::posts.overview.table_head.slug") }} </a></th>
-            <th role="status_id"><a href="{!! route('admin.api.sort', ['posts', 'status_id', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by status" class="sort"> {{ trans("blogify::posts.overview.table_head.status") }} </a></th>
-            <th role="publish_date"><a href="{!! route('admin.api.sort', ['posts', 'publish_date', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by publish date" class="sort"> {{ trans("blogify::posts.overview.table_head.publish_date") }} <span class="fa fa-sort-down fa-fw"></span> </a></th>
-            <th role="highlight"><a href="{!! route('admin.api.sort', ['posts', 'highlight', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by feature" class="sort">Feature<span class="fa fa-sort-down fa-fw"></span> </a></th>
-            <th> {{ trans("blogify::posts.overview.table_head.actions") }} </th>
+            <th>Title</th>
+            <th>Slug</th>
+            <th>Status</th>
+            <th>Publish date</th>
+            <th>Feature</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -61,12 +62,49 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
             </tr>
         @endforeach
         </tbody>
+        <tfoot>
+            <tr>
+                <th>Title</th>
+                <th>Slug</th>
+                <th>Status</th>
+                <th>Publish date</th>
+                <th>Feature</th>
+                <th data-searchable="false">Action</th>
+            </tr>
+        </tfoot>
     </table>
-    
+
 @endsection
 
 @include('blogify::admin.widgets.panel', ['header'=>true, 'as'=>'cotable'])
 
-{!! $posts->render() !!}
-
 @stop
+
+@section('scripts')
+<link href="/assets/js/DataTables-1.10.7/media/css/jquery.dataTables.css" rel="stylesheet" type="text/css"/>
+<script src="/assets/js/DataTables-1.10.7/media/js/jquery.dataTables.js" type="text/javascript"></script>
+<script src="/assets/js/handlebars.js" type="text/javascript"></script>
+<script>
+        $('#table-apps tfoot th').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        } );
+
+        var table = $('#table-apps').DataTable({
+            "iDisplayLength": 20
+        });
+
+        table.columns().every( function () {
+            var that = this;
+
+            $( 'input', this.footer() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                            .search( this.value )
+                            .draw();
+                }
+            } );
+        } );
+</script>
+
+@endsection
