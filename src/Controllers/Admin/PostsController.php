@@ -161,12 +161,12 @@ class PostsController extends BaseController
             'posts' => (! $trashed) ?
                 $this->post->$scope()
                         ->orderBy('publish_date', 'DESC')
-                        ->get()
+                        ->paginate($this->config->items_per_page)
                 :
                 $this->post->$scope()
                         ->onlyTrashed()
                         ->orderBy('publish_date', 'DESC')
-                        ->get(),
+                        ->paginate($this->config->items_per_page),
             'trashed' => $trashed,
         ];
 
@@ -438,13 +438,12 @@ class PostsController extends BaseController
      * @return void
      */
     private function buildTagsArray()
-    {
+    {  
         $tags = explode(',', $this->data->tags);
 
         foreach ($tags as $hash) {
             //array_push($this->tags, $this->tag->byHash($hash)->id);
-            array_push($this->tags, $this->tag->id);
-
+            array_push($this->tags, $this->tag->find($hash)->id);
         }
     }
 
