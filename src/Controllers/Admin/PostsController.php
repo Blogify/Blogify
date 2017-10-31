@@ -161,12 +161,12 @@ class PostsController extends BaseController
             'posts' => (! $trashed) ?
                 $this->post->$scope()
                         ->orderBy('publish_date', 'DESC')
-                        ->paginate($this->config->items_per_page)
+                        ->get()
                 :
                 $this->post->$scope()
                         ->onlyTrashed()
                         ->orderBy('publish_date', 'DESC')
-                        ->paginate($this->config->items_per_page),
+                        ->get(),
             'trashed' => $trashed,
         ];
 
