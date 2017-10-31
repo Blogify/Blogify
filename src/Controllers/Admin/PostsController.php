@@ -451,7 +451,8 @@ class PostsController extends BaseController
      * @return \jorenvanhocht\Blogify\Models\Post
      */
     private function storeOrUpdatePost()
-    {
+    {   
+
         if (! empty($this->data->id)) {
             //$post = $this->post->byHash($this->data->hash);
              $post = $this->post->find($this->data->id);
