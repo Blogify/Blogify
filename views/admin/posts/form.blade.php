@@ -289,27 +289,18 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12 form-group input-group">
-                                    {!! Form::text('newTags','', [ 'class' => 'form-control', 'id' => 'newTags', 'placeholder' => trans("blogify::posts.form.tags.placeholder") ] ) !!}
-                                    <span class="input-group-btn">
-                                    <button type="button" class="btn btn-success" id="tag-btn"><i class="fa fa-plus"></i></button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    {!! Form::hidden('tags', isset($hashes) ? $hashes : '', [ 'id' => 'addedTags' ]) !!}
-                                    <span id="helpBlock" class="help-block">{{ trans("blogify::posts.form.tags.help_block") }}</span>
-                                    <div id="tag-errors" class="text-danger"></div>
-                                    <div id="tags">
-                                        @if( isset($post) && count($post->tag) > 0 )
-                                            @foreach ( $post->tag as $tag )
-                                                <span class="tag {{$tag->id}}"><a href="#" class="{{$tag->id}}" title="Remove tag"><span class="fa fa-times-circle"></span></a> {{ $tag->name }} </span>
-                                            @endforeach
-                                        @endif
+
+                                    <div class="row">
+
+
+                                        {!! Form::select('tags[]', $tags->pluck('name','id'), $post->tag->pluck('id')->toArray(), ['id' => 'tags', 'class' => 'form-control', 'multiple' => 'multiple']) !!}
+
 
                                     </div>
+
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -323,7 +314,10 @@
 @stop
 @section('scripts')
     <link rel="stylesheet" type="text/css" href="/assets/js/datetimepicker/DateTimePicker.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/js/bootstrap-multiselect/dist/css/bootstrap-multiselect.css" />
     <script type="text/javascript" src="/assets/js/datetimepicker/DateTimePicker.js"></script>
+    <script type="text/javascript" src="/assets/js/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
+    <script type="text/javascript" src="/assets/app/public/blogify/tags-v-1.js"></script>
     <script src="/assets/js/ckeditor4.7/ckeditor.js"></script>
     <!--[if lt IE 9]>
     <link rel="stylesheet" type="text/css" href="/assets/js/datetimepicker/DateTimePicker-ltie9.css" />

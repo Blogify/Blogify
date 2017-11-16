@@ -211,6 +211,7 @@ class PostsController extends BaseController
         $originalPost = $this->post->find($id);
         $data = $this->getViewData($originalPost);
 
+
         $originalPost->being_edited_by = $this->auth_user->id;
         $originalPost->save();
 
@@ -233,9 +234,6 @@ class PostsController extends BaseController
             '_token', 'newCategory', 'newTags'
         ]));
 
-        if (! empty($this->data->tags)) {
-            $this->buildTagsArray();
-        }
 
         $post = $this->storeOrUpdatePost();
 
@@ -393,6 +391,7 @@ class PostsController extends BaseController
     private function getViewData($post = null)
     {
         return [
+            'tags'          => $this->tag->all(),
             'reviewers'     => $this->user->reviewers(),
             'statuses'      => $this->status->all(),
             'categories'    => $this->category->all(),
@@ -434,18 +433,6 @@ class PostsController extends BaseController
         return time().'-'.str_replace(' ', '-', $this->auth_user->fullName);
     }
 
-    /**
-     * @return void
-     */
-    private function buildTagsArray()
-    {  
-        $tags = explode(',', $this->data->tags);
-
-        foreach ($tags as $hash) {
-            //array_push($this->tags, $this->tag->byHash($hash)->id);
-            array_push($this->tags, $this->tag->find($hash)->id);
-        }
-    }
 
     /**
      * @return \jorenvanhocht\Blogify\Models\Post
@@ -481,7 +468,7 @@ class PostsController extends BaseController
         }
 
         $post->save();
-        $post->tag()->sync($this->tags);
+        $post->tag()->sync($this->data->tags);
 
         return $post;
     }
