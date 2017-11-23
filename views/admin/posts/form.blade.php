@@ -293,7 +293,9 @@
                                     <div class="row">
 
 
-                                        {!! Form::select('tags[]', $tags->pluck('name','id'), $post->tag->pluck('id')->toArray(), ['id' => 'tags', 'class' => 'form-control', 'multiple' => 'multiple']) !!}
+                                        <?php $postTags = isset($post) ? $post->tag->pluck('id')->toArray() : []; ?>
+
+                                        {!! Form::select('tags[]', $tags->pluck('name','id'), $postTags, ['id' => 'tags', 'class' => 'form-control', 'multiple' => 'multiple']) !!}
 
 
                                     </div>
