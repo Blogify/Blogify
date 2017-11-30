@@ -6,7 +6,6 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Hashing\Hasher;
 use jorenvanhocht\Blogify\Blogify;
-use jorenvanhocht\Blogify\Models\Category;
 use jorenvanhocht\Blogify\Models\Role;
 use jorenvanhocht\Blogify\Models\Status;
 use jorenvanhocht\Blogify\Models\Tag;
@@ -42,11 +41,6 @@ class PostsController extends BaseController
      * @var \App\User
      */
     protected $user;
-
-    /**
-     * @var \jorenvanhocht\Blogify\Models\Category
-     */
-    protected $category;
 
     /**
      * @var \jorenvanhocht\Blogify\Models\Tag
@@ -107,7 +101,6 @@ class PostsController extends BaseController
      * @param \Illuminate\Contracts\Hashing\Hasher $hash
      * @param \jorenvanhocht\Blogify\Models\Status $status
      * @param \Illuminate\Contracts\Cache\Repository $cache
-     * @param \jorenvanhocht\Blogify\Models\Category $category
      * @param \jorenvanhocht\Blogify\Models\Visibility $visibility
      * @param \Illuminate\Contracts\Auth\Guard $auth
      * @param \jorenvanhocht\Blogify\Blogify $blogify
@@ -122,7 +115,6 @@ class PostsController extends BaseController
         Hasher $hash,
         Status $status,
         Repository $cache,
-        Category $category,
         Visibility $visibility,
         Guard $auth,
         Blogify $blogify,
@@ -142,7 +134,6 @@ class PostsController extends BaseController
         $this->status = $status;
         $this->blogify = $blogify;
         $this->tracert = $tracert;
-        $this->category = $category;
         $this->visibility = $visibility;
     }
 
@@ -231,7 +222,7 @@ class PostsController extends BaseController
     public function store(PostRequest $request)
     {
         $this->data = objectify($request->except([
-            '_token', 'newCategory', 'newTags'
+            '_token','newTags'
         ]));
 
 
@@ -394,7 +385,6 @@ class PostsController extends BaseController
             'tags'          => $this->tag->all(),
             'reviewers'     => $this->user->reviewers(),
             'statuses'      => $this->status->all(),
-            'categories'    => $this->category->all(),
             'visibility'    => $this->visibility->all(),
             'publish_date'  => Carbon::now()->format('d-m-Y H:i'),
             'post'          => $post,
@@ -456,7 +446,6 @@ class PostsController extends BaseController
         $post->user_id = $this->user->byHash($this->auth_user->hash)->id;
         $post->reviewer_id = $this->user->find($this->data->reviewer)->id;
         $post->visibility_id = $this->visibility->find($this->data->visibility)->id;
-        $post->category_id = $this->category->find($this->data->category)->id;
         $post->being_edited_by = null;
         $post->highlight = $this->data->highlight;
         $post->meta_desc = $this->data->meta_desc;
@@ -513,7 +502,6 @@ class PostsController extends BaseController
         $post['status_id'] = $this->status->byHash($cached_post['status'])->id;
         $post['visibility_id'] = $this->visibility->byHash($cached_post['visibility'])->id;
         $post['reviewer_id'] = $this->user->byHash($cached_post['reviewer'])->id;
-        $post['category_id'] = $this->category->byHash($cached_post['category'])->id;
         $post['tag'] = $this->buildTagsArrayForPostObject($cached_post['tags']);
 
         return objectify($post);

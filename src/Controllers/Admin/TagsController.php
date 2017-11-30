@@ -114,7 +114,7 @@ class TagsController extends BaseController
     /**
      * @return $this|array|\Illuminate\Http\RedirectResponse
      */
-    public function storeOrUpdate()
+    public function storeOrUpdate(TagUpdateRequest $request)
     {
         // prepare submitted tag(s)
         $this->fillTagsArray();
@@ -136,7 +136,7 @@ class TagsController extends BaseController
         }
 
         // store or update the tag in the db
-        $this->storeOrUpdateTags();
+        $this->storeOrUpdateTags($request);
 
         $data = ['passed' => true, 'tags' => $this->stored_tags];
         if (Request::ajax()) {
@@ -163,6 +163,9 @@ class TagsController extends BaseController
         //$tag = $this->tag->byHash($hash);
         $tag = $this->tag->find($id);
         $tag->name = $request->tags;
+        $tag->slug = $request->slug;
+        $tag->meta_title = $request->meta_title;
+        $tag->meta_description = $request->meta_description;
         $tag->save();
 
         //$this->tracert->log('tags', $tag->id, $this->auth_user->id, 'update');
@@ -239,9 +242,9 @@ class TagsController extends BaseController
     /**
      * @return void
      */
-    private function storeOrUpdateTags()
+    private function storeOrUpdateTags($request)
     {
-        foreach ($this->tags as $tag_name) {
+        /*foreach ($this->tags as $tag_name) {
             $t = $this->tag->whereName($tag_name)->first();
 
             if (count($t) > 0) {
@@ -256,7 +259,23 @@ class TagsController extends BaseController
             $tag->save();
             array_push($this->stored_tags, $tag);
             //$this->tracert->log('tags', $tag->id, $this->auth_user->id);
+        }*/
+
+        $t = $this->tag->whereName($request->tags)->first();
+
+        if (count($t) > 0) {
+            $tag = $t;
+        } else {
+            $tag = new Tag;
         }
+
+        $tag->name = $request->tags;
+        $tag->slug = $request->slug;
+        $tag->meta_title = $request->meta_title;
+        $tag->meta_description = $request->meta_description;
+        $tag->save();
+
+        return $tag;
     }
 
     /**

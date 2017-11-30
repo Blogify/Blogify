@@ -58,11 +58,6 @@ class Post extends BaseModel
         return $this->hasMany('jorenvanhocht\Blogify\Models\Comment', 'post_id', 'id');
     }
 
-    public function category()
-    {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\Category', 'category_id')->withTrashed();
-    }
-
     public function media()
     {
         return $this->hasMany('jorenvanhocht\Blogify\Models\Media', 'id');
@@ -146,11 +141,17 @@ class Post extends BaseModel
 
     public function scopeNotPress($query)
     {
-            return $query->whereHas('category', function($query){
-                $query->where('name', '!=', 'press');
+            return $query->whereHas('tag', function($query){
+                $query->where('name', '!=', 'Press');
             });
     }
 
+    public function scopeBlogTags($query,$tag_id)
+    {
+            return $query->whereHas('tag', function($query) use ($tag_id) { 
+                $query->where('tag_id', $tag_id); 
+            });   
+    }
 
     //Accessors
 
