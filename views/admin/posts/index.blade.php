@@ -19,6 +19,8 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
     @section ('cotable_panel_title', ($trashed) ? trans("blogify::posts.overview.table_head.title_trashed") : trans("blogify::posts.overview.table_head.title_active"))
     @section ('cotable_panel_body')
 
+    <p>Testing blogify (composer)</p>
+
     <table id="table-apps" class="table table-hover table-striped">
         <thead>
         <tr>
