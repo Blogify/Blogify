@@ -457,7 +457,10 @@ class PostsController extends BaseController
         }
 
         $post->save();
-        $post->tag()->sync($this->data->tags);
+
+
+        if(isset($this->data->tags))
+        	$post->tag()->sync($this->data->tags);
 
         return $post;
     }
