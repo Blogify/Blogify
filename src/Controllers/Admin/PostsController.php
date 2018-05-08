@@ -151,10 +151,12 @@ class PostsController extends BaseController
         $data = [
             'posts' => (! $trashed) ?
                 $this->post->$scope()
+                        ->with('status')
                         ->orderBy('publish_date', 'DESC')
                         ->get()
                 :
                 $this->post->$scope()
+                        ->with('status')
                         ->onlyTrashed()
                         ->orderBy('publish_date', 'DESC')
                         ->get(),
@@ -198,13 +200,13 @@ class PostsController extends BaseController
      */
     public function edit($id)
     {
-        //$originalPost = $this->post->byHash($hash);
         $originalPost = $this->post->find($id);
         $data = $this->getViewData($originalPost);
 
 
         $originalPost->being_edited_by = $this->auth_user->id;
         $originalPost->save();
+
 
         return view('blogify::admin.posts.form', $data);
     }
@@ -221,6 +223,7 @@ class PostsController extends BaseController
      */
     public function store(PostRequest $request)
     {
+
         $this->data = objectify($request->except([
             '_token','newTags'
         ]));
@@ -431,11 +434,9 @@ class PostsController extends BaseController
     {   
 
         if (! empty($this->data->id)) {
-            //$post = $this->post->byHash($this->data->hash);
              $post = $this->post->find($this->data->id);
         } else {
             $post = new Post;
-            //$post->hash = $this->blogify->makeHash('blogify_posts', 'hash', true);
         }
 
         $post->slug = $this->data->slug;
@@ -451,6 +452,7 @@ class PostsController extends BaseController
         $post->meta_desc = $this->data->meta_desc;
         $post->meta_keys = $this->data->meta_keys;
         $post->meta_title = $this->data->meta_title;
+        $post->popup = isset($this->data->popup);
 
         if (!empty($this->data->password)) {
             $post->password = $this->hash->make($this->data->password);
@@ -506,6 +508,7 @@ class PostsController extends BaseController
         $post['visibility_id'] = $this->visibility->byHash($cached_post['visibility'])->id;
         $post['reviewer_id'] = $this->user->byHash($cached_post['reviewer'])->id;
         $post['tag'] = $this->buildTagsArrayForPostObject($cached_post['tags']);
+        $post['popup'] = $cached_post['popup'];
 
         return objectify($post);
     }

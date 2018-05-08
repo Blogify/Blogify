@@ -92,7 +92,18 @@
                 </div>
             </div>
 
-
+            <div class="row">
+                <div class="col-md-2">
+                    Register
+                </div>
+                <div class="col-md-10 form-group {{ $errors->has('popup') ? 'has-error' : '' }}">
+                    {!! Form::checkbox('popup', 1, is_null($post) ? false : $post->popup,  ['class' => 'form-check-input', 'id' => 'popup']) !!}
+                    <label for="popup">Popup</label>
+                    @if ( $errors->has('popup') )
+                        <span class="help-block text-danger">{{$errors->first('popup')}}</span>
+                    @endif
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-lg-12 col-md-12 form-group {{ $errors->has('post') ? 'has-error' : '' }}">
