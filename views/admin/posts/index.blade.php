@@ -43,7 +43,7 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
                 <td>{!! $post->title !!}</td>
                 <td>{!! $post->slug !!}</td>
                 <td>{!! $post->status->name !!}</td>
-                <td>{!! $post->publish_date !!}</td>
+                <td data-order="{{ $post->carbon_publish_date->timestamp }}">{!! $post->publish_date !!}</td>
                 <td>{{ $post->highlight == 1 ? 'Yes' : 'No' }}</td>
                 <td>
                     @if(!$trashed)
