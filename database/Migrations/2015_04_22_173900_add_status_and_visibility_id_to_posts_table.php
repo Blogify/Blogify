@@ -8,7 +8,7 @@ class AddStatusAndVisibilityIdToPostsTable extends Migration {
 
     public function up()
     {
-        Schema::table('posts', function(Blueprint $table) {
+        Schema::table('blogify_posts', function(Blueprint $table) {
             $table->integer('status_id')->after('category_id');
             $table->integer('visibility_id')->after('category_id');
         });
@@ -16,7 +16,7 @@ class AddStatusAndVisibilityIdToPostsTable extends Migration {
 
     public function down()
     {
-        Schema::table('questions', function(Blueprint $table)
+        Schema::table('blogify_questions', function(Blueprint $table)
         {
             $table->dropColumn('status_id');
             $table->dropColumn('visibility_id');

@@ -756,6 +756,7 @@ var app = {
         {
             app.autoSave.data = {
                 title: $('#title')[0].value,
+                highlight: $('#highlight option:selected')[0].value,
                 slug: $('#slug')[0].value,
                 content: CKEDITOR.instances.post.getData(),
                 status: $('#status')[0].value,

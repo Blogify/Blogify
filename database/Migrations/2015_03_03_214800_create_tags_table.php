@@ -12,7 +12,7 @@ class CreateTagsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('tags', function($table)
+        Schema::create('blogify_tags', function($table)
         {
             $table->increments('id');
             $table->string('hash', 80)->unique();
@@ -29,7 +29,7 @@ class CreateTagsTable extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('blogify_tags');
     }
 
 }

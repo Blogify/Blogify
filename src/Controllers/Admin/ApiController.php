@@ -55,18 +55,19 @@ class ApiController extends BaseController
         $trashed = false,
         DatabaseManager $db
     ) {
+        $table = 'blogify_' . $table;
         $db = $db->connection();
         $data = $db->table($table);
 
         // Check for trashed data
         $data = $trashed ? $data->whereNotNull('deleted_at') : $data->whereNull('deleted_at');
 
-        if ($table == 'users') {
-            $data = $data->join('roles', 'users.role_id', '=', 'roles.id');
+        if ($table == 'blogify_users') {
+            $data = $data->join('blogify_roles', 'blogify_users.role_id', '=', 'blogify_roles.id');
         }
 
-        if ($table == 'posts') {
-            $data = $data->join('statuses', 'posts.status_id', '=', 'statuses.id');
+        if ($table == 'blogify_posts') {
+            $data = $data->join('blogify_statuses', 'blogify_posts.status_id', '=', 'blogify_statuses.id');
         }
 
         $data = $data

@@ -45,14 +45,14 @@ class CommentsController extends Controller
     public function store(CommentRequest $request)
     {
         $comment = new Comment;
-        $comment->hash = blogify()->makeHash('comments', 'hash', true);
+        //$comment->hash = blogify()->makeHash('comments', 'hash', true);
         $comment->content = $request->comment;
         $comment->user_id = $this->auth->user()->id;
         $comment->post_id = $this->post->byHash($request->post)->id;
         $comment->revised = ($this->config->approve_comments_first) ? 1 : 2;
         $comment->save();
 
-        tracert()->log('comments', $comment->id, $this->auth->user()->id, 'create');
+        //tracert()->log('comments', $comment->id, $this->auth->user()->id, 'create');
 
         session()->flash('notify', [ 'success', 'Your comment has been added' ] );
 

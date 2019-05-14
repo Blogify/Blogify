@@ -6,7 +6,6 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Hashing\Hasher;
 use jorenvanhocht\Blogify\Blogify;
-use jorenvanhocht\Blogify\Models\Category;
 use jorenvanhocht\Blogify\Models\Role;
 use jorenvanhocht\Blogify\Models\Status;
 use jorenvanhocht\Blogify\Models\Tag;
@@ -42,11 +41,6 @@ class PostsController extends BaseController
      * @var \App\User
      */
     protected $user;
-
-    /**
-     * @var \jorenvanhocht\Blogify\Models\Category
-     */
-    protected $category;
 
     /**
      * @var \jorenvanhocht\Blogify\Models\Tag
@@ -107,7 +101,6 @@ class PostsController extends BaseController
      * @param \Illuminate\Contracts\Hashing\Hasher $hash
      * @param \jorenvanhocht\Blogify\Models\Status $status
      * @param \Illuminate\Contracts\Cache\Repository $cache
-     * @param \jorenvanhocht\Blogify\Models\Category $category
      * @param \jorenvanhocht\Blogify\Models\Visibility $visibility
      * @param \Illuminate\Contracts\Auth\Guard $auth
      * @param \jorenvanhocht\Blogify\Blogify $blogify
@@ -122,7 +115,6 @@ class PostsController extends BaseController
         Hasher $hash,
         Status $status,
         Repository $cache,
-        Category $category,
         Visibility $visibility,
         Guard $auth,
         Blogify $blogify,
@@ -142,7 +134,6 @@ class PostsController extends BaseController
         $this->status = $status;
         $this->blogify = $blogify;
         $this->tracert = $tracert;
-        $this->category = $category;
         $this->visibility = $visibility;
     }
 
@@ -160,13 +151,15 @@ class PostsController extends BaseController
         $data = [
             'posts' => (! $trashed) ?
                 $this->post->$scope()
+                        ->with('status')
                         ->orderBy('publish_date', 'DESC')
-                        ->paginate($this->config->items_per_page)
+                        ->get()
                 :
                 $this->post->$scope()
+                        ->with('status')
                         ->onlyTrashed()
                         ->orderBy('publish_date', 'DESC')
-                        ->paginate($this->config->items_per_page),
+                        ->get(),
             'trashed' => $trashed,
         ];
 
@@ -178,9 +171,7 @@ class PostsController extends BaseController
      */
     public function create()
     {
-        $hash = $this->auth_user->hash;
-        $post = $this->cache->has("autoSavedPost-$hash") ? $this->buildPostObject() : null;
-        $data = $this->getViewData($post);
+        $data = $this->getViewData(null);
 
         return view('blogify::admin.posts.form', $data);
     }
@@ -189,10 +180,11 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\View\View
      */
-    public function show($hash)
+    public function show($id)
     {
         $data = [
-            'post' => $this->post->byHash($hash),
+            //'post' => $this->post->byHash($hash),
+            'post' => $this->post->find($id),
         ];
 
         if ($data['post']->count() <= 0) {
@@ -206,15 +198,15 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\View\View
      */
-    public function edit($hash)
+    public function edit($id)
     {
-        $originalPost = $this->post->byHash($hash);
-        $hash = $this->auth_user->hash;
-        $post = $this->cache->has("autoSavedPost-$hash") ? $this->buildPostObject() : $originalPost;
-        $data = $this->getViewData($post);
+        $originalPost = $this->post->find($id);
+        $data = $this->getViewData($originalPost);
+
 
         $originalPost->being_edited_by = $this->auth_user->id;
         $originalPost->save();
+
 
         return view('blogify::admin.posts.form', $data);
     }
@@ -231,31 +223,26 @@ class PostsController extends BaseController
      */
     public function store(PostRequest $request)
     {
+
         $this->data = objectify($request->except([
-            '_token', 'newCategory', 'newTags'
+            '_token','newTags'
         ]));
 
-        if (! empty($this->data->tags)) {
-            $this->buildTagsArray();
-        }
 
         $post = $this->storeOrUpdatePost();
 
-        if ($this->status->byHash($this->data->status)->name == 'Pending review') {
+        if ($this->status->find($this->data->status)->name == 'Pending review') {
             $this->mailReviewer($post);
         }
 
-        $action = ($request->hash == '') ? 'created' : 'updated';
+        $action = ($request->id == '') ? 'created' : 'updated';
 
-        $this->tracert->log('posts', $post->id, $this->auth_user->id, $action);
+        //$this->tracert->log('posts', $post->id, $this->auth_user->id, $action);
 
         $message = trans('blogify::notify.success', [
             'model' => 'Post', 'name' => $post->title, 'action' => $action
         ]);
         session()->flash('notify', ['success', $message]);
-
-        $hash = $this->auth_user->hash;
-        $this->cache->forget("autoSavedPost-$hash");
 
         return redirect()->route('admin.posts.index');
     }
@@ -264,12 +251,13 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($hash)
+    public function destroy($id)
     {
-        $post = $this->post->byHash($hash);
+        //$post = $this->post->byHash($hash);
+        $post = $this->post->find($id);
         $post->delete();
 
-        $this->tracert->log('posts', $post->id, $this->auth_user->id, 'delete');
+        //$this->tracert->log('posts', $post->id, $this->auth_user->id, 'delete');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Post', 'name' => $post->title, 'action' =>'deleted'
@@ -308,22 +296,18 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function cancel($hash = null)
+    public function cancel($id = null)
     {
-        if (! isset($hash)) {
+        if (! isset($id)) {
             return redirect()->route('admin.posts.index');
         }
 
-        $userHash = $this->auth_user->hash;
-        if ($this->cache->has("autoSavedPost-$userHash")) {
-            $this->cache->forget("autoSavedPost-$userHash");
-        }
-
-        $post = $this->post->byHash($hash);
+        //$post = $this->post->byHash($hash);
+        $post = $this->post->find($id);
         $post->being_edited_by = null;
         $post->save();
 
-        $this->tracert->log('posts', $post->id, $this->auth_user->id, 'canceled');
+        //$this->tracert->log('posts', $post->id, $this->auth_user->id, 'canceled');
 
         $message = trans('blogify::notify.success', [
             'model' => 'Post', 'name' => $post->name, 'action' =>'canceled'
@@ -337,13 +321,28 @@ class PostsController extends BaseController
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($hash)
+    public function restore($id)
     {
-        $post = $this->post->withTrashed()->byHash($hash);
+        //$post = $this->post->withTrashed()->byHash($hash);
+        $post = $this->post->withTrashed()->find($id);
         $post->restore();
 
         $message = trans('blogify::notify.success', [
             'model' => 'Post', 'name' => $post->title, 'action' =>'restored'
+        ]);
+        session()->flash('notify', ['success', $message]);
+
+        return redirect()->route('admin.posts.index');
+    }
+
+    public function clear($id)
+    {
+        $post = $this->post->find($id);
+        $post->being_edited_by = null;
+        $post->save();
+
+        $message = trans('blogify::notify.success', [
+            'model' => 'Post', 'name' => $post->name, 'action' =>'clered'
         ]);
         session()->flash('notify', ['success', $message]);
 
@@ -386,9 +385,9 @@ class PostsController extends BaseController
     private function getViewData($post = null)
     {
         return [
+            'tags'          => $this->tag->all(),
             'reviewers'     => $this->user->reviewers(),
             'statuses'      => $this->status->all(),
-            'categories'    => $this->category->all(),
             'visibility'    => $this->visibility->all(),
             'publish_date'  => Carbon::now()->format('d-m-Y H:i'),
             'post'          => $post,
@@ -401,17 +400,12 @@ class PostsController extends BaseController
      */
     private function resizeAndSaveImage($image)
     {
-        $image_name = $this->createImageName();
-        $fullpath = $this->createFullImagePath($image_name, $image->getClientOriginalExtension());
+        $image_name = $image->getClientOriginalName();
+        $fullpath = $this->createFullImagePath($image_name);
 
-        Image::make($image->getRealPath())
-            ->resize($this->config->image_sizes->posts[0], null, function($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })
-            ->save($fullpath);
+        Image::make($image->getRealPath())->save($fullpath);
 
-        return $image_name.'.'.$image->getClientOriginalExtension();
+        return $image_name;
     }
 
     /**
@@ -419,9 +413,9 @@ class PostsController extends BaseController
      * @param $extension
      * @return string
      */
-    private function createFullImagePath($image_name, $extension)
+    private function createFullImagePath($image_name)
     {
-        return public_path($this->config->upload_paths->posts->images.$image_name.'.'.$extension);
+        return env('PUBLIC_PATH') . $this->config->upload_paths->posts->images.$image_name;
     }
 
     /**
@@ -432,47 +426,43 @@ class PostsController extends BaseController
         return time().'-'.str_replace(' ', '-', $this->auth_user->fullName);
     }
 
-    /**
-     * @return void
-     */
-    private function buildTagsArray()
-    {
-        $tags = explode(',', $this->data->tags);
-
-        foreach ($tags as $hash) {
-            array_push($this->tags, $this->tag->byHash($hash)->id);
-        }
-    }
 
     /**
      * @return \jorenvanhocht\Blogify\Models\Post
      */
     private function storeOrUpdatePost()
-    {
-        if (! empty($this->data->hash)) {
-            $post = $this->post->byHash($this->data->hash);
+    {   
+
+        if (! empty($this->data->id)) {
+             $post = $this->post->find($this->data->id);
         } else {
             $post = new Post;
-            $post->hash = $this->blogify->makeHash('posts', 'hash', true);
         }
 
         $post->slug = $this->data->slug;
         $post->title = $this->data->title;
         $post->content = $this->data->post;
-        $post->status_id = $this->status->byHash($this->data->status)->id;
+        $post->status_id = $this->status->find($this->data->status)->id;
         $post->publish_date = $this->data->publishdate;
         $post->user_id = $this->user->byHash($this->auth_user->hash)->id;
-        $post->reviewer_id = $this->user->byHash($this->data->reviewer)->id;
-        $post->visibility_id = $this->visibility->byHash($this->data->visibility)->id;
-        $post->category_id = $this->category->byHash($this->data->category)->id;
+        $post->reviewer_id = $this->user->find($this->data->reviewer)->id;
+        $post->visibility_id = $this->visibility->find($this->data->visibility)->id;
         $post->being_edited_by = null;
+        $post->highlight = $this->data->highlight;
+        $post->meta_desc = $this->data->meta_desc;
+        $post->meta_keys = $this->data->meta_keys;
+        $post->meta_title = $this->data->meta_title;
+        $post->popup = isset($this->data->popup);
 
         if (!empty($this->data->password)) {
             $post->password = $this->hash->make($this->data->password);
         }
 
         $post->save();
-        $post->tag()->sync($this->tags);
+
+
+        if(isset($this->data->tags))
+        	$post->tag()->sync($this->data->tags);
 
         return $post;
     }
@@ -508,13 +498,17 @@ class PostsController extends BaseController
         $post['hash'] = '';
         $post['title'] = $cached_post['title'];
         $post['slug'] = $cached_post['slug'];
+        $post['highlight'] = $cached_post['highlight'];
+        $post['meta_desc'] = $cached_post['meta_desc'];
+        $post['meta_keys'] = $cached_post['meta_keys'];
+        $post['meta_title'] = $cached_post['meta_title'];
         $post['content'] = $cached_post['content'];
         $post['publish_date'] = $cached_post['publishdate'];
         $post['status_id'] = $this->status->byHash($cached_post['status'])->id;
         $post['visibility_id'] = $this->visibility->byHash($cached_post['visibility'])->id;
         $post['reviewer_id'] = $this->user->byHash($cached_post['reviewer'])->id;
-        $post['category_id'] = $this->category->byHash($cached_post['category'])->id;
         $post['tag'] = $this->buildTagsArrayForPostObject($cached_post['tags']);
+        $post['popup'] = $cached_post['popup'];
 
         return objectify($post);
     }

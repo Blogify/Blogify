@@ -106,7 +106,7 @@ class BlogController extends Controller
 
         $data['posts'] = $this->post->whereCategoryId($category_id)->forPublic()->orderBy('publish_date', 'DESC')->paginate($this->config->items_per_page);
 
-        return view('blogify.index', $data);
+        return view('blogify.categories', $data);
     }
 
     /**

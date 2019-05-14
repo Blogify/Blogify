@@ -6,6 +6,8 @@ use Illuminate\Database\Migrations\Migration;
 class CreateUsersTable extends Migration
 {
 
+    protected $userTable;
+
     /**
      * @var array
      */
@@ -13,6 +15,8 @@ class CreateUsersTable extends Migration
 
     public function __construct()
     {
+        $this->userTable = config('blogify.blogify.users_table');
+
         $this->fillFieldsArray();
     }
 
@@ -23,7 +27,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        if (! Schema::hasTable('users')) {
+        if (! Schema::hasTable($this->userTable)) {
             $this->createUsersTable();
         } else {
             $this->updateUsersTable();
@@ -38,7 +42,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        //Schema::dropIfExists($this->userTable);
     }
 
     /**
@@ -55,41 +59,41 @@ class CreateUsersTable extends Migration
                 'length' => 80,
                 'extra' => 'unique',
             ],
-            'lastname' => [
-                'type' => 'string',
-                'length' => 30,
-            ],
-            'firstname' => [
-                'type' => 'string',
-                'length' => 30,
-            ],
-            'username' => [
-                'type' => 'string',
-                'length' => 30,
-                'extra' => 'unique'
-            ],
-            'email' => [
-                'type' => 'string',
-                'length' => 70,
-                'extra' => 'unique'
-            ],
-            'password' => [
-                'type' => 'string',
-                'length' => 100,
-            ],
-            'remember_token' => [
-                'type' => 'string',
-                'length' => 100,
-                'extra' => 'nullable'
-            ],
+//            'lastname' => [
+//                'type' => 'string',
+//                'length' => 30,
+//            ],
+//            'firstname' => [
+//                'type' => 'string',
+//                'length' => 30,
+//            ],
+//            'username' => [
+//                'type' => 'string',
+//                'length' => 30,
+//                'extra' => 'unique'
+//            ],
+//            'email' => [
+//                'type' => 'string',
+//                'length' => 70,
+//                'extra' => 'unique'
+//            ],
+//            'password' => [
+//                'type' => 'string',
+//                'length' => 100,
+//            ],
+//            'remember_token' => [
+//                'type' => 'string',
+//                'length' => 100,
+//                'extra' => 'nullable'
+//            ],
             'role_id' => [
                 'type' => 'integer',
                 'extra' => 'unsigned'
             ],
-            'profilepicture' => [
-                'type' => 'string',
-                'length' => 200,
-            ],
+//            'profilepicture' => [
+//                'type' => 'string',
+//                'length' => 200,
+//            ],
         ];
     }
 
@@ -99,7 +103,7 @@ class CreateUsersTable extends Migration
      */
     private function createUsersTable()
     {
-        Schema::create('users', function ($table) {
+        Schema::create($this->userTable, function ($table) {
             foreach ($this->fields as $field => $value) {
                 $query = $table->$value['type']($field);
 
@@ -108,7 +112,7 @@ class CreateUsersTable extends Migration
                 }
             }
 
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('role_id')->references('id')->on('blogify_roles');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -120,9 +124,9 @@ class CreateUsersTable extends Migration
      */
     private function updateUsersTable()
     {
-        Schema::table('users', function ($table) {
+        Schema::table($this->userTable, function ($table) {
             foreach ($this->fields as $field => $value) {
-                if (!Schema::hasColumn('users', $field)) {
+                if (!Schema::hasColumn($this->userTable, $field)) {
                     $type  = $value['type'];
                     $query = $table->$type($field);
 
@@ -132,16 +136,16 @@ class CreateUsersTable extends Migration
                     }
 
                     if ($field == 'role_id') {
-                        $table->foreign('role_id')->references('id')->on('roles');
+                        $table->foreign('role_id')->references('id')->on('blogify_roles');
                     }
                 }
             }
 
-            if (!Schema::hasColumn('users', 'created_at') && !Schema::hasColumn('users', 'updated_at')) {
+            if (!Schema::hasColumn($this->userTable, 'created_at') && !Schema::hasColumn($this->userTable, 'updated_at')) {
                 $table->timestamps();
             }
 
-            if (!Schema::hasColumn('users', 'deleted_at')) {
+            if (!Schema::hasColumn($this->userTable, 'deleted_at')) {
                 $table->softDeletes();
             }
         });

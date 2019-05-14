@@ -31,7 +31,13 @@ class BaseController extends Controller
     {
         $this->auth = $auth;
         $this->config = objectify(config('blogify'));
-        $this->auth_user = $this->auth->check() ? $this->auth->user() : false;
+
+        $this->middleware(function ($request, $next) {
+            $this->auth_user = $this->auth->check() ? $this->auth->user() : false;
+
+            return $next($request);
+        });
+
     }
 
 }

@@ -1,2 +1,4 @@
 /vendor/
 /.sass-cache/
+
+.idea/

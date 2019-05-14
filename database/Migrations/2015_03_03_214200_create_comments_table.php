@@ -12,15 +12,15 @@ class CreateCommentsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('comments', function($table)
+        Schema::create('blogify_comments', function($table)
         {
             $table->increments('id');
             $table->string('hash', 80)->unique();
             $table->text('content');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on(config('blogify.blogify.users_table'));
             $table->integer('post_id')->unsigned();
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->foreign('post_id')->references('id')->on('blogify_posts');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,7 +33,7 @@ class CreateCommentsTable extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('blogify_comments');
     }
 
 }

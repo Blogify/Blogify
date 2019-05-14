@@ -45,16 +45,15 @@ class PostRequest extends Request
      */
     public function rules()
     {
-        $hash = $this->input('hash');
-        $id = (! empty($hash)) ? $this->post->byHash($hash)->id : 0;
-        $protected_visibility = $this->visibility->whereName('Protected')->first()->hash;
+        $id = $this->input('id');
+        //$id = (! empty($hash)) ? $this->post->byHash($hash)->id : 0;
+        $protected_visibility = $this->visibility->whereName('Protected')->first()->id;
 
         return [
             'title'             => 'required|min:2|max:100',
-            'slug'              => "required|unique:posts,slug,$id|min:2|max:120",
-            'reviewer'          => 'exists:users,hash',
+            'slug'              => "required|unique:blogify_posts,slug,$id|min:2|max:120",
+            'reviewer'          => 'exists:'.config('blogify.blogify.users_table').',id',
             'post'              => 'required',
-            'category'          => 'required|exists:categories,hash',
             'publishdate'       => 'required|date_format: d-m-Y H:i',
             'password'          => "required_if:visibility,$protected_visibility",
         ];

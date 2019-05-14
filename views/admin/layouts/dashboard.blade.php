@@ -24,9 +24,6 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="{{route('admin.profile.edit', Auth::user()->hash)}}"><i class="fa fa-user fa-fw"></i> {{ trans("blogify::navigation.profile") }} </a>
                         </li>
-                        <li class="divider"></li>
-                        <li><a href="{!! route('admin.logout') !!}"><i class="fa fa-sign-out fa-fw"></i> {{ trans("blogify::navigation.logout") }} </a>
-                        </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
@@ -92,6 +89,7 @@
                         @endif
 
                         @if ( Auth::user()->role->name == 'Admin' )
+                            <!--
                             <li >
                                 <a href="#"><i class="fa fa-users fa-fw"></i>{{ trans("blogify::navigation.users.title") }}<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
@@ -102,7 +100,7 @@
                                         <a href="{{ route ('admin.users.index' ) }}"><span class="fa fa-th-list fa-fw"></span> {{ trans("blogify::navigation.users.overview") }}</a>
                                     </li>
                                 </ul>
-                                <!-- /.nav-second-level -->
+                                 /.nav-second-level -->
                             </li>
                         @endif
                     </ul>

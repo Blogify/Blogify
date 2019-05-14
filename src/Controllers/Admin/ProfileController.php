@@ -92,7 +92,7 @@ class ProfileController extends BaseController
 
         $user->save();
 
-        $this->tracert->log('users', $user->id, $this->auth_user->id, 'update');
+        //$this->tracert->log('users', $user->id, $this->auth_user->id, 'update');
 
         $message = trans('blogify::notify.success', [
             'model' => 'User', 'name' => $user->fullName, 'action' =>'updated'
@@ -138,7 +138,7 @@ class ProfileController extends BaseController
     private function resizeAndSaveProfilePicture($image, $filename)
     {
         $extention = $image->getClientOriginalExtension();
-        $fullpath = $this->config->upload_paths->profiles->profilepictures.$filename.'.'.$extention;
+        $fullpath = env('PUBLIC_PATH') . $this->config->upload_paths->profiles->profilepictures.$filename.'.'.$extention;
 
         Image::make($image->getRealPath())
             ->resize($this->config->image_sizes->profilepictures[0], $this->config->image_sizes->profilepictures[1], function($constraint) {

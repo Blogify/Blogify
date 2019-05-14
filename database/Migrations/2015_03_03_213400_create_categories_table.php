@@ -12,7 +12,7 @@ class CreateCategoriesTable extends Migration {
      */
     public function up()
     {
-        Schema::create('categories', function($table)
+        Schema::create('blogify_categories', function($table)
         {
             $table->increments('id');
             $table->string('hash', 80)->unique();
@@ -29,7 +29,7 @@ class CreateCategoriesTable extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('blogify_categories');
     }
 
 }

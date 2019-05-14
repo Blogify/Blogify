@@ -50,8 +50,8 @@ class DenyIfBeingEdited
      */
     public function handle($request, Closure $next)
     {
-        $hash = $request->segment(3);
-        $post = $this->post->byHash($hash);
+        $id = $request->segment(3);
+        $post = $this->post->find($id);
 
         if (
             $post->being_edited_by != null &&

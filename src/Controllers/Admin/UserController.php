@@ -138,7 +138,7 @@ class UserController extends BaseController
 
         $this->mail->mailPassword($user->email, 'Blogify temperary password', $mail_data);
 
-        $this->tracert->log('users', $user->id, $this->auth_user->id);
+        //$this->tracert->log('users', $user->id, $this->auth_user->id);
 
         $message = trans('blogify::notify.success', [
             'model' => 'User', 'name' => $user->fullName, 'action' =>'created'
@@ -163,7 +163,7 @@ class UserController extends BaseController
             'action' =>'updated'
         ]);
 
-        $this->tracert->log('users', $user->id, $this->auth_user->id, 'update');
+        //$this->tracert->log('users', $user->id, $this->auth_user->id, 'update');
 
         session()->flash('notify', ['success', $message]);
         return redirect()->route('admin.users.index');
@@ -178,7 +178,7 @@ class UserController extends BaseController
         $user = $this->user->byHash($hash);
         $user->delete();
 
-        $this->tracert->log('users', $user->id, $this->auth_user->id, 'delete');
+        //$this->tracert->log('users', $user->id, $this->auth_user->id, 'delete');
 
         $message = trans('blogify::notify.success', [
             'model' => 'User', 'name' => $user->fullName, 'action' =>'deleted'

@@ -19,8 +19,8 @@
 <body>
 	@yield('body')
 
-	<script src="{{ asset("assets/blogify/assets/scripts/frontend.js") }}" type="text/javascript"></script>
+	<script src="/assets/blogify/assets/scripts/frontend.js" type="text/javascript"></script>
 	@yield('scripts')
-	<script src="{{ asset("assets/blogify/assets/scripts/admin/custom.js") }}" type="text/javascript"></script>
+	<script src="/assets/blogify/assets/scripts/admin/custom-v-2.js" type="text/javascript"></script>
 </body>
 </html>

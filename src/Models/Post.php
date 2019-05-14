@@ -4,6 +4,8 @@ namespace jorenvanhocht\Blogify\Models;
 
 use Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
+use Sunra\PhpSimple\HtmlDomParser;
 
 class Post extends BaseModel
 {
@@ -15,7 +17,7 @@ class Post extends BaseModel
      *
      * @var string
      */
-    protected $table = 'posts';
+    protected $table = 'blogify_posts';
 
     /**
      * The attributes that are mass assignable
@@ -43,27 +45,27 @@ class Post extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('App\User')->withTrashed();
+        return $this->belongsTo('App\User', 'user_id')->withTrashed();
+    }
+
+    public function reviewer()
+    {
+        return $this->belongsTo('App\User', 'reviewer_id')->withTrashed();
     }
 
     public function comment()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\Comment');
-    }
-
-    public function category()
-    {
-        return $this->belongsTo('jorenvanhocht\Blogify\Models\Category')->withTrashed();
+        return $this->hasMany('jorenvanhocht\Blogify\Models\Comment', 'post_id', 'id');
     }
 
     public function media()
     {
-        return $this->hasMany('jorenvanhocht\Blogify\Models\Media');
+        return $this->hasMany('jorenvanhocht\Blogify\Models\Media', 'id');
     }
 
     public function tag()
     {
-        return $this->belongsToMany('jorenvanhocht\Blogify\Models\tag', 'posts_have_tags', 'post_id', 'tag_id')->withTrashed();
+        return $this->belongsToMany('jorenvanhocht\Blogify\Models\tag', 'blogify_posts_have_tags', 'post_id', 'tag_id')->withTrashed();
     }
 
     public function status()
@@ -96,6 +98,11 @@ class Post extends BaseModel
         return date("d-m-Y H:i", strtotime($value));
     }
 
+    public function getCarbonPublishDateAttribute($value)
+    {
+        return new Carbon($this->publish_date);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Scopes
@@ -123,12 +130,64 @@ class Post extends BaseModel
 
     public function scopeBySlug($query, $slug)
     {
-        return $query->whereSlug($slug)->first();
+        return $query->whereSlug($slug)->firstOrFail();
     }
 
     public function scopeForPublic($query)
     {
         return $query->where('publish_date', '<=', date('Y-m-d H:i:s'))
                     ->where('visibility_id', '=', '1');
+    }
+
+    public function scopeNotPress($query)
+    {
+            return $query->whereHas('tag', function($query){
+                $query->where('name', '!=', 'Press');
+            });
+    }
+
+    public function scopeBlogTags($query,$tag_id)
+    {
+            return $query->whereHas('tag', function($query) use ($tag_id) { 
+                $query->where('tag_id', $tag_id); 
+            });   
+    }
+
+    //Accessors
+
+    /**
+     * Get the post's image.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getSrcImageAttribute($value)
+    {
+        if (is_null($this->image))
+        {
+            $dom = HtmlDomParser::str_get_html($this->content);
+            $src = isset($dom->find('img')[0]) ? $dom->find('img')[0]->src : null ;
+
+            return $src;
+
+        }
+        else
+            return $this->image;
+
+    }
+
+    public function getAltImageAttribute($value)
+    {
+        if (is_null($this->image))
+        {
+            $dom = HtmlDomParser::str_get_html($this->content);
+            $src = isset($dom->find('img')[0]) ? $dom->find('img')[0]->alt : null ;
+
+            return $src;
+
+        }
+        else
+            return $this->image;
+
     }
 }

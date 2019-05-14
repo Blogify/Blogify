@@ -12,13 +12,13 @@ class CreatePostsHaveTagsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('posts_have_tags', function($table)
+        Schema::create('blogify_posts_have_tags', function($table)
         {
             $table->increments('id');
             $table->integer('post_id')->unsigned();
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->foreign('post_id')->references('id')->on('blogify_posts');
             $table->integer('tag_id')->unsigned();
-            $table->foreign('tag_id')->references('id')->on('tags');
+            $table->foreign('tag_id')->references('id')->on('blogify_tags');
 
         });
     }
@@ -30,7 +30,7 @@ class CreatePostsHaveTagsTable extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('posts_have_tags');
+        Schema::dropIfExists('blogify_posts_have_tags');
     }
 
 }
