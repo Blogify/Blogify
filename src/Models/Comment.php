@@ -51,6 +51,31 @@ class Comment extends BaseModel
         return $this->belongsTo('jorenvanhocht\Blogify\Models\Post', 'post_id');
     }
 
+    // Answer in response to parent
+    public function parent()
+    {
+        return $this->belongsTo('jorenvanhocht\Blogify\Models\Comment', 'parent_id', 'id');
+    }
+
+    // Answers
+    public function answers()
+    {
+        return $this->hasMany('jorenvanhocht\Blogify\Models\Comment', 'parent_id', 'id')
+            ->orderBy('created_at', 'desc');
+    }
+
+    // Approved answers
+    public function activeAnswers()
+    {
+        return $this->answers()->where('revised', 2);
+    }
+
+    // Unviewed answers
+    public function unviewedAnswers()
+    {
+        return $this->activeAnswers()->whereNull('viewed');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Scopes
