@@ -19,12 +19,15 @@ $currentPage = (Request::has('page')) ? Request::get('page') : '1';
 
 @section ('cotable_panel_title', trans("blogify::comments.overview.page_title") )
 @section ('cotable_panel_body')
-    <table class="table table-bordered sortable">
+    <table id="table-comments" class="table table-bordered sortable">
         <thead>
         <tr>
+            <th>ID</th>
             <th>@lang("blogify::comments.overview.table_head.author")</th>
+            <th>Role</th>
             <th>@lang("blogify::comments.overview.table_head.comment")</th>
-            <th>@lang("blogify::comments.overview.table_head.post")</th>
+            <th>Post</th>
+            <th>In response to</th>
             <th>@lang("blogify::tags.overview.table_head.created_at")</th>
             <th>@lang("blogify::tags.overview.table_head.actions")</th>
         </tr>
@@ -39,9 +42,28 @@ $currentPage = (Request::has('page')) ? Request::get('page') : '1';
         @endif
         @foreach ( $comments as $comment )
             <tr>
+                <td>{!! $comment->user->id !!}</td>
                 <td>{!! $comment->user->fullName !!}</td>
+                <td>
+                    @if($comment->user->isCandidate)
+                        Candidate
+                    @elseif($comment->user->isCompany)
+                        Company
+                    @elseif($comment->user->isAdmin)
+                        Admin
+                    @else
+                        Publisher
+                    @endif
+                </td>
                 <td>{!! nl2br($comment->content) !!}</td>
                 <td><a href="{{route('admin.posts.show', [$comment->post->hash])}}" title="{{ $comment->post->title }}">{!! $comment->post->title !!}</a></td>
+                <td>
+                    @if(is_null($comment->parent_id))
+                        Post
+                    @else
+                        {{$comment->parent_id}}
+                    @endif
+                </td>
                 <td>{!! $comment->created_at !!}</td>
                 <td>
                     <a href="{{ route('admin.comments.changeStatus', [$comment->id, 'approved'] ) }}" title="{{ trans('blogify::comments.overview.actions.approve') }}"><span class="fa fa-check fa-fw"></span></a>
