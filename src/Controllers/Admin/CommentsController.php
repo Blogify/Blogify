@@ -2,6 +2,7 @@
 
 namespace jorenvanhocht\Blogify\Controllers\Admin;
 
+use App\Core\Facades\Services\Sendgrid\SEmail;
 use jorenvanhocht\Blogify\Models\Comment;
 use Illuminate\Contracts\Auth\Guard;
 use jorenvanhocht\Tracert\Tracert;
@@ -52,11 +53,11 @@ class CommentsController extends BaseController
 
         $data = [
             'comments' => $this->comment
-                                ->byRevised($revised)
-                                ->with(['user' => function($query){
-                                    $query->withTrashed();
-                                }])
-                                ->paginate($this->config->items_per_page),
+                ->byRevised($revised)
+                ->with(['user' => function($query){
+                    $query->withTrashed();
+                }])
+                ->paginate($this->config->items_per_page),
             'revised' => $revised,
         ];
 
@@ -82,6 +83,11 @@ class CommentsController extends BaseController
 
         //$comment = $this->comment->byHash($hash);
         $comment = $this->comment->find($id);
+
+        if(!is_null($comment->parent_id) && $new_revised === 'approved') {
+            $this->sendEmail($comment);
+        }
+
         $comment->revised = $revised;
         $comment->save();
 
@@ -119,4 +125,19 @@ class CommentsController extends BaseController
         return array_search($revised, $allowed);
     }
 
+    private function sendEmail($comment)
+    {
+        $template = 'd-a611fc2f47a14a19b3b3fb1a9fa77834';
+        $to = $comment->parent->user;
+        $full_name = $to->nombre.' '.$to->apellidos;
+        $url = 'https://www.europelanguagejobs.com/blog/'.$comment->post->slug.'#'.$comment->id;
+
+        SEmail::to([$to->email, $full_name, [
+            'name' => $full_name,
+            'url' => $url
+        ]])
+            ->from("anna@europelanguagejobs.com", "Anna ELJ")
+            ->template($template)
+            ->send();
+    }
 }
